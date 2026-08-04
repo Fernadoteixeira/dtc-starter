@@ -132,7 +132,7 @@ export function GalleryExperience({
                 tabIndex={0}
                 role="button"
                 aria-label={`View ${item.title}`}
-                aria-selected={isActive}
+                aria-pressed={isActive}
               >
                 <div className="dtc-gallery-card-image-wrapper">
                   <img

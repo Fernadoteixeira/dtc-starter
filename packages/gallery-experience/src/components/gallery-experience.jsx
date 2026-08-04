@@ -88,7 +88,7 @@ export function GalleryExperience({ items, collectionTitle = "Featured Gallery C
                 ? item.scenes.find((s) => s.id === activeSceneId)?.image.url ||
                     item.primaryImage.url
                 : item.primaryImage.url;
-            return (<motion.div key={item.id} className="dtc-gallery-card" data-active={isActive ? "true" : "false"} onClick={() => handleSelect(idx)} layout={!reducedMotion} tabIndex={0} role="button" aria-label={`View ${item.title}`} aria-selected={isActive}>
+            return (<motion.div key={item.id} className="dtc-gallery-card" data-active={isActive ? "true" : "false"} onClick={() => handleSelect(idx)} layout={!reducedMotion} tabIndex={0} role="button" aria-label={`View ${item.title}`} aria-pressed={isActive}>
                 <div className="dtc-gallery-card-image-wrapper">
                   <img src={displayedImage} alt={item.primaryImage.alt || item.title} className="dtc-gallery-card-image" loading={idx <= 2 ? "eager" : "lazy"}/>
                 </div>

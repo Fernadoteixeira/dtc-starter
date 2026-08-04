@@ -5,7 +5,7 @@ test.describe("Gallery Hero Fallback Mode", () => {
     page,
   }) => {
     await page.goto("/dk");
-    const headerNav = page.locator("header");
+    const headerNav = page.locator("header").first();
     await expect(headerNav).toBeVisible();
   });
 });

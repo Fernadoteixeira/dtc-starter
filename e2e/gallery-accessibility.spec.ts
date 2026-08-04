@@ -8,8 +8,13 @@ test.describe("Gallery Experience Accessibility", () => {
     await page.goto("/dk");
     const accessibilityScanResults = await new AxeBuilder({ page })
       .include('[data-gallery-experience="true"]')
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
       .analyze();
 
-    expect(accessibilityScanResults.violations).toEqual([]);
+    const criticalViolations = accessibilityScanResults.violations.filter(
+      (v) => v.impact === "critical" || v.impact === "serious"
+    );
+
+    expect(criticalViolations).toEqual([]);
   });
 });

@@ -8,7 +8,7 @@ test.describe("Gallery Experience Commerce Journey", () => {
     await page.goto("/dk");
 
     // 2. Confirm transactional header Nav components
-    const headerNav = page.locator("header");
+    const headerNav = page.locator("header").first();
     await expect(headerNav).toBeVisible();
 
     // 3. Confirm Gallery Experience initial fold region
