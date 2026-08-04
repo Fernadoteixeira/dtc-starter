@@ -1,0 +1,16 @@
+{
+  "expected_domains": 22,
+  "actual_domains": 22,
+  "expected_capability_packs": 78,
+  "actual_capability_packs": 78,
+  "expected_atomic_skills": 315,
+  "actual_atomic_skills": 315,
+  "expected_orchestrations": 24,
+  "actual_orchestrations": 24,
+  "duplicate_skill_ids": 0,
+  "duplicate_skill_paths": 0,
+  "duplicate_skill_slugs_global": 0,
+  "technology_agnostic": true,
+  "language_agnostic": true,
+  "industry_agnostic": true
+}

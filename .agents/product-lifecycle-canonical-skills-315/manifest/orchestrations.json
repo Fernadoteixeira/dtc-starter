@@ -1,0 +1,307 @@
+[
+  {
+    "id": "ORCH-01",
+    "slug": "product-discovery-to-delivery",
+    "title": "Product Discovery to Delivery",
+    "domains": [
+      "02-discovery-research-market",
+      "03-product-definition-requirements",
+      "04-solution-architecture-systems",
+      "17-delivery-release-change"
+    ],
+    "path": "orchestrations/product-discovery-to-delivery/SKILL.md",
+    "sha256": "daa72a9667a51d12d763fae048374e37987ee845932cf5c6c1888288b49ffa0a"
+  },
+  {
+    "id": "ORCH-02",
+    "slug": "full-stack-product-review",
+    "title": "Full-stack Product Review",
+    "domains": [
+      "03-product-definition-requirements",
+      "04-solution-architecture-systems",
+      "07-frontend-client-applications",
+      "08-backend-apis-services",
+      "11-quality-testing-validation"
+    ],
+    "path": "orchestrations/full-stack-product-review/SKILL.md",
+    "sha256": "cad9969c6a1d11c45c835b56e57253d21dd6523af80da34fc46e7b1ade60d0c5"
+  },
+  {
+    "id": "ORCH-03",
+    "slug": "concept-to-mvp",
+    "title": "Concept to MVP",
+    "domains": [
+      "01-product-strategy-portfolio",
+      "02-discovery-research-market",
+      "03-product-definition-requirements",
+      "17-delivery-release-change"
+    ],
+    "path": "orchestrations/concept-to-mvp/SKILL.md",
+    "sha256": "1d6e47590c6f5a2a94b09f5fe00a85aca3b175654ce718f54d1999598fc7017c"
+  },
+  {
+    "id": "ORCH-04",
+    "slug": "requirements-to-architecture",
+    "title": "Requirements to Architecture",
+    "domains": [
+      "03-product-definition-requirements",
+      "04-solution-architecture-systems",
+      "09-data-databases-analytics-intelligence"
+    ],
+    "path": "orchestrations/requirements-to-architecture/SKILL.md",
+    "sha256": "f963f10aee7a33729c0c2013d6d59106e3a0983a2ba2945ee51f69e08fe7aa2a"
+  },
+  {
+    "id": "ORCH-05",
+    "slug": "design-to-production",
+    "title": "Design to Production",
+    "domains": [
+      "05-ux-service-design-information-architecture",
+      "06-ui-design-system-content-accessibility",
+      "07-frontend-client-applications",
+      "11-quality-testing-validation"
+    ],
+    "path": "orchestrations/design-to-production/SKILL.md",
+    "sha256": "3bc88360d07338cec6c67a3421fb1f452a285d71d84a212383c34ddcb629026a"
+  },
+  {
+    "id": "ORCH-06",
+    "slug": "secure-feature-delivery",
+    "title": "Secure Feature Delivery",
+    "domains": [
+      "03-product-definition-requirements",
+      "10-security-privacy-compliance",
+      "11-quality-testing-validation",
+      "17-delivery-release-change"
+    ],
+    "path": "orchestrations/secure-feature-delivery/SKILL.md",
+    "sha256": "3fc0d449c3660dc3ccfccfeb3d45e0c2322a87cdc2eb8b1f20a480fb1b1b96b5"
+  },
+  {
+    "id": "ORCH-07",
+    "slug": "data-product-lifecycle",
+    "title": "Data Product Lifecycle",
+    "domains": [
+      "03-product-definition-requirements",
+      "09-data-databases-analytics-intelligence",
+      "10-security-privacy-compliance",
+      "13-reliability-observability-operations"
+    ],
+    "path": "orchestrations/data-product-lifecycle/SKILL.md",
+    "sha256": "994fc4c870f08ceeca8e197b5a11ea11db2e797d1d819b9089d1519c1eaf2c08"
+  },
+  {
+    "id": "ORCH-08",
+    "slug": "accessibility-by-design",
+    "title": "Accessibility by Design",
+    "domains": [
+      "05-ux-service-design-information-architecture",
+      "06-ui-design-system-content-accessibility",
+      "11-quality-testing-validation"
+    ],
+    "path": "orchestrations/accessibility-by-design/SKILL.md",
+    "sha256": "174984651019597a2821145e4a332f1b4869febc85f698eb840ae04cff0cd104"
+  },
+  {
+    "id": "ORCH-09",
+    "slug": "performance-engineering-lifecycle",
+    "title": "Performance Engineering Lifecycle",
+    "domains": [
+      "04-solution-architecture-systems",
+      "07-frontend-client-applications",
+      "08-backend-apis-services",
+      "14-performance-capacity-scalability"
+    ],
+    "path": "orchestrations/performance-engineering-lifecycle/SKILL.md",
+    "sha256": "dd294635ea88878f5aae7c14d6d5db57c35729197a66534489cb9240c0be7d1a"
+  },
+  {
+    "id": "ORCH-10",
+    "slug": "experiment-to-decision",
+    "title": "Experiment to Decision",
+    "domains": [
+      "02-discovery-research-market",
+      "09-data-databases-analytics-intelligence",
+      "16-growth-experimentation-monetization"
+    ],
+    "path": "orchestrations/experiment-to-decision/SKILL.md",
+    "sha256": "37f20979ddf0f352acc8362aa38e4dab8095f33d1438048c0ffb4eae7df4e95a"
+  },
+  {
+    "id": "ORCH-11",
+    "slug": "incident-to-prevention",
+    "title": "Incident to Prevention",
+    "domains": [
+      "10-security-privacy-compliance",
+      "11-quality-testing-validation",
+      "13-reliability-observability-operations"
+    ],
+    "path": "orchestrations/incident-to-prevention/SKILL.md",
+    "sha256": "a277176df4cf56a256bef4e48708f7565a3b871b086bea8f544811ab405a0293"
+  },
+  {
+    "id": "ORCH-12",
+    "slug": "release-readiness",
+    "title": "Release Readiness",
+    "domains": [
+      "11-quality-testing-validation",
+      "12-platform-cloud-devops-cicd",
+      "13-reliability-observability-operations",
+      "17-delivery-release-change"
+    ],
+    "path": "orchestrations/release-readiness/SKILL.md",
+    "sha256": "b33dc44575cee95d42bb384c87ea2e3aecc1e91c7897161b3d3481cef2f6574d"
+  },
+  {
+    "id": "ORCH-13",
+    "slug": "third-party-integration-lifecycle",
+    "title": "Third-party Integration Lifecycle",
+    "domains": [
+      "04-solution-architecture-systems",
+      "10-security-privacy-compliance",
+      "15-integrations-external-ecosystem",
+      "17-delivery-release-change"
+    ],
+    "path": "orchestrations/third-party-integration-lifecycle/SKILL.md",
+    "sha256": "8b57a558e23b48e5c316794ac5bcfc236cbdbb78e52aea379be1dd51448ebefd"
+  },
+  {
+    "id": "ORCH-14",
+    "slug": "international-market-expansion",
+    "title": "International Market Expansion",
+    "domains": [
+      "01-product-strategy-portfolio",
+      "06-ui-design-system-content-accessibility",
+      "10-security-privacy-compliance",
+      "19-internationalization-localization"
+    ],
+    "path": "orchestrations/international-market-expansion/SKILL.md",
+    "sha256": "410623a126b5877b280e0d61c610f4bf4b5ccbd0868a044db9a6d73379ade637"
+  },
+  {
+    "id": "ORCH-15",
+    "slug": "legacy-modernization",
+    "title": "Legacy Modernization",
+    "domains": [
+      "04-solution-architecture-systems",
+      "09-data-databases-analytics-intelligence",
+      "12-platform-cloud-devops-cicd",
+      "22-migration-deprecation-end-of-life"
+    ],
+    "path": "orchestrations/legacy-modernization/SKILL.md",
+    "sha256": "8e489dc532beb2bbe83f188bacb401e1457ac3b39bfd59441302257918f3c444"
+  },
+  {
+    "id": "ORCH-16",
+    "slug": "product-sunset",
+    "title": "Product Sunset",
+    "domains": [
+      "17-delivery-release-change",
+      "20-support-customer-operations",
+      "22-migration-deprecation-end-of-life"
+    ],
+    "path": "orchestrations/product-sunset/SKILL.md",
+    "sha256": "af8273dafd1b9965a87c4c7a53676a9b6de1dba6253622e50eea2f56a3ccfced"
+  },
+  {
+    "id": "ORCH-17",
+    "slug": "customer-feedback-loop",
+    "title": "Customer Feedback Loop",
+    "domains": [
+      "02-discovery-research-market",
+      "03-product-definition-requirements",
+      "16-growth-experimentation-monetization",
+      "20-support-customer-operations"
+    ],
+    "path": "orchestrations/customer-feedback-loop/SKILL.md",
+    "sha256": "c5c4c551fa50ad55e8967501cedcbb3e00798972d848adf774a3564f2f98c34e"
+  },
+  {
+    "id": "ORCH-18",
+    "slug": "compliance-readiness",
+    "title": "Compliance Readiness",
+    "domains": [
+      "09-data-databases-analytics-intelligence",
+      "10-security-privacy-compliance",
+      "18-documentation-dx-governance"
+    ],
+    "path": "orchestrations/compliance-readiness/SKILL.md",
+    "sha256": "663dac6736f9bee5661e7504bbb5506a933384528810ffacb48ae8eae6021860"
+  },
+  {
+    "id": "ORCH-19",
+    "slug": "platform-scalability-review",
+    "title": "Platform Scalability Review",
+    "domains": [
+      "04-solution-architecture-systems",
+      "12-platform-cloud-devops-cicd",
+      "13-reliability-observability-operations",
+      "14-performance-capacity-scalability"
+    ],
+    "path": "orchestrations/platform-scalability-review/SKILL.md",
+    "sha256": "d4a4841a5d1ce5b79fb112c3bf2262f1948f38d707eb3f273987c6bbcac63729"
+  },
+  {
+    "id": "ORCH-20",
+    "slug": "technical-debt-governance",
+    "title": "Technical Debt Governance",
+    "domains": [
+      "01-product-strategy-portfolio",
+      "04-solution-architecture-systems",
+      "17-delivery-release-change",
+      "18-documentation-dx-governance"
+    ],
+    "path": "orchestrations/technical-debt-governance/SKILL.md",
+    "sha256": "9bf3ab3e389f571978456462ac03bf283843dd86f8f56a524dc16b81faf33af2"
+  },
+  {
+    "id": "ORCH-21",
+    "slug": "product-cost-optimization",
+    "title": "Product Cost Optimization",
+    "domains": [
+      "09-data-databases-analytics-intelligence",
+      "14-performance-capacity-scalability",
+      "21-cost-sustainability-efficiency"
+    ],
+    "path": "orchestrations/product-cost-optimization/SKILL.md",
+    "sha256": "d9efebc20cf9634618581cba2cc930d97deaa926cff5e850fab8e14842775ef3"
+  },
+  {
+    "id": "ORCH-22",
+    "slug": "operational-readiness",
+    "title": "Operational Readiness",
+    "domains": [
+      "10-security-privacy-compliance",
+      "11-quality-testing-validation",
+      "12-platform-cloud-devops-cicd",
+      "13-reliability-observability-operations"
+    ],
+    "path": "orchestrations/operational-readiness/SKILL.md",
+    "sha256": "4a1e861bbf27326d5ec7b3385d82df0db8eeeafb7ca0d09f40d8f64f39b47f60"
+  },
+  {
+    "id": "ORCH-23",
+    "slug": "documentation-as-product",
+    "title": "Documentation as Product",
+    "domains": [
+      "05-ux-service-design-information-architecture",
+      "18-documentation-dx-governance",
+      "20-support-customer-operations"
+    ],
+    "path": "orchestrations/documentation-as-product/SKILL.md",
+    "sha256": "f3f9d80edc4e8c426133679ef8992b6b5c5648b349b9e1872bf984bbb0617f71"
+  },
+  {
+    "id": "ORCH-24",
+    "slug": "product-portfolio-governance",
+    "title": "Product Portfolio Governance",
+    "domains": [
+      "01-product-strategy-portfolio",
+      "09-data-databases-analytics-intelligence",
+      "17-delivery-release-change",
+      "21-cost-sustainability-efficiency"
+    ],
+    "path": "orchestrations/product-portfolio-governance/SKILL.md",
+    "sha256": "9b1203759f69b63ba4c8c9fcdd14d4a15687195d3e0ea0912548129f8b5dfd6d"
+  }
+]

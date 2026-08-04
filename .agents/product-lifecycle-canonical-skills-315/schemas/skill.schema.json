@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Canonical Product Lifecycle Skill",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "title",
+    "kind",
+    "domain",
+    "capability_pack",
+    "lifecycle_modes",
+    "version"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^PLC-[0-9]{3}$"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "kind": {
+      "const": "atomic-capability"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "capability_pack": {
+      "type": "string"
+    },
+    "technology_agnostic": {
+      "const": true
+    },
+    "language_agnostic": {
+      "const": true
+    },
+    "industry_agnostic": {
+      "const": true
+    },
+    "lifecycle_modes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

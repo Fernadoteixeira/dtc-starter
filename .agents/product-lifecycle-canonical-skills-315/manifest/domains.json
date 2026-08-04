@@ -1,0 +1,578 @@
+[
+  {
+    "domain": "01-product-strategy-portfolio",
+    "title": "Product Strategy and Portfolio",
+    "capability_packs": 4,
+    "skills": 14,
+    "modes": [
+      "discover",
+      "frame",
+      "design",
+      "prioritize",
+      "govern",
+      "optimize"
+    ],
+    "primary_artifacts": [
+      "strategy brief",
+      "portfolio decision",
+      "investment rationale",
+      "review cadence"
+    ],
+    "metrics": [
+      "strategic alignment",
+      "portfolio value",
+      "decision lead time",
+      "investment efficiency"
+    ]
+  },
+  {
+    "domain": "02-discovery-research-market",
+    "title": "Discovery, Research and Market Intelligence",
+    "capability_packs": 3,
+    "skills": 16,
+    "modes": [
+      "discover",
+      "research",
+      "validate",
+      "synthesize",
+      "recommend"
+    ],
+    "primary_artifacts": [
+      "research plan",
+      "evidence map",
+      "market model",
+      "validated insight"
+    ],
+    "metrics": [
+      "evidence confidence",
+      "research cycle time",
+      "assumption retirement",
+      "decision usefulness"
+    ]
+  },
+  {
+    "domain": "03-product-definition-requirements",
+    "title": "Product Definition and Requirements",
+    "capability_packs": 3,
+    "skills": 15,
+    "modes": [
+      "define",
+      "decompose",
+      "specify",
+      "validate",
+      "prioritize"
+    ],
+    "primary_artifacts": [
+      "requirement set",
+      "acceptance model",
+      "scope boundary",
+      "traceability map"
+    ],
+    "metrics": [
+      "requirement clarity",
+      "acceptance coverage",
+      "scope stability",
+      "traceability completeness"
+    ]
+  },
+  {
+    "domain": "04-solution-architecture-systems",
+    "title": "Solution Architecture and Systems Design",
+    "capability_packs": 5,
+    "skills": 18,
+    "modes": [
+      "assess",
+      "model",
+      "design",
+      "compare",
+      "govern",
+      "evolve"
+    ],
+    "primary_artifacts": [
+      "architecture model",
+      "decision record",
+      "trade-off analysis",
+      "conformance plan"
+    ],
+    "metrics": [
+      "quality attribute fit",
+      "change cost",
+      "coupling",
+      "architectural risk"
+    ]
+  },
+  {
+    "domain": "05-ux-service-design-information-architecture",
+    "title": "UX, Service Design and Information Architecture",
+    "capability_packs": 4,
+    "skills": 17,
+    "modes": [
+      "research",
+      "map",
+      "design",
+      "prototype",
+      "validate",
+      "optimize"
+    ],
+    "primary_artifacts": [
+      "journey map",
+      "service blueprint",
+      "task flow",
+      "information architecture"
+    ],
+    "metrics": [
+      "task success",
+      "time on task",
+      "journey completion",
+      "experience friction"
+    ]
+  },
+  {
+    "domain": "06-ui-design-system-content-accessibility",
+    "title": "UI, Design Systems, Content and Accessibility",
+    "capability_packs": 5,
+    "skills": 18,
+    "modes": [
+      "audit",
+      "design",
+      "prototype",
+      "implement",
+      "verify",
+      "govern"
+    ],
+    "primary_artifacts": [
+      "interface specification",
+      "design token",
+      "component contract",
+      "accessibility evidence"
+    ],
+    "metrics": [
+      "consistency",
+      "accessibility conformance",
+      "component reuse",
+      "interaction clarity"
+    ]
+  },
+  {
+    "domain": "07-frontend-client-applications",
+    "title": "Frontend and Client Applications",
+    "capability_packs": 4,
+    "skills": 16,
+    "modes": [
+      "assess",
+      "design",
+      "implement",
+      "verify",
+      "operate",
+      "optimize"
+    ],
+    "primary_artifacts": [
+      "client architecture",
+      "state contract",
+      "implementation plan",
+      "browser validation"
+    ],
+    "metrics": [
+      "interaction latency",
+      "render stability",
+      "bundle efficiency",
+      "client error rate"
+    ]
+  },
+  {
+    "domain": "08-backend-apis-services",
+    "title": "Backend, APIs and Services",
+    "capability_packs": 4,
+    "skills": 17,
+    "modes": [
+      "assess",
+      "design",
+      "implement",
+      "verify",
+      "operate",
+      "scale"
+    ],
+    "primary_artifacts": [
+      "service contract",
+      "API specification",
+      "processing model",
+      "operational controls"
+    ],
+    "metrics": [
+      "availability",
+      "latency",
+      "error rate",
+      "change failure rate"
+    ]
+  },
+  {
+    "domain": "09-data-databases-analytics-intelligence",
+    "title": "Data, Databases, Analytics and Intelligence",
+    "capability_packs": 5,
+    "skills": 20,
+    "modes": [
+      "discover",
+      "model",
+      "design",
+      "implement",
+      "validate",
+      "govern",
+      "operate"
+    ],
+    "primary_artifacts": [
+      "data model",
+      "pipeline contract",
+      "metric definition",
+      "governance policy"
+    ],
+    "metrics": [
+      "data quality",
+      "freshness",
+      "lineage coverage",
+      "decision adoption"
+    ]
+  },
+  {
+    "domain": "10-security-privacy-compliance",
+    "title": "Security, Privacy and Compliance",
+    "capability_packs": 5,
+    "skills": 18,
+    "modes": [
+      "assess",
+      "threat-model",
+      "design",
+      "implement",
+      "verify",
+      "govern",
+      "respond"
+    ],
+    "primary_artifacts": [
+      "threat model",
+      "control design",
+      "policy",
+      "audit evidence"
+    ],
+    "metrics": [
+      "risk reduction",
+      "control effectiveness",
+      "time to detect",
+      "time to remediate"
+    ]
+  },
+  {
+    "domain": "11-quality-testing-validation",
+    "title": "Quality, Testing and Validation",
+    "capability_packs": 3,
+    "skills": 18,
+    "modes": [
+      "plan",
+      "design",
+      "implement",
+      "execute",
+      "assess",
+      "govern"
+    ],
+    "primary_artifacts": [
+      "test strategy",
+      "test suite",
+      "quality gate",
+      "release assessment"
+    ],
+    "metrics": [
+      "risk coverage",
+      "defect escape rate",
+      "test reliability",
+      "feedback time"
+    ]
+  },
+  {
+    "domain": "12-platform-cloud-devops-cicd",
+    "title": "Platform, Cloud, DevOps and CI/CD",
+    "capability_packs": 4,
+    "skills": 16,
+    "modes": [
+      "design",
+      "implement",
+      "automate",
+      "verify",
+      "operate",
+      "optimize"
+    ],
+    "primary_artifacts": [
+      "platform capability",
+      "pipeline",
+      "environment contract",
+      "deployment policy"
+    ],
+    "metrics": [
+      "deployment frequency",
+      "lead time",
+      "platform adoption",
+      "change failure rate"
+    ]
+  },
+  {
+    "domain": "13-reliability-observability-operations",
+    "title": "Reliability, Observability and Operations",
+    "capability_packs": 4,
+    "skills": 16,
+    "modes": [
+      "define",
+      "instrument",
+      "operate",
+      "detect",
+      "respond",
+      "learn",
+      "optimize"
+    ],
+    "primary_artifacts": [
+      "SLO",
+      "telemetry model",
+      "runbook",
+      "incident learning record"
+    ],
+    "metrics": [
+      "availability",
+      "MTTD",
+      "MTTR",
+      "error budget consumption"
+    ]
+  },
+  {
+    "domain": "14-performance-capacity-scalability",
+    "title": "Performance, Capacity and Scalability",
+    "capability_packs": 3,
+    "skills": 12,
+    "modes": [
+      "baseline",
+      "model",
+      "test",
+      "optimize",
+      "forecast",
+      "govern"
+    ],
+    "primary_artifacts": [
+      "performance budget",
+      "capacity model",
+      "load profile",
+      "optimization decision"
+    ],
+    "metrics": [
+      "latency percentiles",
+      "throughput",
+      "saturation",
+      "cost per workload"
+    ]
+  },
+  {
+    "domain": "15-integrations-external-ecosystem",
+    "title": "Integrations, External Services and Ecosystems",
+    "capability_packs": 3,
+    "skills": 10,
+    "modes": [
+      "assess",
+      "design",
+      "contract",
+      "implement",
+      "verify",
+      "operate",
+      "exit"
+    ],
+    "primary_artifacts": [
+      "integration contract",
+      "vendor assessment",
+      "SLA",
+      "exit plan"
+    ],
+    "metrics": [
+      "integration success rate",
+      "dependency availability",
+      "partner adoption",
+      "switching risk"
+    ]
+  },
+  {
+    "domain": "16-growth-experimentation-monetization",
+    "title": "Growth, Experimentation and Monetization",
+    "capability_packs": 4,
+    "skills": 14,
+    "modes": [
+      "model",
+      "design",
+      "instrument",
+      "experiment",
+      "decide",
+      "optimize"
+    ],
+    "primary_artifacts": [
+      "growth model",
+      "experiment plan",
+      "pricing model",
+      "retention program"
+    ],
+    "metrics": [
+      "activation",
+      "retention",
+      "conversion",
+      "incremental value"
+    ]
+  },
+  {
+    "domain": "17-delivery-release-change",
+    "title": "Delivery, Release and Change Management",
+    "capability_packs": 3,
+    "skills": 14,
+    "modes": [
+      "plan",
+      "sequence",
+      "coordinate",
+      "release",
+      "verify",
+      "communicate",
+      "learn"
+    ],
+    "primary_artifacts": [
+      "delivery plan",
+      "release plan",
+      "risk register",
+      "change communication"
+    ],
+    "metrics": [
+      "predictability",
+      "cycle time",
+      "release success",
+      "adoption readiness"
+    ]
+  },
+  {
+    "domain": "18-documentation-dx-governance",
+    "title": "Documentation, Developer Experience and Governance",
+    "capability_packs": 3,
+    "skills": 12,
+    "modes": [
+      "design",
+      "document",
+      "automate",
+      "measure",
+      "govern",
+      "improve"
+    ],
+    "primary_artifacts": [
+      "documentation system",
+      "developer workflow",
+      "engineering policy",
+      "governance review"
+    ],
+    "metrics": [
+      "time to first contribution",
+      "documentation freshness",
+      "tooling adoption",
+      "review throughput"
+    ]
+  },
+  {
+    "domain": "19-internationalization-localization",
+    "title": "Internationalization and Localization",
+    "capability_packs": 2,
+    "skills": 8,
+    "modes": [
+      "assess",
+      "design",
+      "externalize",
+      "localize",
+      "verify",
+      "operate"
+    ],
+    "primary_artifacts": [
+      "locale architecture",
+      "translation model",
+      "terminology base",
+      "regional validation"
+    ],
+    "metrics": [
+      "translation coverage",
+      "locale defect rate",
+      "time to market",
+      "regional task success"
+    ]
+  },
+  {
+    "domain": "20-support-customer-operations",
+    "title": "Support and Customer Operations",
+    "capability_packs": 3,
+    "skills": 10,
+    "modes": [
+      "design",
+      "instrument",
+      "operate",
+      "triage",
+      "resolve",
+      "learn"
+    ],
+    "primary_artifacts": [
+      "support model",
+      "case workflow",
+      "knowledge article",
+      "feedback insight"
+    ],
+    "metrics": [
+      "first response time",
+      "resolution time",
+      "reopen rate",
+      "customer effort"
+    ]
+  },
+  {
+    "domain": "21-cost-sustainability-efficiency",
+    "title": "Cost, Sustainability and Operational Efficiency",
+    "capability_packs": 2,
+    "skills": 8,
+    "modes": [
+      "measure",
+      "allocate",
+      "forecast",
+      "optimize",
+      "govern",
+      "report"
+    ],
+    "primary_artifacts": [
+      "cost model",
+      "forecast",
+      "optimization plan",
+      "sustainability report"
+    ],
+    "metrics": [
+      "unit cost",
+      "budget variance",
+      "energy intensity",
+      "carbon impact"
+    ]
+  },
+  {
+    "domain": "22-migration-deprecation-end-of-life",
+    "title": "Migration, Deprecation and End of Life",
+    "capability_packs": 2,
+    "skills": 8,
+    "modes": [
+      "assess",
+      "plan",
+      "migrate",
+      "validate",
+      "transition",
+      "retire",
+      "close"
+    ],
+    "primary_artifacts": [
+      "migration plan",
+      "cutover plan",
+      "deprecation policy",
+      "closeout evidence"
+    ],
+    "metrics": [
+      "migration success",
+      "data reconciliation",
+      "transition adoption",
+      "residual risk"
+    ]
+  }
+]

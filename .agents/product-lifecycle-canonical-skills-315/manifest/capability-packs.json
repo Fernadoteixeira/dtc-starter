@@ -1,0 +1,626 @@
+[
+  {
+    "domain": "01-product-strategy-portfolio",
+    "domain_title": "Product Strategy and Portfolio",
+    "pack": "vision-strategy",
+    "title": "Vision and Strategy",
+    "skills": 4,
+    "description": "Defines the direction, strategic logic and narrative that align product decisions."
+  },
+  {
+    "domain": "01-product-strategy-portfolio",
+    "domain_title": "Product Strategy and Portfolio",
+    "pack": "portfolio-management",
+    "title": "Portfolio Management",
+    "skills": 4,
+    "description": "Allocates attention and investment across multiple products, bets or initiatives."
+  },
+  {
+    "domain": "01-product-strategy-portfolio",
+    "domain_title": "Product Strategy and Portfolio",
+    "pack": "business-model",
+    "title": "Business Model",
+    "skills": 3,
+    "description": "Explains how value is created, delivered, captured and sustained."
+  },
+  {
+    "domain": "01-product-strategy-portfolio",
+    "domain_title": "Product Strategy and Portfolio",
+    "pack": "strategy-governance",
+    "title": "Strategy Governance",
+    "skills": 3,
+    "description": "Establishes decision rights, review cadence and accountability for strategy."
+  },
+  {
+    "domain": "02-discovery-research-market",
+    "domain_title": "Discovery, Research and Market Intelligence",
+    "pack": "opportunity-intelligence",
+    "title": "Opportunity Intelligence",
+    "skills": 6,
+    "description": "Identifies and ranks opportunities using market, trend and competitive evidence."
+  },
+  {
+    "domain": "02-discovery-research-market",
+    "domain_title": "Discovery, Research and Market Intelligence",
+    "pack": "user-research",
+    "title": "User Research",
+    "skills": 5,
+    "description": "Builds reliable understanding of users, behaviors, needs and contexts."
+  },
+  {
+    "domain": "02-discovery-research-market",
+    "domain_title": "Discovery, Research and Market Intelligence",
+    "pack": "validation",
+    "title": "Validation",
+    "skills": 5,
+    "description": "Reduces uncertainty through explicit assumptions and evidence."
+  },
+  {
+    "domain": "03-product-definition-requirements",
+    "domain_title": "Product Definition and Requirements",
+    "pack": "outcomes-scope",
+    "title": "Outcomes and Scope",
+    "skills": 5,
+    "description": "Defines desired outcomes, boundaries, constraints and alignment."
+  },
+  {
+    "domain": "03-product-definition-requirements",
+    "domain_title": "Product Definition and Requirements",
+    "pack": "requirements-engineering",
+    "title": "Requirements Engineering",
+    "skills": 5,
+    "description": "Turns business and user needs into testable product contracts."
+  },
+  {
+    "domain": "03-product-definition-requirements",
+    "domain_title": "Product Definition and Requirements",
+    "pack": "acceptance-planning",
+    "title": "Acceptance and Planning",
+    "skills": 5,
+    "description": "Defines readiness, completion, dependencies and sequencing."
+  },
+  {
+    "domain": "04-solution-architecture-systems",
+    "domain_title": "Solution Architecture and Systems Design",
+    "pack": "system-context",
+    "title": "System Context",
+    "skills": 4,
+    "description": "Clarifies boundaries, actors, capabilities and dependencies."
+  },
+  {
+    "domain": "04-solution-architecture-systems",
+    "domain_title": "Solution Architecture and Systems Design",
+    "pack": "solution-architecture",
+    "title": "Solution Architecture",
+    "skills": 4,
+    "description": "Designs the target system and evaluates architectural options."
+  },
+  {
+    "domain": "04-solution-architecture-systems",
+    "domain_title": "Solution Architecture and Systems Design",
+    "pack": "domain-modeling",
+    "title": "Domain Modeling",
+    "skills": 4,
+    "description": "Models business concepts, boundaries and processes."
+  },
+  {
+    "domain": "04-solution-architecture-systems",
+    "domain_title": "Solution Architecture and Systems Design",
+    "pack": "quality-attributes",
+    "title": "Quality Attributes",
+    "skills": 3,
+    "description": "Makes nonfunctional expectations measurable and testable."
+  },
+  {
+    "domain": "04-solution-architecture-systems",
+    "domain_title": "Solution Architecture and Systems Design",
+    "pack": "architecture-governance",
+    "title": "Architecture Governance",
+    "skills": 3,
+    "description": "Records, verifies and evolves architectural decisions."
+  },
+  {
+    "domain": "05-ux-service-design-information-architecture",
+    "domain_title": "UX, Service Design and Information Architecture",
+    "pack": "service-design",
+    "title": "Service Design",
+    "skills": 4,
+    "description": "Designs end-to-end service delivery across people, process and technology."
+  },
+  {
+    "domain": "05-ux-service-design-information-architecture",
+    "domain_title": "UX, Service Design and Information Architecture",
+    "pack": "journey-design",
+    "title": "Journey Design",
+    "skills": 5,
+    "description": "Structures user goals, transitions, onboarding and conversion."
+  },
+  {
+    "domain": "05-ux-service-design-information-architecture",
+    "domain_title": "UX, Service Design and Information Architecture",
+    "pack": "information-architecture",
+    "title": "Information Architecture",
+    "skills": 4,
+    "description": "Organizes content, navigation, taxonomy and findability."
+  },
+  {
+    "domain": "05-ux-service-design-information-architecture",
+    "domain_title": "UX, Service Design and Information Architecture",
+    "pack": "interaction-strategy",
+    "title": "Interaction Strategy",
+    "skills": 4,
+    "description": "Defines task flow, state feedback and interaction patterns."
+  },
+  {
+    "domain": "06-ui-design-system-content-accessibility",
+    "domain_title": "UI, Design Systems, Content and Accessibility",
+    "pack": "visual-language",
+    "title": "Visual Language",
+    "skills": 3,
+    "description": "Translates brand and hierarchy into a coherent interface language."
+  },
+  {
+    "domain": "06-ui-design-system-content-accessibility",
+    "domain_title": "UI, Design Systems, Content and Accessibility",
+    "pack": "design-system",
+    "title": "Design System",
+    "skills": 4,
+    "description": "Creates reusable tokens, components, patterns and governance."
+  },
+  {
+    "domain": "06-ui-design-system-content-accessibility",
+    "domain_title": "UI, Design Systems, Content and Accessibility",
+    "pack": "responsive-adaptive",
+    "title": "Responsive and Adaptive Experience",
+    "skills": 3,
+    "description": "Ensures coherent behavior across devices, contexts and capabilities."
+  },
+  {
+    "domain": "06-ui-design-system-content-accessibility",
+    "domain_title": "UI, Design Systems, Content and Accessibility",
+    "pack": "content-design",
+    "title": "Content Design",
+    "skills": 3,
+    "description": "Uses language as an interface control and product system."
+  },
+  {
+    "domain": "06-ui-design-system-content-accessibility",
+    "domain_title": "UI, Design Systems, Content and Accessibility",
+    "pack": "accessibility-inclusive-design",
+    "title": "Accessibility and Inclusive Design",
+    "skills": 5,
+    "description": "Designs for diverse abilities, technologies and contexts."
+  },
+  {
+    "domain": "07-frontend-client-applications",
+    "domain_title": "Frontend and Client Applications",
+    "pack": "client-architecture",
+    "title": "Client Architecture",
+    "skills": 4,
+    "description": "Structures client applications for maintainability and evolution."
+  },
+  {
+    "domain": "07-frontend-client-applications",
+    "domain_title": "Frontend and Client Applications",
+    "pack": "state-data-flow",
+    "title": "State and Data Flow",
+    "skills": 4,
+    "description": "Controls local, shared and server-synchronized state."
+  },
+  {
+    "domain": "07-frontend-client-applications",
+    "domain_title": "Frontend and Client Applications",
+    "pack": "rendering-interaction",
+    "title": "Rendering and Interaction",
+    "skills": 4,
+    "description": "Balances rendering, loading, enhancement and resilience."
+  },
+  {
+    "domain": "07-frontend-client-applications",
+    "domain_title": "Frontend and Client Applications",
+    "pack": "client-quality",
+    "title": "Client Quality",
+    "skills": 4,
+    "description": "Protects compatibility, security, recovery and observability on the client."
+  },
+  {
+    "domain": "08-backend-apis-services",
+    "domain_title": "Backend, APIs and Services",
+    "pack": "service-architecture",
+    "title": "Service Architecture",
+    "skills": 4,
+    "description": "Structures backend services around clear responsibilities."
+  },
+  {
+    "domain": "08-backend-apis-services",
+    "domain_title": "Backend, APIs and Services",
+    "pack": "api-design",
+    "title": "API Design",
+    "skills": 5,
+    "description": "Creates stable, understandable and evolvable interfaces."
+  },
+  {
+    "domain": "08-backend-apis-services",
+    "domain_title": "Backend, APIs and Services",
+    "pack": "domain-processing",
+    "title": "Domain Processing",
+    "skills": 4,
+    "description": "Coordinates validation, transactions, workflows and background work."
+  },
+  {
+    "domain": "08-backend-apis-services",
+    "domain_title": "Backend, APIs and Services",
+    "pack": "backend-operations",
+    "title": "Backend Operations",
+    "skills": 4,
+    "description": "Makes backend services observable, configurable and scalable."
+  },
+  {
+    "domain": "09-data-databases-analytics-intelligence",
+    "domain_title": "Data, Databases, Analytics and Intelligence",
+    "pack": "data-modeling",
+    "title": "Data Modeling",
+    "skills": 4,
+    "description": "Represents business information from concept to physical storage."
+  },
+  {
+    "domain": "09-data-databases-analytics-intelligence",
+    "domain_title": "Data, Databases, Analytics and Intelligence",
+    "pack": "data-platform",
+    "title": "Data Platform",
+    "skills": 4,
+    "description": "Moves, transforms, stores and serves data reliably."
+  },
+  {
+    "domain": "09-data-databases-analytics-intelligence",
+    "domain_title": "Data, Databases, Analytics and Intelligence",
+    "pack": "analytics",
+    "title": "Analytics",
+    "skills": 4,
+    "description": "Defines trustworthy metrics and decision-oriented analytical products."
+  },
+  {
+    "domain": "09-data-databases-analytics-intelligence",
+    "domain_title": "Data, Databases, Analytics and Intelligence",
+    "pack": "data-quality-governance",
+    "title": "Data Quality and Governance",
+    "skills": 4,
+    "description": "Protects quality, lineage, retention and access."
+  },
+  {
+    "domain": "09-data-databases-analytics-intelligence",
+    "domain_title": "Data, Databases, Analytics and Intelligence",
+    "pack": "intelligence-ml",
+    "title": "Intelligence and Machine Learning",
+    "skills": 4,
+    "description": "Applies machine learning with lifecycle and responsibility controls."
+  },
+  {
+    "domain": "10-security-privacy-compliance",
+    "domain_title": "Security, Privacy and Compliance",
+    "pack": "security-architecture",
+    "title": "Security Architecture",
+    "skills": 4,
+    "description": "Models threats, trust and foundational security controls."
+  },
+  {
+    "domain": "10-security-privacy-compliance",
+    "domain_title": "Security, Privacy and Compliance",
+    "pack": "identity-access",
+    "title": "Identity and Access",
+    "skills": 4,
+    "description": "Controls identity, permission, tenancy and privileged actions."
+  },
+  {
+    "domain": "10-security-privacy-compliance",
+    "domain_title": "Security, Privacy and Compliance",
+    "pack": "application-security",
+    "title": "Application Security",
+    "skills": 4,
+    "description": "Reduces application and supply-chain vulnerabilities."
+  },
+  {
+    "domain": "10-security-privacy-compliance",
+    "domain_title": "Security, Privacy and Compliance",
+    "pack": "privacy",
+    "title": "Privacy",
+    "skills": 3,
+    "description": "Embeds privacy principles, preferences and rights."
+  },
+  {
+    "domain": "10-security-privacy-compliance",
+    "domain_title": "Security, Privacy and Compliance",
+    "pack": "compliance",
+    "title": "Compliance",
+    "skills": 3,
+    "description": "Maps obligations to evidence and change management."
+  },
+  {
+    "domain": "11-quality-testing-validation",
+    "domain_title": "Quality, Testing and Validation",
+    "pack": "quality-strategy",
+    "title": "Quality Strategy",
+    "skills": 6,
+    "description": "Aligns validation effort to product and technical risk."
+  },
+  {
+    "domain": "11-quality-testing-validation",
+    "domain_title": "Quality, Testing and Validation",
+    "pack": "automated-validation",
+    "title": "Automated Validation",
+    "skills": 6,
+    "description": "Builds layered automated evidence across the system."
+  },
+  {
+    "domain": "11-quality-testing-validation",
+    "domain_title": "Quality, Testing and Validation",
+    "pack": "assurance-governance",
+    "title": "Assurance and Governance",
+    "skills": 6,
+    "description": "Controls specialized validation, environments and release confidence."
+  },
+  {
+    "domain": "12-platform-cloud-devops-cicd",
+    "domain_title": "Platform, Cloud, DevOps and CI/CD",
+    "pack": "platform-engineering",
+    "title": "Platform Engineering",
+    "skills": 4,
+    "description": "Treats internal platform capabilities as a product."
+  },
+  {
+    "domain": "12-platform-cloud-devops-cicd",
+    "domain_title": "Platform, Cloud, DevOps and CI/CD",
+    "pack": "infrastructure",
+    "title": "Infrastructure",
+    "skills": 4,
+    "description": "Defines reproducible compute, storage, network and environment topology."
+  },
+  {
+    "domain": "12-platform-cloud-devops-cicd",
+    "domain_title": "Platform, Cloud, DevOps and CI/CD",
+    "pack": "continuous-delivery",
+    "title": "Continuous Delivery",
+    "skills": 4,
+    "description": "Automates integration, delivery, deployment and provenance."
+  },
+  {
+    "domain": "12-platform-cloud-devops-cicd",
+    "domain_title": "Platform, Cloud, DevOps and CI/CD",
+    "pack": "environment-automation",
+    "title": "Environment Automation",
+    "skills": 4,
+    "description": "Controls configuration, promotion, secrets and rollback."
+  },
+  {
+    "domain": "13-reliability-observability-operations",
+    "domain_title": "Reliability, Observability and Operations",
+    "pack": "site-reliability",
+    "title": "Site Reliability",
+    "skills": 4,
+    "description": "Manages reliability using objectives, budgets and resilience evidence."
+  },
+  {
+    "domain": "13-reliability-observability-operations",
+    "domain_title": "Reliability, Observability and Operations",
+    "pack": "observability",
+    "title": "Observability",
+    "skills": 4,
+    "description": "Creates actionable telemetry across logs, metrics and traces."
+  },
+  {
+    "domain": "13-reliability-observability-operations",
+    "domain_title": "Reliability, Observability and Operations",
+    "pack": "incident-management",
+    "title": "Incident Management",
+    "skills": 4,
+    "description": "Detects, coordinates, communicates and learns from incidents."
+  },
+  {
+    "domain": "13-reliability-observability-operations",
+    "domain_title": "Reliability, Observability and Operations",
+    "pack": "operational-excellence",
+    "title": "Operational Excellence",
+    "skills": 4,
+    "description": "Turns operating knowledge into repeatable readiness and maintenance."
+  },
+  {
+    "domain": "14-performance-capacity-scalability",
+    "domain_title": "Performance, Capacity and Scalability",
+    "pack": "performance-engineering",
+    "title": "Performance Engineering",
+    "skills": 4,
+    "description": "Sets and meets latency, throughput and efficiency expectations."
+  },
+  {
+    "domain": "14-performance-capacity-scalability",
+    "domain_title": "Performance, Capacity and Scalability",
+    "pack": "capacity-engineering",
+    "title": "Capacity Engineering",
+    "skills": 4,
+    "description": "Models demand, tests headroom and predicts saturation."
+  },
+  {
+    "domain": "14-performance-capacity-scalability",
+    "domain_title": "Performance, Capacity and Scalability",
+    "pack": "scalability-patterns",
+    "title": "Scalability Patterns",
+    "skills": 4,
+    "description": "Designs systems to grow safely under changing load."
+  },
+  {
+    "domain": "15-integrations-external-ecosystem",
+    "domain_title": "Integrations, External Services and Ecosystems",
+    "pack": "integration-design",
+    "title": "Integration Design",
+    "skills": 4,
+    "description": "Defines reliable contracts and patterns between systems."
+  },
+  {
+    "domain": "15-integrations-external-ecosystem",
+    "domain_title": "Integrations, External Services and Ecosystems",
+    "pack": "vendor-governance",
+    "title": "Vendor Governance",
+    "skills": 3,
+    "description": "Controls third-party risk, service levels and exit options."
+  },
+  {
+    "domain": "15-integrations-external-ecosystem",
+    "domain_title": "Integrations, External Services and Ecosystems",
+    "pack": "ecosystem-enablement",
+    "title": "Ecosystem Enablement",
+    "skills": 3,
+    "description": "Enables partners through APIs, events and developer experience."
+  },
+  {
+    "domain": "16-growth-experimentation-monetization",
+    "domain_title": "Growth, Experimentation and Monetization",
+    "pack": "growth-strategy",
+    "title": "Growth Strategy",
+    "skills": 4,
+    "description": "Models sustainable acquisition, activation and referral."
+  },
+  {
+    "domain": "16-growth-experimentation-monetization",
+    "domain_title": "Growth, Experimentation and Monetization",
+    "pack": "experimentation",
+    "title": "Experimentation",
+    "skills": 4,
+    "description": "Turns hypotheses into causal decisions."
+  },
+  {
+    "domain": "16-growth-experimentation-monetization",
+    "domain_title": "Growth, Experimentation and Monetization",
+    "pack": "monetization",
+    "title": "Monetization",
+    "skills": 3,
+    "description": "Designs pricing, packaging, entitlement and revenue operations."
+  },
+  {
+    "domain": "16-growth-experimentation-monetization",
+    "domain_title": "Growth, Experimentation and Monetization",
+    "pack": "retention-engagement",
+    "title": "Retention and Engagement",
+    "skills": 3,
+    "description": "Builds durable engagement and lifecycle value."
+  },
+  {
+    "domain": "17-delivery-release-change",
+    "domain_title": "Delivery, Release and Change Management",
+    "pack": "delivery-planning",
+    "title": "Delivery Planning",
+    "skills": 5,
+    "description": "Decomposes and sequences work against constraints."
+  },
+  {
+    "domain": "17-delivery-release-change",
+    "domain_title": "Delivery, Release and Change Management",
+    "pack": "release-management",
+    "title": "Release Management",
+    "skills": 5,
+    "description": "Coordinates readiness, rollout, verification and communication."
+  },
+  {
+    "domain": "17-delivery-release-change",
+    "domain_title": "Delivery, Release and Change Management",
+    "pack": "change-risk-management",
+    "title": "Change and Risk Management",
+    "skills": 4,
+    "description": "Controls adoption, impact, dependencies and delivery risk."
+  },
+  {
+    "domain": "18-documentation-dx-governance",
+    "domain_title": "Documentation, Developer Experience and Governance",
+    "pack": "documentation",
+    "title": "Documentation",
+    "skills": 4,
+    "description": "Structures technical and operational knowledge for use and maintenance."
+  },
+  {
+    "domain": "18-documentation-dx-governance",
+    "domain_title": "Documentation, Developer Experience and Governance",
+    "pack": "developer-experience",
+    "title": "Developer Experience",
+    "skills": 4,
+    "description": "Reduces friction across setup, feedback and contribution."
+  },
+  {
+    "domain": "18-documentation-dx-governance",
+    "domain_title": "Documentation, Developer Experience and Governance",
+    "pack": "engineering-governance",
+    "title": "Engineering Governance",
+    "skills": 4,
+    "description": "Standardizes code, repositories, debt and review cadence."
+  },
+  {
+    "domain": "19-internationalization-localization",
+    "domain_title": "Internationalization and Localization",
+    "pack": "internationalization",
+    "title": "Internationalization",
+    "skills": 4,
+    "description": "Prepares product architecture for languages, formats and directionality."
+  },
+  {
+    "domain": "19-internationalization-localization",
+    "domain_title": "Internationalization and Localization",
+    "pack": "localization-operations",
+    "title": "Localization Operations",
+    "skills": 4,
+    "description": "Operates translation, terminology, QA and regional adaptation."
+  },
+  {
+    "domain": "20-support-customer-operations",
+    "domain_title": "Support and Customer Operations",
+    "pack": "support-design",
+    "title": "Support Design",
+    "skills": 4,
+    "description": "Designs support channels, service levels and escalation."
+  },
+  {
+    "domain": "20-support-customer-operations",
+    "domain_title": "Support and Customer Operations",
+    "pack": "case-operations",
+    "title": "Case Operations",
+    "skills": 3,
+    "description": "Runs customer cases through queues, communication and resolution."
+  },
+  {
+    "domain": "20-support-customer-operations",
+    "domain_title": "Support and Customer Operations",
+    "pack": "voice-of-customer",
+    "title": "Voice of Customer",
+    "skills": 3,
+    "description": "Turns feedback into structured product learning."
+  },
+  {
+    "domain": "21-cost-sustainability-efficiency",
+    "domain_title": "Cost, Sustainability and Operational Efficiency",
+    "pack": "finops",
+    "title": "FinOps",
+    "skills": 4,
+    "description": "Makes cost visible, attributable, forecastable and optimizable."
+  },
+  {
+    "domain": "21-cost-sustainability-efficiency",
+    "domain_title": "Cost, Sustainability and Operational Efficiency",
+    "pack": "sustainability",
+    "title": "Sustainability",
+    "skills": 4,
+    "description": "Measures and reduces environmental impact."
+  },
+  {
+    "domain": "22-migration-deprecation-end-of-life",
+    "domain_title": "Migration, Deprecation and End of Life",
+    "pack": "migration-modernization",
+    "title": "Migration and Modernization",
+    "skills": 4,
+    "description": "Moves systems and data with controlled cutover and validation."
+  },
+  {
+    "domain": "22-migration-deprecation-end-of-life",
+    "domain_title": "Migration, Deprecation and End of Life",
+    "pack": "deprecation-sunset",
+    "title": "Deprecation and Sunset",
+    "skills": 4,
+    "description": "Transitions customers and safely retires products or services."
+  }
+]
