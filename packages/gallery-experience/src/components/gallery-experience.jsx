@@ -1,56 +1,20 @@
 "use client";
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GalleryExperience = GalleryExperience;
-const react_1 = __importStar(require("react"));
-const framer_motion_1 = require("framer-motion");
-function GalleryExperience({ items, collectionTitle = "Featured Gallery Collection", collectionNumber = "01", collectionNarrative = "Explore our curated works of craftsmanship.", initialItemHandle, locale = "en", reducedMotion = false, onItemView, onSceneView, onProductIntent, onProgressChange, }) {
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { motion } from "framer-motion";
+export function GalleryExperience({ items, collectionTitle = "Featured Gallery Collection", collectionNumber = "01", collectionNarrative = "Explore our curated works of craftsmanship.", initialItemHandle, locale = "en", reducedMotion = false, onItemView, onSceneView, onProductIntent, onProgressChange, }) {
     const initialIndex = initialItemHandle
         ? Math.max(0, items.findIndex((item) => item.handle === initialItemHandle))
         : 0;
-    const [currentIndex, setCurrentIndex] = (0, react_1.useState)(initialIndex);
-    const [activeSceneId, setActiveSceneId] = (0, react_1.useState)(undefined);
-    const sliderRef = (0, react_1.useRef)(null);
+    const [currentIndex, setCurrentIndex] = useState(initialIndex);
+    const [activeSceneId, setActiveSceneId] = useState(undefined);
+    const sliderRef = useRef(null);
     const activeItem = items[currentIndex] || items[0];
-    const handleNext = (0, react_1.useCallback)(() => {
+    const handleNext = useCallback(() => {
         if (items.length === 0)
             return;
         setCurrentIndex((prev) => (prev + 1) % items.length);
     }, [items.length]);
-    const handlePrev = (0, react_1.useCallback)(() => {
+    const handlePrev = useCallback(() => {
         if (items.length === 0)
             return;
         setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
@@ -60,7 +24,7 @@ function GalleryExperience({ items, collectionTitle = "Featured Gallery Collecti
         setActiveSceneId(undefined);
     };
     // Keyboard navigation
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === "ArrowRight") {
                 handleNext();
@@ -79,7 +43,7 @@ function GalleryExperience({ items, collectionTitle = "Featured Gallery Collecti
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [handleNext, handlePrev, items.length]);
     // Notify item view
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         if (activeItem) {
             onItemView?.(activeItem, currentIndex);
             onProgressChange?.({
@@ -124,7 +88,7 @@ function GalleryExperience({ items, collectionTitle = "Featured Gallery Collecti
                 ? item.scenes.find((s) => s.id === activeSceneId)?.image.url ||
                     item.primaryImage.url
                 : item.primaryImage.url;
-            return (<framer_motion_1.motion.div key={item.id} className="dtc-gallery-card" data-active={isActive ? "true" : "false"} onClick={() => handleSelect(idx)} layout={!reducedMotion} tabIndex={0} role="button" aria-label={`View ${item.title}`} aria-selected={isActive}>
+            return (<motion.div key={item.id} className="dtc-gallery-card" data-active={isActive ? "true" : "false"} onClick={() => handleSelect(idx)} layout={!reducedMotion} tabIndex={0} role="button" aria-label={`View ${item.title}`} aria-selected={isActive}>
                 <div className="dtc-gallery-card-image-wrapper">
                   <img src={displayedImage} alt={item.primaryImage.alt || item.title} className="dtc-gallery-card-image" loading={idx <= 2 ? "eager" : "lazy"}/>
                 </div>
@@ -146,7 +110,7 @@ function GalleryExperience({ items, collectionTitle = "Featured Gallery Collecti
                     </span>
                   </div>
                 </div>
-              </framer_motion_1.motion.div>);
+              </motion.div>);
         })}
         </div>
       </div>

@@ -1,8 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.mapStoreProductToGalleryItem = mapStoreProductToGalleryItem;
-exports.mapStoreProductsToGalleryItems = mapStoreProductsToGalleryItems;
-function mapStoreProductToGalleryItem(product, countryCode = "dk") {
+export function mapStoreProductToGalleryItem(product, countryCode = "dk") {
     const metadata = (product.metadata?.gallery || {});
     // Primary Image Fallback Policy
     const primaryImageUrl = product.thumbnail ||
@@ -89,6 +85,6 @@ function mapStoreProductToGalleryItem(product, countryCode = "dk") {
         metadata: product.metadata,
     };
 }
-function mapStoreProductsToGalleryItems(products, countryCode = "dk") {
+export function mapStoreProductsToGalleryItems(products, countryCode = "dk") {
     return products.map((p) => mapStoreProductToGalleryItem(p, countryCode));
 }

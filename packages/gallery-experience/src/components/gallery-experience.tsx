@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { GalleryExperienceProps, GalleryItem } from "../types/index";
+import { motion } from "framer-motion";
+import { GalleryExperienceProps, GalleryItem, GalleryScene } from "../types/index";
 
 export function GalleryExperience({
   items,
@@ -18,7 +18,7 @@ export function GalleryExperience({
   onProgressChange,
 }: GalleryExperienceProps) {
   const initialIndex = initialItemHandle
-    ? Math.max(0, items.findIndex((item) => item.handle === initialItemHandle))
+    ? Math.max(0, items.findIndex((item: GalleryItem) => item.handle === initialItemHandle))
     : 0;
 
   const [currentIndex, setCurrentIndex] = useState<number>(initialIndex);
@@ -114,11 +114,11 @@ export function GalleryExperience({
       {/* Main Interactive Track */}
       <div className="dtc-gallery-track-wrapper">
         <div className="dtc-gallery-track">
-          {items.map((item, idx) => {
+          {items.map((item: GalleryItem, idx: number) => {
             const isActive = idx === currentIndex;
             const displayedImage =
               isActive && activeSceneId
-                ? item.scenes.find((s) => s.id === activeSceneId)?.image.url ||
+                ? item.scenes.find((s: GalleryScene) => s.id === activeSceneId)?.image.url ||
                   item.primaryImage.url
                 : item.primaryImage.url;
 
@@ -176,7 +176,7 @@ export function GalleryExperience({
       {/* Scene Switcher & Scene Navigation */}
       {activeItem && activeItem.scenes.length > 0 && (
         <div className="relative z-10 flex justify-center gap-2 pb-2">
-          {activeItem.scenes.map((scene) => (
+          {activeItem.scenes.map((scene: GalleryScene) => (
             <button
               key={scene.id}
               onClick={() => {
