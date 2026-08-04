@@ -5,9 +5,10 @@ import { GalleryExperience, GalleryItem } from "@dtc/gallery-experience";
 import { fioVivoProducts } from "./fixtures/fio-vivo-products";
 
 export function GalleryHeroClient({
+  items: _items,
   countryCode = "dk",
 }: {
-  items: GalleryItem[];
+  items?: GalleryItem[];
   countryCode?: string;
 }) {
   // Temporary BB-03 override: map host fixture items
