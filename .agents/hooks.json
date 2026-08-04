@@ -1,0 +1,25 @@
+{
+  "fio-vivo-pretool-firewall": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command|write_to_file|replace_file_content|multi_replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .agents/scripts/pretool-firewall.ps1",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "fio-vivo-stop-gate": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .agents/scripts/stop-gate.ps1",
+        "timeout": 15
+      }
+    ]
+  }
+}
