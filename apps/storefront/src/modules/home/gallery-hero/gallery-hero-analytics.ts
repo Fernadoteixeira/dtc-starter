@@ -1,5 +1,11 @@
 import { GalleryItem, GalleryScene } from "@dtc/gallery-experience";
 
+declare global {
+  interface Window {
+    gtag?: (command: string, action: string, params?: Record<string, unknown>) => void;
+  }
+}
+
 export function trackGalleryEvent(
   eventName: string,
   payload: {
@@ -9,8 +15,8 @@ export function trackGalleryEvent(
     locale?: string;
   }
 ) {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", eventName, {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", eventName, {
       product_id: payload.item?.id,
       product_handle: payload.item?.handle,
       index: payload.index,

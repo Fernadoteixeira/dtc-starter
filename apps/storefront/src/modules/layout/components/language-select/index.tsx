@@ -132,7 +132,6 @@ const LanguageSelect = ({
             {current && (
               <span className="txt-compact-small flex items-center gap-x-2">
                 {current.countryCode && (
-                  /* @ts-expect-error - ReactCountryFlag props type mismatch */
                   <ReactCountryFlag
                     svg
                     style={{

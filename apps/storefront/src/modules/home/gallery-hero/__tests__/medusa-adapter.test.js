@@ -1,8 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert");
-
-// Import mapped function logic or test helper
-const { mapStoreProductToGalleryItem } = require("../medusa-adapter.ts");
+import test from "node:test";
+import assert from "node:assert";
+import { mapStoreProductToGalleryItem } from "../medusa-adapter";
 
 test("1. Basic happy path: product with thumbnail and price", () => {
   const mockProduct = {
