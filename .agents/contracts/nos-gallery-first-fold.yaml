@@ -1,0 +1,35 @@
+reference:
+  source: boldfernando/nos-gallery
+  viewport:
+    width: 1600
+    height: 960
+
+required:
+  first_fold_height: "calc(100svh - commerceHeaderHeight)"
+  asymmetric_three_zone_layout: true
+  editorial_column_left: true
+  active_card_center_dominant: true
+  adjacent_card_partially_visible: true
+  active_to_neighbor_width_ratio_min: 1.30
+  integrated_scene_thumbnail_rail: true
+  dynamic_ambient_background: true
+  grain_layer: true
+  vignette_layer: true
+  copper_umber_linen_palette: true
+  bottom_navigation_centered: true
+  commercial_cta_bottom_right: true
+  medusa_menu_account_cart_preserved: true
+
+forbidden:
+  equal_width_product_grid: true
+  generic_saas_blue_palette: true
+  rounded_pill_everywhere: true
+  scene_buttons_outside_active_card: true
+  duplicated_commerce_header: true
+  hardcoded_brain_paths: true
+  global_keyboard_listener_without_focus_scope: true
+
+gate:
+  human_visual_approval_required: true
+  playwright_baseline_required: true
+  max_diff_pixel_ratio: 0.05

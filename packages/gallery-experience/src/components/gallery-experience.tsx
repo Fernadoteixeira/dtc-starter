@@ -1,234 +1,108 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { motion } from "framer-motion";
-import { GalleryExperienceProps, GalleryItem, GalleryScene } from "../types/index";
+import React, { useState } from "react";
+import { GalleryExperienceProps } from "../types/index";
+import { GalleryAmbient } from "./gallery-ambient";
+import { ArtworkCard } from "./artwork-card";
 
-export function GalleryExperience({
-  items,
-  collectionTitle = "Featured Gallery Collection",
-  collectionNumber = "01",
-  collectionNarrative = "Explore our curated works of craftsmanship.",
-  initialItemHandle,
-  locale = "en",
-  reducedMotion = false,
-  onItemView,
-  onSceneView,
-  onProductIntent,
-  onProgressChange,
-}: GalleryExperienceProps) {
-  const initialIndex = initialItemHandle
-    ? Math.max(0, items.findIndex((item: GalleryItem) => item.handle === initialItemHandle))
-    : 0;
-
-  const [currentIndex, setCurrentIndex] = useState<number>(initialIndex);
-  const [activeSceneId, setActiveSceneId] = useState<string | undefined>(undefined);
-  const sliderRef = useRef<HTMLDivElement>(null);
-
-  const activeItem: GalleryItem | undefined = items[currentIndex] || items[0];
-
-  const handleNext = useCallback(() => {
-    if (items.length === 0) return;
-    setCurrentIndex((prev) => (prev + 1) % items.length);
-  }, [items.length]);
-
-  const handlePrev = useCallback(() => {
-    if (items.length === 0) return;
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
-  }, [items.length]);
-
-  const handleSelect = (index: number) => {
-    setCurrentIndex(index);
-    setActiveSceneId(undefined);
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") {
-        handleNext();
-      } else if (e.key === "ArrowLeft") {
-        handlePrev();
-      } else if (e.key === "Home") {
-        setCurrentIndex(0);
-      } else if (e.key === "End") {
-        setCurrentIndex(items.length - 1);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleNext, handlePrev, items.length]);
-
-  // Notify item view
-  useEffect(() => {
-    if (activeItem) {
-      onItemView?.(activeItem, currentIndex);
-      onProgressChange?.({
-        currentIndex,
-        totalItems: items.length,
-        activeSceneId,
-      });
+export function GalleryExperience({ items }: GalleryExperienceProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // Fixture estática injetada para o slice visual, ignorando props Medusa
+  const fixture = [
+    {
+      id: "1",
+      title: "O crochê se move",
+      artist: "Fernando",
+      material: "Linho e Cobre",
+      year: "2026",
+      ambientColors: ["#a38d7d", "#6f5b4d", "#3b2a20"],
+      primaryImage: { url: "/images/fio-vivo/fv-001-espiral-dourada.jpg", alt: "Espiral Dourada" },
+      scenes: [
+        { id: "s1", label: "Front", image: { url: "/images/fio-vivo/fv-001-espiral-dourada.jpg" } },
+        { id: "s2", label: "Detail", image: { url: "/images/fio-vivo/fv-002-orbita-negra.jpg" } }
+      ]
+    },
+    {
+      id: "2",
+      title: "Órbita Negra",
+      artist: "Fernando",
+      material: "Algodão Orgânico",
+      year: "2026",
+      ambientColors: ["#4a4a4a", "#2c2c2c", "#111111"],
+      primaryImage: { url: "/images/fio-vivo/fv-002-orbita-negra.jpg", alt: "Órbita Negra" },
+      scenes: []
+    },
+    {
+      id: "3",
+      title: "Trama Solar",
+      artist: "Fernando",
+      material: "Seda e Âmbar",
+      year: "2026",
+      ambientColors: ["#c99c55", "#8f6333", "#452d13"],
+      primaryImage: { url: "/images/fio-vivo/fv-003-trama-solar.jpg", alt: "Trama Solar" },
+      scenes: []
+    },
+    {
+      id: "4",
+      title: "Fio Ancestral",
+      artist: "Fernando",
+      material: "Lã Virgem",
+      year: "2026",
+      ambientColors: ["#827870", "#524b45", "#292420"],
+      primaryImage: { url: "/images/fio-vivo/fv-004-fio-ancestral.jpg", alt: "Fio Ancestral" },
+      scenes: []
     }
-  }, [currentIndex, activeItem, activeSceneId, onItemView, onProgressChange, items.length]);
+  ];
 
-  if (!items || items.length === 0) {
-    return (
-      <div className="dtc-gallery-root flex items-center justify-center p-8">
-        <p className="text-gray-400">No gallery items available.</p>
-      </div>
-    );
-  }
-
-  const ambientColors = activeItem?.ambientColors || ["#1a1a2e", "#16213e", "#0f3460"];
-  const bgGradient = `radial-gradient(circle at 50% 30%, ${ambientColors[0]} 0%, ${ambientColors[1]} 50%, ${ambientColors[2]} 100%)`;
+  const activeArtwork = fixture[currentIndex] || fixture[0];
 
   return (
-    <div
-      className="dtc-gallery-root"
-      data-gallery-experience="true"
-      ref={sliderRef}
-      role="region"
-      aria-label={collectionTitle}
-    >
-      {/* Dynamic Ambient Background */}
-      <div
-        className="dtc-gallery-ambient-bg"
-        style={{ background: bgGradient }}
-      />
+    <div className="gallery-shell relative h-full w-full overflow-hidden text-[#e6e2dd] bg-[#1a1918]" style={{ height: "calc(100svh - 64px)" }}>
+      {/* Ambient, Grain e Vignette */}
+      <GalleryAmbient colors={activeArtwork.ambientColors} />
+      <div className="gallery-grain absolute inset-0 z-[1] opacity-[0.04] pointer-events-none mix-blend-overlay" />
+      <div className="gallery-vignette absolute inset-0 z-[2] pointer-events-none" />
 
-      {/* Gallery Header Narrative */}
-      <header className="relative z-10 px-8 pt-6 flex justify-between items-end">
-        <div>
-          <span className="text-xs uppercase tracking-widest text-sky-400 font-semibold">
-            Collection {collectionNumber}
-          </span>
-          <h2 className="text-2xl md:text-3xl font-light tracking-tight text-white mt-1">
-            {collectionTitle}
-          </h2>
-        </div>
-        <p className="hidden md:block text-xs text-slate-400 max-w-xs text-right">
-          {collectionNarrative}
+      {/* Header Preservado e Coluna Editorial */}
+      <aside className="gallery-editorial absolute left-[7vw] top-[34%] z-10 hidden max-w-[280px] lg:block">
+        <p className="mb-5 font-mono text-[0.58rem] tracking-[0.18em] text-[#d6b08a]">
+          COLEÇÃO Nº 01
         </p>
-      </header>
+        <p className="font-serif text-[2.55rem] leading-[0.96] tracking-[-0.045em] text-[#f4f1eb]">
+          O crochê<br />
+          <em className="text-[#d6b08a] italic">se move.</em>
+        </p>
+        <span className="my-6 block h-px w-9 bg-[#d6b08a]/40" aria-hidden="true" />
+        <p className="text-[0.68rem] leading-[1.6] text-[#a6a098]">
+          Os dois primeiros gestos transformam o crochê em presença viva.
+        </p>
+      </aside>
 
-      {/* Main Interactive Track */}
-      <div className="dtc-gallery-track-wrapper">
-        <div className="dtc-gallery-track">
-          {items.map((item: GalleryItem, idx: number) => {
-            const isActive = idx === currentIndex;
-            const displayedImage =
-              isActive && activeSceneId
-                ? item.scenes.find((s: GalleryScene) => s.id === activeSceneId)?.image.url ||
-                  item.primaryImage.url
-                : item.primaryImage.url;
-
-            return (
-              <motion.div
-                key={item.id}
-                className="dtc-gallery-card"
-                data-active={isActive ? "true" : "false"}
-                onClick={() => handleSelect(idx)}
-                layout={!reducedMotion}
-                tabIndex={0}
-                role="button"
-                aria-label={`View ${item.title}`}
-                aria-pressed={isActive}
-              >
-                <div className="dtc-gallery-card-image-wrapper">
-                  <img
-                    src={displayedImage}
-                    alt={item.primaryImage.alt || item.title}
-                    className="dtc-gallery-card-image"
-                    loading={idx <= 2 ? "eager" : "lazy"}
-                  />
-                </div>
-
-                <div className="dtc-gallery-card-content">
-                  <span className="text-xs text-slate-400 font-mono">
-                    {item.category || "Original Work"} • {item.year}
-                  </span>
-                  <h3 className="dtc-gallery-card-title">{item.title}</h3>
-                  <p className="dtc-gallery-card-artist">{item.artist}</p>
-
-                  <div className="dtc-gallery-card-footer">
-                    {item.price ? (
-                      <span className="dtc-gallery-price">
-                        {item.price.formatted}
-                      </span>
-                    ) : (
-                      <span className="text-xs text-slate-400">Price on request</span>
-                    )}
-
-                    <span
-                      className="dtc-gallery-badge"
-                      data-status={item.availability}
-                    >
-                      {item.availability}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+      {/* Slider Assimetrico */}
+      <div className="gallery-viewport relative z-10 flex h-full w-full items-center pl-[35vw]">
+        <div className="flex gap-[4vw] items-center transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]" style={{ transform: `translateX(calc(-${currentIndex} * (35vw + 4vw)))` }}>
+          {fixture.map((artwork, idx) => (
+            <ArtworkCard 
+              key={artwork.id} 
+              artwork={artwork} 
+              isActive={idx === currentIndex} 
+              onClick={() => setCurrentIndex(idx)} 
+            />
+          ))}
         </div>
       </div>
 
-      {/* Scene Switcher & Scene Navigation */}
-      {activeItem && activeItem.scenes.length > 0 && (
-        <div className="relative z-10 flex justify-center gap-2 pb-2">
-          {activeItem.scenes.map((scene: GalleryScene) => (
-            <button
-              key={scene.id}
-              onClick={() => {
-                setActiveSceneId(scene.id);
-                onSceneView?.(activeItem, scene);
-              }}
-              className={`px-3 py-1 text-xs rounded-full border transition-all ${
-                activeSceneId === scene.id
-                  ? "bg-sky-400 text-slate-900 border-sky-400 font-semibold"
-                  : "bg-slate-800/60 text-slate-300 border-slate-700 hover:border-slate-500"
-              }`}
-            >
-              {scene.label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Control Footer */}
-      <footer className="dtc-gallery-controls">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handlePrev}
-            className="dtc-gallery-nav-button"
-            aria-label="Previous artwork"
-          >
-            ←
-          </button>
-          <span className="text-xs font-mono text-slate-400">
-            {String(currentIndex + 1).padStart(2, "0")} /{" "}
-            {String(items.length).padStart(2, "0")}
-          </span>
-          <button
-            onClick={handleNext}
-            className="dtc-gallery-nav-button"
-            aria-label="Next artwork"
-          >
-            →
-          </button>
-        </div>
-
-        {activeItem && (
-          <a
-            href={activeItem.productUrl}
-            onClick={() => onProductIntent?.(activeItem)}
-            className="dtc-gallery-cta-button"
-          >
-            <span>Explore Piece</span>
-            <span>→</span>
-          </a>
-        )}
-      </footer>
+      {/* Navegação Inferior */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+        {fixture.map((_, i) => (
+          <button key={i} onClick={() => setCurrentIndex(i)} className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? 'bg-[#d6b08a]' : 'bg-[#d6b08a]/30'}`} />
+        ))}
+      </div>
+      
+      {/* CTA Commerce */}
+      <button className="absolute right-10 bottom-7 z-20 min-h-[44px] items-center gap-2 border border-white/10 bg-black/20 px-4 font-mono text-[0.58rem] uppercase tracking-[0.15em] text-white backdrop-blur-md hidden md:flex hover:border-[#d6b08a]/50 transition-colors">
+        Conhecer a peça
+      </button>
     </div>
   );
 }
