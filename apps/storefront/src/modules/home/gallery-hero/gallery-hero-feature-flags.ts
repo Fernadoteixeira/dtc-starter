@@ -1,8 +1,8 @@
 export function isGalleryHeroEnabled(): boolean {
-  if (process.env.NEXT_PUBLIC_GALLERY_HERO_ENABLED === "false") {
-    return false;
+  if (process.env.NEXT_PUBLIC_GALLERY_HERO_ENABLED === "true") {
+    return true;
   }
-  return true;
+  return false;
 }
 
 export function getGalleryHeaderMode(): "commerce-bar" | "immersive-overlay" {

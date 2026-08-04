@@ -1,8 +1,6 @@
 import React from "react";
-import {
-  GalleryExperience,
-  mapStoreProductsToGalleryItems,
-} from "@dtc/gallery-experience";
+import { GalleryExperience } from "@dtc/gallery-experience";
+import { mapStoreProductsToGalleryItems } from "./medusa-adapter";
 import { fetchGalleryHeroProducts } from "./gallery-hero-data";
 import { isGalleryHeroEnabled } from "./gallery-hero-feature-flags";
 import { GalleryHeroFallback } from "./gallery-hero-fallback";

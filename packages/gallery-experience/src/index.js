@@ -15,6 +15,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./types/index"), exports);
-__exportStar(require("./adapters/medusa/map-store-product-to-gallery-item"), exports);
 __exportStar(require("./components/gallery-experience"), exports);
 require("./styles/gallery-experience.css");
