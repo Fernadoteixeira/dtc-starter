@@ -14,8 +14,8 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
     ports:
-      - "80:80"     # Web Proxy Port
-      - "8080:8080" # Traefik Dashboard
+      - "8082:80"    # Web Proxy Port (evita conflito com a porta 80 do Windows HTTP.sys)
+      - "8088:8080"  # Traefik Dashboard Web UI
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
@@ -24,10 +24,10 @@ services:
       - "traefik.http.routers.traefik.service=api@internal"
 
   # ============================================================================
-  # 1. POSTGRESQL 15 / SUPABASE DATABASE
+  # 1. POSTGRESQL 15 / SUPABASE-COMPATIBLE DATABASE
   # ============================================================================
   db:
-    image: supabase/postgres:15.6.0.143
+    image: postgres:15-alpine
     container_name: dtc-postgres
     restart: always
     environment:
@@ -45,39 +45,18 @@ services:
       retries: 5
 
   # ============================================================================
-  # 2. SUPABASE STUDIO (OSS DATABASE DASHBOARD & QUERY EDITOR)
+  # 2. ADMINER (DATABASE MANAGEMENT DASHBOARD & QUERY RUNNER)
   # ============================================================================
-  supabase-studio:
-    image: supabase/studio:latest
-    container_name: dtc-supabase-studio
+  db-dashboard:
+    image: adminer:latest
+    container_name: dtc-db-dashboard
     restart: always
     ports:
-      - "54323:3000"
-    environment:
-      STUDIO_PG_META_URL: http://supabase-meta:8080
-      POSTGRES_PASSWORD: postgrespassword
-      DEFAULT_ORGANIZATION_NAME: "DTC Starter Local"
-      DEFAULT_PROJECT_NAME: "Medusa & Supabase Dev"
-      SUPABASE_URL: http://localhost:54323
+      - "8081:8080"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.supabase.rule=Host(`supabase.localhost`)"
-      - "traefik.http.services.supabase.loadbalancer.server.port=3000"
-    depends_on:
-      db:
-        condition: service_healthy
-
-  supabase-meta:
-    image: supabase/postgres-meta:latest
-    container_name: dtc-supabase-meta
-    restart: always
-    environment:
-      PG_META_PORT: "8080"
-      PG_META_DB_HOST: db
-      PG_META_DB_PORT: "5432"
-      PG_META_DB_NAME: postgres
-      PG_META_DB_USER: postgres
-      PG_META_DB_PASSWORD: postgrespassword
+      - "traefik.http.routers.db-dashboard.rule=Host(`db.localhost`)"
+      - "traefik.http.services.db-dashboard.loadbalancer.server.port=8080"
     depends_on:
       db:
         condition: service_healthy
@@ -86,7 +65,7 @@ services:
   # 3. MINIO (HIGH PERFORMANCE S3-COMPATIBLE OBJECT STORAGE)
   # ============================================================================
   minio:
-    image: minio/minio:RELEASE.2024-05-28T17-19-04Z
+    image: minio/minio:latest
     container_name: dtc-minio
     restart: always
     command: server /data --console-address ":9001"
@@ -111,7 +90,7 @@ services:
       retries: 5
 
   minio-create-buckets:
-    image: minio/mc:RELEASE.2024-05-27T18-18-09Z
+    image: minio/mc:latest
     container_name: dtc-minio-init
     depends_on:
       minio:
@@ -147,7 +126,7 @@ services:
   # 5. MAILPIT (OSS SMTP EMAIL CAPTURE & DASHBOARD)
   # ============================================================================
   mailpit:
-    image: axllent/mailpit:v1.15
+    image: axllent/mailpit:latest
     container_name: dtc-mailpit
     restart: always
     ports:
