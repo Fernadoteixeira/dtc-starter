@@ -1,10 +1,9 @@
 import React from "react";
-import { GalleryExperience } from "@dtc/gallery-experience";
 import { mapStoreProductsToGalleryItems } from "./medusa-adapter";
 import { fetchGalleryHeroProducts } from "./gallery-hero-data";
 import { isGalleryHeroEnabled } from "./gallery-hero-feature-flags";
 import { GalleryHeroFallback } from "./gallery-hero-fallback";
-import { trackGalleryEvent } from "./gallery-hero-analytics";
+import { GalleryHeroClient } from "./gallery-hero-client";
 
 export default async function GalleryHero({
   countryCode = "dk",
@@ -23,21 +22,9 @@ export default async function GalleryHero({
 
   const galleryItems = mapStoreProductsToGalleryItems(products, countryCode);
 
-  return (
-    <div className="w-full relative">
-      <GalleryExperience
-        items={galleryItems}
-        collectionTitle="Curated Gallery Experience"
-        collectionNumber="01"
-        collectionNarrative="Immerse in handcrafted design and authentic commerce."
-        locale={countryCode}
-        onItemView={(item, index) =>
-          trackGalleryEvent("gallery_item_view", { item, index, locale: countryCode })
-        }
-        onProductIntent={(item) =>
-          trackGalleryEvent("gallery_product_intent", { item, locale: countryCode })
-        }
-      />
-    </div>
-  );
+  if (!galleryItems || galleryItems.length === 0) {
+    return <GalleryHeroFallback />;
+  }
+
+  return <GalleryHeroClient items={galleryItems} countryCode={countryCode} />;
 }
