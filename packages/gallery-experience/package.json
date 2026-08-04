@@ -15,7 +15,7 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@medusajs/icons": "^0.0.12",
+    "@medusajs/icons": "2.18.0",
     "@medusajs/types": "^2.18.0",
     "clsx": "^2.1.1",
     "framer-motion": "12.42.2",
