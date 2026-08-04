@@ -1,0 +1,164 @@
+name: dtc-starter-dev-env
+
+services:
+  # ============================================================================
+  # 0. TRAEFIK (REVERSE PROXY & LOCAL ROUTING GATEWAY)
+  # ============================================================================
+  traefik:
+    image: traefik:v3.0
+    container_name: dtc-traefik
+    restart: always
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"     # Web Proxy Port
+      - "8080:8080" # Traefik Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+  # ============================================================================
+  # 1. POSTGRESQL 15 / SUPABASE DATABASE
+  # ============================================================================
+  db:
+    image: supabase/postgres:15.6.0.143
+    container_name: dtc-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # 2. SUPABASE STUDIO (OSS DATABASE DASHBOARD & QUERY EDITOR)
+  # ============================================================================
+  supabase-studio:
+    image: supabase/studio:latest
+    container_name: dtc-supabase-studio
+    restart: always
+    ports:
+      - "54323:3000"
+    environment:
+      STUDIO_PG_META_URL: http://supabase-meta:8080
+      POSTGRES_PASSWORD: postgrespassword
+      DEFAULT_ORGANIZATION_NAME: "DTC Starter Local"
+      DEFAULT_PROJECT_NAME: "Medusa & Supabase Dev"
+      SUPABASE_URL: http://localhost:54323
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.supabase.rule=Host(`supabase.localhost`)"
+      - "traefik.http.services.supabase.loadbalancer.server.port=3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  supabase-meta:
+    image: supabase/postgres-meta:latest
+    container_name: dtc-supabase-meta
+    restart: always
+    environment:
+      PG_META_PORT: "8080"
+      PG_META_DB_HOST: db
+      PG_META_DB_PORT: "5432"
+      PG_META_DB_NAME: postgres
+      PG_META_DB_USER: postgres
+      PG_META_DB_PASSWORD: postgrespassword
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ============================================================================
+  # 3. MINIO (HIGH PERFORMANCE S3-COMPATIBLE OBJECT STORAGE)
+  # ============================================================================
+  minio:
+    image: minio/minio:RELEASE.2024-05-28T17-19-04Z
+    container_name: dtc-minio
+    restart: always
+    command: server /data --console-address ":9001"
+    ports:
+      - "9002:9000" # MinIO S3 API Endpoint
+      - "9001:9001" # MinIO Console Web UI
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadminpassword
+    volumes:
+      - minio-data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio-console.rule=Host(`minio.localhost`)"
+      - "traefik.http.services.minio-console.loadbalancer.server.port=9001"
+      - "traefik.http.routers.minio-s3.rule=Host(`s3.localhost`)"
+      - "traefik.http.services.minio-s3.loadbalancer.server.port=9000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio-create-buckets:
+    image: minio/mc:RELEASE.2024-05-27T18-18-09Z
+    container_name: dtc-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set localminio http://minio:9000 minioadmin minioadminpassword;
+      /usr/bin/mc mb --ignore-existing localminio/medusa-uploads;
+      /usr/bin/mc mb --ignore-existing localminio/supabase-storage;
+      /usr/bin/mc anonymous set public localminio/medusa-uploads;
+      /usr/bin/mc anonymous set public localminio/supabase-storage;
+      exit 0;
+      "
+
+  # ============================================================================
+  # 4. REDIS (HIGH PERFORMANCE IN-MEMORY CACHE & PUB/SUB)
+  # ============================================================================
+  redis:
+    image: redis:7.2-alpine
+    container_name: dtc-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # 5. MAILPIT (OSS SMTP EMAIL CAPTURE & DASHBOARD)
+  # ============================================================================
+  mailpit:
+    image: axllent/mailpit:v1.15
+    container_name: dtc-mailpit
+    restart: always
+    ports:
+      - "8025:8025" # Dashboard Web UI
+      - "1025:1025" # Servidor SMTP
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailpit.rule=Host(`mail.localhost`)"
+      - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
+
+volumes:
+  postgres-data:
+  minio-data:
+  redis-data:
