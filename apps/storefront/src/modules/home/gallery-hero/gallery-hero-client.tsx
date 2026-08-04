@@ -2,30 +2,50 @@
 
 import React from "react";
 import { GalleryExperience, GalleryItem } from "@dtc/gallery-experience";
-import { trackGalleryEvent } from "./gallery-hero-analytics";
+import { fioVivoProducts } from "./fixtures/fio-vivo-products";
 
 export function GalleryHeroClient({
-  items,
   countryCode = "dk",
 }: {
   items: GalleryItem[];
   countryCode?: string;
 }) {
+  // Temporary BB-03 override: map host fixture items
+  const fixtureItems: GalleryItem[] = fioVivoProducts.map((p) => ({
+    id: p.id,
+    handle: p.handle,
+    title: p.title,
+    primaryImage: {
+      url: p.primaryImage.src,
+      alt: p.primaryImage.alt,
+      width: p.primaryImage.width,
+      height: p.primaryImage.height,
+    },
+    scenes: p.scenes.map((s) => ({
+      id: s.id,
+      image: {
+        url: s.src,
+        alt: s.alt,
+        width: s.width,
+        height: s.height,
+      },
+      label: s.label,
+    })),
+    availability: "available",
+    productUrl: `/products/${p.handle}`,
+    ambientColors: Array.isArray(p.ambientColors) ? p.ambientColors : undefined,
+  }));
+
   return (
-    <div className="w-full relative min-h-[500px]" data-gallery-hero-container="true">
+    <div className="dtc-gallery-container" data-gallery-hero-container="true">
       <GalleryExperience
-        items={items}
-        collectionTitle="Curated Gallery Experience"
+        items={fixtureItems}
+        collectionTitle="Fio Vivo"
         collectionNumber="01"
-        collectionNarrative="Immerse in handcrafted design and authentic commerce."
+        collectionNarrative="O crochê se move"
         locale={countryCode}
-        onItemView={(item, index) =>
-          trackGalleryEvent("gallery_item_view", { item, index, locale: countryCode })
-        }
-        onProductIntent={(item) =>
-          trackGalleryEvent("gallery_product_intent", { item, locale: countryCode })
-        }
       />
     </div>
   );
 }
+
