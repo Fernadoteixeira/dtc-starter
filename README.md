@@ -83,7 +83,7 @@ pnpm install
 cp apps/backend/.env.template apps/backend/.env
 ```
 
-3. Set the database URL in `apps/backend.env`:
+3. Set the database URL in `apps/backend/.env`:
 
 ```bash
 # Replace with actual database URL, make sure the database exists.
@@ -134,7 +134,7 @@ pnpm dev
 
 The storefront runs on `http://localhost:8000`.
 
-You can slo run the following command from the root to start both backend and storefront:
+You can also run the following command from the root to start both backend and storefront:
 
 ```bash
 pnpm dev
@@ -156,3 +156,36 @@ The storefront is configured via environment variables in `apps/storefront/.env.
 
 - [Medusa Documentation](https://docs.medusajs.com)
 - [Medusa Cloud](https://cloud.medusajs.com)
+
+## Fio Vivo Project
+
+This repository is a fork of `medusajs/dtc-starter` adapted for the **Fio Vivo** project. Key additions:
+
+- **`packages/gallery-experience/`** — `@dtc/gallery-experience`, an isolated editorial gallery presentation module with Medusa adapter, scoped CSS, and framework-agnostic domain contracts.
+- **`apps/storefront/src/modules/home/gallery-hero/`** — Fio Vivo gallery hero integration with product fixtures, analytics, feature flags, and a Medusa adapter.
+- **`apps/storefront/src/modules/nos-gallery/`** — Canonical nos-gallery module with its own `AGENTS.md` and skill pack.
+- **`.agents/`** — Agent infrastructure (hooks, firewall scripts, skill packs, Ollama Superpowers Pack).
+- **`docs/fio-vivo/`** — Fio Vivo 360 program strategic documentation (discovery, product, design, pricing, growth, technology, internationalization).
+- **`docs/artifacts/`** — Executive artifacts and audit reports.
+
+### Docker
+
+PostgreSQL and supporting services can be started via Docker Compose:
+
+```bash
+pnpm run docker:up     # start (detached)
+pnpm run docker:down   # stop
+pnpm run docker:logs   # tail logs
+```
+
+### Tech Stack (actual versions)
+
+| Layer | Version |
+|-------|---------|
+| Medusa backend | 2.18.0 |
+| Next.js | 15.5.21 |
+| React | 19.0.5 |
+| Tailwind CSS | 3.x (not v4) |
+| TypeScript | 5.x |
+| Node.js | 20+ |
+| pnpm | 10.11.1 |

@@ -2,14 +2,14 @@
 
 ## Overview
 
-Medusa DTC Starter — a Turborepo workspace monorepo containing a Medusa backend (`@medusajs/medusa` latest, Node 20+, PostgreSQL 15+) and an optional storefront (Next.js, Tanstack, etc...).
+Medusa DTC Starter — a Turborepo workspace monorepo containing a Medusa backend (`@medusajs/medusa` v2.18.0, Node 20+, PostgreSQL 15+) and a Next.js 15.5 storefront. This is a fork of `medusajs/dtc-starter` adapted for the Fio Vivo project. The storefront is installed and active.
 
 ## Directory Structure
 
 ```text
 .
 ├── apps/
-│   ├── backend/                  # Medusa application (@dtc/backend)
+│   ├── backend/                  # Medusa application (@dtc/backend, v2.18.0)
 │   │   ├── medusa-config.ts      # Medusa config: DB URL, CORS, secrets, modules
 │   │   ├── integration-tests/    # setup.js (Jest setupFiles) and http/*.spec.ts suites
 │   │   └── src/
@@ -21,28 +21,37 @@ Medusa DTC Starter — a Turborepo workspace monorepo containing a Medusa backen
 │   │       ├── modules/          # Custom modules (service + models + migrations)
 │   │       ├── subscribers/      # Event subscribers
 │   │       └── workflows/        # Workflows and workflow steps
-│   └── storefront/               # OPTIONAL storefront
-├── eslint.config.ts              # Root ESLint: @medusajs/eslint-plugin recommended
-├── turbo.json                    # Task graph: build, dev, start, lint, test, seed
+│   └── storefront/               # Next.js 15.5 storefront (@dtc/storefront)
+│       └── src/
+│           ├── app/              # Next.js App Router pages
+│           ├── modules/          # Feature modules (cart, checkout, home, nos-gallery, ...)
+│           │   └── home/gallery-hero/  # Fio Vivo gallery hero integration
+│           ├── lib/              # Shared utilities and config
+│           ├── styles/           # Global styles
+│           └── middleware.ts     # Next.js middleware
+├── packages/
+│   └── gallery-experience/      # @dtc/gallery-experience — isolated gallery UI package
+│       └── src/
+│           ├── adapters/medusa/  # mapStoreProductToGalleryItem adapter
+│           ├── components/       # artwork-card, gallery-ambient, gallery-experience
+│           ├── styles/          # Scoped CSS under [data-gallery-experience]
+│           └── types/           # GalleryItem, GalleryScene, GalleryPrice contracts
+├── .agents/                     # Agent infrastructure (hooks, skills, packs, scripts)
+├── docs/                        # Fio Vivo 360 program documentation
+├── eslint.config.ts             # Root ESLint: @medusajs/eslint-plugin recommended
+├── pnpm-workspace.yaml          # Workspace: apps/**, packages/**, !apps/backend/.medusa/**
+├── docker-compose.yml           # PostgreSQL + supporting services
+├── playwright.config.ts         # E2e test config (root level)
+└── turbo.json                   # Task graph: build, dev, start, lint, test, seed
 ```
 
-**`apps/storefront` is optional and may not exist.** It is skipped when the user chooses not to install it. Before running any storefront command, referencing storefront files, or assuming a full-stack change is possible, check that `apps/storefront/` exists. If it doesn't, the project is backend-only — do not scaffold it or suggest it was deleted by mistake.
+**The storefront is installed.** This project has both `apps/backend/` and `apps/storefront/`. The storefront runs Next.js 15.5 with Turbopack on port 8000. Tailwind CSS v3 (not v4). No Framer Motion or shadcn/ui are installed — the storefront uses Radix UI primitives and Headless UI directly.
 
 Each app can have its own nested `AGENTS.md`; agents read the nearest one in the directory tree, so put app-specific context there rather than expanding this file.
 
 ## Package Manager
 
-**The package manager is chosen at install time and is not fixed.** Detect it before running anything, in this order:
-
-1. The `packageManager` field in the root `package.json` (e.g. `"pnpm@10.11.1"`) — authoritative when present.
-2. The lockfile at the repo root: `pnpm-lock.yaml` → pnpm, `yarn.lock` → yarn, `package-lock.json` → npm.
-
-```bash
-node -p "require('./package.json').packageManager ?? 'unset'"
-ls pnpm-lock.yaml yarn.lock package-lock.json bun.lock bun.lockb 2>/dev/null
-```
-
-Use that manager for every command and never introduce a second lockfile. Below, `<pm>` means the detected manager. The `<pm> run <script>` and `<pm> exec <bin>` forms work across npm, pnpm, yarn, and bun; workspace-filter flags do not, so the per-app commands below `cd` into the app instead.
+This project uses **pnpm 10.11.1** (pinned in `package.json` via `packageManager: "pnpm@10.11.1"`). The lockfile is `pnpm-lock.yaml`. Always use pnpm for every command — never introduce a second lockfile. The `<pm>` placeholder in templates should be read as `pnpm`.
 
 ## Commands
 
@@ -51,51 +60,93 @@ Run from the repo root unless noted. Turbo skips missing apps automatically.
 ### Development
 
 ```bash
-<pm> run dev                # all apps
-<pm> run backend:dev        # backend only (http://localhost:9000, admin at /app)
-<pm> run storefront:dev     # storefront only (http://localhost:8000)
+pnpm run dev                # all apps (backend + storefront)
+pnpm run backend:dev        # backend only (http://localhost:9000, admin at /app)
+pnpm run storefront:dev     # storefront only (http://localhost:8000, Turbopack)
 ```
 
 ### Build
 
 ```bash
-<pm> run build              # all apps
-<pm> run start              # build (via turbo dependsOn) then start
+pnpm run build              # all apps
+pnpm run start              # build (via turbo dependsOn) then start
 ```
 
 ### Lint
 
 ```bash
-<pm> run lint                          # all apps via turbo
-cd apps/backend && <pm> run lint       # medusa lint
-cd apps/storefront && <pm> run lint    # next lint
+pnpm run lint                          # all apps via turbo
+cd apps/backend && pnpm run lint       # medusa lint
+cd apps/storefront && pnpm run lint    # next lint
 ```
 
-### Test (backend only; the storefront has no test suite)
+### Test
 
 ```bash
-<pm> run test                                              # all test tasks via turbo
-cd apps/backend && <pm> run test:unit                      # **/src/**/__tests__/**/*.unit.spec.ts
-cd apps/backend && <pm> run test:integration:modules       # **/src/modules/*/__tests__/**
-cd apps/backend && <pm> run test:integration:http          # **/integration-tests/http/*.spec.ts
+pnpm run test                                              # all test tasks via turbo
+cd apps/backend && pnpm run test:unit                      # **/src/**/__tests__/**/*.unit.spec.ts
+cd apps/backend && pnpm run test:integration:modules       # **/src/modules/*/__tests__/**
+cd apps/backend && pnpm run test:integration:http          # **/integration-tests/http/*.spec.ts
+```
+
+E2e tests (Playwright, root level):
+
+```bash
+pnpm run test:e2e          # all e2e suites
+pnpm run test:e2e:ui       # interactive UI mode
 ```
 
 Single test — pass a path/pattern through to Jest, keeping `TEST_TYPE`:
 
 ```bash
-cd apps/backend && <pm> run test:unit -- src/modules/foo/__tests__/service.unit.spec.ts
-cd apps/backend && <pm> run test:unit -- -t "returns the cart"
+cd apps/backend && pnpm run test:unit -- src/modules/foo/__tests__/service.unit.spec.ts
+cd apps/backend && pnpm run test:unit -- -t "returns the cart"
 ```
 
 ### Database
 
 ```bash
 cd apps/backend
-<pm> exec medusa db:generate <module-name>   # generate migrations for a custom module
-<pm> exec medusa db:migrate                  # run migrations
-<pm> exec medusa user -e admin@test.com -p supersecret
-<pm> run backend:seed                        # from root; seeds initial data
+pnpm exec medusa db:generate <module-name>   # generate migrations for a custom module
+pnpm exec medusa db:migrate                  # run migrations
+pnpm exec medusa user -e admin@test.com -p supersecret
+pnpm run backend:seed                        # from root; seeds initial data
 ```
+
+### Docker
+
+```bash
+pnpm run docker:up        # start PostgreSQL + supporting services (detached)
+pnpm run docker:down      # stop containers
+pnpm run docker:logs      # tail container logs
+```
+
+## Workspace Packages
+
+The monorepo includes a `packages/` workspace:
+
+- **`@dtc/gallery-experience`** (`packages/gallery-experience/`) — isolated, editorial gallery presentation module with framework-agnostic domain contracts (`GalleryItem`, `GalleryScene`, `GalleryPrice`, `GalleryAvailability`), a Medusa adapter (`mapStoreProductToGalleryItem`), and scoped CSS under `[data-gallery-experience]`. React, React DOM, and Next.js are peer dependencies provided by the storefront.
+
+## Agent Infrastructure
+
+The `.agents/` directory contains agent tooling:
+
+- `hooks.json` — PreToolUse and Stop hooks (Fio Vivo firewall + stop gate)
+- `scripts/` — PowerShell scripts for pretool-firewall and stop-gate enforcement
+- `skills/` — Canonical skill definitions
+- `ollama-superpowers-pack-v1.0.0/` — Ollama Superpowers Pack (BB01 model intelligence, agents, evals)
+- `fio-vivo-antigravity-rug-pack/` — Fio Vivo anti-gravity-rug capability pack
+- `nos-gallery-canonical-skills-205/` — nos-gallery skill pack (referenced from `apps/storefront/src/modules/nos-gallery/.agents/`)
+- `product-lifecycle-canonical-skills-315/` — Product lifecycle skill pack
+- `contracts/` — Agent contracts
+
+## Fio Vivo Project Documentation
+
+The `docs/` directory contains the Fio Vivo 360 program documentation:
+
+- `docs/fio-vivo/` — Strategic docs (discovery, product, design, pricing, growth, technology, internationalization)
+- `docs/artifacts/fio-vivo-360/` — Executive artifacts (decision log, gate table, next actions, executive summary)
+- `docs/artifacts/bb-04/` — BB-04 visual evidence and runtime reports
 
 ## Medusa Skills & MCP Server
 
@@ -136,14 +187,15 @@ claude mcp add --transport http medusa https://docs.medusajs.com/mcp # or agent 
 
 ## Common Mistakes
 
-- Running storefront commands without checking that `apps/storefront/` exists.
 - Assuming a package manager instead of detecting it, or running a command that creates a second lockfile.
-- Installing a dependency at the root instead of inside the app that needs it (`cd apps/backend && <pm> add <pkg>`).
-- Editing a custom module's model without running `<pm> exec medusa db:generate <module>` — the migration is missing and the change silently never applies.
+- Installing a dependency at the root instead of inside the app that needs it (`cd apps/backend && pnpm add <pkg>`).
+- Editing a custom module's model without running `pnpm exec medusa db:generate <module>` — the migration is missing and the change silently never applies.
 - Writing raw SQL or importing DB clients directly in the backend instead of going through module services / workflows.
 - Calling the Medusa API from the storefront without `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`; requests fail with a publishable-key error, not an obvious 401.
 - Running the test task without a reachable PostgreSQL — integration suites need a live DB.
 - Silencing `@medusajs/*` ESLint rules instead of fixing the underlying pattern.
+- Using Tailwind v4 syntax (e.g. `--spacing()` CSS function) in `nos-gallery` components — this codebase uses **Tailwind CSS v3**, and v4-only syntax breaks the build.
+- Assuming Framer Motion or shadcn/ui are installed — they are NOT. Use Radix UI primitives and Headless UI directly.
 
 ## Off-Limits
 
