@@ -1,0 +1,82 @@
+{
+  "default_profile": "gpt-oss-20b",
+  "rules": [
+    {
+      "priority": 100,
+      "when": {
+        "requires_vision": true
+      },
+      "route": "gemma4",
+      "reason": "Primary pair is text-only."
+    },
+    {
+      "priority": 95,
+      "when": {
+        "requires_embeddings": true
+      },
+      "route": "embeddinggemma",
+      "reason": "Use a dedicated embedding model."
+    },
+    {
+      "priority": 90,
+      "when": {
+        "requires_schema": true
+      },
+      "route": "gpt-oss-20b",
+      "reason": "Ollama Cloud does not support structured outputs."
+    },
+    {
+      "priority": 85,
+      "when": {
+        "local_only": true
+      },
+      "route": "gpt-oss-20b",
+      "reason": "Privacy boundary."
+    },
+    {
+      "priority": 80,
+      "when": {
+        "secrets_detected": true
+      },
+      "route": "gpt-oss-20b",
+      "reason": "Secrets stay local by default."
+    },
+    {
+      "priority": 70,
+      "when": {
+        "estimated_input_tokens_gte": 60000
+      },
+      "route": "glm-5.2-cloud",
+      "reason": "Long-context escalation."
+    },
+    {
+      "priority": 60,
+      "when": {
+        "task_class_in": [
+          "architecture",
+          "cross-repo",
+          "long-debug",
+          "release-arbitration"
+        ]
+      },
+      "route": "glm-5.2-cloud",
+      "reason": "Long-horizon task."
+    }
+  ],
+  "usage_governor": {
+    "max_cloud_calls_per_task": 6,
+    "max_parallel_cloud_branches": 1,
+    "local_summary_before_cloud": true,
+    "deduplicate_tool_results": true,
+    "stop_on_repeated_tool_signature": 2,
+    "cloud_retries": 0,
+    "manual_usage_snapshot_only": true,
+    "max_provider_requests_per_bb": 25,
+    "max_agent_steps_cloud": 4,
+    "max_session_usage_delta_pp": 5,
+    "local_preflight_required": true,
+    "local_evidence_compression_required": true,
+    "cloud_final_arbitration_only": true,
+    "translations_local_only": true
+  }
+}

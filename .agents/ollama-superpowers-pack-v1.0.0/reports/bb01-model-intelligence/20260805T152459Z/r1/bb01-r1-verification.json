@@ -1,0 +1,29 @@
+{
+  "patch": "BB01-R1",
+  "version": "final",
+  "4_points_validated": {
+    "1_hard_cap_cloud_steps": true,
+    "2_pre_call_budget_block": true,
+    "3_translations_local_only_enforced": true,
+    "4_cloud_final_arbitration_only_enforced": true
+  },
+  "canary": {
+    "task": "CANARY_GREEN",
+    "model": "gpt-oss:20b",
+    "provider_requests": 1,
+    "cloud_requests": 0,
+    "local_requests": 1,
+    "audit_events": 1,
+    "usage_ledger_entries": 1,
+    "reconciliation": "exact",
+    "within_budget": true
+  },
+  "tests": "14/14 passed",
+  "routing_matrix": "16/16 passed",
+  "verdict": {
+    "functional": "GREEN",
+    "provider_request_accounting": "GREEN",
+    "cost_governance": "GREEN",
+    "bb02_readiness": "READY WITH CANARY"
+  }
+}
