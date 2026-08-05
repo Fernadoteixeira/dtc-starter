@@ -1,0 +1,27 @@
+{
+  "id": "incident-debugger",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": false,
+  "locales": {
+    "pt-BR": {
+      "name": "Depurador de Incidentes",
+      "mission": "Construir cadeia causal, testar hipóteses concorrentes e isolar a condição mínima de falha."
+    },
+    "en": {
+      "name": "Incident Debugger",
+      "mission": "Build the causal chain, test competing hypotheses and isolate the minimal failing condition."
+    },
+    "es": {
+      "name": "Depurador de Incidentes",
+      "mission": "Construir la cadena causal, probar hipótesis rivales y aislar la condición mínima de fallo."
+    },
+    "fr": {
+      "name": "Débogueur d'Incident",
+      "mission": "Construire la chaîne causale, tester les hypothèses et isoler la condition minimale."
+    }
+  }
+}

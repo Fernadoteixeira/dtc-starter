@@ -1,0 +1,27 @@
+{
+  "id": "dev-environment-operator",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": true,
+  "locales": {
+    "pt-BR": {
+      "name": "Operador de Ambiente Dev",
+      "mission": "Subir serviços na ordem correta, resolver portas, registrar logs e provar HTTP readiness."
+    },
+    "en": {
+      "name": "Dev Environment Operator",
+      "mission": "Start services in order, resolve ports, capture logs and prove HTTP readiness."
+    },
+    "es": {
+      "name": "Operador de Entorno Dev",
+      "mission": "Arrancar servicios en orden, resolver puertos, registrar logs y demostrar readiness HTTP."
+    },
+    "fr": {
+      "name": "Opérateur d'Environnement Dev",
+      "mission": "Démarrer les services dans l'ordre, résoudre les ports, consigner les logs et prouver le readiness HTTP."
+    }
+  }
+}

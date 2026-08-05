@@ -1,0 +1,28 @@
+{
+  "os": "Windows 10.0.26200",
+  "powershell": "5.1.26100.8972",
+  "python": "3.11.9",
+  "pip": "26.2",
+  "git": "2.55.0.windows.3",
+  "ollama_cli": "C:\\Users\\fjuni\\AppData\\Local\\Programs\\Ollama\\ollama",
+  "ollama_version": "0.32.5",
+  "ollama_port_11434": "listening",
+  "ollama_api_version": "0.32.5",
+  "models_available": [
+    "gpt-oss:20b",
+    "glm-5.2:cloud",
+    "kimi-k3:cloud",
+    "Distendo/zen-pro:latest",
+    "nomic-embed-text:latest",
+    "llama3.2:1b"
+  ],
+  "models_optional_missing": [
+    "embeddinggemma",
+    "gemma4"
+  ],
+  "venv": "created",
+  "pack_installed": "editable mode",
+  "doctor_verdict": "YELLOW -> GREEN (after gpt-oss:20b pull)",
+  "tests": "12/12 passed",
+  "routing_matrix": "16/16 passed"
+}

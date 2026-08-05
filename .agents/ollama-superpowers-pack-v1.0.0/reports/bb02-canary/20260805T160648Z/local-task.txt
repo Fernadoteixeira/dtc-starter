@@ -1,0 +1,177 @@
+﻿Voce esta executando o preflight local do BB02. Nao use tools. Nao leia arquivos. Toda a informacao necessaria esta abaixo. BUILDING BLOCK MATRIX (ja lido): [
+  {
+    "block": "Model intelligence",
+    "capabilities": [
+      "capability probe",
+      "routing",
+      "usage governance"
+    ],
+    "agents": [
+      "orchestrator"
+    ],
+    "skills": [
+      "cost-governance"
+    ],
+    "tools": [
+      "http_check"
+    ]
+  },
+  {
+    "block": "Repository intelligence",
+    "capabilities": [
+      "mapping",
+      "context packets"
+    ],
+    "agents": [
+      "repo-cartographer",
+      "context-librarian"
+    ],
+    "skills": [
+      "repo-map",
+      "context-compaction"
+    ],
+    "tools": [
+      "list_files",
+      "read_file",
+      "search_text",
+      "repo_map",
+      "git_log"
+    ]
+  },
+  {
+    "block": "Implementation",
+    "capabilities": [
+      "tool loops",
+      "patches"
+    ],
+    "agents": [
+      "implementation-engineer",
+      "software-architect"
+    ],
+    "skills": [
+      "issue-to-plan",
+      "plan-to-patch"
+    ],
+    "tools": [
+      "write_file",
+      "run_command",
+      "git_diff"
+    ]
+  },
+  {
+    "block": "Quality",
+    "capabilities": [
+      "tests",
+      "review",
+      "causality"
+    ],
+    "agents": [
+      "qa-test-lead",
+      "code-reviewer",
+      "incident-debugger",
+      "regression-auditor"
+    ],
+    "skills": [
+      "test-generation",
+      "code-review",
+      "root-cause-analysis",
+      "regression-attribution"
+    ],
+    "tools": [
+      "run_command",
+      "git_diff",
+      "json_validate"
+    ]
+  },
+  {
+    "block": "Operations",
+    "capabilities": [
+      "service bring-up",
+      "ports",
+      "readiness",
+      "release gates"
+    ],
+    "agents": [
+      "dev-environment-operator",
+      "runtime-verifier",
+      "release-operator"
+    ],
+    "skills": [
+      "dev-env-bringup",
+      "runtime-verification",
+      "release-readiness"
+    ],
+    "tools": [
+      "process_port",
+      "http_check",
+      "run_command"
+    ]
+  },
+  {
+    "block": "Research",
+    "capabilities": [
+      "web search",
+      "web fetch",
+      "synthesis"
+    ],
+    "agents": [
+      "research-analyst"
+    ],
+    "skills": [
+      "web-research",
+      "research-synthesis"
+    ],
+    "tools": [
+      "web_search",
+      "web_fetch"
+    ]
+  },
+  {
+    "block": "Commerce intelligence",
+    "capabilities": [
+      "cost model",
+      "price scenarios",
+      "catalog"
+    ],
+    "agents": [
+      "product-pricing-analyst",
+      "visual-catalog-curator"
+    ],
+    "skills": [
+      "pricing-scenarios",
+      "product-catalog"
+    ],
+    "tools": [
+      "calculate"
+    ]
+  },
+  {
+    "block": "Media intelligence",
+    "capabilities": [
+      "visual evidence",
+      "confidence grading"
+    ],
+    "agents": [
+      "media-inspector"
+    ],
+    "skills": [
+      "media-analysis"
+    ],
+    "tools": [
+      "read_file"
+    ]
+  },
+  {
+    "block": "Governance",
+    "capabilities": [
+      "least privilege",
+      "redaction",
+      "audit"
+    ],
+    "agents": [
+      "security-governor"
+    ],
+    "skills": [
+      "security-review",
+      "dependency-audit"
+ ... Regras: 1. Com base na matrix acima, identifique a definicao canonica do BB02. 2. Identifique: ID, nome, objetivo, capabilities, agents, skills, tools, dependencias, gates. 3. Verifique que BB01 (Model Intelligence) satisfaz todas as dependencias do BB02. 4. Nao altere arquivos. Nao execute BB02 completo. Nao chame modelos cloud. 5. Produza um Evidence Packet compacto, factual e de no maximo 2000 caracteres. 6. Termine com: BB02_LOCAL_PREFLIGHT=GREEN ou BB02_LOCAL_PREFLIGHT=YELLOW ou BB02_LOCAL_PREFLIGHT=RED

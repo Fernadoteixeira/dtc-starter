@@ -1,0 +1,39 @@
+{
+  "name": "ollama-superpowers-pack",
+  "version": "1.0.0",
+  "generated_at": "2026-08-05T15:12:01.969114+00:00",
+  "purpose": "Governed multilingual agent pack optimized for gpt-oss:20b and glm-5.2:cloud",
+  "languages": [
+    "pt-BR",
+    "en",
+    "es",
+    "fr"
+  ],
+  "default_language": "pt-BR",
+  "target_models": {
+    "local": "gpt-oss:20b",
+    "cloud": "glm-5.2:cloud",
+    "optional_embeddings": "embeddinggemma",
+    "optional_vision": "gemma4"
+  },
+  "counts": {
+    "agents": 18,
+    "skills": 28,
+    "tools": 15,
+    "superpowers": 14
+  },
+  "source_baseline": {
+    "ollama/ollama": "43983edf1826be640b76e88ae68a5f721d2fb274",
+    "ollama/ollama-python": "25b93290d8cd07b0d00732641f812ee34fd4c989",
+    "ollama/ollama-js": "9c92b18d4026f5345ff7950f15216372b23401a1"
+  },
+  "safety_defaults": {
+    "read_only": true,
+    "workspace_boundary": true,
+    "shell_allowlist": true,
+    "write_requires_two_flags": true,
+    "cloud_secret_block": true,
+    "audit_log": true,
+    "max_agent_steps": 12
+  }
+}

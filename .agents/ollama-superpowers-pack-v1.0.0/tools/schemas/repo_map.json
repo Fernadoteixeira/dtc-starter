@@ -1,0 +1,22 @@
+{
+  "type": "function",
+  "function": {
+    "name": "repo_map",
+    "description": "Build a compact repository inventory",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "default": "."
+        },
+        "max_files": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "default": 3000
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+﻿{
+    "task":  "bb02-canary",
+    "started_at":  "2026-08-05T16:06:48.9322625Z",
+    "finished_at":  "2026-08-05T16:08:51.2131621Z",
+    "model":  "glm-5.2:cloud",
+    "provider_requests":  1,
+    "model_steps":  1,
+    "tool_calls":  0,
+    "max_provider_requests":  2,
+    "max_model_steps":  2,
+    "retries":  0,
+    "parallel_branches":  1,
+    "cloud_final_arbitration_only":  true,
+    "budget_pass":  true
+}

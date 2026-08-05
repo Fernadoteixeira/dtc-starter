@@ -1,0 +1,136 @@
+{
+  "total_cases": 16,
+  "passed": 16,
+  "failed": 0,
+  "all_passed": true,
+  "cases": [
+    {
+      "scenario": "general",
+      "expected": "gpt-oss:20b",
+      "actual": "gpt-oss:20b",
+      "profile": "local-default",
+      "reason": "Local execution is the cheapest capable route.",
+      "pass": true
+    },
+    {
+      "scenario": "structured",
+      "expected": "gpt-oss:20b",
+      "actual": "gpt-oss:20b",
+      "profile": "local-structured",
+      "reason": "Strict schemas route locally.",
+      "pass": true
+    },
+    {
+      "scenario": "local privacy",
+      "expected": "gpt-oss:20b",
+      "actual": "gpt-oss:20b",
+      "profile": "local-private",
+      "reason": "Privacy or secret boundary.",
+      "pass": true
+    },
+    {
+      "scenario": "secret detected",
+      "expected": "gpt-oss:20b",
+      "actual": "gpt-oss:20b",
+      "profile": "local-private",
+      "reason": "Privacy or secret boundary.",
+      "pass": true
+    },
+    {
+      "scenario": "long context",
+      "expected": "glm-5.2:cloud",
+      "actual": "glm-5.2:cloud",
+      "profile": "cloud-long-context",
+      "reason": "Evidence exceeds local soft budget.",
+      "pass": true
+    },
+    {
+      "scenario": "architecture",
+      "expected": "glm-5.2:cloud",
+      "actual": "glm-5.2:cloud",
+      "profile": "cloud-deep",
+      "reason": "Task benefits from long-horizon reasoning.",
+      "pass": true
+    },
+    {
+      "scenario": "cross repo",
+      "expected": "glm-5.2:cloud",
+      "actual": "glm-5.2:cloud",
+      "profile": "cloud-deep",
+      "reason": "Task benefits from long-horizon reasoning.",
+      "pass": true
+    },
+    {
+      "scenario": "long debug",
+      "expected": "glm-5.2:cloud",
+      "actual": "glm-5.2:cloud",
+      "profile": "cloud-deep",
+      "reason": "Task benefits from long-horizon reasoning.",
+      "pass": true
+    },
+    {
+      "scenario": "release arbitration",
+      "expected": "glm-5.2:cloud",
+      "actual": "glm-5.2:cloud",
+      "profile": "cloud-deep",
+      "reason": "Task benefits from long-horizon reasoning.",
+      "pass": true
+    },
+    {
+      "scenario": "vision",
+      "expected": "gemma4",
+      "actual": "gemma4",
+      "profile": "vision",
+      "reason": "Vision requires an optional multimodal model.",
+      "pass": true
+    },
+    {
+      "scenario": "embeddings",
+      "expected": "embeddinggemma",
+      "actual": "embeddinggemma",
+      "profile": "embeddings",
+      "reason": "Embeddings require a dedicated model.",
+      "pass": true
+    },
+    {
+      "scenario": "schema + architecture",
+      "expected": "gpt-oss:20b",
+      "actual": "gpt-oss:20b",
+      "profile": "local-structured",
+      "reason": "Strict schemas route locally.",
+      "pass": true
+    },
+    {
+      "scenario": "secrets + long context",
+      "expected": "gpt-oss:20b",
+      "actual": "gpt-oss:20b",
+      "profile": "local-private",
+      "reason": "Privacy or secret boundary.",
+      "pass": true
+    },
+    {
+      "scenario": "local_only + architecture",
+      "expected": "gpt-oss:20b",
+      "actual": "gpt-oss:20b",
+      "profile": "local-private",
+      "reason": "Privacy or secret boundary.",
+      "pass": true
+    },
+    {
+      "scenario": "vision + secrets",
+      "expected": "gemma4",
+      "actual": "gemma4",
+      "profile": "vision",
+      "reason": "Vision requires an optional multimodal model.",
+      "pass": true
+    },
+    {
+      "scenario": "embeddings + long context",
+      "expected": "embeddinggemma",
+      "actual": "embeddinggemma",
+      "profile": "embeddings",
+      "reason": "Embeddings require a dedicated model.",
+      "pass": true
+    }
+  ]
+}

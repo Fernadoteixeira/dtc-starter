@@ -1,0 +1,6 @@
+{
+  "model": "embeddinggemma",
+  "execution": "local",
+  "capability": "embeddings",
+  "optional": true
+}

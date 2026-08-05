@@ -1,0 +1,18 @@
+{
+  "id": "release-readiness",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Decidir prontidão de release",
+    "en": "Decide release readiness",
+    "es": "Decidir preparación de release",
+    "fr": "Décider la préparation à la livraison"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

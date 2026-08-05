@@ -1,0 +1,2 @@
+fd8246027ba51341563d268d85eb562d8da08d7ba731b20a6048a075276a5516 *artifacts/bb-04/r1/fio-vivo-r1-desktop-1600x960.png
+a1fa59f96121f413150c80f981f46e2099a5bbc9e114d4d4b630a4a8e79b345a *artifacts/bb-04/r1/fio-vivo-r1-runtime-measurements.json

@@ -1,0 +1,19 @@
+{
+  "type": "function",
+  "function": {
+    "name": "git_diff",
+    "description": "Return a bounded Git diff",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "staged": {
+          "type": "boolean",
+          "default": false
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

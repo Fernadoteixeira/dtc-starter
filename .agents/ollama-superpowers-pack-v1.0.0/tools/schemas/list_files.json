@@ -1,0 +1,28 @@
+{
+  "type": "function",
+  "function": {
+    "name": "list_files",
+    "description": "List files inside the approved workspace",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "default": "."
+        },
+        "max_depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8,
+          "default": 4
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "default": 300
+        }
+      }
+    }
+  }
+}

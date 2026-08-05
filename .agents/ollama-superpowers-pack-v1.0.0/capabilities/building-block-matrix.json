@@ -1,0 +1,201 @@
+[
+  {
+    "block": "Model intelligence",
+    "capabilities": [
+      "capability probe",
+      "routing",
+      "usage governance"
+    ],
+    "agents": [
+      "orchestrator"
+    ],
+    "skills": [
+      "cost-governance"
+    ],
+    "tools": [
+      "http_check"
+    ]
+  },
+  {
+    "block": "Repository intelligence",
+    "capabilities": [
+      "mapping",
+      "context packets"
+    ],
+    "agents": [
+      "repo-cartographer",
+      "context-librarian"
+    ],
+    "skills": [
+      "repo-map",
+      "context-compaction"
+    ],
+    "tools": [
+      "list_files",
+      "read_file",
+      "search_text",
+      "repo_map",
+      "git_log"
+    ]
+  },
+  {
+    "block": "Implementation",
+    "capabilities": [
+      "tool loops",
+      "patches"
+    ],
+    "agents": [
+      "implementation-engineer",
+      "software-architect"
+    ],
+    "skills": [
+      "issue-to-plan",
+      "plan-to-patch"
+    ],
+    "tools": [
+      "write_file",
+      "run_command",
+      "git_diff"
+    ]
+  },
+  {
+    "block": "Quality",
+    "capabilities": [
+      "tests",
+      "review",
+      "causality"
+    ],
+    "agents": [
+      "qa-test-lead",
+      "code-reviewer",
+      "incident-debugger",
+      "regression-auditor"
+    ],
+    "skills": [
+      "test-generation",
+      "code-review",
+      "root-cause-analysis",
+      "regression-attribution"
+    ],
+    "tools": [
+      "run_command",
+      "git_diff",
+      "json_validate"
+    ]
+  },
+  {
+    "block": "Operations",
+    "capabilities": [
+      "service bring-up",
+      "ports",
+      "readiness",
+      "release gates"
+    ],
+    "agents": [
+      "dev-environment-operator",
+      "runtime-verifier",
+      "release-operator"
+    ],
+    "skills": [
+      "dev-env-bringup",
+      "runtime-verification",
+      "release-readiness"
+    ],
+    "tools": [
+      "process_port",
+      "http_check",
+      "run_command"
+    ]
+  },
+  {
+    "block": "Research",
+    "capabilities": [
+      "web search",
+      "web fetch",
+      "synthesis"
+    ],
+    "agents": [
+      "research-analyst"
+    ],
+    "skills": [
+      "web-research",
+      "research-synthesis"
+    ],
+    "tools": [
+      "web_search",
+      "web_fetch"
+    ]
+  },
+  {
+    "block": "Commerce intelligence",
+    "capabilities": [
+      "cost model",
+      "price scenarios",
+      "catalog"
+    ],
+    "agents": [
+      "product-pricing-analyst",
+      "visual-catalog-curator"
+    ],
+    "skills": [
+      "pricing-scenarios",
+      "product-catalog"
+    ],
+    "tools": [
+      "calculate"
+    ]
+  },
+  {
+    "block": "Media intelligence",
+    "capabilities": [
+      "visual evidence",
+      "confidence grading"
+    ],
+    "agents": [
+      "media-inspector"
+    ],
+    "skills": [
+      "media-analysis"
+    ],
+    "tools": [
+      "read_file"
+    ]
+  },
+  {
+    "block": "Governance",
+    "capabilities": [
+      "least privilege",
+      "redaction",
+      "audit"
+    ],
+    "agents": [
+      "security-governor"
+    ],
+    "skills": [
+      "security-review",
+      "dependency-audit"
+    ],
+    "tools": [
+      "git_status",
+      "git_diff"
+    ]
+  },
+  {
+    "block": "Multilingual delivery",
+    "capabilities": [
+      "i18n",
+      "terminology QA"
+    ],
+    "agents": [
+      "localization-editor"
+    ],
+    "skills": [
+      "localization",
+      "multilingual-qa"
+    ],
+    "tools": [
+      "search_text",
+      "write_file"
+    ]
+  }
+]

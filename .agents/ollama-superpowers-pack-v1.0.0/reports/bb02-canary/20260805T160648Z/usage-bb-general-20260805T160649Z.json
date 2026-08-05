@@ -1,0 +1,41 @@
+{
+  "task_id": "bb-general-20260805T160649Z",
+  "generated_at": "2026-08-05T16:08:43.355786+00:00",
+  "requests": [
+    {
+      "call_id": "req-bb-general-20260805T160649Z-0001",
+      "task_id": "bb-general-20260805T160649Z",
+      "step": 1,
+      "model": "gpt-oss:20b",
+      "purpose": "agent_step_1",
+      "started_at": "2026-08-05T16:06:50.454713+00:00",
+      "finished_at": "2026-08-05T16:08:43.355285+00:00",
+      "duration_ms": 112905.99999999994,
+      "success": true,
+      "retry": false,
+      "input_estimate": 9234,
+      "output_estimate": 2340,
+      "tools_exposed": 11,
+      "redaction_status": "clean"
+    }
+  ],
+  "summary": {
+    "task_id": "bb-general-20260805T160649Z",
+    "provider_requests_total": 1,
+    "cloud_requests": 0,
+    "local_requests": 1,
+    "retries": 0,
+    "completed_successfully": 1,
+    "provider_requests_per_completed_task": 1.0,
+    "total_duration_ms": 112906.0,
+    "total_input_estimate": 9234,
+    "total_output_estimate": 2340,
+    "local_to_cloud_ratio": "1:0",
+    "blocked": false,
+    "block_reason": "",
+    "max_provider_requests": 25,
+    "max_agent_steps_cloud": 4,
+    "max_cloud_retries": 0,
+    "within_budget": true
+  }
+}

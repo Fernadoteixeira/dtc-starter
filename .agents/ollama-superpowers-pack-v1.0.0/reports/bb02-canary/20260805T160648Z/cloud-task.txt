@@ -1,0 +1,46 @@
+﻿Voce e o arbitro final do canario do BB02. Sua execucao e deliberadamente limitada. Regras inviolaveis: 1. Avalie somente o Evidence Packet fornecido. 2. Nao execute BB02 completo. Nao modifique arquivos. Nao use shell. Nao pesquise web. Nao traduza. 3. Nao inicialize outros Building Blocks. Nao solicite novas evidencias. 4. Evite tool calls. Use no maximo duas etapas. Nenhum retry. Nenhuma branch paralela. 5. Diferencie: bloqueador estrutural, bloqueador de ambiente, warning opcional, divida tecnica, risco de custo. 6. Verifique se BB02 pode comecar com: local-first, cloud final arbitration only, provider request accounting, max_agent_steps_cloud=4, cloud_retries=0, max_parallel_cloud_branches=1. 7. Responda curto. Termine com: BB02_CLOUD_CANARY=GREEN ou BB02_CLOUD_CANARY=YELLOW ou BB02_CLOUD_CANARY=RED EVIDENCE PACKET LOCAL: **Evidence Packet ÔÇô BB02 Local Preflight**
+
+- **ID**:ÔÇ»BB02  
+- **Nome**:ÔÇ»Repository Intelligence  
+- **Objetivo**: Mapear a estrutura do reposit├│rio e gerar pacotes de contexto que sirvam como base para an├ílise de c├│digo, auditoria de depend├¬ncias e planejamento de implementa├º├úo.  
+
+- **Capabilities**:  
+  - *mapping* ÔÇô criar representa├º├úo topol├│gica do reposit├│rio.  
+  - *context packets* ÔÇô extrair trechos relevantes (snippets, metadados) em formato estruturado.  
+
+- **Agents**:  
+  - *repo-cartographer* ÔÇô respons├ível por percorrer o diret├│rio e gerar a ├írvore de arquivos.  
+  - *context-librarian* ÔÇô coleta e organiza pacotes de contexto para consumo posterior.  
+
+- **Skills**:  
+  - *repo-map* ÔÇô algoritmo que traduz estrutura de pastas/arquivos em grafo naveg├ível.  
+  - *context-compaction* ÔÇô normaliza, deduplica e compacta os snippets extra├¡dos.  
+
+- **Tools**:  
+  - `list_files` ÔÇô enumera arquivos com filtros de profundidade e limite.  
+  - `read_file` ÔÇô l├¬ blocos espec├¡ficos de arquivos UTFÔÇæ8.  
+  - `search_text` ÔÇô busca padr├Áes textuais ou regex dentro do reposit├│rio.  
+  - `repo_map` ÔÇô gera mapa resumido (JSON) da estrutura do projeto.  
+  - `git_log` ÔÇô recupera hist├│rico de commits para contextualiza├º├úo temporal.  
+
+- **Depend├¬ncias**:  
+  - Nenhuma depend├¬ncia expl├¡cita em blocos superiores; BB02 opera isoladamente sobre o reposit├│rio local.  
+  - Requer acesso ao sistema de arquivos e execu├º├úo Git, condi├º├Áes atendidas no ambiente de preflight.  
+
+- **Gates (valida├º├Áes pr├®vias)**:  
+  - *FileÔÇæaccess gate*: garantido por permiss├Áes do usu├írio que executa o preflight.  
+  - *GitÔÇærepository gate*: presen├ºa de `.git` no caminho base confirmada pelo `git_log`.  
+  - *ToolÔÇæavailability gate*: todas as ferramentas listadas est├úo presentes na sandbox local (verifica├º├úo impl├¡cita via capacidade da plataforma).  
+
+**Verifica├º├úo de Depend├¬ncias**:  
+BB01 ÔÇô Model Intelligence ÔÇô disponibiliza *capability probe* e *routing*, que n├úo s├úo exigidos por BB02. Portanto, todos os requisitos de depend├¬ncia de BB02 j├í est├úo satisfeitos pelo contexto fornecido por BB01 (ou por aus├¬ncia de necessidade).  
+
+Nenhuma altera├º├úo em arquivos foi realizada; apenas an├ílise est├ítica das defini├º├Áes do bloco.  
+
+**Conclus├úo**: Preflight conclu├¡do sem encontrar inconsist├¬ncias ou falhas cr├¡ticas.  
+
+BB02_LOCAL_PREFLIGHT=GREEN
+
+[usage] provider_requests=1 cloud=0 local=1 budget=True
+
+[model=gpt-oss:20b steps=1 stop=completed audit=C:\Users\fjuni\Documents\GitHub\02-medusa-halls\dtc-starter\.agents\ollama-superpowers-pack-v1.0.0\.audit\run-20260805T160649Z.jsonl]

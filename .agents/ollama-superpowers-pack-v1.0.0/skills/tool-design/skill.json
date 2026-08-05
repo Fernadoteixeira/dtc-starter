@@ -1,0 +1,18 @@
+{
+  "id": "tool-design",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Projetar tools tipadas e seguras",
+    "en": "Design typed safe tools",
+    "es": "Diseñar herramientas seguras",
+    "fr": "Concevoir des outils typés sûrs"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

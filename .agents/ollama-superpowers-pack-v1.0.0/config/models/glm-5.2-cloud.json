@@ -1,0 +1,35 @@
+{
+  "model": "glm-5.2:cloud",
+  "execution": "cloud-via-local-ollama-host",
+  "size": "756B parameters",
+  "context_window_tokens": 999424,
+  "input": [
+    "text"
+  ],
+  "usage_class": "high",
+  "tools": true,
+  "thinking": {
+    "supported": true,
+    "levels": [
+      "high",
+      "max"
+    ],
+    "default": "high"
+  },
+  "structured_outputs": false,
+  "streaming": true,
+  "soft_context_budget": 65536,
+  "hard_context_budget": 262144,
+  "best_for": [
+    "long-horizon engineering",
+    "cross-module architecture",
+    "large evidence synthesis",
+    "complex debugging trajectories",
+    "release arbitration"
+  ],
+  "notes": [
+    "Cloud structured outputs are not currently supported by Ollama.",
+    "Summarize locally before escalation to protect high-usage allowance.",
+    "Do not send secret-bearing repository content without explicit approval."
+  ]
+}

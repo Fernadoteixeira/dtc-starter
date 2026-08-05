@@ -1,0 +1,78 @@
+{
+  "gates": {
+    "G1_pack_integrity": {
+      "pack_root_identified": true,
+      "manifest_valid": true,
+      "jsons_valid": true,
+      "agents_registered": 18,
+      "skills_registered": 28,
+      "tools_registered": 15,
+      "superpowers_registered": 14,
+      "bb_matrix_intact": true,
+      "orchestrator_found": true,
+      "cost_governance_found": true,
+      "http_check_available": true,
+      "verdict": "PASS"
+    },
+    "G2_runtime": {
+      "python_311_plus": true,
+      "venv_healthy": true,
+      "package_installed": true,
+      "imports_working": true,
+      "doctor_executed": true,
+      "tests_executed": "12/12 passed",
+      "audit_enabled": true,
+      "verdict": "PASS"
+    },
+    "G3_ollama_local": {
+      "port_11434_available": true,
+      "api_version_responds": true,
+      "api_tags_responds": true,
+      "gpt_oss_20b_available": true,
+      "local_response_valid": true,
+      "tool_calling_valid": true,
+      "structured_output_valid": true,
+      "verdict": "PASS"
+    },
+    "G4_ollama_cloud": {
+      "auth_valid": true,
+      "glm_52_cloud_available": true,
+      "cloud_response_valid": true,
+      "tool_call_valid": true,
+      "no_secrets_sent": true,
+      "max_one_retry": true,
+      "usage_registered": true,
+      "verdict": "PASS"
+    },
+    "G5_router": {
+      "deterministic_matrix_approved": true,
+      "precedence_approved": true,
+      "schema_stays_local": true,
+      "secrets_stay_local": true,
+      "long_context_scales": true,
+      "architecture_scales": true,
+      "vision_embeddings_specialists": true,
+      "verdict": "PASS"
+    },
+    "G6_usage_governance": {
+      "max_six_cloud_calls": true,
+      "max_two_branches": true,
+      "local_compaction_before_cloud": true,
+      "deduplication_active": true,
+      "loop_guard_active": true,
+      "retry_max_one": true,
+      "ledger_created": true,
+      "verdict": "PASS"
+    },
+    "G7_bb01_execution": {
+      "orchestrator_ready": true,
+      "cost_governance_applied": true,
+      "http_check_proven": true,
+      "evidence_packet_preserved": true,
+      "other_bbs_not_activated": true,
+      "verdict": "PASS"
+    }
+  },
+  "all_gates_pass": true,
+  "verdict": "GREEN"
+}

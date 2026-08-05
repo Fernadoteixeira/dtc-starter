@@ -1,0 +1,12 @@
+{
+  "python_version": "3.11.9",
+  "ollama_cli": "found",
+  "ollama_version": "0.32.5",
+  "ollama_api": "http://localhost:11434",
+  "local_model_gpt_oss_20b": "available",
+  "cloud_model_glm_52_cloud": "available",
+  "optional_embeddings": "missing (WARNING only)",
+  "optional_vision": "missing (WARNING only)",
+  "api_key": "optional and absent",
+  "verdict": "GREEN"
+}

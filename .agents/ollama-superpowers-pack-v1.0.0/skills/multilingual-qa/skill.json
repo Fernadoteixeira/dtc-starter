@@ -1,0 +1,18 @@
+{
+  "id": "multilingual-qa",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Auditar consistência entre idiomas",
+    "en": "Audit consistency across languages",
+    "es": "Auditar consistencia entre idiomas",
+    "fr": "Auditer la cohérence entre langues"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

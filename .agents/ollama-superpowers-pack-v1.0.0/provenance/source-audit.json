@@ -1,0 +1,70 @@
+{
+  "investigated_repositories": [
+    {
+      "repo": "ollama/ollama",
+      "commit": "43983edf1826be640b76e88ae68a5f721d2fb274",
+      "paths": [
+        "README.md",
+        "docs/api.md",
+        "docs/cloud.mdx",
+        "docs/capabilities/tool-calling.mdx",
+        "docs/capabilities/thinking.mdx",
+        "docs/capabilities/structured-outputs.mdx",
+        "docs/capabilities/web-search.mdx",
+        "docs/capabilities/embeddings.mdx",
+        "docs/capabilities/vision.mdx",
+        "docs/api/openai-compatibility.mdx"
+      ]
+    },
+    {
+      "repo": "ollama/ollama-python",
+      "commit": "25b93290d8cd07b0d00732641f812ee34fd4c989",
+      "focus": [
+        "parallel tool calls",
+        "think levels",
+        "web search",
+        "image generation examples"
+      ]
+    },
+    {
+      "repo": "ollama/ollama-js",
+      "commit": "9c92b18d4026f5345ff7950f15216372b23401a1",
+      "focus": [
+        "streaming",
+        "tool examples",
+        "browser iterator",
+        "image generation examples"
+      ]
+    }
+  ],
+  "model_pages_checked": [
+    {
+      "model": "gpt-oss:20b",
+      "facts": [
+        "14GB",
+        "128K context",
+        "text",
+        "tools",
+        "thinking",
+        "structured outputs"
+      ]
+    },
+    {
+      "model": "glm-5.2:cloud",
+      "facts": [
+        "high usage",
+        "976K context",
+        "text",
+        "tools",
+        "thinking",
+        "long-horizon"
+      ]
+    }
+  ],
+  "important_limitations": [
+    "Cloud structured outputs are not supported in the current Ollama documentation.",
+    "The target pair is text-only; vision requires an optional model.",
+    "Web Search and Web Fetch require an Ollama API key and contribute to usage.",
+    "The pack cannot query the account usage bars shown in the supplied screenshot."
+  ]
+}

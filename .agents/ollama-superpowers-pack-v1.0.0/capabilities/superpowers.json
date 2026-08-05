@@ -1,0 +1,58 @@
+[
+  {
+    "id": "twin-brain-router",
+    "purpose": "Routes routine, private and schema-bound work locally; escalates only long-horizon work."
+  },
+  {
+    "id": "context-cartographer",
+    "purpose": "Turns repositories into bounded evidence packets rather than prompt avalanches."
+  },
+  {
+    "id": "schema-shield",
+    "purpose": "Validates JSON locally and repairs cloud output through a local verifier."
+  },
+  {
+    "id": "tool-mesh",
+    "purpose": "Typed, allowlisted and auditable tools with workspace boundaries."
+  },
+  {
+    "id": "loop-guard",
+    "purpose": "Caps steps, retries, repeated tool signatures and cloud branches."
+  },
+  {
+    "id": "evidence-ledger",
+    "purpose": "Records model choices, tool calls, masked results, gates and artifacts."
+  },
+  {
+    "id": "patch-forge",
+    "purpose": "Separates diagnosis, plan, patch, validation and rollback."
+  },
+  {
+    "id": "test-gate",
+    "purpose": "Forbids success claims without objective verification."
+  },
+  {
+    "id": "locale-quartet",
+    "purpose": "Operational prompts in pt-BR, English, Spanish and French."
+  },
+  {
+    "id": "usage-governor",
+    "purpose": "Protects the high-usage cloud allowance from trivial work."
+  },
+  {
+    "id": "recovery-journal",
+    "purpose": "Persists compact checkpoints for interrupted long tasks."
+  },
+  {
+    "id": "capability-probe",
+    "purpose": "Checks host, versions, models and optional capabilities before execution."
+  },
+  {
+    "id": "regression-time-machine",
+    "purpose": "Compares clean baselines, stashes, caches and bundlers to attribute failures."
+  },
+  {
+    "id": "commerce-lens",
+    "purpose": "Combines cost, market, demand and product evidence into pricing scenarios."
+  }
+]

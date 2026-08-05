@@ -1,0 +1,18 @@
+{
+  "id": "rag-pipeline",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Construir pipeline RAG",
+    "en": "Build a RAG pipeline",
+    "es": "Construir pipeline RAG",
+    "fr": "Construire un pipeline RAG"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

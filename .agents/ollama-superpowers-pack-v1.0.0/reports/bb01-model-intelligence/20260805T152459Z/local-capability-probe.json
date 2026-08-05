@@ -1,0 +1,35 @@
+{
+  "model": "gpt-oss:20b",
+  "probes": {
+    "L1_connectivity": {
+      "exit_code": 0,
+      "response": "Thinking...\nThe user says: \"Reply with exactly LOCAL_GREEN\". So the assistant should re\u001b[2D\u001b[K\nreply only with the text \"LOCAL_GREEN\" and nothing else.\n\nBut we need to follow the instruction: Reply with exactly LOCAL_GREEN, pres\u001b[4D\u001b[K\npresumably the string LOCAL_GREEN. No extra spaces or newlines? Usually you\u001b[3D\u001b[K\nyou put it as a line.\n\nThus output should be:\n\nLOCAL_GREEN\n\nNo quotes. Just that.\n...done thinking.\n\nLOCAL_GREEN",
+      "passed": true
+    },
+    "L2_thinking": {
+      "exit_code": 0,
+      "response": "Thinking...\nThe user says: \"What is 2+2? Reply with just the number.\" So answer should \u001b[K\nbe \"4\". Just the number.\n\nWe need to follow instructions. No additional text, no explanation. So repl\u001b[4D\u001b[K\nreply \"4\".\n\nThat's it.\n...done thinking.\n\n4",
+      "passed": true
+    },
+    "L3_tool_calling": {
+      "passed": true,
+      "tool_calls_count": 1,
+      "tool_calls": [
+        {
+          "name": "http_check",
+          "args": {
+            "url": "http://localhost:11434/api/version"
+          }
+        }
+      ]
+    },
+    "L4_structured_output": {
+      "passed": true,
+      "response": {
+        "status": "GREEN",
+        "model": "gpt-oss:20b"
+      }
+    }
+  },
+  "overall": true
+}

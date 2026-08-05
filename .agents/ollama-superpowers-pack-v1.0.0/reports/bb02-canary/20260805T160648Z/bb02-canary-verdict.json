@@ -1,0 +1,17 @@
+﻿{
+    "bb01_functional":  "GREEN",
+    "bb01_code_integrity":  "GREEN",
+    "bb01_cost_governance":  "GREEN",
+    "bb02_local_preflight":  "GREEN",
+    "bb02_cloud_canary":  "GREEN",
+    "provider_accounting":  "GREEN",
+    "provider_requests":  1,
+    "max_provider_requests":  2,
+    "model_steps":  1,
+    "max_model_steps":  2,
+    "retries":  0,
+    "parallel_branches":  1,
+    "functional_files_modified_by_canary":  0,
+    "bb02_readiness":  "READY",
+    "run_dir":  "C:\\Users\\fjuni\\Documents\\GitHub\\02-medusa-halls\\dtc-starter\\.agents\\ollama-superpowers-pack-v1.0.0\\reports\\bb02-canary\\20260805T160648Z"
+}

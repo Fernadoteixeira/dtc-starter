@@ -1,0 +1,27 @@
+{
+  "model": "glm-5.2:cloud",
+  "probes": {
+    "C1_connectivity": {
+      "passed": true,
+      "response": "CLOUD_GREEN",
+      "note": "Requires think=low parameter for glm-5.2:cloud"
+    },
+    "C2_tool_calling": {
+      "passed": true,
+      "tool_calls_count": 1,
+      "tool_calls": [
+        {
+          "name": "http_check",
+          "args": {
+            "url": "http://localhost:11434/api/version"
+          }
+        }
+      ],
+      "note": "Cloud correctly emitted http_check tool call without attempting direct access"
+    }
+  },
+  "cloud_calls_used": 3,
+  "overall": true,
+  "secrets_sent": false,
+  "within_budget": true
+}

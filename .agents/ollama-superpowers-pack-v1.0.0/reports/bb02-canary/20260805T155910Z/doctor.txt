@@ -1,0 +1,19 @@
+﻿
+Ollama Superpowers Doctor
+
+[PASS] Python >= 3.11: 3.11.9
+[PASS] Ollama CLI: C:\Users\fjuni\AppData\Local\Programs\Ollama\ollama.EXE
+[PASS] Ollama version: ollama version is 0.32.5
+[PASS] Ollama API: http://localhost:11434
+[PASS] Local model gpt-oss:20b: installed
+[WARN] OLLAMA_API_KEY: optional and absent
+
+Detected models:
+  - Distendo/zen-pro:latest
+  - glm-5.2:cloud
+  - gpt-oss:20b
+  - kimi-k3:cloud
+  - llama3.2:1b
+  - nomic-embed-text:latest
+
+Verdict: GREEN

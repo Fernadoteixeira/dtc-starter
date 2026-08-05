@@ -1,0 +1,18 @@
+{
+  "id": "context-compaction",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Comprimir contexto com proveniência",
+    "en": "Compress context with provenance",
+    "es": "Comprimir contexto con procedencia",
+    "fr": "Compresser le contexte avec provenance"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

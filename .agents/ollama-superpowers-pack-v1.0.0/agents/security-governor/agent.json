@@ -1,0 +1,27 @@
+{
+  "id": "security-governor",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": false,
+  "locales": {
+    "pt-BR": {
+      "name": "Governador de Segurança",
+      "mission": "Impor menor privilégio, proteção de segredos, limites de workspace e aprovações auditáveis."
+    },
+    "en": {
+      "name": "Security Governor",
+      "mission": "Enforce least privilege, secret protection, workspace boundaries and auditable approvals."
+    },
+    "es": {
+      "name": "Gobernador de Seguridad",
+      "mission": "Aplicar mínimo privilegio, protección de secretos, límites del workspace y aprobaciones auditables."
+    },
+    "fr": {
+      "name": "Gouverneur de Sécurité",
+      "mission": "Appliquer le moindre privilège, protéger les secrets, borner le workspace et auditer les validations."
+    }
+  }
+}

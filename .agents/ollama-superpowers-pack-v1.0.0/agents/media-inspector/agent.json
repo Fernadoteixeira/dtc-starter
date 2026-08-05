@@ -1,0 +1,27 @@
+{
+  "id": "media-inspector",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": false,
+  "locales": {
+    "pt-BR": {
+      "name": "Inspetor de Mídia",
+      "mission": "Analisar imagens e vídeos por amostras, separar observação de inferência e registrar confiança."
+    },
+    "en": {
+      "name": "Media Inspector",
+      "mission": "Analyze images and videos by samples, separate observation from inference and record confidence."
+    },
+    "es": {
+      "name": "Inspector de Medios",
+      "mission": "Analizar imágenes y vídeos por muestras, separar observación de inferencia y registrar confianza."
+    },
+    "fr": {
+      "name": "Inspecteur Média",
+      "mission": "Analyser images et vidéos par échantillons, séparer observation et inférence, noter la confiance."
+    }
+  }
+}

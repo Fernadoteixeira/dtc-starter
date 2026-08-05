@@ -1,0 +1,24 @@
+{
+  "type": "function",
+  "function": {
+    "name": "process_port",
+    "description": "Inspect whether a TCP port is listening and attempt to identify the process",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "host": {
+          "type": "string",
+          "default": "127.0.0.1"
+        }
+      },
+      "required": [
+        "port"
+      ]
+    }
+  }
+}

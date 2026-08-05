@@ -1,0 +1,24 @@
+{
+  "type": "function",
+  "function": {
+    "name": "json_validate",
+    "description": "Validate JSON syntax and required top-level keys",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "required_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  }
+}

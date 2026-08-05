@@ -1,0 +1,18 @@
+{
+  "id": "dev-env-bringup",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Subir e validar ambiente dev",
+    "en": "Bring up and validate a dev environment",
+    "es": "Arrancar y validar entorno dev",
+    "fr": "Démarrer et valider un environnement dev"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

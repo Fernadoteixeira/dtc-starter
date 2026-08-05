@@ -1,6 +1,6 @@
 /* Scoped styles for @dtc/gallery-experience - First Fold Static Visual Slice */
 
-.dtc-gallery-root,
+.dtc-gallery,
 [data-gallery-experience] {
   --dtc-gallery-bg-primary: #090a0f;
   --dtc-gallery-bg-surface: rgba(15, 23, 42, 0.65);
@@ -11,7 +11,7 @@
   --dtc-gallery-border: rgba(255, 255, 255, 0.12);
   --dtc-gallery-radius: 1.25rem;
   --dtc-gallery-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  
+
   position: relative;
   width: 100%;
   min-height: 80svh;
@@ -20,78 +20,105 @@
   color: var(--dtc-gallery-text-primary);
   overflow: hidden;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
+  align-items: stretch;
   box-sizing: border-box;
   font-family: var(--dtc-gallery-font);
   padding: 1.5rem;
 }
 
-.dtc-gallery-ambient-bg {
+/* Ambient gradient layers behind everything */
+.dtc-gallery__ambient {
   position: absolute;
   inset: 0;
   pointer-events: none;
   opacity: 0.45;
+  z-index: 0;
+}
+
+.dtc-gallery__ambient-layer {
+  width: 100%;
+  height: 100%;
   background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15), transparent 70%),
               radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.12), transparent 60%);
   transition: background 1s ease-in-out;
-  z-index: 1;
 }
 
-.dtc-gallery-header {
+/* Editorial column on the LEFT */
+.dtc-gallery__editorial {
   position: relative;
-  z-index: 10;
+  z-index: 2;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.5rem;
-  background: var(--dtc-gallery-bg-surface);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--dtc-gallery-border);
-  border-radius: 9999px;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 300px;
+  flex: 0 0 300px;
+  padding: 2rem 1.5rem;
+  pointer-events: auto;
 }
 
-.dtc-gallery-header-title {
-  font-size: 1.125rem;
+.dtc-gallery__collection-number {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dtc-gallery-text-muted);
+  margin: 0;
+}
+
+.dtc-gallery__collection-title {
+  font-size: 3rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.05;
   color: var(--dtc-gallery-text-primary);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  margin: 0;
 }
 
-.dtc-gallery-header-subtitle {
-  font-size: 0.875rem;
+.dtc-gallery__collection-narrative {
+  font-size: 1rem;
+  line-height: 1.5;
   color: var(--dtc-gallery-text-muted);
+  margin: 0;
+  max-width: 280px;
 }
 
-.dtc-gallery-track-wrapper {
+.dtc-gallery__counter {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--dtc-gallery-accent);
+}
+
+/* Viewport wraps the horizontal track; clips the continuation fragment */
+.dtc-gallery__viewport {
   position: relative;
-  z-index: 10;
-  width: 100%;
-  flex: 1;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  overflow: hidden;
   padding: 1.5rem 0;
 }
 
-.dtc-gallery-track {
+/* Horizontal track of three cards */
+.dtc-gallery__track {
   display: flex;
-  align-items: center;
-  gap: 2rem;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1.5rem;
   width: 100%;
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1.5rem;
   user-select: none;
   touch-action: pan-y;
 }
 
-.dtc-gallery-card {
+/* Base card */
+.dtc-gallery__card {
   flex: 0 0 320px;
   height: 480px;
   border-radius: var(--dtc-gallery-radius);
@@ -102,44 +129,83 @@
   position: relative;
   overflow: hidden;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
 }
 
-.dtc-gallery-card:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px var(--dtc-gallery-accent-glow);
-}
-
-.dtc-gallery-card[data-active="true"] {
+/* Active (dominant) card */
+.dtc-gallery__card--active {
   flex: 0 0 420px;
   height: 520px;
   border-color: var(--dtc-gallery-accent);
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), 0 0 24px var(--dtc-gallery-accent-glow);
 }
 
-.dtc-gallery-card-image-wrapper {
+/* Adjacent (partially visible) card */
+.dtc-gallery__card--adjacent {
+  flex: 0 0 320px;
+  height: 480px;
+  opacity: 0.85;
+}
+
+/* Continuation (fragment, clipped by viewport) */
+.dtc-gallery__card--continuation {
+  flex: 0 0 320px;
+  height: 480px;
+  opacity: 0.5;
+}
+
+/* Media wrapper inside each card */
+.dtc-gallery__media {
   position: relative;
   width: 100%;
-  flex: 1;
+  flex: 1 1 auto;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.dtc-gallery-card-image {
+.dtc-gallery__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dtc-gallery-card:hover .dtc-gallery-card-image {
+.dtc-gallery__card--active:hover .dtc-gallery__image {
   transform: scale(1.05);
 }
 
-.dtc-gallery-card-content {
+/* Scene rail with thumbnails inside active card's media area */
+.dtc-gallery__scene-rail {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.dtc-gallery__scene {
+  width: 56px;
+  height: 56px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--dtc-gallery-border);
+  background: var(--dtc-gallery-bg-surface);
+  flex: 0 0 56px;
+}
+
+.dtc-gallery__scene-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Caption inside active card only */
+.dtc-gallery__caption {
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
@@ -147,124 +213,115 @@
   background: linear-gradient(to top, rgba(9, 10, 15, 0.95), rgba(9, 10, 15, 0.3) 85%, transparent);
 }
 
-.dtc-gallery-card-title {
+.dtc-gallery__artwork-index {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--dtc-gallery-text-muted);
+}
+
+.dtc-gallery__artwork-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--dtc-gallery-text-primary);
   line-height: 1.3;
   letter-spacing: -0.01em;
+  margin: 0;
 }
 
-.dtc-gallery-card-artist {
-  font-size: 0.875rem;
-  color: var(--dtc-gallery-text-muted);
-}
-
-.dtc-gallery-card-footer {
+/* Navigation dots at the bottom */
+.dtc-gallery__navigation {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 0.5rem;
-}
-
-.dtc-gallery-price {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--dtc-gallery-text-primary);
-}
-
-.dtc-gallery-badge {
-  padding: 0.25rem 0.625rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.dtc-gallery-badge[data-status="available"] {
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-.dtc-gallery-badge[data-status="low-stock"] {
-  background: rgba(234, 179, 8, 0.15);
-  color: #fde047;
-  border: 1px solid rgba(234, 179, 8, 0.3);
-}
-
-.dtc-gallery-badge[data-status="out-of-stock"] {
-  background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.dtc-gallery-controls {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--dtc-gallery-border);
-  border-radius: 9999px;
-}
-
-.dtc-gallery-nav-button {
-  background: var(--dtc-gallery-bg-surface);
-  border: 1px solid var(--dtc-gallery-border);
-  color: var(--dtc-gallery-text-primary);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  gap: 0.5rem;
+  pointer-events: none;
 }
 
-.dtc-gallery-nav-button:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--dtc-gallery-accent);
+.dtc-gallery__navigation-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.dtc-gallery-nav-button:focus-visible {
-  outline: 2px solid var(--dtc-gallery-accent);
-  outline-offset: 2px;
-}
-
-.dtc-gallery-cta-button {
+.dtc-gallery__navigation-dot--active {
   background: var(--dtc-gallery-accent);
-  color: #0f172a;
-  padding: 0.625rem 1.5rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  text-decoration: none;
+  transform: scale(1.25);
+  box-shadow: 0 0 8px var(--dtc-gallery-accent-glow);
+}
+
+/* CTA at bottom-right */
+.dtc-gallery__cta {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  border-radius: 9999px;
+  background: var(--dtc-gallery-accent);
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  pointer-events: auto;
 }
 
-.dtc-gallery-cta-button:hover {
+.dtc-gallery__cta:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
   box-shadow: 0 4px 12px var(--dtc-gallery-accent-glow);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-  .dtc-gallery-card {
+  .dtc-gallery,
+  [data-gallery-experience] {
+    flex-direction: column;
+  }
+
+  .dtc-gallery__editorial {
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 1rem 1.25rem;
+  }
+
+  .dtc-gallery__collection-title {
+    font-size: 2rem;
+  }
+
+  .dtc-gallery__card {
     flex: 0 0 260px;
     height: 400px;
   }
-  .dtc-gallery-card[data-active="true"] {
+
+  .dtc-gallery__card--active {
     flex: 0 0 300px;
     height: 440px;
   }
-}
 
+  .dtc-gallery__card--adjacent,
+  .dtc-gallery__card--continuation {
+    flex: 0 0 260px;
+    height: 400px;
+  }
+
+  .dtc-gallery__cta {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}

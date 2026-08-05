@@ -1,0 +1,5 @@
+﻿Agent stopped at the configured step limit.
+
+[usage] provider_requests=4 cloud=0 local=4 budget=True
+
+[model=gpt-oss:20b steps=4 stop=max_steps audit=C:\Users\fjuni\Documents\GitHub\02-medusa-halls\dtc-starter\.agents\ollama-superpowers-pack-v1.0.0\.audit\run-20260805T160014Z.jsonl]

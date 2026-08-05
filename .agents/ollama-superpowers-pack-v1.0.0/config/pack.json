@@ -1,0 +1,8 @@
+{
+  "locale": "pt-BR",
+  "agent": "orchestrator",
+  "router": "config/router.json",
+  "policy": "config/policies/default.json",
+  "max_steps": 12,
+  "audit": true
+}

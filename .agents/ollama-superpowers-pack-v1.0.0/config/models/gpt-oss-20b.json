@@ -1,0 +1,36 @@
+{
+  "model": "gpt-oss:20b",
+  "execution": "local",
+  "size": "14GB",
+  "context_window_tokens": 131072,
+  "input": [
+    "text"
+  ],
+  "usage_class": "local-compute",
+  "tools": true,
+  "thinking": {
+    "supported": true,
+    "levels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "default": "medium"
+  },
+  "structured_outputs": true,
+  "streaming": true,
+  "soft_context_budget": 32768,
+  "hard_context_budget": 98304,
+  "best_for": [
+    "private code and documents",
+    "routine coding and review",
+    "schema-bound extraction",
+    "tool loops",
+    "repository triage",
+    "local fallback"
+  ],
+  "notes": [
+    "Use evidence selection rather than filling the 128K window.",
+    "A 14GB model still needs additional runtime memory; verify with the doctor."
+  ]
+}

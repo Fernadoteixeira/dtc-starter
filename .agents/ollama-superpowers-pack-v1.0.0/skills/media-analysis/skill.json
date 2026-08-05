@@ -1,0 +1,18 @@
+{
+  "id": "media-analysis",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Analisar imagens e vídeos com confiança",
+    "en": "Analyze images and videos with confidence",
+    "es": "Analizar imágenes y vídeos con confianza",
+    "fr": "Analyser images et vidéos avec confiance"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

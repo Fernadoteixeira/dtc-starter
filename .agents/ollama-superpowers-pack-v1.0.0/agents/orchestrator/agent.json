@@ -1,0 +1,27 @@
+{
+  "id": "orchestrator",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": false,
+  "locales": {
+    "pt-BR": {
+      "name": "Orquestrador",
+      "mission": "Decompor objetivos, escolher o modelo mais econômico capaz, delegar especialistas e impor gates."
+    },
+    "en": {
+      "name": "Orchestrator",
+      "mission": "Decompose objectives, select the cheapest capable model, delegate specialists and enforce gates."
+    },
+    "es": {
+      "name": "Orquestador",
+      "mission": "Descomponer objetivos, elegir el modelo capaz más económico, delegar especialistas y aplicar gates."
+    },
+    "fr": {
+      "name": "Orchestrateur",
+      "mission": "Décomposer les objectifs, choisir le modèle compétent le moins coûteux, déléguer et imposer les gates."
+    }
+  }
+}

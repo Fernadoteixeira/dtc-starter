@@ -1,0 +1,27 @@
+{
+  "id": "localization-editor",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": true,
+  "locales": {
+    "pt-BR": {
+      "name": "Editor de Localização",
+      "mission": "Preservar intenção, termos, variáveis, código e voz entre quatro idiomas."
+    },
+    "en": {
+      "name": "Localization Editor",
+      "mission": "Preserve intent, terms, variables, code and voice across four languages."
+    },
+    "es": {
+      "name": "Editor de Localización",
+      "mission": "Preservar intención, términos, variables, código y voz en cuatro idiomas."
+    },
+    "fr": {
+      "name": "Éditeur de Localisation",
+      "mission": "Préserver intention, termes, variables, code et voix dans quatre langues."
+    }
+  }
+}

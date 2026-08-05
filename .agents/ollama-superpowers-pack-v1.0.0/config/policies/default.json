@@ -1,0 +1,46 @@
+{
+  "mode": "read-only",
+  "workspace_root": ".",
+  "allow_write": false,
+  "allow_shell": true,
+  "allow_web": true,
+  "allow_cloud_with_secrets": false,
+  "allowed_commands": [
+    "git",
+    "python",
+    "python3",
+    "pytest",
+    "pnpm",
+    "npm",
+    "bun",
+    "node",
+    "go",
+    "cargo",
+    "dotnet",
+    "mvn",
+    "gradle",
+    "powershell",
+    "pwsh"
+  ],
+  "denied_argument_fragments": [
+    "rm -rf",
+    "del /f",
+    "format ",
+    "shutdown",
+    "reboot",
+    "git reset --hard",
+    "git clean -fd",
+    "drop database",
+    "remove-item -recurse -force"
+  ],
+  "max_command_seconds": 120,
+  "max_file_read_bytes": 1000000,
+  "max_search_results": 200,
+  "redact_patterns": [
+    "(?i)(api[_-]?key\\s*[=:]\\s*)[^\\s]+",
+    "(?i)(token\\s*[=:]\\s*)[^\\s]+",
+    "(?i)(password\\s*[=:]\\s*)[^\\s]+",
+    "(sk-[A-Za-z0-9_-]{16,})",
+    "(gh[pousr]_[A-Za-z0-9]{20,})"
+  ]
+}

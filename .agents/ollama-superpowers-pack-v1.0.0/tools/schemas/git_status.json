@@ -1,0 +1,11 @@
+{
+  "type": "function",
+  "function": {
+    "name": "git_status",
+    "description": "Return concise Git status",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  }
+}

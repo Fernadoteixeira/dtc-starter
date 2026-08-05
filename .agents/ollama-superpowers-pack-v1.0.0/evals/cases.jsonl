@@ -1,0 +1,6 @@
+{"id":"repo-map","agent":"repo-cartographer","task":"Map a monorepo without reading node_modules","expected":["manifests","entry points","risks","evidence"]}
+{"id":"pre-existing-regression","agent":"regression-auditor","task":"Determine whether a CSS error existed before the current patch","expected":["clean baseline","cache matrix","source token","causality verdict"]}
+{"id":"dev-bringup","agent":"dev-environment-operator","task":"Start backend and storefront without duplicate ports","expected":["startup order","PID","ports","HTTP readiness","logs"]}
+{"id":"pricing","agent":"product-pricing-analyst","task":"Price an artisan product in three scenarios","expected":["complete cost","market bands","scenario prices","demand trigger","unknowns"]}
+{"id":"catalog","agent":"visual-catalog-curator","task":"Create a product card from a frontal preview","expected":["name","description","confirmed attributes","prices","missing photos"]}
+{"id":"cloud-governor","agent":"orchestrator","task":"Analyze 500 files with a strict JSON deliverable","expected":["local schema route","evidence compaction","no unnecessary cloud"]}

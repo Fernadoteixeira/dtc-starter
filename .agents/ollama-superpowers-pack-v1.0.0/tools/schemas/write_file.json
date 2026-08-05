@@ -1,0 +1,26 @@
+{
+  "type": "function",
+  "function": {
+    "name": "write_file",
+    "description": "Write a UTF-8 file inside the workspace; disabled by default",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "create_parents": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ]
+    }
+  }
+}

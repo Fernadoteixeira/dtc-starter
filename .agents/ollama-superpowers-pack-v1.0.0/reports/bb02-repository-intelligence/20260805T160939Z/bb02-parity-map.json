@@ -1,0 +1,333 @@
+{
+  "block": "BB02 — Repository Intelligence",
+  "generated_at": "2026-08-05T16:09:39Z",
+  "method": "local-first, gpt-oss:20b, zero cloud requests",
+  "source": {
+    "name": "nos-gallery (Fio Vivo isolado)",
+    "path": "apps/storefront/src/modules/nos-gallery",
+    "framework": "Next.js 15 + Tailwind v4 + Framer Motion + shadcn/ui",
+    "fonts": [
+      "Geist (sans)",
+      "Geist Mono (mono)",
+      "Playfair Display (serif display)"
+    ],
+    "design_tokens": {
+      "palette": {
+        "gallery_ink": "#1b1814",
+        "gallery_ink_deep": "#120e0b",
+        "gallery_surface": "#272119",
+        "gallery_paper": "#ede3d2",
+        "gallery_accent": "#c88f68",
+        "gallery_accent_bright": "#e0ad82"
+      },
+      "typography": {
+        "display": "Playfair Display (serif)",
+        "body": "Geist (sans)",
+        "mono": "Geist Mono (mono)"
+      },
+      "motion": {
+        "scene_duration": 0.52,
+        "card_duration": 0.55,
+        "ambience_duration": 0.8,
+        "ease": [
+          0.22,
+          1,
+          0.36,
+          1
+        ]
+      },
+      "effects": {
+        "card_shadow": "0 22px 44px -18px rgba(24,15,9,0.82)",
+        "card_shadow_active": "0 32px 70px -22px rgba(24,15,9,0.95)",
+        "parallax_x": 10,
+        "parallax_y": 8
+      }
+    },
+    "components": {
+      "art_gallery_slider": "Slider principal com drag, wheel, keyboard, touch",
+      "artwork_card": "Card com parallax 3D, scene discovery, bookmark, share",
+      "artwork_details_dialog": "Modal dividido com obra + ficha curatorial",
+      "gallery_ambient": "Background dinâmico com extração de cores da obra",
+      "gallery_progress_control": "Controle de progresso com achievements",
+      "gallery_state_screen": "Tela de estado (vazio, loading, erro)",
+      "inquiry_modal": "Modal de consulta com formulário",
+      "navigation_dots": "Dots de navegação com estados visuais"
+    },
+    "hooks": {
+      "use_artwork_dwell": "Tempo de permanência na obra",
+      "use_color_extraction": "Extração de cores da imagem para ambient",
+      "use_gallery_progress": "Progresso de visita e achievements",
+      "use_slider_drag": "Drag com resistência e momentum",
+      "use_slider_navigation": "Navegação por teclado",
+      "use_slider_wheel": "Wheel com resistência",
+      "use_reduced_motion": "Detecção de prefers-reduced-motion",
+      "use_saved_artworks": "Bookmarks persistidos"
+    },
+    "data_model": {
+      "type": "Artwork",
+      "fields": [
+        "id",
+        "code",
+        "title",
+        "contextualName",
+        "artist",
+        "location",
+        "role",
+        "year",
+        "material",
+        "category",
+        "subcategory",
+        "image",
+        "scenes[]",
+        "description",
+        "price",
+        "availability",
+        "dimensions",
+        "story",
+        "artistHandle",
+        "artistUrl",
+        "tags[]",
+        "ambientColors[]"
+      ],
+      "artworks_count": 6,
+      "artworks": [
+        "Espiral dourada",
+        "Órbita negra",
+        "Trama solar",
+        "Fio ancestral",
+        "Tranca âmbar",
+        "Duna terracota"
+      ]
+    },
+    "layout": {
+      "root": "h-dvh min-h-svh overflow-hidden bg-(--gallery-ink)",
+      "composition": "full-viewport stage, assimétrico",
+      "card_step_mobile": 340,
+      "card_step_desktop": 564
+    }
+  },
+  "destination": {
+    "name": "dtc-starter storefront",
+    "path": "apps/storefront",
+    "framework": "Next.js 15 + Tailwind v3 + Medusa commerce",
+    "fonts": [
+      "Inter (sans)"
+    ],
+    "design_tokens": {
+      "palette": {
+        "bg_primary": "#090a0f",
+        "bg_surface": "rgba(15,23,42,0.65)",
+        "text_primary": "#f8fafc",
+        "accent": "#38bdf8"
+      },
+      "typography": {
+        "display": "Inter (sans)",
+        "body": "Inter (sans)"
+      }
+    },
+    "components": {
+      "gallery_experience": "Componente estático do pacote @dtc/gallery-experience",
+      "gallery_hero_client": "Wrapper client que mapeia fixture para GalleryExperience"
+    },
+    "data_model": {
+      "type": "FioVivoProductFixture / GalleryItem",
+      "fields": [
+        "id",
+        "code",
+        "handle",
+        "title",
+        "primaryImage",
+        "scenes[]",
+        "ambientColors"
+      ],
+      "missing_vs_source": [
+        "contextualName",
+        "artist",
+        "location",
+        "role",
+        "year",
+        "material",
+        "description",
+        "price",
+        "availability",
+        "dimensions",
+        "story",
+        "artistHandle",
+        "artistUrl",
+        "tags"
+      ]
+    },
+    "layout": {
+      "root": "Medusa header + main + footer (genérico)",
+      "composition": "grid/carrossel e-commerce"
+    }
+  },
+  "parity_map": [
+    {
+      "layer": "Header",
+      "source": "Header Fio Vivo escuro, editorial",
+      "destination": "Medusa Store genérico branco",
+      "action": "substituir",
+      "priority": "P0-critica"
+    },
+    {
+      "layer": "Composição",
+      "source": "Palco assimétrico full viewport",
+      "destination": "Grid/carrossel e-commerce",
+      "action": "substituir",
+      "priority": "P0-critica"
+    },
+    {
+      "layer": "Conteúdo",
+      "source": "Bolsas Fio Vivo + artista + narrativa",
+      "destination": "Produtos demo Medusa",
+      "action": "substituir",
+      "priority": "P0-critica"
+    },
+    {
+      "layer": "Card ativo",
+      "source": "Artefato editorial central com parallax 3D",
+      "destination": "Card tradicional sem parallax",
+      "action": "adaptar",
+      "priority": "P1-alta"
+    },
+    {
+      "layer": "Card adjacente",
+      "source": "Continuação visual parcialmente revelada",
+      "destination": "Produto em sequência",
+      "action": "adaptar",
+      "priority": "P1-alta"
+    },
+    {
+      "layer": "Tipografia",
+      "source": "Playfair Display + Geist + Geist Mono",
+      "destination": "Inter apenas",
+      "action": "adicionar",
+      "priority": "P1-alta"
+    },
+    {
+      "layer": "Fundo/Ambient",
+      "source": "Preto terroso com luz e textura + color extraction",
+      "destination": "Azul-marinho uniforme",
+      "action": "substituir",
+      "priority": "P1-alta"
+    },
+    {
+      "layer": "Controles",
+      "source": "Miniaturas, progresso, narrativa",
+      "destination": "Dots simples",
+      "action": "substituir",
+      "priority": "P1-alta"
+    },
+    {
+      "layer": "Detalhe/Modal",
+      "source": "Modal dividido com ficha curatorial",
+      "destination": "CTA genérico sem modal",
+      "action": "criar",
+      "priority": "P0-critica"
+    },
+    {
+      "layer": "Dados",
+      "source": "6 obras Fio Vivo completas",
+      "destination": "6 produtos fixture básicos",
+      "action": "enriquecer",
+      "priority": "P0-critica"
+    },
+    {
+      "layer": "Movimento",
+      "source": "Framer Motion com transições de palco",
+      "destination": "CSS transition básica",
+      "action": "adicionar",
+      "priority": "P1-alta"
+    },
+    {
+      "layer": "Responsividade",
+      "source": "Experiência composta por viewport",
+      "destination": "Breakpoint simples 768px",
+      "action": "adaptar",
+      "priority": "P1-alta"
+    },
+    {
+      "layer": "Inquiry",
+      "source": "Modal de consulta com formulário",
+      "destination": "N/A",
+      "action": "criar",
+      "priority": "P2-media"
+    },
+    {
+      "layer": "Progresso",
+      "source": "Achievements + dwell tracking",
+      "destination": "N/A",
+      "action": "criar",
+      "priority": "P2-media"
+    },
+    {
+      "layer": "Color extraction",
+      "source": "useColorExtraction hook",
+      "destination": "N/A",
+      "action": "criar",
+      "priority": "P2-media"
+    }
+  ],
+  "parity_score": {
+    "infraestrutura_galeria": "55%",
+    "mecanica_navegacao": "45%",
+    "identidade_fio_vivo": "15%",
+    "composicao_editorial": "20%",
+    "conteudo_real": "10%",
+    "paridade_total_estimada": "25-30%"
+  },
+  "bb03_waves": [
+    {
+      "wave": 1,
+      "name": "Design Foundation",
+      "scope": "Tokens, fontes, paleta terrosa, globals.css"
+    },
+    {
+      "wave": 2,
+      "name": "Fio Vivo Shell e Header",
+      "scope": "Header escuro editorial, remover header Medusa branco"
+    },
+    {
+      "wave": 3,
+      "name": "Editorial Stage",
+      "scope": "Palco assimétrico full viewport, composição editorial"
+    },
+    {
+      "wave": 4,
+      "name": "Product/Artwork Data Adapter",
+      "scope": "Enriquecer fixture com artist, story, dimensions, availability"
+    },
+    {
+      "wave": 5,
+      "name": "Navigation and Scene States",
+      "scope": "Drag, wheel, keyboard, scene discovery, progress"
+    },
+    {
+      "wave": 6,
+      "name": "Artwork Detail Modal",
+      "scope": "Modal dividido com ficha curatorial"
+    },
+    {
+      "wave": 7,
+      "name": "Motion and Transitions",
+      "scope": "Framer Motion, parallax 3D, ambient color"
+    },
+    {
+      "wave": 8,
+      "name": "Responsive Composition",
+      "scope": "Mobile, tablet, desktop, landscape"
+    },
+    {
+      "wave": 9,
+      "name": "Medusa Commerce Bridge",
+      "scope": "Integração com catálogo, preços, checkout"
+    },
+    {
+      "wave": 10,
+      "name": "Cleanup and Isolation",
+      "scope": "Remover código demo, isolar nos-gallery warning"
+    }
+  ],
+  "verdict": "BB02_LOCAL_PREFLIGHT=GREEN"
+}

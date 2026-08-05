@@ -1,0 +1,18 @@
+{
+  "id": "git-workflow",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Usar Git como cadeia de evidências",
+    "en": "Use Git as an evidence chain",
+    "es": "Usar Git como cadena de evidencias",
+    "fr": "Utiliser Git comme chaîne de preuves"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

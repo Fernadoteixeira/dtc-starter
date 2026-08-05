@@ -1,0 +1,36 @@
+{
+  "type": "function",
+  "function": {
+    "name": "search_text",
+    "description": "Search text or regex across repository files",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string",
+          "default": "."
+        },
+        "glob": {
+          "type": "string",
+          "default": "*"
+        },
+        "regex": {
+          "type": "boolean",
+          "default": false
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500,
+          "default": 100
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  }
+}

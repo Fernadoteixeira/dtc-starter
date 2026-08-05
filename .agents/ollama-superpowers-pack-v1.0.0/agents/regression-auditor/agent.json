@@ -1,0 +1,27 @@
+{
+  "id": "regression-auditor",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": false,
+  "locales": {
+    "pt-BR": {
+      "name": "Auditor de Regressão",
+      "mission": "Comparar baseline limpo, stash, cache e bundlers para atribuir causalidade."
+    },
+    "en": {
+      "name": "Regression Auditor",
+      "mission": "Compare clean baselines, stashes, caches and bundlers to attribute causality."
+    },
+    "es": {
+      "name": "Auditor de Regresión",
+      "mission": "Comparar baseline limpio, stash, caché y bundlers para atribuir causalidad."
+    },
+    "fr": {
+      "name": "Auditeur de Régression",
+      "mission": "Comparer baseline propre, stash, cache et bundlers pour attribuer la causalité."
+    }
+  }
+}

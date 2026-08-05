@@ -1,0 +1,177 @@
+[
+  {
+    "id": "chat-generate",
+    "status": "native",
+    "evidence": [
+      "README.md",
+      "docs/api.md"
+    ]
+  },
+  {
+    "id": "streaming",
+    "status": "native",
+    "evidence": [
+      "docs/capabilities/streaming.mdx"
+    ]
+  },
+  {
+    "id": "tool-calling",
+    "status": "native",
+    "modes": [
+      "single",
+      "parallel",
+      "multi-turn-agent-loop"
+    ],
+    "evidence": [
+      "docs/capabilities/tool-calling.mdx"
+    ]
+  },
+  {
+    "id": "thinking",
+    "status": "native",
+    "models": {
+      "gpt-oss:20b": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "glm-5.2:cloud": [
+        "high",
+        "max"
+      ]
+    },
+    "evidence": [
+      "docs/capabilities/thinking.mdx",
+      "official model pages"
+    ]
+  },
+  {
+    "id": "structured-outputs",
+    "status": "local-target-only",
+    "models": [
+      "gpt-oss:20b"
+    ],
+    "cloud_gap": "Ollama Cloud currently does not support structured outputs.",
+    "evidence": [
+      "docs/capabilities/structured-outputs.mdx"
+    ]
+  },
+  {
+    "id": "web-search",
+    "status": "authenticated-service",
+    "requires": [
+      "OLLAMA_API_KEY"
+    ],
+    "evidence": [
+      "docs/capabilities/web-search.mdx"
+    ]
+  },
+  {
+    "id": "web-fetch",
+    "status": "authenticated-service",
+    "requires": [
+      "OLLAMA_API_KEY"
+    ],
+    "evidence": [
+      "docs/capabilities/web-search.mdx"
+    ]
+  },
+  {
+    "id": "openai-compatibility",
+    "status": "native-partial",
+    "endpoints": [
+      "/v1/chat/completions",
+      "/v1/responses"
+    ],
+    "evidence": [
+      "docs/api/openai-compatibility.mdx"
+    ]
+  },
+  {
+    "id": "anthropic-compatibility",
+    "status": "native-partial",
+    "evidence": [
+      "docs/api/anthropic-compatibility.mdx"
+    ]
+  },
+  {
+    "id": "embeddings",
+    "status": "optional-model",
+    "endpoint": "/api/embed",
+    "models": [
+      "embeddinggemma",
+      "qwen3-embedding",
+      "all-minilm"
+    ],
+    "evidence": [
+      "docs/capabilities/embeddings.mdx"
+    ]
+  },
+  {
+    "id": "vision",
+    "status": "optional-model",
+    "models": [
+      "gemma4"
+    ],
+    "evidence": [
+      "docs/capabilities/vision.mdx"
+    ]
+  },
+  {
+    "id": "cloud-offload",
+    "status": "native",
+    "evidence": [
+      "docs/cloud.mdx"
+    ]
+  },
+  {
+    "id": "modelfile",
+    "status": "native",
+    "evidence": [
+      "docs/modelfile.mdx"
+    ]
+  },
+  {
+    "id": "agent-integrations",
+    "status": "native-cli",
+    "integrations": [
+      "Claude Code",
+      "Codex",
+      "OpenCode",
+      "Hermes",
+      "OpenClaw"
+    ],
+    "evidence": [
+      "README.md",
+      "docs/integrations"
+    ]
+  },
+  {
+    "id": "rag",
+    "status": "composed",
+    "parts": [
+      "embeddings",
+      "chunking",
+      "retrieval",
+      "grounding"
+    ]
+  },
+  {
+    "id": "audit-ledger",
+    "status": "pack-added"
+  },
+  {
+    "id": "usage-governor",
+    "status": "pack-added"
+  },
+  {
+    "id": "multilingual-prompts",
+    "status": "pack-added",
+    "languages": [
+      "pt-BR",
+      "en",
+      "es",
+      "fr"
+    ]
+  }
+]

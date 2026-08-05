@@ -1,0 +1,659 @@
+{
+  "pack_root": "C:\\Users\\fjuni\\Documents\\GitHub\\02-medusa-halls\\dtc-starter\\.agents\\ollama-superpowers-pack-v1.0.0",
+  "generated_at": "2026-08-05T15:24:59Z",
+  "agents": {
+    "count": 18,
+    "names": [
+      "code-reviewer",
+      "context-librarian",
+      "dev-environment-operator",
+      "implementation-engineer",
+      "incident-debugger",
+      "localization-editor",
+      "media-inspector",
+      "orchestrator",
+      "product-pricing-analyst",
+      "qa-test-lead",
+      "regression-auditor",
+      "release-operator",
+      "repo-cartographer",
+      "research-analyst",
+      "runtime-verifier",
+      "security-governor",
+      "software-architect",
+      "visual-catalog-curator"
+    ],
+    "details": [
+      {
+        "name": "code-reviewer",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "context-librarian",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "dev-environment-operator",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "implementation-engineer",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "incident-debugger",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "localization-editor",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "media-inspector",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "orchestrator",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "product-pricing-analyst",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "qa-test-lead",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "regression-auditor",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "release-operator",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "repo-cartographer",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "research-analyst",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "runtime-verifier",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "security-governor",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "software-architect",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "visual-catalog-curator",
+        "agent_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      }
+    ],
+    "without_pt_br": [],
+    "without_en": [],
+    "without_es": [],
+    "without_fr": [],
+    "without_agent_json": []
+  },
+  "skills": {
+    "count": 28,
+    "names": [
+      "code-review",
+      "context-compaction",
+      "cost-governance",
+      "debugging",
+      "dependency-audit",
+      "dev-env-bringup",
+      "documentation",
+      "git-workflow",
+      "issue-to-plan",
+      "localization",
+      "media-analysis",
+      "multilingual-qa",
+      "performance-analysis",
+      "plan-to-patch",
+      "pricing-scenarios",
+      "product-catalog",
+      "rag-pipeline",
+      "regression-attribution",
+      "release-readiness",
+      "repo-map",
+      "research-synthesis",
+      "root-cause-analysis",
+      "runtime-verification",
+      "security-review",
+      "structured-output",
+      "test-generation",
+      "tool-design",
+      "web-research"
+    ],
+    "details": [
+      {
+        "name": "code-review",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "context-compaction",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "cost-governance",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "debugging",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "dependency-audit",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "dev-env-bringup",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "documentation",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "git-workflow",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "issue-to-plan",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "localization",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "media-analysis",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "multilingual-qa",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "performance-analysis",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "plan-to-patch",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "pricing-scenarios",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "product-catalog",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "rag-pipeline",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "regression-attribution",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "release-readiness",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "repo-map",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "research-synthesis",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "root-cause-analysis",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "runtime-verification",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "security-review",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "structured-output",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "test-generation",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "tool-design",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      },
+      {
+        "name": "web-research",
+        "skill_json": true,
+        "translations": {
+          "pt-BR": true,
+          "en": true,
+          "es": true,
+          "fr": true
+        },
+        "missing_translations": []
+      }
+    ],
+    "without_pt_br": [],
+    "without_en": [],
+    "without_es": [],
+    "without_fr": [],
+    "without_skill_json": []
+  },
+  "tools": {
+    "count": 15,
+    "names": [
+      "calculate.json",
+      "git_diff.json",
+      "git_log.json",
+      "git_status.json",
+      "http_check.json",
+      "json_validate.json",
+      "list_files.json",
+      "process_port.json",
+      "read_file.json",
+      "repo_map.json",
+      "run_command.json",
+      "search_text.json",
+      "web_fetch.json",
+      "web_search.json",
+      "write_file.json"
+    ]
+  },
+  "superpowers": {
+    "config_file": true
+  },
+  "src_files": {
+    "count": 11,
+    "names": [
+      "__init__.py",
+      "agent_loop.py",
+      "audit.py",
+      "cli.py",
+      "config.py",
+      "context.py",
+      "doctor.py",
+      "registry.py",
+      "router.py",
+      "safety.py",
+      "tools.py"
+    ]
+  },
+  "model_configs": {
+    "count": 4,
+    "names": [
+      "embeddinggemma.json",
+      "gemma4.json",
+      "glm-5.2-cloud.json",
+      "gpt-oss-20b.json"
+    ]
+  },
+  "scripts": {
+    "count": 5,
+    "names": [
+      "create-local-model.ps1",
+      "install.ps1",
+      "install.sh",
+      "smoke-test.ps1",
+      "smoke-test.sh"
+    ]
+  },
+  "json_validation": {
+    "total_checked": 73,
+    "errors": [],
+    "valid_count": 73
+  },
+  "bb01_components": {
+    "orchestrator_agent": true,
+    "cost_governance_skill": true,
+    "http_check_tool": true,
+    "glm_cloud_model_config": true,
+    "router_config": true,
+    "src_runtime": true
+  },
+  "building_blocks_count": 0,
+  "languages": [
+    "pt-BR",
+    "en",
+    "es",
+    "fr"
+  ],
+  "overall_verdict": "PASS"
+}

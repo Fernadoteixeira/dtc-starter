@@ -1,0 +1,18 @@
+{
+  "type": "function",
+  "function": {
+    "name": "calculate",
+    "description": "Evaluate restricted arithmetic",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "expression"
+      ]
+    }
+  }
+}

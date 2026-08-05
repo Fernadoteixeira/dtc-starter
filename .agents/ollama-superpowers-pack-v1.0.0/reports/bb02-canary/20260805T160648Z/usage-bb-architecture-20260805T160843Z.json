@@ -1,0 +1,41 @@
+{
+  "task_id": "bb-architecture-20260805T160843Z",
+  "generated_at": "2026-08-05T16:08:51.052755+00:00",
+  "requests": [
+    {
+      "call_id": "req-bb-architecture-20260805T160843Z-0001",
+      "task_id": "bb-architecture-20260805T160843Z",
+      "step": 1,
+      "model": "glm-5.2:cloud",
+      "purpose": "agent_step_1",
+      "started_at": "2026-08-05T16:08:44.143540+00:00",
+      "finished_at": "2026-08-05T16:08:51.052255+00:00",
+      "duration_ms": 6921.999999999571,
+      "success": true,
+      "retry": false,
+      "input_estimate": 8908,
+      "output_estimate": 1638,
+      "tools_exposed": 11,
+      "redaction_status": "clean"
+    }
+  ],
+  "summary": {
+    "task_id": "bb-architecture-20260805T160843Z",
+    "provider_requests_total": 1,
+    "cloud_requests": 1,
+    "local_requests": 0,
+    "retries": 0,
+    "completed_successfully": 1,
+    "provider_requests_per_completed_task": 1.0,
+    "total_duration_ms": 6922.0,
+    "total_input_estimate": 8908,
+    "total_output_estimate": 1638,
+    "local_to_cloud_ratio": "0:1",
+    "blocked": false,
+    "block_reason": "",
+    "max_provider_requests": 25,
+    "max_agent_steps_cloud": 4,
+    "max_cloud_retries": 0,
+    "within_budget": true
+  }
+}

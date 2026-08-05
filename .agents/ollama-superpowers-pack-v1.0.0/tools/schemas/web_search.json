@@ -1,0 +1,24 @@
+{
+  "type": "function",
+  "function": {
+    "name": "web_search",
+    "description": "Search using Ollama Web Search; requires OLLAMA_API_KEY",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "max_results": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 5
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  }
+}

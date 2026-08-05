@@ -1,0 +1,30 @@
+{
+  "max_cloud_calls_per_task": 6,
+  "cloud_calls_used": 3,
+  "cloud_calls_remaining": 3,
+  "local_calls_used": 4,
+  "retries": 0,
+  "parallel_branches": 1,
+  "tool_calls": 2,
+  "blocked_calls": 0,
+  "deduplicated_calls": 0,
+  "escalation_reasons": [
+    {
+      "call_id": "cloud-1",
+      "purpose": "C1 connectivity probe",
+      "reason": "capability probe"
+    },
+    {
+      "call_id": "cloud-2",
+      "purpose": "C2 tool calling probe",
+      "reason": "capability probe"
+    },
+    {
+      "call_id": "cloud-3",
+      "purpose": "C1 retry with think=low",
+      "reason": "parameter correction"
+    }
+  ],
+  "estimated_savings": "3 local calls avoided cloud; 3 cloud calls used for probes only",
+  "limit_warning": false
+}

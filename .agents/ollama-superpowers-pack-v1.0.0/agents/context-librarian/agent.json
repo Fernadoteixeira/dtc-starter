@@ -1,0 +1,27 @@
+{
+  "id": "context-librarian",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": false,
+  "locales": {
+    "pt-BR": {
+      "name": "Bibliotecário de Contexto",
+      "mission": "Selecionar, deduplicar, comprimir e citar pacotes de evidências recuperáveis."
+    },
+    "en": {
+      "name": "Context Librarian",
+      "mission": "Select, deduplicate, compress and cite recoverable evidence packets."
+    },
+    "es": {
+      "name": "Bibliotecario de Contexto",
+      "mission": "Seleccionar, deduplicar, comprimir y citar paquetes de evidencia recuperables."
+    },
+    "fr": {
+      "name": "Bibliothécaire de Contexte",
+      "mission": "Sélectionner, dédupliquer, compresser et citer des paquets de preuves récupérables."
+    }
+  }
+}

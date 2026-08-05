@@ -1,0 +1,18 @@
+{
+  "id": "runtime-verification",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Validar HTTP, DOM, logs e performance",
+    "en": "Validate HTTP, DOM, logs and performance",
+    "es": "Validar HTTP, DOM, logs y rendimiento",
+    "fr": "Valider HTTP, DOM, logs et performance"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "type": "function",
+  "function": {
+    "name": "http_check",
+    "description": "Perform an HTTP readiness check",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "HEAD"
+          ],
+          "default": "GET"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60,
+          "default": 10
+        }
+      },
+      "required": [
+        "url"
+      ]
+    }
+  }
+}

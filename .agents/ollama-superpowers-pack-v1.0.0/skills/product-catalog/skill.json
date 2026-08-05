@@ -1,0 +1,18 @@
+{
+  "id": "product-catalog",
+  "version": "1.0.0",
+  "default_model": "gpt-oss:20b",
+  "cloud_escalation": "glm-5.2:cloud",
+  "locales": {
+    "pt-BR": "Criar catálogo com preview, nome e preço",
+    "en": "Create catalog with preview, name and price",
+    "es": "Crear catálogo con preview, nombre y precio",
+    "fr": "Créer catalogue avec aperçu, nom et prix"
+  },
+  "gates": [
+    "scope",
+    "evidence",
+    "execution",
+    "verification"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "repo-cartographer",
+  "version": "1.0.0",
+  "default_locale": "pt-BR",
+  "recommended_model": "gpt-oss:20b",
+  "escalate_to": "glm-5.2:cloud",
+  "max_steps": 12,
+  "write_role": false,
+  "locales": {
+    "pt-BR": {
+      "name": "Cartógrafo de Repositório",
+      "mission": "Mapear arquitetura, entradas, fluxos, dependências, testes e riscos sem ler arquivos irrelevantes."
+    },
+    "en": {
+      "name": "Repository Cartographer",
+      "mission": "Map architecture, entry points, flows, dependencies, tests and risks without reading irrelevant files."
+    },
+    "es": {
+      "name": "Cartógrafo del Repositorio",
+      "mission": "Mapear arquitectura, entradas, flujos, dependencias, pruebas y riesgos sin leer archivos irrelevantes."
+    },
+    "fr": {
+      "name": "Cartographe du Dépôt",
+      "mission": "Cartographier architecture, entrées, flux, dépendances, tests et risques sans lire les fichiers inutiles."
+    }
+  }
+}
