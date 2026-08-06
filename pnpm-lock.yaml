@@ -233,12 +233,6 @@ importers:
 
   packages/gallery-experience:
     dependencies:
-      '@medusajs/icons':
-        specifier: 2.18.0
-        version: 2.18.0(react@19.0.5)
-      '@medusajs/types':
-        specifier: ^2.18.0
-        version: 2.18.0(ioredis@5.8.2)(vite@5.4.21(@types/node@22.19.2)(terser@5.44.1))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -10421,13 +10415,6 @@ snapshots:
       ioredis: 5.8.2
       vite: 5.4.21(@types/node@20.19.26)(terser@5.44.1)
 
-  '@medusajs/types@2.18.0(ioredis@5.8.2)(vite@5.4.21(@types/node@22.19.2)(terser@5.44.1))':
-    dependencies:
-      bignumber.js: 9.3.1
-    optionalDependencies:
-      ioredis: 5.8.2
-      vite: 5.4.21(@types/node@22.19.2)(terser@5.44.1)
-
   '@medusajs/ui-preset@2.18.0(tailwindcss@3.4.19(yaml@2.9.0))':
     dependencies:
       '@tailwindcss/forms': 0.5.11(tailwindcss@3.4.19(yaml@2.9.0))
@@ -18292,17 +18279,6 @@ snapshots:
       '@types/node': 20.19.26
       fsevents: 2.3.3
       terser: 5.44.1
-
-  vite@5.4.21(@types/node@22.19.2)(terser@5.44.1):
-    dependencies:
-      esbuild: 0.21.5
-      postcss: 8.5.6
-      rollup: 4.53.3
-    optionalDependencies:
-      '@types/node': 22.19.2
-      fsevents: 2.3.3
-      terser: 5.44.1
-    optional: true
 
   void-elements@3.1.0: {}
 
