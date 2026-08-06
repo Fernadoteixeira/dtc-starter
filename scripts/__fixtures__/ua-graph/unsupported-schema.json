@@ -1,0 +1,5 @@
+{
+  "foo": "bar",
+  "counts": [1, 2, 3, 4],
+  "meta": { "generatedAt": "2026-08-06" }
+}
