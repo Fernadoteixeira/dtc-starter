@@ -1,0 +1,80 @@
+# Session State Ledger — blank instance
+#
+# Copy this into your working notes (or into a dated artifact path when the
+# task requires a persisted snapshot) at the start of a multi-round Building
+# Block execution. Fill it in and update it after every gate transition.
+#
+# Do NOT commit a populated copy of this file back under .agents/templates/
+# or .agents/contracts/ — see ../contracts/session-state-ledger.md, section
+# "Where live state lives".
+
+project:
+  repository: ""
+  branch: ""
+  head_sha: ""
+
+execution:
+  current_program: ""
+  current_bb: ""
+  current_task: ""
+  current_round: ""
+  current_gate: READY_FOR_HUMAN_APPROVAL
+  status: in_progress
+
+human_decisions:
+  visual_approval:
+    status: not_requested
+    approved_at: null
+    approved_scope: []
+    evidence: ""
+  architecture_approval:
+    status: not_requested
+  normalized_assets_replacement:
+    status: not_requested
+
+git_authorization:
+  stage: forbidden
+  commit: forbidden
+  push: forbidden
+  pull_request: forbidden
+  merge: forbidden
+  auto_merge: forbidden
+
+mutation_policy:
+  allowed_paths: []
+  forbidden_paths: []
+  allowed_operations: []
+  forbidden_operations: []
+
+quality_gates:
+  build: not_run
+  typecheck: not_run
+  tests: not_run
+  runtime: not_run
+  visual: not_run
+  localization: not_run
+  evidence: not_run
+
+blockers:
+  open: []
+  resolved: []
+
+evidence:
+  canonical_report: ""
+  screenshots: []
+  measurements: ""
+  hashes: ""
+  pull_request: null
+
+transition:
+  previous_state: null
+  current_state: READY_FOR_HUMAN_APPROVAL
+  trigger: "session started"
+  authorized_by: agent_inference
+  timestamp: ""
+  irreversible_actions_allowed: false
+
+next_action:
+  authorized: false
+  description: ""
+  stop_condition: ""
