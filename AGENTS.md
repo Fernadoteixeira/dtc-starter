@@ -140,6 +140,32 @@ The `.agents/` directory contains agent tooling:
 - `product-lifecycle-canonical-skills-315/` — Product lifecycle skill pack
 - `contracts/` — Agent contracts
 
+## Session State Ledger (mandatory)
+
+Any multi-turn Building Block execution in this repository is governed by
+the **Session State Ledger contract**:
+[`.agents/contracts/session-state-ledger.md`](.agents/contracts/session-state-ledger.md)
+(schema: [`session-state-ledger.schema.yaml`](.agents/contracts/session-state-ledger.schema.yaml),
+blank instance: [`.agents/templates/session-state-ledger.yaml`](.agents/templates/session-state-ledger.yaml)).
+This is a repository-specific contract, not a general agent preference.
+
+- **Read** the current ledger state at the start of any session resuming
+  in-progress Building Block work, before taking action.
+- **Update** the ledger immediately after every gate transition — a human
+  decision, a completed quality gate, a Git operation, or a new/resolved
+  blocker.
+- **Never reinterpret a gate that is already resolved.** Reopen an approved
+  gate only for objective regression, a new technical conflict, a
+  destructive risk, or explicit human revocation — never out of generic
+  caution.
+- **The most recent, explicit human authorization prevails** over any
+  earlier instruction, including the agent's own prior reading of an
+  ambiguous one.
+- **Product approval, Git authorization, and merge authorization are three
+  distinct grants.** None of them implies the others; each must be given
+  explicitly. See the contract's "Authorization categories are distinct"
+  section before treating an approval of one as covering another.
+
 ## Fio Vivo Project Documentation
 
 The `docs/` directory contains the Fio Vivo 360 program documentation:
