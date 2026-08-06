@@ -1,0 +1,10 @@
+{
+  "nodes": [
+    { "id": "n1", "path": "package.json", "kind": "file" },
+    { "id": "n2", "path": "turbo.json", "kind": "file" }
+  ],
+  "edges": [
+    { "source": "n1", "target": "n2" },
+    { "source": "n1", "target": "n999-does-not-exist" }
+  ]
+}

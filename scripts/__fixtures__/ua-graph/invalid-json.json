@@ -1,0 +1,4 @@
+{
+  "nodes": [
+    { "id": "n1", "path": "package.json", }
+  ],
