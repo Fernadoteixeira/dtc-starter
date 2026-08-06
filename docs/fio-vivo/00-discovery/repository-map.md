@@ -101,14 +101,23 @@ dtc-starter/
 │           ├── styles/
 │           └── types/
 │
-├── artifacts/bb-04/                             # Evidências visuais e relatórios BB-04
+├── docs/artifacts/bb-04/                        # Evidências BB-04 documentadas/ativas
+│   ├── bb04-gate4-runtime-recovery-report.md
+│   ├── fio-vivo-bb04-visual-evidence-report.md
+│   ├── fio-vivo-runtime-measurements.json
+│   ├── SHA256SUMS.txt
+│   └── r1/                                      # Evidência R1 ativa/documentada
+│       ├── fio-vivo-r1-runtime-measurements.json
+│       └── SHA256SUMS.txt
+│
+├── artifacts/bb-04/                             # Linha histórica BB-04 preservada
 │   ├── bb04-gate4-runtime-recovery-report.md
 │   ├── fio-vivo-bb04-visual-evidence-report.md
 │   ├── fio-vivo-desktop-1600x960.png
 │   ├── fio-vivo-mobile-*.png                    # 3 viewports mobile
 │   ├── fio-vivo-tablet-768x1024.png
 │   ├── fio-vivo-runtime-measurements.json
-│   ├── r1/                                      # R1 (auditoria pós-fix CSS)
+│   ├── superseded/r1/                           # R1 (auditoria pós-fix CSS)
 │   │   ├── fio-vivo-r1-desktop-1600x960.png
 │   │   ├── fio-vivo-r1-runtime-measurements.json
 │   │   └── SHA256SUMS.txt
@@ -145,6 +154,13 @@ dtc-starter/
 ├── turbo.json
 └── .gitignore
 ```
+
+### Governança dos artefatos BB-04
+
+- `docs/artifacts/bb-04/` é o caminho canônico para as evidências BB-04 documentadas/ativas e seus checksums.
+- `artifacts/bb-04/` é a linha histórica preservada para auditoria e comparação; não é um espelho a ser substituído pelo conjunto em `docs/artifacts/bb-04/`.
+- `artifacts/bb-04/superseded/r1/` é histórico imutável. Não mover, apagar, regenerar ou editar esse conteúdo durante a organização documental.
+- Relatórios executivos ativos continuam em `docs/artifacts/fio-vivo-360/`; documentação estratégica continua em `docs/fio-vivo/`. Os três domínios têm responsabilidades distintas.
 
 ---
 
@@ -249,7 +265,7 @@ dtc-starter/
 |---|---|
 | `.agents/ollama-superpowers-pack-v1.0.0/` | Pack de skills local |
 | `artifacts/bb-04/bb04-gate4-runtime-recovery-report.md` | Relatório Gate 4 |
-| `artifacts/bb-04/r1/` | Artefatos R1 |
+| `artifacts/bb-04/superseded/r1/` | Artefatos R1 |
 
 ---
 
