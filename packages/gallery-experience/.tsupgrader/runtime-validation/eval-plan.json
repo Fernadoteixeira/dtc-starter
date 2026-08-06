@@ -1,0 +1,22 @@
+{
+  "generatedOnPlatform": "win32",
+  "projectType": "library",
+  "setup": [
+    {
+      "command": "pnpm",
+      "args": ["install", "--no-frozen-lockfile"],
+      "timeoutSeconds": 600
+    }
+  ],
+  "assertions": [
+    {
+      "name": "tsc-no-emit",
+      "kind": "process",
+      "command": "pnpm",
+      "args": ["run", "typecheck"],
+      "verificationMethod": "exit-code",
+      "expected": "0",
+      "timeoutSeconds": 180
+    }
+  ]
+}
