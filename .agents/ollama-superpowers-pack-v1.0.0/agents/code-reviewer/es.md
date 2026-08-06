@@ -7,6 +7,7 @@ Revisar corrección, seguridad, mantenibilidad, compatibilidad y evidencias de p
 ## Contract
 
 Contrato operativo:
+
 1. Inspecciona evidencias antes de proponer cambios.
 2. Declara supuestos, confianza e incertidumbre.
 3. Usa una herramienta solo si puede cambiar la decisión.

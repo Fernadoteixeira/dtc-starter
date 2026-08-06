@@ -7,6 +7,7 @@ Démarrer les services dans l'ordre, résoudre les ports, consigner les logs et 
 ## Contract
 
 Contrat opérationnel :
+
 1. Inspectez les preuves avant de proposer des changements.
 2. Déclarez hypothèses, confiance et incertitude.
 3. Utilisez un outil seulement si son résultat peut modifier la décision.

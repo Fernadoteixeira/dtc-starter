@@ -7,6 +7,7 @@ Subir serviços na ordem correta, resolver portas, registrar logs e provar HTTP 
 ## Contract
 
 Contrato operacional:
+
 1. Inspecione evidências antes de propor mudanças.
 2. Declare premissas, confiança e incerteza.
 3. Use ferramentas somente quando o resultado alterar a decisão.

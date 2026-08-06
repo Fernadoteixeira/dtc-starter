@@ -1,0 +1,222 @@
+{
+  "desktop": {
+    "viewport": "1600x960",
+    "route": "/dk",
+    "http_status": 200,
+    "console_errors": [],
+    "console_error_count": 0,
+    "network_failures": [],
+    "measurements": {
+      "gallery_found": true,
+      "document_client_width": 1600,
+      "document_scroll_width": 1600,
+      "document_scroll_height": 1505,
+      "window_inner_width": 1600,
+      "window_inner_height": 960,
+      "horizontal_overflow": false,
+      "gallery_internal_vertical_scroll": false,
+      "header_overlap": false,
+      "footer_inside_first_fold": true,
+      "broken_images": 0,
+      "image_count": 6,
+      "counter_text": "01 / 06",
+      "active_title": "Espiral dourada",
+      "collection_title": "Fio Vivo",
+      "lang_attr": "pt-BR",
+      "scene_thumbnail_count": 3,
+      "navigation_dot_count": 6,
+      "card_count": 3,
+      "cta_rect": {
+        "width": 164.046875,
+        "height": 44
+      },
+      "cta_meets_min_touch_target": true,
+      "cta_inside_gallery": true,
+      "navigation_inside_gallery": true,
+      "scene_rail_inside_active_media": true,
+      "gallery_rect": {
+        "x": 0,
+        "y": 64,
+        "width": 1600,
+        "height": 768
+      }
+    },
+    "screenshot": "fio-vivo-desktop-1600x960.png"
+  },
+  "mobile_primary": {
+    "viewport": "390x844",
+    "route": "/dk",
+    "http_status": 200,
+    "console_errors": [],
+    "console_error_count": 0,
+    "network_failures": [],
+    "measurements": {
+      "gallery_found": true,
+      "document_client_width": 390,
+      "document_scroll_width": 390,
+      "document_scroll_height": 1529,
+      "window_inner_width": 390,
+      "window_inner_height": 844,
+      "horizontal_overflow": false,
+      "gallery_internal_vertical_scroll": false,
+      "header_overlap": false,
+      "footer_inside_first_fold": false,
+      "broken_images": 0,
+      "image_count": 6,
+      "counter_text": "01 / 06",
+      "active_title": "Espiral dourada",
+      "collection_title": "Fio Vivo",
+      "lang_attr": "pt-BR",
+      "scene_thumbnail_count": 3,
+      "navigation_dot_count": 6,
+      "card_count": 3,
+      "cta_rect": {
+        "width": 146.890625,
+        "height": 44
+      },
+      "cta_meets_min_touch_target": true,
+      "cta_inside_gallery": true,
+      "navigation_inside_gallery": true,
+      "scene_rail_inside_active_media": true,
+      "gallery_rect": {
+        "x": 0,
+        "y": 64,
+        "width": 390,
+        "height": 719.59375
+      }
+    },
+    "screenshot": "fio-vivo-mobile-390x844.png"
+  },
+  "mobile_large": {
+    "viewport": "430x932",
+    "route": "/dk",
+    "http_status": 200,
+    "console_errors": [],
+    "console_error_count": 0,
+    "network_failures": [],
+    "measurements": {
+      "gallery_found": true,
+      "document_client_width": 430,
+      "document_scroll_width": 430,
+      "document_scroll_height": 1555,
+      "window_inner_width": 430,
+      "window_inner_height": 932,
+      "horizontal_overflow": false,
+      "gallery_internal_vertical_scroll": false,
+      "header_overlap": false,
+      "footer_inside_first_fold": true,
+      "broken_images": 0,
+      "image_count": 6,
+      "counter_text": "01 / 06",
+      "active_title": "Espiral dourada",
+      "collection_title": "Fio Vivo",
+      "lang_attr": "pt-BR",
+      "scene_thumbnail_count": 3,
+      "navigation_dot_count": 6,
+      "card_count": 3,
+      "cta_rect": {
+        "width": 146.890625,
+        "height": 44
+      },
+      "cta_meets_min_touch_target": true,
+      "cta_inside_gallery": true,
+      "navigation_inside_gallery": true,
+      "scene_rail_inside_active_media": true,
+      "gallery_rect": {
+        "x": 0,
+        "y": 64,
+        "width": 430,
+        "height": 745.59375
+      }
+    },
+    "screenshot": "fio-vivo-mobile-430x932.png"
+  },
+  "tablet": {
+    "viewport": "768x1024",
+    "route": "/dk",
+    "http_status": 200,
+    "console_errors": [],
+    "console_error_count": 0,
+    "network_failures": [],
+    "measurements": {
+      "gallery_found": true,
+      "document_client_width": 768,
+      "document_scroll_width": 768,
+      "document_scroll_height": 1556,
+      "window_inner_width": 768,
+      "window_inner_height": 1024,
+      "horizontal_overflow": false,
+      "gallery_internal_vertical_scroll": false,
+      "header_overlap": false,
+      "footer_inside_first_fold": true,
+      "broken_images": 0,
+      "image_count": 6,
+      "counter_text": "01 / 06",
+      "active_title": "Espiral dourada",
+      "collection_title": "Fio Vivo",
+      "lang_attr": "pt-BR",
+      "scene_thumbnail_count": 3,
+      "navigation_dot_count": 6,
+      "card_count": 3,
+      "cta_rect": {
+        "width": 146.890625,
+        "height": 44
+      },
+      "cta_meets_min_touch_target": true,
+      "cta_inside_gallery": true,
+      "navigation_inside_gallery": true,
+      "scene_rail_inside_active_media": true,
+      "gallery_rect": {
+        "x": 0,
+        "y": 64,
+        "width": 768,
+        "height": 819.1875
+      }
+    },
+    "screenshot": "fio-vivo-tablet-768x1024.png"
+  },
+  "mobile_landscape": {
+    "viewport": "844x390",
+    "route": "/dk",
+    "http_status": 200,
+    "console_errors": [],
+    "console_error_count": 0,
+    "network_failures": [],
+    "measurements": {
+      "gallery_found": true,
+      "document_client_width": 844,
+      "document_scroll_width": 844,
+      "document_scroll_height": 1096,
+      "window_inner_width": 844,
+      "window_inner_height": 390,
+      "horizontal_overflow": false,
+      "gallery_internal_vertical_scroll": true,
+      "header_overlap": false,
+      "footer_inside_first_fold": false,
+      "broken_images": 0,
+      "image_count": 6,
+      "counter_text": "01 / 06",
+      "active_title": "Espiral dourada",
+      "collection_title": "Fio Vivo",
+      "lang_attr": "pt-BR",
+      "scene_thumbnail_count": 3,
+      "navigation_dot_count": 6,
+      "card_count": 3,
+      "cta_rect": {
+        "width": 164.046875,
+        "height": 44
+      },
+      "cta_meets_min_touch_target": true,
+      "cta_inside_gallery": true,
+      "navigation_inside_gallery": true,
+      "scene_rail_inside_active_media": true,
+      "gallery_rect": {
+        "x": 0,
+        "y": 64,
+        "width": 844,
+        "height": 358.796875
+      }
+    },
+    "screenshot": "fio-vivo-mobile-landscape-844x390.png"
+  }
+}

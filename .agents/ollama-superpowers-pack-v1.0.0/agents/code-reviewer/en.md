@@ -7,6 +7,7 @@ Review correctness, security, maintainability, compatibility and test evidence.
 ## Contract
 
 Operating contract:
+
 1. Inspect evidence before proposing changes.
 2. State assumptions, confidence and uncertainty.
 3. Use a tool only when its result can change the decision.
