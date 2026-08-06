@@ -110,16 +110,16 @@ Dia 26-30: P2 #17 (lista de espera) + P2 #18 (LGPD) + testes
 
 ## Critério de aceitação para próxima execução
 
-| Critério | Como verificar |
-|---|---|
-| Dados da artesã coletados | 6 produtos × 9 campos preenchidos (não "a informar") |
-| Custo por peça calculado | Custo Completo + Piso Sustentável para cada produto |
-| Região BR criada | `medusa db:migrate` + seed com BR/BRL |
-| Produtos no backend | `GET /store/products?country_code=br` retorna 6 Fio Vivo |
-| Pix integrado | Checkout BR mostra opção Pix |
-| Bloqueador Turbopack resolvido | `next dev --turbopack` inicia sem erro CSS |
-| BB-03 override removido | `GalleryHeroClient` usa `items` prop, não fixtures |
-| Event taxonomy P0 implementado | 17 eventos rastreados em GA4/PostHog |
+| Critério                       | Como verificar                                           |
+| ------------------------------ | -------------------------------------------------------- |
+| Dados da artesã coletados      | 6 produtos × 9 campos preenchidos (não "a informar")     |
+| Custo por peça calculado       | Custo Completo + Piso Sustentável para cada produto      |
+| Região BR criada               | `medusa db:migrate` + seed com BR/BRL                    |
+| Produtos no backend            | `GET /store/products?country_code=br` retorna 6 Fio Vivo |
+| Pix integrado                  | Checkout BR mostra opção Pix                             |
+| Bloqueador Turbopack resolvido | `next dev --turbopack` inicia sem erro CSS               |
+| BB-03 override removido        | `GalleryHeroClient` usa `items` prop, não fixtures       |
+| Event taxonomy P0 implementado | 17 eventos rastreados em GA4/PostHog                     |
 
 ---
 
