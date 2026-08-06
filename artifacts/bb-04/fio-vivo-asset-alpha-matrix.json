@@ -1,0 +1,61 @@
+{
+  "methodology": {
+    "detection": "Read raw pixel buffers via sharp. Checked PNG IHDR color type + presence of alpha channel per asset. For assets confirmed RGB-only (colorType 2, no alpha, no tRNS chunk), sampled corner/edge pixels and confirmed a low-contrast repeating neutral grid (~RGB 244 and ~RGB 253) baked directly into pixel data — the standard editor-export 'transparency preview grid' artifact, not real transparency.",
+    "normalization": "Connected-component labeling (BFS) over all pixels matching a narrow 'neutral (channel spread <=14) AND bright (>=225)' test identifies every checkerboard region, including regions fully enclosed by the product silhouette (e.g. the negative space inside a bag handle) as well as regions touching the image border. All matched pixels get alpha=0. A one-pixel-wide adjacent transition band gets soft (feathered) alpha based on brightness, to avoid a hard-edged cutout / white halo on anti-aliased product edges. All non-matched pixels (the product itself) are left byte-for-byte untouched at alpha=255.",
+    "safety_checks": [
+      "No pixel value inside the product silhouette was modified (verified: mask only ever includes pixels connected to a neutral+bright region, and the narrow threshold essentially never matches saturated product colors — verified visually per asset after processing).",
+      "Originals backed up to artifacts/bb-04/asset-originals-backup/ BEFORE any overwrite, for every file touched.",
+      "Assets already carrying a real, working alpha channel (fv-005, fv-006) were detected and excluded from normalization entirely to avoid destroying pre-existing legitimate transparency (see Section 'fv-005 / fv-006' below and the incident note)."
+    ]
+  },
+  "normalized_assets": {
+    "fv-001-espiral-dourada": {
+      "01-frente.png": { "source_asset": "artifacts/bb-04/asset-originals-backup/images/fio-vivo/fv-001-espiral-dourada/01-frente.png", "normalized_asset": "apps/storefront/public/images/fio-vivo/fv-001-espiral-dourada/01-frente.png", "original_color_type": "RGB", "original_has_alpha": false, "checkerboard_baked_into_pixels": true, "checkerboard_from_css": false, "checkerboard_from_asset_container": false, "background_pct": 66.5, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass - edges clean, no halo, handle-hole transparent, thread/tassel/hardware detail preserved" },
+      "02-perfil.png": { "source_asset": "artifacts/bb-04/asset-originals-backup/images/fio-vivo/fv-001-espiral-dourada/02-perfil.png", "normalized_asset": "apps/storefront/public/images/fio-vivo/fv-001-espiral-dourada/02-perfil.png", "original_color_type": "RGB", "original_has_alpha": false, "checkerboard_baked_into_pixels": true, "background_pct": 64.5, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" },
+      "03-gesto.png": { "source_asset": "artifacts/bb-04/asset-originals-backup/images/fio-vivo/fv-001-espiral-dourada/03-gesto.png", "normalized_asset": "apps/storefront/public/images/fio-vivo/fv-001-espiral-dourada/03-gesto.png", "original_color_type": "RGB", "original_has_alpha": false, "checkerboard_baked_into_pixels": true, "background_pct": 66.5, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" },
+      "04-detalhe.png": { "source_asset": "artifacts/bb-04/asset-originals-backup/images/fio-vivo/fv-001-espiral-dourada/04-detalhe.png", "normalized_asset": "apps/storefront/public/images/fio-vivo/fv-001-espiral-dourada/04-detalhe.png", "original_color_type": "RGB", "original_has_alpha": false, "checkerboard_baked_into_pixels": true, "background_pct": 69.8, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" }
+    },
+    "fv-002-orbita-negra": {
+      "01-frente.png": { "source_asset": "artifacts/bb-04/asset-originals-backup/images/fio-vivo/fv-002-orbita-negra/01-frente.png", "normalized_asset": "apps/storefront/public/images/fio-vivo/fv-002-orbita-negra/01-frente.png", "original_color_type": "RGB", "original_has_alpha": false, "checkerboard_baked_into_pixels": true, "background_pct": 65.0, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass - brand hang-tag detail preserved" },
+      "02-perfil.png": { "background_pct": 65.1, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass", "note": "same treatment as 01-frente.png" },
+      "03-gesto.png": { "background_pct": 71.7, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" },
+      "04-detalhe.png": { "background_pct": 69.1, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" }
+    },
+    "fv-003-trama-solar": {
+      "01-frente.png": { "source_asset": "artifacts/bb-04/asset-originals-backup/images/fio-vivo/fv-003-trama-solar/01-frente.png", "normalized_asset": "apps/storefront/public/images/fio-vivo/fv-003-trama-solar/01-frente.png", "original_color_type": "RGB", "original_has_alpha": false, "checkerboard_baked_into_pixels": true, "background_pct": 69.1, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass - brand plate/logo detail preserved" },
+      "02-perfil.png": { "background_pct": 71.7, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" },
+      "03-gesto.png": { "background_pct": 65.1, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" },
+      "04-detalhe.png": { "background_pct": 65.0, "checkerboard_visible_in_final_ui": false, "visual_qa": "pass" }
+    },
+    "fv-004-fio-ancestral": {
+      "note": "Not rendered in any captured BB-04 viewport (index 3, outside the static first-fold items[0..2]). Normalized anyway for asset-set consistency since the audit covers all Fio Vivo assets; originals were plain RGB (no pre-existing alpha), same safe category as fv-001-003.",
+      "01-frente.png": { "background_pct": 66.5, "checkerboard_visible_in_final_ui": false },
+      "02-perfil.png": { "background_pct": 64.5, "checkerboard_visible_in_final_ui": false },
+      "03-gesto.png": { "background_pct": 66.5, "checkerboard_visible_in_final_ui": false },
+      "04-detalhe.png": { "background_pct": 69.8, "checkerboard_visible_in_final_ui": false }
+    }
+  },
+  "audited_not_modified": {
+    "fv-005-tranca-ambar": {
+      "note": "NOT rendered in any captured BB-04 viewport (index 4). Audit found these assets already carry a real, correct alpha channel with no checkerboard baked in (visually confirmed clean on both raw preview and flattened-onto-dark-bg preview) — no normalization needed or applied.",
+      "01-frente.png": { "format": "png", "has_alpha_channel": true, "checkerboard_baked_into_pixels": false, "checkerboard_visible_in_final_ui": false, "action": "none - already clean" },
+      "02-perfil.png": { "format": "png", "has_alpha_channel": true, "checkerboard_baked_into_pixels": false, "checkerboard_visible_in_final_ui": false, "action": "none - already clean" },
+      "03-gesto.png": { "format": "png", "has_alpha_channel": true, "checkerboard_baked_into_pixels": false, "checkerboard_visible_in_final_ui": false, "action": "none - already clean" },
+      "04-detalhe.png": { "format": "jpeg (mislabeled with a .png extension)", "has_alpha_channel": false, "checkerboard_baked_into_pixels": "not_applicable_jpeg_has_no_alpha_capability", "action": "none - flagged as out-of-scope anomaly, see incident note", "risk": "low - not rendered in any BB-04 viewport; JPEG-as-.png mislabeling should be corrected in a future content pass" }
+    },
+    "fv-006-duna-terracota": {
+      "note": "NOT rendered in any captured BB-04 viewport (index 5). All 4 images already carry real, correct alpha with no checkerboard — visually confirmed clean, no normalization needed.",
+      "01-frente.png": { "format": "png", "has_alpha_channel": true, "checkerboard_baked_into_pixels": false, "checkerboard_visible_in_final_ui": false, "action": "none - already clean" },
+      "02-perfil.png": { "format": "png", "has_alpha_channel": true, "checkerboard_baked_into_pixels": false, "checkerboard_visible_in_final_ui": false, "action": "none - already clean" },
+      "03-gesto.png": { "format": "png", "has_alpha_channel": true, "checkerboard_baked_into_pixels": false, "checkerboard_visible_in_final_ui": false, "action": "none - already clean" },
+      "04-detalhe.png": { "format": "png", "has_alpha_channel": true, "checkerboard_baked_into_pixels": false, "checkerboard_visible_in_final_ui": false, "action": "none - already clean" }
+    }
+  },
+  "incident_note": {
+    "what_happened": "The first batch-normalization pass assumed every Fio Vivo asset lacked an alpha channel (true for fv-001..fv-004). It did not, and for fv-005-tranca-ambar/{01-frente,02-perfil,03-gesto}.png (which DO have pre-existing real alpha) it would have flattened them to fully opaque, destroying their legitimate transparency. The bug was caught immediately via the background_pct=0% anomaly in the script's own output before the run finished and before any of these 3 files' corrupted state was used anywhere.",
+    "remediation": "All 3 files were restored from their pre-write backups (sha256 verified identical to backup). A 4th file, fv-005/04-detalhe.png, is actually a JPEG mislabeled as .png; the write attempt errored out (Windows 'invalid argument') before touching the destination, so it was never modified. fv-006 was never reached by the batch run (the crash on fv-005 stopped the loop first) and is fully untouched.",
+    "verification": "sha256sum of the 3 restored fv-005 files matches their backups exactly. fv-005/04-detalhe.png and all of fv-006 confirmed via sharp metadata to be in their original, unmodified state.",
+    "scope_impact": "None of the affected files (fv-005, fv-006) are rendered in any of the 5 captured BB-04 viewports, so this incident had zero impact on the visual evidence being delivered for this gate."
+  },
+  "checkerboard_visible_in_final_ui": false
+}
