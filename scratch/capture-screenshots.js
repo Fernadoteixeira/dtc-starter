@@ -1,8 +1,8 @@
 const { chromium } = require("@playwright/test")
-const fs = require("fs")
-const path = require("path")
+const fs = require("node:fs")
+const path = require("node:path")
 
-const outputDir = "C:\\Users\\fjuni\\.gemini\\antigravity-ide\\brain\\94a4d943-0f46-4dc7-9f6e-05559bcb84be"
+const outputDir = String.raw`C:\Users\fjuni\.gemini\antigravity-ide\brain\94a4d943-0f46-4dc7-9f6e-05559bcb84be`
 
 const routes = [
   { name: "storefront_home.png", url: "http://localhost:8000/dk" },
