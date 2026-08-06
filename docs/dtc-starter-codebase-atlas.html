@@ -44,7 +44,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gallery-accent);out
 
 /* ── Sticky index ─────────────────────────────────────── */
 .index-nav{position:sticky;top:0;z-index:10;display:flex;gap:1.6rem;overflow-x:auto;padding:.9rem 1.75rem;
-  background:color-mix(in srgb,var(--gallery-ink) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--gallery-frame-subtle)}
+  background:color-mix(in srgb,var(--gallery-ink) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--gallery-frame-subtle)}
 .index-nav a{flex:none;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gallery-muted);text-decoration:none;padding-bottom:.2rem;border-bottom:1px solid transparent;transition:color .2s var(--gallery-ease),border-color .2s var(--gallery-ease)}
 .index-nav a:hover,.index-nav a.active{color:var(--gallery-accent-bright);border-color:var(--gallery-accent-line)}
 
@@ -102,6 +102,7 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
 .bar-row b{font-size:.78rem;color:var(--gallery-copy)}
 .bar-track{height:5px;background:var(--gallery-surface-raised);border-radius:99px;overflow:hidden}
 .bar-fill{height:100%;background:linear-gradient(90deg,var(--gallery-accent),var(--gallery-accent-bright))}
+.bar-fill-w-1{width:1%}.bar-fill-w-2{width:2%}.bar-fill-w-4{width:4%}.bar-fill-w-5{width:5%}.bar-fill-w-6{width:6%}.bar-fill-w-7{width:7%}.bar-fill-w-8{width:8%}.bar-fill-w-10{width:10%}.bar-fill-w-16{width:16%}.bar-fill-w-17{width:17%}.bar-fill-w-30{width:30%}.bar-fill-w-57{width:57%}.bar-fill-w-58{width:58%}.bar-fill-w-100{width:100%}
 .bar-val{text-align:right;font-family:var(--font-mono);font-size:.72rem;color:var(--gallery-muted)}
 
 /* ── Lists ────────────────────────────────────────────── */
@@ -121,16 +122,17 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
 .graph-shell canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
 .graph-shell canvas.panning{cursor:grabbing}
 .graph-toolbar{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:.5rem;z-index:2}
-.graph-search{flex:1;max-width:260px;height:34px;padding:0 .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);backdrop-filter:blur(10px);color:var(--gallery-paper);font-size:.8rem;outline:0}
+.graph-search{flex:1;max-width:260px;height:34px;padding:0 .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--gallery-paper);font-size:.8rem;outline:0}
 .graph-search::placeholder{color:var(--gallery-subtle)}
 .graph-search:focus{border-color:var(--gallery-accent-line)}
 .graph-reset{height:34px;padding:0 .8rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);color:var(--gallery-copy);font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .graph-reset:hover{border-color:var(--gallery-accent-line);color:var(--gallery-accent-bright)}
-.graph-legend{position:absolute;right:12px;bottom:12px;z-index:2;display:grid;grid-template-columns:repeat(2,auto);gap:.3rem .9rem;padding:.6rem .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);backdrop-filter:blur(10px);font-size:.66rem;color:var(--gallery-muted)}
+.graph-legend{position:absolute;right:12px;bottom:12px;z-index:2;display:grid;grid-template-columns:repeat(2,auto);gap:.3rem .9rem;padding:.6rem .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:.66rem;color:var(--gallery-muted)}
 .graph-legend span{display:flex;align-items:center;gap:.35rem;white-space:nowrap}
 .graph-legend i{width:7px;height:7px;border-radius:50%;display:inline-block;flex:none}
+.legend-hub{background:#e0ad82}.legend-app{background:#8fa8c4}.legend-module{background:#b5a3d6}.legend-route{background:#8fae7d}.legend-package{background:#c88f68}.legend-doc{background:#7fb8b0}.legend-agent{background:#c47d6f}.legend-config{background:#9b8d78}.legend-index{background:#fff8ec}
 .graph-stats{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;gap:.5rem}
-.graph-stats div{padding:.5rem .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);backdrop-filter:blur(10px)}
+.graph-stats div{padding:.5rem .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .graph-stats strong{display:block;font-family:var(--font-serif);font-style:italic;font-size:1.1rem;color:var(--gallery-paper-bright)}
 .graph-stats span{display:block;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gallery-subtle)}
 .graph-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;color:var(--gallery-subtle);pointer-events:none}
@@ -166,6 +168,19 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
 .gi-md hr{border:0;border-top:1px solid var(--gallery-frame-subtle);margin:.7rem 0}
 .gi-md a{color:var(--gallery-accent-bright)}
 .gi-truncated{margin-top:.45rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.04em;color:var(--gallery-subtle)}
+
+.card-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gallery-subtle)}
+.card-label-spaced{margin-bottom:.6rem}
+.table-spaced,.tag-row-spaced{margin-top:.6rem}
+.package-copy{font-size:.82rem;color:var(--gallery-muted);margin-top:.8rem}
+.grid-spaced,.card-spaced{margin-top:1rem}
+.contract-card{border-color:var(--gallery-frame-active)}
+.contract-tag{display:inline-block}
+.contract-title{display:block;margin:.5rem 0 .3rem;font-size:.98rem;color:var(--gallery-paper)}
+.contract-path{font-size:.8rem}
+.contract-copy{margin:0;font-size:.85rem;color:var(--gallery-copy);line-height:1.6}
+.card-heading{display:block;margin-bottom:.7rem;color:var(--gallery-paper-bright);font-family:var(--font-serif);font-style:italic;font-size:1.05rem}
+.rule-list-columns{columns:2;column-gap:2rem}
 
 
 @media(max-width:900px){
@@ -240,15 +255,15 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
           <button id="graphReset" class="graph-reset" type="button">Reset view</button>
         </div>
         <div class="graph-legend">
-          <span><i style="background:#e0ad82"></i>Hub</span>
-          <span><i style="background:#8fa8c4"></i>App</span>
-          <span><i style="background:#b5a3d6"></i>Module</span>
-          <span><i style="background:#8fae7d"></i>Route</span>
-          <span><i style="background:#c88f68"></i>Package</span>
-          <span><i style="background:#7fb8b0"></i>Doc</span>
-          <span><i style="background:#c47d6f"></i>Agent</span>
-          <span><i style="background:#9b8d78"></i>Config</span>
-          <span><i style="background:#fff8ec"></i>Index</span>
+          <span><i class="legend-hub"></i>Hub</span>
+          <span><i class="legend-app"></i>App</span>
+          <span><i class="legend-module"></i>Module</span>
+          <span><i class="legend-route"></i>Route</span>
+          <span><i class="legend-package"></i>Package</span>
+          <span><i class="legend-doc"></i>Doc</span>
+          <span><i class="legend-agent"></i>Agent</span>
+          <span><i class="legend-config"></i>Config</span>
+          <span><i class="legend-index"></i>Index</span>
         </div>
         <div class="graph-stats">
           <div><strong id="graphNodeCount">0</strong><span>Nodes</span></div>
@@ -329,8 +344,8 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
     </div>
     <div class="grid cols-2">
       <div class="card">
-        <div class="label" style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gallery-subtle)">Source files</div>
-        <table style="margin-top:.6rem">
+        <div class="label card-label">Source files</div>
+        <table class="table-spaced">
           <tr><td class="mono">adapters/medusa/map-store-product-to-gallery-item.ts</td><td>Maps a Medusa StoreProduct to a GalleryItem</td></tr>
           <tr><td class="mono">components/gallery-experience.tsx</td><td>Root gallery presentation component</td></tr>
           <tr><td class="mono">components/artwork-card.tsx</td><td>Single artwork/product card</td></tr>
@@ -340,8 +355,8 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
         </table>
       </div>
       <div class="card">
-        <div class="label" style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gallery-subtle)">Design tokens (from nos-gallery, reused on this page)</div>
-        <div class="tag-row" style="margin-top:.6rem">
+        <div class="label card-label">Design tokens (from nos-gallery, reused on this page)</div>
+        <div class="tag-row tag-row-spaced">
           <span class="tag accent">--gallery-accent #c88f68</span>
           <span class="tag">--gallery-ink #1b1814</span>
           <span class="tag">--gallery-paper #ede3d2</span>
@@ -349,7 +364,7 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
           <span class="tag">Geist / sans</span>
           <span class="tag">radius 0.25rem (sharp, editorial)</span>
         </div>
-        <p style="font-size:.82rem;color:var(--gallery-muted);margin-top:.8rem">Scoped under <code class="mono">[data-gallery-experience]</code> so the package never leaks styles into the rest of the storefront. Consumed by <code class="mono">home/gallery-hero</code> with product fixtures, analytics and feature flags layered on top.</p>
+        <p class="package-copy">Scoped under <code class="mono">[data-gallery-experience]</code> so the package never leaks styles into the rest of the storefront. Consumed by <code class="mono">home/gallery-hero</code> with product fixtures, analytics and feature flags layered on top.</p>
       </div>
     </div>
   </section>
@@ -369,7 +384,7 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
       <div class="card tile"><div class="tile-body"><b>06 internationalization</b><p class="path">docs/fio-vivo/06-internationalization</p></div></div>
       <div class="card tile"><div class="tile-body"><b>07 analytics</b><p class="path">docs/fio-vivo/07-analytics</p></div></div>
     </div>
-    <div class="grid cols-2" style="margin-top:1rem">
+    <div class="grid cols-2 grid-spaced">
       <div class="card tile"><div class="monogram">E</div><div class="tile-body"><b>artifacts/fio-vivo-360</b><p>Decision log, gate table, next actions, executive summary.</p></div></div>
       <div class="card tile"><div class="monogram">B</div><div class="tile-body"><b>artifacts/bb-04</b><p>Visual evidence and runtime measurement reports for the BB-04 baseline.</p></div></div>
     </div>
@@ -388,10 +403,10 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
       <div class="card tile"><div class="tile-body"><b>nos-gallery-canonical-skills-205/</b><p>Skill pack referenced from nos-gallery's own .agents/.</p></div></div>
       <div class="card tile"><div class="tile-body"><b>product-lifecycle-canonical-skills-315/</b><p>Product lifecycle skill pack.</p></div></div>
     </div>
-    <div class="card" style="margin-top:1rem;border-color:var(--gallery-frame-active)">
-      <div class="tag accent" style="display:inline-block">contract</div>
-      <b style="display:block;margin:.5rem 0 .3rem;font-size:.98rem;color:var(--gallery-paper)">Session State Ledger — <span class="mono" style="font-size:.8rem">.agents/contracts/session-state-ledger.md</span></b>
-      <p style="margin:0;font-size:.85rem;color:var(--gallery-copy);line-height:1.6">Any multi-turn Building Block execution in this repository is governed by this contract. Read the ledger before resuming in-progress work; update it after every gate transition. Product approval, Git authorization and merge authorization are three distinct grants — none implies the others.</p>
+    <div class="card card-spaced contract-card">
+      <div class="tag accent contract-tag">contract</div>
+      <b class="contract-title">Session State Ledger — <span class="mono contract-path">.agents/contracts/session-state-ledger.md</span></b>
+      <p class="contract-copy">Any multi-turn Building Block execution in this repository is governed by this contract. Read the ledger before resuming in-progress work; update it after every gate transition. Product approval, Git authorization and merge authorization are three distinct grants — none implies the others.</p>
     </div>
   </section>
 
@@ -402,7 +417,7 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
     </div>
     <div class="grid cols-2">
       <div class="card">
-        <b style="display:block;margin-bottom:.7rem;color:var(--gallery-paper-bright);font-family:var(--font-serif);font-style:italic;font-size:1.05rem">Code style</b>
+        <b class="card-heading">Code style</b>
         <ul class="rule-list">
           <li>Backend must satisfy <span class="mono">@medusajs/eslint-plugin</span>'s recommended config — a lint failure usually means the code is wrong, not just unformatted.</li>
           <li>No semicolons. Double quotes, 2-space indent.</li>
@@ -412,7 +427,7 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
         </ul>
       </div>
       <div class="card">
-        <b style="display:block;margin-bottom:.7rem;color:var(--gallery-paper-bright);font-family:var(--font-serif);font-style:italic;font-size:1.05rem">Off-limits</b>
+        <b class="card-heading">Off-limits</b>
         <ul class="rule-list warn">
           <li><span class="mono">.medusa/</span>, <span class="mono">.next/</span>, <span class="mono">dist/</span>, <span class="mono">out/</span>, <span class="mono">.turbo/</span> — build output, regenerated.</li>
           <li><span class="mono">pnpm-lock.yaml</span> — never hand-edit; change only via pnpm.</li>
@@ -422,9 +437,9 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
         </ul>
       </div>
     </div>
-    <div class="card" style="margin-top:1rem">
-      <b style="display:block;margin-bottom:.7rem;color:var(--gallery-paper-bright);font-family:var(--font-serif);font-style:italic;font-size:1.05rem">Common mistakes on this repo</b>
-      <ul class="rule-list warn" style="columns:2;column-gap:2rem">
+    <div class="card card-spaced">
+      <b class="card-heading">Common mistakes on this repo</b>
+      <ul class="rule-list warn rule-list-columns">
         <li>Installing a dependency at the root instead of inside the app that needs it.</li>
         <li>Editing a custom module's model without <span class="mono">medusa db:generate</span> — the migration silently never applies.</li>
         <li>Calling the Medusa API from the storefront without <span class="mono">NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY</span>.</li>
@@ -442,11 +457,11 @@ td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-
     </div>
     <div class="grid cols-2">
       <div class="card">
-        <div class="label" style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gallery-subtle);margin-bottom:.6rem">Nodes by kind</div>
+        <div class="label card-label card-label-spaced">Nodes by kind</div>
         <div id="kindBars"></div>
       </div>
       <div class="card">
-        <div class="label" style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gallery-subtle);margin-bottom:.6rem">Files by language</div>
+        <div class="label card-label card-label-spaced">Files by language</div>
         <div id="langBars"></div>
       </div>
     </div>
@@ -464,7 +479,7 @@ function renderBars(id,data){
   var max=Math.max.apply(null,data.map(function(d){return d[1]}));
   var html=data.map(function(d){
     var pct=Math.round(d[1]/max*100);
-    return '<div class="bar-row"><b>'+d[0]+'</b><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%"></div></div><div class="bar-val">'+d[1].toLocaleString('en-US')+'</div></div>';
+    return '<div class="bar-row"><b>'+d[0]+'</b><div class="bar-track"><div class="bar-fill bar-fill-w-'+pct+'"></div></div><div class="bar-val">'+d[1].toLocaleString('en-US')+'</div></div>';
   }).join('');
   document.getElementById(id).innerHTML=html;
 }
