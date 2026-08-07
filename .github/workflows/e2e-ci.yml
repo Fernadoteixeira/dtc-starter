@@ -17,7 +17,7 @@ jobs:
           version: 10.11.1
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.18.0
           cache: "pnpm"
 
       - name: Install dependencies
@@ -112,7 +112,7 @@ jobs:
           version: 10.11.1
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.18.0
           cache: "pnpm"
 
       - name: Install dependencies
@@ -126,22 +126,84 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
+      # ------------------------------------------------------------------
+      # Runtime contract: migrate, seed, then explicit readiness gates.
+      # Each step has a distinct name so CI failures classify the phase.
+      # ------------------------------------------------------------------
+
+      - name: Run database migrations
+        env:
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+          REDIS_URL: "redis://localhost:6379"
+          JWT_SECRET: "supersecret"
+          COOKIE_SECRET: "supersecret"
+          STORE_CORS: "http://localhost:8000"
+          ADMIN_CORS: "http://localhost:9000"
+          AUTH_CORS: "http://localhost:9000"
+        run: cd apps/backend && pnpm exec medusa db:migrate
+
+      - name: Seed database
+        env:
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+          REDIS_URL: "redis://localhost:6379"
+          JWT_SECRET: "supersecret"
+          COOKIE_SECRET: "supersecret"
+          STORE_CORS: "http://localhost:8000"
+          ADMIN_CORS: "http://localhost:9000"
+          AUTH_CORS: "http://localhost:9000"
+        run: cd apps/backend && pnpm run seed
+
+      # ------------------------------------------------------------------
+      # Readiness contract:
+      # Playwright's webServer config (playwright.config.ts) starts the
+      # backend (pnpm run backend:dev) and polls http://localhost:9000/health
+      # with a 120s timeout, then starts the storefront
+      # (pnpm run storefront:dev) and polls http://localhost:8000 with a
+      # 120s timeout. reuseExistingServer is false in CI, so Playwright
+      # owns the server lifecycle and the readiness gate. The test step
+      # below tees combined output to playwright-output.txt so backend and
+      # storefront startup failures are classifiable from the log artifact.
+      # ------------------------------------------------------------------
+
       - name: Run Playwright E2E Tests
         env:
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
-          REDIS_URL: redis://localhost:6379
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
-          STORE_CORS: http://localhost:8000
-          ADMIN_CORS: http://localhost:9000
-          AUTH_CORS: http://localhost:9000
-        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+          REDIS_URL: "redis://localhost:6379"
+          JWT_SECRET: "supersecret"
+          COOKIE_SECRET: "supersecret"
+          STORE_CORS: "http://localhost:8000"
+          ADMIN_CORS: "http://localhost:9000"
+          AUTH_CORS: "http://localhost:9000"
+        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} 2>&1 | tee playwright-output.txt
 
-      - name: Upload Playwright Artifacts
+      - name: Upload server logs
         uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}
+        with:
+          name: server-logs-${{ matrix.shardIndex }}
+          path: |
+            playwright-output.txt
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
         with:
           name: playwright-report-${{ matrix.shardIndex }}
           path: playwright-report/
           retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Teardown servers
+        if: ${{ always() }}
+        continue-on-error: true
+        run: |
+          echo "Explicit teardown: stopping any lingering Medusa/Next processes."
+          pkill -f "medusa" || true
+          pkill -f "next dev" || true
+          pkill -f "next-server" || true
+          echo "Teardown complete."

@@ -17,7 +17,8 @@ export function GalleryHeroClient({
   countryCode?: string;
 }) {
   const locale = resolveGalleryLocale(countryCode);
-  // Temporary BB-03 override: map host fixture items
+  // Fixture items serve as a graceful fallback when the backend has no
+  // fio-vivo products yet. Live Medusa data is preferred when available.
   const fixtureItems: GalleryItem[] = fioVivoProducts.map((p) => ({
     id: p.id,
     handle: p.handle,
@@ -44,7 +45,10 @@ export function GalleryHeroClient({
       typeof p.ambientColors === "string" ? undefined : p.ambientColors,
   }));
 
-  const items = _items && _items.length > 0 ? _items : fixtureItems;
+  // Prefer live Medusa items; fall back to the fixture only when the
+  // backend has no fio-vivo products (undefined or empty array).
+  const items: GalleryItem[] =
+    _items && _items.length > 0 ? _items : fixtureItems;
 
   return (
     <div className="dtc-gallery-container" data-gallery-hero-container="true">
