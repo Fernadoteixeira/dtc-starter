@@ -93,7 +93,7 @@ jobs:
           - 5432:5432
         options: >-
           --health-cmd "pg_isready -U postgres"
-          --health-interval 5s
+          --health-interval 10s
           --health-timeout 5s
           --health-retries 5
       redis:
@@ -102,7 +102,7 @@ jobs:
           - 6379:6379
         options: >-
           --health-cmd "redis-cli ping"
-          --health-interval 5s
+          --health-interval 10s
           --health-timeout 5s
           --health-retries 5
     steps:
@@ -118,19 +118,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run database migrations
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        run: cd apps/backend && pnpm exec medusa db:migrate
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
       - name: Run Playwright E2E Tests
         env:
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
-          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
-          REDIS_URL: "redis://localhost:6379"
-          JWT_SECRET: "supersecret"
-          COOKIE_SECRET: "supersecret"
-          STORE_CORS: "http://localhost:8000"
-          ADMIN_CORS: "http://localhost:9000"
-          AUTH_CORS: "http://localhost:9000"
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
+          STORE_CORS: http://localhost:8000
+          ADMIN_CORS: http://localhost:9000
+          AUTH_CORS: http://localhost:9000
         run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Upload Playwright Artifacts
