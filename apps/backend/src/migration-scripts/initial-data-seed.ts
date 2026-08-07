@@ -826,7 +826,7 @@ export default async function initial_data_seed({
           {
             title: "Fio Vivo",
             handle: "fio-vivo",
-            products: createdProducts.map((product) => ({ id: product.id })),
+            product_ids: createdProducts.map((product) => product.id),
           },
         ],
       },

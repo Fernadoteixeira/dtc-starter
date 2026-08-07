@@ -1,5 +1,4 @@
 import { listProducts } from "@lib/data/products";
-import { listCollections } from "@lib/data/collections";
 import { HttpTypes } from "@medusajs/types";
 
 /**
