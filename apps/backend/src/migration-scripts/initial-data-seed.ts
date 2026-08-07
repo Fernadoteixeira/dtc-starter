@@ -830,12 +830,13 @@ export default async function initial_data_seed({
           },
         ],
       },
-    })
-    logger.info("Finished seeding fio-vivo collection.")
+    });
+    logger.info("Finished seeding fio-vivo collection.");
   } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
     logger.warn(
-      `Could not seed fio-vivo collection (it may already exist): ${error}`
-    )
+      `Could not seed fio-vivo collection (it may already exist): ${message}`
+    );
   }
 
   logger.info("Seeding inventory levels.");
