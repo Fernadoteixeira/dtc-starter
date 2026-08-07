@@ -1,0 +1,524 @@
+# NOS-Gallery Transplant Manifest — BB-00 (Issue #13 / NOS-001)
+# Status: FROZEN. This manifest is the authoritative plan for transplanting the
+# nos-gallery first-fold experience into @dtc/gallery-experience +
+# apps/storefront/src/modules/home/gallery-hero. Subsequent issues must execute
+# against this manifest without rediscovery. Changes require a new gate.
+
+manifest:
+  id: nos-gallery-transplant-manifest
+  issue: BB-00 / NOS-001 (GitHub Issue #13)
+  frozen_at: "2026-08-07T14:33:32-03:00"
+  gate_verdict: NOS-GALLERY TRANSPLANT MANIFEST FROZEN
+  runtime_code_changes: none   # audit + mapping only, per issue scope
+
+canonical_source:
+  repository: Fernadoteixeira/nos-gallery
+  remote_url: https://github.com/Fernadoteixeira/nos-gallery.git
+  pinned_commit: 2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e
+  pinned_commit_subject: "feat: initialize product-lifecycle-canonical-skills-315 agent with domain-specific skills, schemas, and orchestrations"
+  pinned_commit_date: "2026-08-04T16:56:43-03:00"
+  local_mirror: apps/storefront/src/modules/nos-gallery   # nested git repo
+  verification:
+    sha_match: true
+    scope_files_clean_at_head: true   # git diff --name-only HEAD over scope files: empty
+    working_tree_exceptions:
+      - path: AGENTS.md               # local doc edit, outside transplant scope
+      - path: .turbo/                 # untracked build cache
+  lineage_note: >
+    .agents/contracts/nos-gallery-first-fold.yaml cites reference.source
+    "boldfernando/nos-gallery"; the actual local remote is
+    "Fernadoteixeira/nos-gallery". The pinned SHA exists locally, matches the
+    task canonical, and all scope files are byte-identical to HEAD. The pinned
+    SHA — not the org name — is authoritative for this slice.
+
+targets:
+  presentation_package: packages/gallery-experience/**
+  storefront_integration: apps/storefront/src/modules/home/gallery-hero/**
+
+owners:
+  presentation-package:
+    domain: "@dtc/gallery-experience components, scoped CSS, domain contracts"
+    paths: ["packages/gallery-experience/src/**"]
+  storefront-integration:
+    domain: "Next.js home hero wiring, feature flags, fixtures, fallback"
+    paths: ["apps/storefront/src/modules/home/gallery-hero/**"]
+  commerce-adapter:
+    domain: "Medusa StoreProduct -> GalleryItem mapping, data fetching"
+    paths:
+      - apps/storefront/src/modules/home/gallery-hero/medusa-adapter.ts
+      - apps/storefront/src/modules/home/gallery-hero/gallery-hero-data.ts
+  qa-visual:
+    domain: "Playwright baselines, nos-gallery-first-fold gate, reduced-motion checks"
+    paths: ["docs/artifacts/**", "playwright.config.ts"]
+
+# ---------------------------------------------------------------------------
+# 1. Component dispositions (every first-fold upstream component)
+# ---------------------------------------------------------------------------
+dispositions:
+
+  - upstream: components/art-gallery-slider.tsx
+    disposition: ADAPT
+    target: packages/gallery-experience/src/components/gallery-experience.tsx
+    owner: presentation-package
+    notes: >
+      Upstream is the interactive orchestrator (active index, dialogs, progress,
+      track translation, preload, editorial zones). Current DTC GalleryExperience
+      is a static three-card slice that must be REPLACED by the ported
+      orchestrator. Adaptations: Artwork -> GalleryItem contracts; initialArtworkCode
+      -> initialItemHandle; artworkImageUrl -> direct GalleryImage.url; Analytics.*
+      -> GalleryExperienceProps callbacks (onItemView/onSceneView/onProductIntent);
+      hardcoded pt-BR copy -> i18n dictionary; sonner toasts and dynamic dialog
+      imports dropped in wave 1 (see DEFER/REJECT entries).
+
+  - upstream: components/artwork-card.tsx
+    disposition: ADAPT
+    target: packages/gallery-experience/src/components/artwork-card.tsx
+    owner: presentation-package
+    notes: >
+      Port the full interaction core: 2x2 pointer scene grid with dead band,
+      scene thumbnail rail, parallax/rotate springs, caption block, scene
+      counter, discovery feedback, reflection layer. Adaptations: Artwork ->
+      GalleryItem (scene ids string not number); availability badge set mapped
+      from ArtworkAvailability (available/sold/reserved/commission) to
+      GalleryAvailability (available/low-stock/out-of-stock/preorder/unavailable);
+      next/image retained (Next is a peer dep); saved/bookmark button deferred
+      (use-saved-artworks); share button wired to onShare prop instead of
+      lib/share + sonner.
+      NOTE: the existing packages/gallery-experience/src/components/artwork-card.tsx
+      (hardcoded #d6b08a/#2a2a2a colors, untyped `artwork: any`) is superseded
+      wholesale — it is not exported from src/index.ts and carries no contract
+      weight. Same for the standalone gallery-ambient.tsx (not exported).
+
+  - upstream: components/gallery-ambient.tsx
+    disposition: ADAPT
+    target: packages/gallery-experience/src/components/gallery-ambient.tsx
+    owner: presentation-package
+    notes: >
+      Port structure verbatim (AnimatePresence keyed by item id, 3 radial
+      gradients + base linear gradient, scale crossfade). Adaptation: colors
+      come from GalleryItem.ambientColors (adapter-sourced) with DEFAULT_COLORS
+      fallback, instead of runtime canvas color extraction — use-color-extraction
+      is deferred (below).
+
+  - upstream: components/navigation-dots.tsx
+    disposition: PORT
+    target: packages/gallery-experience/src/components/navigation-dots.tsx
+    owner: presentation-package
+    notes: >
+      Pure presentational; no data coupling. Only adaptations are mechanical:
+      Tailwind v4 arbitrary-value syntax (text-(--gallery-*)) -> v3-compatible
+      arbitrary properties, and copy via i18n dictionary.
+
+  - upstream: components/gallery-progress-control.tsx
+    disposition: DEFER
+    target: packages/gallery-experience/src/components/gallery-progress-control.tsx
+    owner: presentation-package
+    wave: 2
+    notes: >
+      Depends on the localStorage gamified progress subsystem
+      (use-gallery-progress, lib/gallery-progress, collection-progress-dialog)
+      and sonner toasts. Wave 1 keeps only the static artwork counter
+      (NN / NN) from art-gallery-slider's header. Progress map, achievements,
+      resume and reset land in wave 2 together with their persistence contract.
+
+  - upstream: lib/constants.ts
+    disposition: ADAPT
+    target: packages/gallery-experience/src/lib/constants.ts   # new file
+    owner: presentation-package
+    notes: >
+      PORT as-is: GALLERY_LAYOUT (CARD_STEP_MOBILE 340 / CARD_STEP_DESKTOP 564
+      — must stay in sync with scoped CSS card size+gap), GALLERY_MOTION,
+      GALLERY_EFFECTS, SLIDER_CONSTANTS, DEFAULT_COLORS.
+      ADAPT: AVAILABILITY_LABEL / AVAILABILITY_BADGE_CLASS re-keyed to
+      GalleryAvailability.
+      REJECT: SITE_URL, IMAGE_CACHE_BUST, GALLERY_CONTACT_EMAIL,
+      GALLERY_CONTACT_WHATSAPP (commerce/contact handled by Medusa storefront).
+
+  - upstream: app/page.tsx
+    disposition: KEEP_DTC
+    target: apps/storefront/src/modules/home/gallery-hero/index.tsx   # existing
+    owner: storefront-integration
+    notes: >
+      The DTC server component already implements the upstream responsibilities
+      (async data load, empty-state screen, initial item selection) against the
+      Medusa Store API with feature-flag and fixture fallback. Upstream's
+      getGalleryArtworks()/Postgres repository and buildGalleryJsonLd are
+      replaced by gallery-hero-data.ts + medusa-adapter.ts. Remaining gap to
+      close in a later issue: pass initialItemHandle from the ?obra= (or
+      ?product=) searchParam through to GalleryExperience.
+
+  - upstream: app/globals.css
+    disposition: ADAPT
+    target: packages/gallery-experience/src/styles/gallery-experience.css   # existing, rewritten
+    owner: presentation-package
+    notes: >
+      Port the full .gallery-* design-token layer (copper/umber/linen palette,
+      grain, vignette, track, card, thumbs, caption, dots, skip-link, key hints,
+      skeleton, state screens, all media queries incl. landscape-mobile and
+      prefers-reduced-motion) RE-SCOPED under [data-gallery-experience] so the
+      package stays isolated from the storefront's global CSS.
+      REJECT from upstream file: @import 'tailwindcss', tw-animate-css,
+      @custom-variant, @theme inline block, and the shadcn token bridge
+      (--background/--foreground/... — shadcn is not installed in the DTC
+      storefront). Convert Tailwind v4-only utility syntax used alongside these
+      tokens (e.g. text-(--gallery-paper)) to v3 arbitrary properties —
+      storefront runs Tailwind CSS v3.
+
+  # --- Supporting hooks referenced by the in-scope components ---
+
+  - upstream: hooks/use-slider-navigation.ts
+    disposition: ADAPT
+    target: packages/gallery-experience/src/hooks/use-slider-navigation.ts   # new file
+    owner: presentation-package
+    notes: >
+      Wraparound modulo navigation, clamped goToSlide, goToFirst/goToLast.
+      ADAPTATION (contract-driven): upstream binds keydown on window;
+      nos-gallery-first-fold.yaml FORBIDS "global_keyboard_listener_without_focus_scope".
+      Port must scope ArrowLeft/ArrowRight/Home/End handling to the gallery
+      viewport element (focus-contained), preserving the existing isEditing /
+      modifier-key guards.
+
+  - upstream: hooks/use-slider-drag.ts
+    disposition: PORT
+    target: packages/gallery-experience/src/hooks/use-slider-drag.ts   # new file
+    owner: presentation-package
+    notes: >
+      Pointer drag with DRAG_RESISTANCE 0.4, swipe threshold 8% viewport width,
+      velocity threshold 0.3, rAF momentum easing back to 0, interactive-element
+      guard on drag start. Depends on framer-motion useMotionValue — see
+      deviations.fracker_motion_dependency.
+
+  - upstream: hooks/use-slider-wheel.ts
+    disposition: PORT
+    target: packages/gallery-experience/src/hooks/use-slider-wheel.ts   # new file
+    owner: presentation-package
+    notes: >
+      Wheel accumulator with WHEEL_RESISTANCE 0.3, threshold 120, reset delay
+      150ms, passive:false preventDefault. No data coupling.
+
+  - upstream: hooks/use-reduced-motion.ts
+    disposition: PORT
+    target: packages/gallery-experience/src/hooks/use-reduced-motion.ts   # new file
+    owner: presentation-package
+    notes: >
+      useSyncExternalStore matchMedia hooks (reduced motion + fine pointer) with
+      false server snapshot. Framework-agnostic, no changes required.
+
+  - upstream: hooks/use-gallery-progress.ts + lib/gallery-progress.ts (+ tests)
+    disposition: DEFER
+    target: packages/gallery-experience/src/hooks/use-gallery-progress.ts   # wave 2
+    owner: presentation-package
+    wave: 2
+    notes: >
+      Immutable localStorage snapshot store (key fio-vivo:gallery-progress:v1,
+      version 1), discovery keys ARTWORKCODE:sceneId, achievements
+      (primeiro-fio, olhar-completo, colecao-percorrida, arquivo-vivo), storage
+      event sync. Deferred with gallery-progress-control; storage key must be
+      namespaced (e.g. dtc:gallery-progress:v1) when ported to avoid colliding
+      with any live fiovivo.vercel.app origin data.
+
+  - upstream: hooks/use-artwork-dwell.ts
+    disposition: ADAPT
+    target: packages/gallery-experience/src/hooks/use-item-dwell.ts   # new file
+    owner: presentation-package
+    notes: Dwell timing retained; emit via onItemView-style callback instead of lib/analytics.
+
+  - upstream: hooks/use-color-extraction.ts + lib/color-extractor.ts
+    disposition: DEFER
+    target: packages/gallery-experience/src/hooks/use-artwork-colors.ts   # wave 2+
+    owner: presentation-package
+    wave: 2
+    notes: >
+      Runtime canvas color extraction is replaced in wave 1 by
+      GalleryItem.ambientColors (curated, adapter-sourced) + DEFAULT_COLORS
+      fallback. Revisit only if curated colors prove insufficient.
+
+  - upstream: hooks/use-saved-artworks.ts
+    disposition: DEFER
+    target: packages/gallery-experience/src/hooks/use-saved-items.ts   # wave 2+
+    owner: presentation-package
+    wave: 2
+    notes: Bookmark/wishlist persistence is not a first-fold requirement; may be superseded by a Medusa wishlist.
+
+  # --- Lib / integration dependencies ---
+
+  - upstream: lib/artworks/indexes.ts (createArtworkCatalog, getArtworkIndexByCode)
+    disposition: ADAPT
+    target: packages/gallery-experience/src/lib/indexes.ts   # new file
+    owner: presentation-package
+    notes: Re-keyed from artwork code to GalleryItem handle; pure function, trivially portable.
+
+  - upstream: lib/utils.ts (artworkImageUrl)
+    disposition: REJECT_WITH_REASON
+    reason: >
+      Exists to append IMAGE_CACHE_BUST to statically-hosted image paths.
+      GalleryItem.image.url is already a fully-qualified Medusa/static URL;
+      cache busting is a CDN concern, not a component concern.
+    replacement: "use GalleryImage.url directly"
+
+  - upstream: lib/analytics.ts
+    disposition: REJECT_WITH_REASON
+    reason: >
+      Hardcoded event sink inside the presentation layer. The DTC contract
+      already externalizes analytics via GalleryExperienceProps callbacks
+      (onItemView/onSceneView/onProductIntent/onShare/onProgressChange) and
+      apps/storefront/.../gallery-hero-analytics.ts owns storefront-side
+      emission.
+    replacement: "GalleryExperienceProps callbacks + gallery-hero-analytics.ts"
+
+  - upstream: lib/share.ts
+    disposition: ADAPT
+    target: packages/gallery-experience/src/lib/share.ts   # new file
+    owner: presentation-package
+    notes: >
+      navigator.share/clipboard fallback logic is portable; share URL must be
+      built from GalleryItem.productUrl on the current origin, not SITE_URL;
+      success toast replaced by onShare callback (no sonner dependency).
+
+  - upstream: lib/artworks/{catalog,repository,static-repository,postgres-*}.ts
+    disposition: REJECT_WITH_REASON
+    reason: >
+      Direct Postgres access from the storefront violates DTC architecture
+      (all commerce data flows through the Medusa Store API; AGENTS.md forbids
+      raw DB clients). The Medusa adapter already exists and is canonical.
+    replacement: >
+      KEEP_DTC: apps/storefront/src/modules/home/gallery-hero/gallery-hero-data.ts
+      + medusa-adapter.ts (mapStoreProductToGalleryItem).
+
+  - upstream: lib/schema.ts (buildGalleryJsonLd)
+    disposition: DEFER
+    target: apps/storefront/src/modules/home/gallery-hero/gallery-hero-jsonld.ts   # wave 2
+    owner: storefront-integration
+    wave: 2
+    notes: SEO structured data; must be rebuilt against StoreProduct/GalleryItem, not Artwork.
+
+  # --- Dialog components pulled in by art-gallery-slider ---
+
+  - upstream: components/artwork-details-dialog.tsx
+    disposition: DEFER
+    target: packages/gallery-experience/src/components/artwork-details-dialog.tsx   # wave 2
+    owner: presentation-package
+    wave: 2
+    notes: >
+      Wave-1 CTA navigates to GalleryItem.productUrl (Medusa product page)
+      instead of opening an in-gallery details dialog. The dialog may return
+      when the product page cannot host the editorial story content.
+
+  - upstream: components/inquiry-modal.tsx (+ lib/inquiries/**, app/studio/**)
+    disposition: REJECT_WITH_REASON
+    reason: >
+      The bespoke inquiry/intake/notification pipeline (incl. Clerk-authenticated
+      studio back-office) duplicates Medusa commerce. Purchase/contact intent
+      flows through the Medusa product page, cart and checkout. No transplant.
+    replacement: "productUrl CTA + Medusa checkout"
+
+  - upstream: components/collection-progress-dialog.tsx
+    disposition: DEFER
+    target: packages/gallery-experience/src/components/collection-progress-dialog.tsx   # wave 2
+    owner: presentation-package
+    wave: 2
+    notes: Ships with the wave-2 progress subsystem.
+
+  - upstream: components/gallery-state-screen.tsx
+    disposition: KEEP_DTC
+    target: apps/storefront/src/modules/home/gallery-hero/gallery-hero-fallback.tsx   # existing
+    owner: storefront-integration
+    notes: >
+      gallery-hero-fallback already covers the empty/disabled states.
+      Optional polish: adopt upstream's gallery-state-progress animation tokens
+      when the scoped CSS lands.
+
+  - upstream: components/theme-provider.tsx
+    disposition: REJECT_WITH_REASON
+    reason: Gallery is a fixed dark editorial scene inside a light commerce storefront; no theme switching.
+    replacement: "scoped [data-gallery-experience] tokens only"
+
+  - upstream: components/web-vitals-reporter.tsx
+    disposition: REJECT_WITH_REASON
+    reason: Storefront-level observability concern, not a gallery component; DTC reporting stack owns this.
+    replacement: existing storefront observability
+
+  - upstream: app/privacidade, app/studio/**, lib/auth/**, lib/db/**, lib/api/**
+    disposition: REJECT_WITH_REASON
+    reason: >
+      Back-office (Clerk auth, direct Postgres pool, inquiry workspace) is
+      outside the first-fold storefront scope and duplicates Medusa admin/auth.
+    replacement: "Medusa admin + storefront auth"
+
+# ---------------------------------------------------------------------------
+# 2. Behavioral contracts (binding for the port)
+# ---------------------------------------------------------------------------
+behavioral_contracts:
+
+  active_index_management:
+    source: hooks/use-slider-navigation.ts + components/art-gallery-slider.tsx
+    rules:
+      - currentIndex state owned by the orchestrator; initialized from initialItemHandle (clamped, 0 when unknown).
+      - goToNext/goToPrev wrap modulo items.length; goToSlide clamps to [0, length-1].
+      - Keyboard: ArrowRight/ArrowLeft/Home/End, ignored while editing (input/textarea/select/contenteditable), with modifier keys, or when a dialog/overlay is open.
+      - Keyboard listener MUST be scoped to the gallery viewport focus (BB03 forbidden: global_keyboard_listener_without_focus_scope) — intentional deviation from upstream window listener.
+      - Adjacent artwork's first scene image is preloaded on every index change (new window.Image()).
+
+  scene_state_and_discovery:
+    source: components/artwork-card.tsx
+    rules:
+      - Per-card activeScene index with ref mirror (activeSceneRef) to avoid stale closures.
+      - Pointer-driven scene selection only when item is interactive AND fine pointer AND NOT reduced motion: card rect split into 2x2 grid, both |x| and |y| must exceed SCENE_DEAD_BAND 0.08 to switch.
+      - Thumbnail click/hover sets scene directly and is available on all pointers.
+      - External scene selection (progress map, wave 2) flows through a {itemHandle, sceneId, requestId} intent consumed exactly once by the active card.
+      - Scene discovery fires onSceneView after SCENE_DISCOVERY_DELAY_MS 650ms of the active, loaded, discovery-enabled scene (wave 1: analytics callback only; persistence deferred).
+      - Pointer tracking drives parallax (PARALLAX_X 10 / PARALLAX_Y 8), rotation (ROTATE_X 4 / ROTATE_Y 5, transformPerspective 900) and a --scene-light-position radial glow, all via springs POINTER_SPRING {stiffness 180, damping 28, mass 0.75}.
+
+  drag_and_wheel_interaction:
+    source: hooks/use-slider-drag.ts + hooks/use-slider-wheel.ts
+    rules:
+      - Drag start ignored when the event target is inside button/a/input/textarea/select/[role=button]/contenteditable.
+      - Raw delta resisted by DRAG_RESISTANCE 0.4; velocity tracked per frame.
+      - Swipe commits when |dragX| > 8% of viewport width OR |velocity| > 0.3 px/ms; dragX always eases back to 0 with rAF (MOMENTUM_EASING 0.1, stop < 0.5px).
+      - Wheel: dominant axis taken (|deltaX| vs |deltaY|), resisted by 0.3, accumulated; slide change at |acc| >= 120; accumulator resets after 150ms idle; listener is passive:false with preventDefault.
+      - While dragging, track translation transitions run with duration 0.
+
+  ambient_grain_vignette:
+    source: components/gallery-ambient.tsx + app/globals.css (.gallery-grain/.gallery-vignette)
+    rules:
+      - Ambient layer keyed by active item id; crossfade + scale 1.08->1 in, 0.98 out; AMBIENCE_DURATION 0.8s with GALLERY_EASE.
+      - Gradient recipe fixed: radial 18%/42% color0@42alpha, radial 83%/78% color1@35alpha, radial 50%/5% color2@24alpha over linear 120deg surface->ink->ink-deep.
+      - Grain: SVG feTurbulence data-URI at opacity 0.14 soft-light + 105deg repeating-linear-gradient ::after at 0.15.
+      - Vignette: radial ellipse transparent 42% -> rgba(8,7,5,0.32) (0.22 on mobile).
+      - All three layers are aria-hidden and pointer-events-none; grain/vignette z-ordered above ambient, below content.
+
+  progress_tracking:
+    source: components/gallery-progress-control.tsx + lib/gallery-progress.ts
+    wave_1_rules:
+      - Header shows static counter NN / NN (padStart 2) — format fixed by BB-04 fixture contract, locale-independent.
+      - onProgressChange callback fires with {currentIndex, totalItems, activeSceneId}.
+    wave_2_rules:
+      - localStorage snapshot (versioned, immutable, storage-event-synced); storage key MUST be re-namespaced off 'fio-vivo:gallery-progress:v1'.
+      - Discovery keys ARTWORKHANDLE:sceneId; achievements announced via toast equivalent; resume targets first undiscovered scene.
+
+  reduced_motion:
+    source: hooks/use-reduced-motion.ts + app/globals.css
+    rules:
+      - Every motion transition resolves to {duration: 0} when prefers-reduced-motion.
+      - Pointer scene tracking, parallax, rotation and scene-light are disabled (canTrackPointer false).
+      - "CSS: grain animation, skeleton shimmer, state-progress animation and thumb/skip-link transitions disabled under @media (prefers-reduced-motion: reduce)."
+      - Scene discovery still functions via thumbnails (no capability loss).
+
+  cta_behavior:
+    source: components/art-gallery-slider.tsx + components/artwork-card.tsx
+    rules:
+      - 'Desktop: "Conhecer a peça" button bottom-right (i18n: gallery.cta), min 44px target, hover/focus prefetch intent.'
+      - 'Mobile: same CTA rendered below the active card only (md:hidden), AnimatePresence on active change.'
+      - 'WAVE-1 DEVIATION: CTA navigates to GalleryItem.productUrl and fires onProductIntent — it does NOT open the details dialog or inquiry modal (both deferred/rejected).'
+      - Keyboard help region (gallery-help) and aria-live announcement of "title — contextualName. By artist. Item N of M." retained.
+
+# ---------------------------------------------------------------------------
+# 3. Intentional deviations (each with evidence + rationale)
+# ---------------------------------------------------------------------------
+deviations:
+
+  - id: data-source-medusa
+    kind: medusa-adaptation
+    upstream: lib/artworks/postgres-* + getGalleryArtworks
+    dtc: gallery-hero-data.ts + medusa-adapter.ts
+    evidence: "gallery-hero-data.ts queries the Medusa Store API (collection fio-vivo, fields *variants,*variants.calculated_price,*images,*categories); medusa-adapter.ts maps StoreProduct -> GalleryItem."
+    rationale: DTC architecture forbids direct DB access from the storefront; Medusa owns product, price and inventory truth.
+
+  - id: type-contract-gallery-item
+    kind: medusa-adaptation
+    upstream: "Artwork { id: number, code: string, scenes: ArtworkScene[{id: number, image: string}], availability: available|sold|reserved|commission, price?: string }"
+    dtc: "GalleryItem { id: string, handle: string, scenes: GalleryScene[{id: string, image: GalleryImage}], availability: available|low-stock|out-of-stock|preorder|unavailable, price?: GalleryPrice, productUrl: string, ambientColors?: [c,c,c] }"
+    evidence: packages/gallery-experience/src/types/index.ts
+    rationale: Framework-agnostic domain contract is the package's public API; scene ids and item identity key off handle/strings, prices are structured, availability maps to inventory states.
+
+  - id: cta-to-product-page
+    kind: medusa-adaptation
+    upstream: details dialog -> inquiry modal (bespoke pipeline)
+    dtc: navigate productUrl + onProductIntent callback
+    evidence: "medusa-adapter.ts builds /{countryCode}/products/{handle}; inquiry pipeline (components/inquiry-modal.tsx, lib/inquiries/**) rejected."
+    rationale: Commerce intent must flow through Medusa product/cart/checkout; the bespoke inquiry back-office duplicates it.
+
+  - id: ambient-colors-curated
+    kind: visual-behavioral-deviation
+    upstream: runtime canvas color extraction (use-color-extraction)
+    dtc: GalleryItem.ambientColors from product metadata.gallery.ambientColors with DEFAULT_COLORS fallback
+    evidence: "medusa-adapter.ts line ~118: ambientColors: metadata.ambientColors || ['#1a1a2e','#16213e','#0f3460']"
+    rationale: "Curated colors are deterministic, SSR-friendly and avoid canvas/CORS cost. NOTE: the current adapter fallback is a blue palette that VIOLATES nos-gallery-first-fold forbidden.generic_saas_blue_palette — must be changed to the upstream DEFAULT_COLORS ['#4a382a','#2d2720','#171614'] during the port."
+
+  - id: palette-restoration
+    kind: visual-behavioral-deviation
+    upstream: copper/umber/linen tokens (--gallery-accent #c88f68, --gallery-ink #1b1814, --gallery-paper #ede3d2, ...)
+    dtc_current: "scoped slice uses generic blue (--dtc-gallery-accent #38bdf8, bg #090a0f)"
+    evidence: packages/gallery-experience/src/styles/gallery-experience.css lines 1-15
+    rationale: BB03 contract requires copper_umber_linen_palette and forbids generic_saas_blue_palette; the port replaces the token block wholesale with the upstream palette, re-scoped.
+
+  - id: tailwind-v3-compat
+    kind: medusa-adaptation   # platform adaptation
+    upstream: "Tailwind v4 syntax (@import 'tailwindcss', @theme inline, text-(--gallery-paper), max-w-38.75)"
+    dtc: Tailwind CSS v3 in apps/storefront
+    evidence: AGENTS.md common-mistakes ("v4-only syntax breaks the build"); upstream app/globals.css lines 3-92.
+    rationale: Storefront build toolchain is v3; all v4-only utilities are converted to v3 arbitrary properties (text-[var(--gallery-paper)], max-w-[38.75px]) during the port. The package's scoped CSS is plain CSS and unaffected.
+
+  - id: keyboard-scope
+    kind: visual-behavioral-deviation
+    upstream: window-level keydown listener
+    dtc: viewport-focus-scoped keyboard handling
+    evidence: nos-gallery-first-fold.yaml forbidden.global_keyboard_listener_without_focus_scope
+    rationale: The gallery lives inside a storefront page with commerce header/cart; a global listener would hijack storefront navigation.
+
+  - id: framer-motion-dependency
+    kind: medusa-adaptation   # dependency reconciliation
+    upstream: framer-motion + sonner + lucide-react + next/dynamic dialogs
+    dtc: "package.json of @dtc/gallery-experience already declares framer-motion 12.42.2 (dependency) and react/next as peers; storefront itself does NOT install framer-motion; lucide-react and sonner are not declared"
+    evidence: packages/gallery-experience/package.json; AGENTS.md ("No Framer Motion or shadcn/ui are installed").
+    rationale: "Motion primitives port behind the package boundary where framer-motion is declared. sonner is NOT ported — toasts become callback events. Icons: lucide-react must be added to the package or replaced with inline SVG during the port (decision recorded as residual gap)."
+
+  - id: i18n-externalized
+    kind: visual-behavioral-deviation
+    upstream: hardcoded pt-BR strings throughout components
+    dtc: i18n dictionary (resolveGalleryLocale/translateGallery) driven by countryCode
+    evidence: packages/gallery-experience/src/i18n/dictionary.ts; gallery-hero-client.tsx maps countryCode -> locale.
+    rationale: DTC storefront is multi-region; hardcoded strings would block localization. KEEP_DTC.
+
+  - id: gamification-deferred
+    kind: visual-behavioral-deviation
+    upstream: localStorage progress map, achievements, resume, saved artworks
+    dtc: wave 1 ships counter + analytics callbacks only
+    evidence: dispositions DEFER entries above.
+    rationale: First-fold visual/interaction parity is the BB-NOS gate; persistence/gamification is additive and lands in wave 2 with a re-namespaced storage key.
+
+# ---------------------------------------------------------------------------
+# 4. Freeze record
+# ---------------------------------------------------------------------------
+freeze:
+  pinned_commit: 2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e
+  immutable_for_slice: true
+  dispositions_total: 29
+  dispositions_by_class: { ADAPT: 9, PORT: 4, KEEP_DTC: 2, DEFER: 7, REJECT_WITH_REASON: 7 }
+  note: >
+    Disposition counts treat multi-file entries (progress subsystem,
+    postgres repositories, back-office) as single entries. Any new upstream
+    pull must re-run BB-00 diff against the new SHA before execution.
+
+residual_gaps:
+  - id: gap-scene-id-type
+    detail: "Upstream scene ids are numbers keyed by 2x2 grid index; GalleryScene.id is a string. Port must decide whether discovery keys and sceneSelectionIntent use string ids or index — resolve in the artwork-card port issue."
+  - id: gap-initial-handle-param
+    detail: "gallery-hero/index.tsx does not yet read a searchParam to seed initialItemHandle (upstream uses ?obra=). Decide param name (?product= vs ?obra=) when wiring."
+  - id: gap-icon-strategy
+    detail: "lucide-react is undeclared in @dtc/gallery-experience; either add the dependency or inline the 6 used icons (ChevronLeft/Right, ArrowUpRight, ArrowRight, BookOpenText, Check, Compass, Bookmark, Share2)."
+  - id: gap-ambient-fallback-palette
+    detail: "medusa-adapter.ts ambientColors fallback ['#1a1a2e','#16213e','#0f3460'] violates the BB03 palette ban; change to DEFAULT_COLORS in the port issue (runtime change, out of BB-00 scope)."
+  - id: gap-adapter-location
+    detail: "AGENTS.md describes packages/gallery-experience/src/adapters/medusa/ but no adapters directory exists; mapStoreProductToGalleryItem lives in gallery-hero. Decide the canonical home (package adapter vs storefront module) in the adapter issue."
+  - id: gap-sonner-replacement
+    detail: "Upstream UX signals (achievement toasts, share/copy confirmation, save feedback) need a callback-driven replacement; wave-1 ships silent, wave-2 defines the notification surface."
+  - id: gap-price-display
+    detail: "Upstream shows artwork.price as an opaque string in the details dialog; GalleryItem.price is structured. Wave-1 CTA defers to the product page, so no price rendering contract is frozen here."
+
+acceptance_checklist:
+  commit_sha_pinned: true
+  every_first_fold_component_has_disposition: true
+  every_deviation_has_evidence_and_rationale: true
+  no_runtime_code_changes: true
+  manifest_sufficient_for_subsequent_issues: true

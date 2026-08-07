@@ -1,3 +1,4 @@
+import { getCollectionByHandle } from "@lib/data/collections";
 import { listProducts } from "@lib/data/products";
 import { HttpTypes } from "@medusajs/types";
 
