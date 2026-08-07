@@ -110,7 +110,7 @@ dtc-starter/
 │       ├── fio-vivo-r1-runtime-measurements.json
 │       └── SHA256SUMS.txt
 │
-├── artifacts/bb-04/                             # Linha histórica BB-04 preservada
+├── docs/artifacts/artifacts/bb-04/                # Linha histórica BB-04 preservada (cópia aninhada acidental)
 │   ├── bb04-gate4-runtime-recovery-report.md
 │   ├── fio-vivo-bb04-visual-evidence-report.md
 │   ├── fio-vivo-desktop-1600x960.png
@@ -158,8 +158,8 @@ dtc-starter/
 ### Governança dos artefatos BB-04
 
 - `docs/artifacts/bb-04/` é o caminho canônico para as evidências BB-04 documentadas/ativas e seus checksums.
-- `artifacts/bb-04/` é a linha histórica preservada para auditoria e comparação; não é um espelho a ser substituído pelo conjunto em `docs/artifacts/bb-04/`.
-- `artifacts/bb-04/superseded/r1/` é histórico imutável. Não mover, apagar, regenerar ou editar esse conteúdo durante a organização documental.
+- `docs/artifacts/artifacts/bb-04/` é a linha histórica preservada para auditoria e comparação (cópia aninhada acidental, documentada explicitamente aqui); não é um espelho a ser substituído pelo conjunto em `docs/artifacts/bb-04/`.
+- `docs/artifacts/artifacts/bb-04/superseded/r1/` é histórico imutável. Não mover, apagar, regenerar ou editar esse conteúdo durante a organização documental.
 - Relatórios executivos ativos continuam em `docs/artifacts/fio-vivo-360/`; documentação estratégica continua em `docs/fio-vivo/`. Os três domínios têm responsabilidades distintas.
 
 ---
@@ -264,8 +264,8 @@ dtc-starter/
 | Path | Observação |
 |---|---|
 | `.agents/ollama-superpowers-pack-v1.0.0/` | Pack de skills local |
-| `artifacts/bb-04/bb04-gate4-runtime-recovery-report.md` | Relatório Gate 4 |
-| `artifacts/bb-04/superseded/r1/` | Artefatos R1 |
+| `docs/artifacts/artifacts/bb-04/bb04-gate4-runtime-recovery-report.md` | Relatório Gate 4 |
+| `docs/artifacts/artifacts/bb-04/superseded/r1/` | Artefatos R1 |
 
 ---
 

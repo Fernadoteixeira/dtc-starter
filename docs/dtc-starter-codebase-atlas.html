@@ -479,7 +479,7 @@ function renderBars(id,data){
   var max=Math.max.apply(null,data.map(function(d){return d[1]}));
   var html=data.map(function(d){
     var pct=Math.round(d[1]/max*100);
-    return '<div class="bar-row"><b>'+d[0]+'</b><div class="bar-track"><div class="bar-fill bar-fill-w-'+pct+'"></div></div><div class="bar-val">'+d[1].toLocaleString('en-US')+'</div></div>';
+    return '<div class="bar-row"><b>'+d[0]+'</b><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%"></div></div><div class="bar-val">'+d[1].toLocaleString('en-US')+'</div></div>';
   }).join('');
   document.getElementById(id).innerHTML=html;
 }
