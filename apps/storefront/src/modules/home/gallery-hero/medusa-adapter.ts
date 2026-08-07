@@ -33,7 +33,7 @@ export function mapStoreProductToGalleryItem(
   const primaryImageUrl =
     product.thumbnail ||
     product.images?.[0]?.url ||
-    "https://via.placeholder.com/800x1000?text=No+Image";
+    "/images/fio-vivo/fv-006-duna-terracota/01-frente.png";
 
   const primaryImage: GalleryImage = {
     url: primaryImageUrl,
@@ -106,7 +106,7 @@ export function mapStoreProductToGalleryItem(
     title: product.title,
     contextualName: metadata.contextualName || product.title,
     description: product.description || metadata.story || undefined,
-    artist: metadata.artist || "Medusa Studio",
+    artist: metadata.artist || "Fio Vivo",
     material: metadata.material || undefined,
     category: categoryName || undefined,
     year: metadata.year || new Date().getFullYear(),

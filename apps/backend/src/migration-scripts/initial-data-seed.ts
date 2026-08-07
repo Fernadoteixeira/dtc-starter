@@ -357,16 +357,16 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-front.png",
+              url: "/images/fio-vivo/fv-001-espiral-dourada/01-frente.png",
             },
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-back.png",
+              url: "/images/fio-vivo/fv-001-espiral-dourada/02-perfil.png",
             },
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-front.png",
+              url: "/images/fio-vivo/fv-001-espiral-dourada/03-gesto.png",
             },
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-back.png",
+              url: "/images/fio-vivo/fv-001-espiral-dourada/04-detalhe.png",
             },
           ],
           options: [
@@ -538,10 +538,10 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png",
+              url: "/images/fio-vivo/fv-002-orbita-negra/01-frente.png",
             },
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-back.png",
+              url: "/images/fio-vivo/fv-002-orbita-negra/02-perfil.png",
             },
           ],
           options: [{ id: sizeOption.id }],
@@ -634,10 +634,10 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-front.png",
+              url: "/images/fio-vivo/fv-003-trama-solar/01-frente.png",
             },
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-back.png",
+              url: "/images/fio-vivo/fv-003-trama-solar/02-perfil.png",
             },
           ],
           options: [{ id: sizeOption.id }],
@@ -730,10 +730,10 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-front.png",
+              url: "/images/fio-vivo/fv-004-fio-ancestral/01-frente.png",
             },
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-back.png",
+              url: "/images/fio-vivo/fv-004-fio-ancestral/02-perfil.png",
             },
           ],
           options: [{ id: sizeOption.id }],
