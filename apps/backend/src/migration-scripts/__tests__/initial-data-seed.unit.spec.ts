@@ -65,14 +65,14 @@ jest.mock("@medusajs/medusa/core-flows", () => ({
 
 describe("initial-data-seed module structure", () => {
   it("exports a default function", async () => {
-    const seedModule = await import("../initial-data-seed")
+    const seedModule = await import("../initial-data-seed.js")
 
     expect(seedModule.default).toBeDefined()
     expect(typeof seedModule.default).toBe("function")
   })
 
   it("the default function accepts an object with a container property", async () => {
-    const seedModule = await import("../initial-data-seed")
+    const seedModule = await import("../initial-data-seed.js")
 
     // The function signature is ({ container }: { container: MedusaContainer })
     expect(seedModule.default.length).toBeGreaterThanOrEqual(1)
@@ -140,7 +140,7 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
     const collectionRun = workflowRunMocks.get("collection")!
     collectionRun.mockRejectedValueOnce(new Error("Collection already exists"))
 
-    seedFunction = (await import("../initial-data-seed")).default
+    seedFunction = (await import("../initial-data-seed.js")).default
 
     const container = buildFakeContainer()
 
@@ -154,7 +154,7 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
     const collectionRun = workflowRunMocks.get("collection")!
     collectionRun.mockRejectedValueOnce(new Error("Duplicate collection"))
 
-    seedFunction = (await import("../initial-data-seed")).default
+    seedFunction = (await import("../initial-data-seed.js")).default
 
     const container = buildFakeContainer()
     await seedFunction({ container })
@@ -175,7 +175,7 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
     const collectionRun = workflowRunMocks.get("collection")!
     collectionRun.mockResolvedValueOnce({ result: [{ id: "col_fv" }] })
 
-    seedFunction = (await import("../initial-data-seed")).default
+    seedFunction = (await import("../initial-data-seed.js")).default
 
     const container = buildFakeContainer()
     await seedFunction({ container })
@@ -191,7 +191,7 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
   })
 
   it("calls createCollectionsWorkflow for the fio-vivo collection", async () => {
-    seedFunction = (await import("../initial-data-seed")).default
+    seedFunction = (await import("../initial-data-seed.js")).default
 
     const container = buildFakeContainer()
     await seedFunction({ container })
@@ -210,7 +210,7 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
   })
 
   it("includes all created product ids in the fio-vivo collection input", async () => {
-    seedFunction = (await import("../initial-data-seed")).default
+    seedFunction = (await import("../initial-data-seed.js")).default
 
     const container = buildFakeContainer()
     await seedFunction({ container })
