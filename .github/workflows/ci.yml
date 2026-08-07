@@ -1,0 +1,176 @@
+name: CI Hardened Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  ci:
+    name: Lint, Migrate, Seed, Test & E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7.2-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+      REDIS_URL: redis://localhost:6379
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
+      NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
+      STORE_CORS: http://localhost:8000
+      ADMIN_CORS: http://localhost:9000
+      AUTH_CORS: http://localhost:9000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.11.1
+
+      - name: Setup Node 20.18.0
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint monorepo
+        run: pnpm run lint
+
+      - name: Backend typecheck
+        run: pnpm --dir apps/backend exec tsc --noEmit
+
+      - name: Storefront typecheck
+        run: pnpm --dir apps/storefront exec tsc --noEmit
+
+      - name: Start Docker services (PostgreSQL)
+        run: pnpm run docker:up
+
+      - name: Run database migrations
+        run: pnpm --dir apps/backend run db:migrate
+
+      - name: Seed database
+        run: pnpm --dir apps/backend run seed
+
+      - name: Start backend
+        run: pnpm run backend:dev > backend.log 2>&1 &
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+          REDIS_URL: redis://localhost:6379
+
+      - name: Wait for backend readiness
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:9000/health > /dev/null 2>&1; then
+              echo "Backend is ready (attempt $i)"
+              exit 0
+            fi
+            echo "Waiting for backend... (attempt $i/60)"
+            sleep 1
+          done
+          echo "Backend did not become ready within 60s"
+          cat backend.log || true
+          exit 1
+
+      - name: Start storefront
+        run: pnpm run storefront:dev > storefront.log 2>&1 &
+
+      - name: Wait for storefront readiness
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8000 > /dev/null 2>&1; then
+              echo "Storefront is ready (attempt $i)"
+              exit 0
+            fi
+            echo "Waiting for storefront... (attempt $i/60)"
+            sleep 1
+          done
+          echo "Storefront did not become ready within 60s"
+          cat storefront.log || true
+          exit 1
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run backend unit tests
+        run: pnpm --dir apps/backend run test:unit
+
+      - name: Run storefront unit tests
+        run: pnpm --dir apps/storefront run test:unit
+
+      - name: Run Playwright E2E tests
+        run: pnpm run test:e2e
+
+      - name: Validate Medusa skills
+        run: node scripts/validate-medusa-skills.mjs
+
+      # ============================================================
+      # TEARDOWN — always runs, even on failure
+      # ============================================================
+      - name: Teardown services
+        if: always()
+        run: |
+          # Kill any next.js / medusa processes
+          pkill -f "next dev" || true
+          pkill -f "medusa develop" || true
+          # Stop Docker services
+          pnpm run docker:down || true
+
+      # ============================================================
+      # LOG UPLOAD — always runs, even on failure
+      # ============================================================
+      - name: Upload backend logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-logs
+          path: backend.log
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload storefront logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: storefront-logs
+          path: storefront.log
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+          if-no-files-found: ignore

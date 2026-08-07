@@ -44,10 +44,12 @@ export function GalleryHeroClient({
       typeof p.ambientColors === "string" ? undefined : p.ambientColors,
   }));
 
+  const items = _items && _items.length > 0 ? _items : fixtureItems;
+
   return (
     <div className="dtc-gallery-container" data-gallery-hero-container="true">
       <GalleryExperience
-        items={fixtureItems}
+        items={items}
         collectionTitle="Fio Vivo"
         collectionNumber="01"
         locale={countryCode}

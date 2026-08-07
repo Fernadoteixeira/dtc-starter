@@ -21,8 +21,12 @@
     "test:e2e": {
       "outputs": ["playwright-report/**", "test-results/**"]
     },
-    "seed": {
+    "db:migrate": {
       "outputs": []
+    },
+    "seed": {
+      "outputs": [],
+      "dependsOn": ["db:migrate"]
     }
   }
 }
