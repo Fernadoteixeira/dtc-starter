@@ -174,28 +174,16 @@ jobs:
           AUTH_CORS: "http://localhost:9000"
         run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} 2>&1 | tee playwright-output.txt
 
-      - name: Upload backend logs
+      - name: Upload server logs
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: backend-logs-${{ matrix.shardIndex }}
+          name: server-logs-${{ matrix.shardIndex }}
           path: |
             playwright-output.txt
             test-results/
           retention-days: 14
           if-no-files-found: ignore
-
-      - name: Upload storefront logs
-        uses: actions/upload-artifact@v4
-        if: ${{ always() }}
-        with:
-          name: storefront-logs-${{ matrix.shardIndex }}
-          path: |
-            playwright-output.txt
-            test-results/
-          retention-days: 14
-          if-no-files-found: ignore
-
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
