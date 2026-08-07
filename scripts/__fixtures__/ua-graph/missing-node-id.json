@@ -1,0 +1,177 @@
+{
+  "nodes": [
+    {
+      "id": "n0",
+      "path": "package.json"
+    },
+    {
+      "id": "n1",
+      "path": "package.json"
+    },
+    {
+      "id": "n2",
+      "path": "package.json"
+    },
+    {
+      "id": "n3",
+      "path": "package.json"
+    },
+    {
+      "id": "n4",
+      "path": "package.json"
+    },
+    {
+      "id": "n5",
+      "path": "package.json"
+    },
+    {
+      "id": "n6",
+      "path": "package.json"
+    },
+    {
+      "id": "n7",
+      "path": "package.json"
+    },
+    {
+      "id": "n8",
+      "path": "package.json"
+    },
+    {
+      "id": "n9",
+      "path": "package.json"
+    },
+    {
+      "id": "n10",
+      "path": "package.json"
+    },
+    {
+      "id": "n11",
+      "path": "package.json"
+    },
+    {
+      "id": "n12",
+      "path": "package.json"
+    },
+    {
+      "id": "n13",
+      "path": "package.json"
+    },
+    {
+      "id": "n14",
+      "path": "package.json"
+    },
+    {
+      "id": "n15",
+      "path": "package.json"
+    },
+    {
+      "id": "n16",
+      "path": "package.json"
+    },
+    {
+      "id": "n17",
+      "path": "package.json"
+    },
+    {
+      "id": "n18",
+      "path": "package.json"
+    },
+    {
+      "id": "n19",
+      "path": "package.json"
+    },
+    {
+      "id": "n20",
+      "path": "package.json"
+    },
+    {
+      "id": "n21",
+      "path": "package.json"
+    },
+    {
+      "id": "n22",
+      "path": "package.json"
+    },
+    {
+      "id": "n23",
+      "path": "package.json"
+    },
+    {
+      "id": "n24",
+      "path": "package.json"
+    },
+    {
+      "id": "n25",
+      "path": "package.json"
+    },
+    {
+      "id": "n26",
+      "path": "package.json"
+    },
+    {
+      "id": "n27",
+      "path": "package.json"
+    },
+    {
+      "id": "n28",
+      "path": "package.json"
+    },
+    {
+      "id": "n29",
+      "path": "package.json"
+    },
+    {
+      "id": "n30",
+      "path": "package.json"
+    },
+    {
+      "id": "n31",
+      "path": "package.json"
+    },
+    {
+      "id": "n32",
+      "path": "package.json"
+    },
+    {
+      "id": "n33",
+      "path": "package.json"
+    },
+    {
+      "id": "n34",
+      "path": "package.json"
+    },
+    {
+      "id": "n35",
+      "path": "package.json"
+    },
+    {
+      "id": "n36",
+      "path": "package.json"
+    },
+    {
+      "id": "n37",
+      "path": "package.json"
+    },
+    {
+      "id": 0,
+      "path": "package.json"
+    },
+    {
+      "path": "package.json"
+    },
+    {
+      "id": null,
+      "path": "package.json"
+    },
+    {
+      "id": "   ",
+      "path": "package.json"
+    }
+  ],
+  "edges": [
+    {
+      "source": "n0",
+      "target": "n1"
+    }
+  ]
+}

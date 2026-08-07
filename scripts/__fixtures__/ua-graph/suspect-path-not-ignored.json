@@ -1,0 +1,9 @@
+{
+  "nodes": [
+    { "id": "n1", "path": "package.json", "kind": "file" },
+    { "id": "n2", "path": "playwright-report/index.html", "kind": "file" }
+  ],
+  "edges": [
+    { "source": "n1", "target": "n2" }
+  ]
+}

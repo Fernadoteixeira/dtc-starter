@@ -14,10 +14,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
         with:
-          version: 10
+          version: 10.11.1
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.18.0
           cache: "pnpm"
 
       - name: Install dependencies
@@ -28,8 +28,51 @@ jobs:
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
         run: pnpm run lint
 
+      - name: Discover Backend Unit Tests
+        id: discover-unit-tests
+        run: |
+          count=$(find apps/backend/src -type f -path "*__tests__*" \( -name "*.unit.spec.ts" -o -name "*.unit.spec.js" \) 2>/dev/null | wc -l | tr -d " ")
+          echo "unit_test_count=$count" >> "$GITHUB_OUTPUT"
+          if [ "$count" -eq 0 ]; then
+            echo "SKIPPED_NO_TESTS: 0 unit test files discovered. Unit test gate cannot be reported as PASS."
+            echo "unit_test_status=SKIPPED_NO_TESTS" >> "$GITHUB_OUTPUT"
+          else
+            echo "Discovered $count unit test file(s). Proceeding to jest."
+          fi
+
       - name: Run Backend Unit Tests
+        id: run-unit-tests
+        if: ${{ steps.discover-unit-tests.outputs.unit_test_count != "0" }}
+        continue-on-error: true
         run: cd apps/backend && pnpm run test:unit
+
+      - name: Set Unit Test Status
+        id: unit-test-status
+        if: ${{ always() }}
+        run: |
+          count="${{ steps.discover-unit-tests.outputs.unit_test_count }}"
+          if [ "$count" -eq 0 ]; then
+            echo "unit_test_status=SKIPPED_NO_TESTS" >> "$GITHUB_OUTPUT"
+          elif [ "${{ steps.run-unit-tests.outcome }}" = "success" ]; then
+            echo "unit_test_status=PASS" >> "$GITHUB_OUTPUT"
+          else
+            echo "unit_test_status=FAIL" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Unit Test Gate Summary
+        if: ${{ always() }}
+        run: |
+          status="${{ steps.unit-test-status.outputs.unit_test_status }}"
+          echo "## Unit Test Gate: $status" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$status" = "SKIPPED_NO_TESTS" ]; then
+            echo "SKIPPED_NO_TESTS: 0 unit test files discovered. Unit test gate cannot be reported as PASS." >> "$GITHUB_STEP_SUMMARY"
+            echo "**Note:** A SKIPPED_NO_TESTS state is NOT a unit-tests-PASS state." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$status" = "PASS" ]; then
+            echo "Unit tests ran and passed." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Unit tests ran and FAILED." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
 
   e2e-playwright:
     name: Playwright E2E Shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
@@ -39,14 +82,37 @@ jobs:
       matrix:
         shardIndex: [1, 2]
         shardTotal: [2]
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7.2-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
         with:
-          version: 10
+          version: 10.11.1
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.18.0
           cache: "pnpm"
 
       - name: Install dependencies
@@ -55,15 +121,96 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
+      # ------------------------------------------------------------------
+      # Runtime contract: migrate, seed, then explicit readiness gates.
+      # Each step has a distinct name so CI failures classify the phase.
+      # ------------------------------------------------------------------
+
+      - name: Run database migrations
+        env:
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+          REDIS_URL: "redis://localhost:6379"
+          JWT_SECRET: "supersecret"
+          COOKIE_SECRET: "supersecret"
+          STORE_CORS: "http://localhost:8000"
+          ADMIN_CORS: "http://localhost:9000"
+          AUTH_CORS: "http://localhost:9000"
+        run: cd apps/backend && pnpm exec medusa db:migrate
+
+      - name: Seed database
+        env:
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+          REDIS_URL: "redis://localhost:6379"
+          JWT_SECRET: "supersecret"
+          COOKIE_SECRET: "supersecret"
+          STORE_CORS: "http://localhost:8000"
+          ADMIN_CORS: "http://localhost:9000"
+          AUTH_CORS: "http://localhost:9000"
+        run: cd apps/backend && pnpm run seed
+
+      # ------------------------------------------------------------------
+      # Readiness contract:
+      # Playwright's webServer config (playwright.config.ts) starts the
+      # backend (pnpm run backend:dev) and polls http://localhost:9000/health
+      # with a 120s timeout, then starts the storefront
+      # (pnpm run storefront:dev) and polls http://localhost:8000 with a
+      # 120s timeout. reuseExistingServer is false in CI, so Playwright
+      # owns the server lifecycle and the readiness gate. The test step
+      # below tees combined output to playwright-output.txt so backend and
+      # storefront startup failures are classifiable from the log artifact.
+      # ------------------------------------------------------------------
+
       - name: Run Playwright E2E Tests
         env:
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_test_dummy"
-        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+          REDIS_URL: "redis://localhost:6379"
+          JWT_SECRET: "supersecret"
+          COOKIE_SECRET: "supersecret"
+          STORE_CORS: "http://localhost:8000"
+          ADMIN_CORS: "http://localhost:9000"
+          AUTH_CORS: "http://localhost:9000"
+        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} 2>&1 | tee playwright-output.txt
 
-      - name: Upload Playwright Artifacts
+      - name: Upload backend logs
         uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}
+        with:
+          name: backend-logs-${{ matrix.shardIndex }}
+          path: |
+            playwright-output.txt
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload storefront logs
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: storefront-logs-${{ matrix.shardIndex }}
+          path: |
+            playwright-output.txt
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
         with:
           name: playwright-report-${{ matrix.shardIndex }}
           path: playwright-report/
           retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Teardown servers
+        if: ${{ always() }}
+        continue-on-error: true
+        run: |
+          echo "Explicit teardown: stopping any lingering Medusa/Next processes."
+          pkill -f "medusa" || true
+          pkill -f "next dev" || true
+          pkill -f "next-server" || true
+          echo "Teardown complete."

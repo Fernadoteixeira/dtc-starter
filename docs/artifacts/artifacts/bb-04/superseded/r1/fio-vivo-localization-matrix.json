@@ -1,0 +1,124 @@
+{
+  "architecture": {
+    "discovery": "No existing i18n framework (no next-intl/i18next) was found scoped to the Gallery Hero or storefront app source. A lightweight, dependency-free dictionary module was implemented at packages/gallery-experience/src/i18n/dictionary.ts rather than installing a new library, per Section 12 instruction to prefer the existing architecture.",
+    "locale_source": "GalleryHeroClient resolves locale from the Next.js [countryCode] route param via resolveGalleryLocale(countryCode).",
+    "supported_locales": ["pt-BR", "es-419"],
+    "default_locale": "pt-BR",
+    "fallback_defined": true,
+    "lang_attribute": "Set on the gallery root element: <div data-gallery-experience lang={locale}>."
+  },
+  "runtime_verification": {
+    "route_dk": {
+      "resolved_locale": "pt-BR",
+      "reason": "countryCode 'dk' has no explicit locale mapping (Denmark is a Medusa region, not a language signal); falls back to DEFAULT_GALLERY_LOCALE.",
+      "verified_live": true,
+      "lang_attr_observed": "pt-BR",
+      "collection_label_observed": "Coleção n.º 01",
+      "tagline_observed": "O crochê se move",
+      "active_product_title_observed": "Espiral dourada",
+      "counter_observed": "01 / 06"
+    },
+    "route_es": {
+      "resolved_locale": "es-419",
+      "reason": "'es' is a real, configured Medusa region/country (Spain) used here as the available test path for the es-419 branch; canonical target audience is Latin American Spanish per the copy table.",
+      "verified_live": true,
+      "lang_attr_observed": "es-419",
+      "collection_label_observed": "Colección n.º 01",
+      "tagline_observed": "El crochet se mueve",
+      "active_product_title_observed": "Espiral dorada",
+      "counter_observed": "01 / 06"
+    }
+  },
+  "keys": {
+    "gallery.brand": {
+      "pt-BR": "Fio Vivo",
+      "es-419": "Fio Vivo",
+      "translated": false,
+      "note": "Brand name intentionally not translated per Section 12 rule.",
+      "bound_to_ui": true
+    },
+    "gallery.collection": {
+      "pt-BR": "Coleção n.º {number}",
+      "es-419": "Colección n.º {number}",
+      "translated": true,
+      "bound_to_ui": true,
+      "rendered_element": ".dtc-gallery__collection-number"
+    },
+    "gallery.tagline": {
+      "pt-BR": "O crochê se move",
+      "es-419": "El crochet se mueve",
+      "translated": true,
+      "bound_to_ui": true,
+      "rendered_element": ".dtc-gallery__collection-narrative"
+    },
+    "gallery.previous": {
+      "pt-BR": "Anterior",
+      "es-419": "Anterior",
+      "translated": false,
+      "bound_to_ui": false,
+      "note": "Defined for matrix completeness. Not bound to a visible control: BB-04 static first-fold has no prev/next navigation controls in scope (dynamic navigation is explicitly out of scope per Section 3)."
+    },
+    "gallery.next": {
+      "pt-BR": "Próximo",
+      "es-419": "Siguiente",
+      "translated": true,
+      "bound_to_ui": false,
+      "note": "Same as gallery.previous - defined, not yet bound (no nav controls in static first-fold)."
+    },
+    "gallery.viewDetails": {
+      "pt-BR": "Ver detalhes",
+      "es-419": "Ver detalles",
+      "translated": true,
+      "bound_to_ui": false,
+      "note": "Defined per Section 12 canonical copy. NOT bound to the visible CTA: the CTA's existing literal copy 'Conhecer a peça' is treated as fixed brand messaging (like gallery.brand), consistent with the Section 12 rule 'não inventar CTAs comerciais'. Flagged in Human Decision Brief for product/brand review."
+    },
+    "gallery.scene.profile": {
+      "pt-BR": "Perfil",
+      "es-419": "Perfil",
+      "translated": false,
+      "bound_to_ui": true,
+      "rendered_element": ".dtc-gallery__scene img[title] (scene rail thumbnail 1, accessible title attribute)"
+    },
+    "gallery.scene.gesture": {
+      "pt-BR": "Gesto",
+      "es-419": "Gesto",
+      "translated": false,
+      "bound_to_ui": true,
+      "rendered_element": ".dtc-gallery__scene img[title] (scene rail thumbnail 2)"
+    },
+    "gallery.scene.detail": {
+      "pt-BR": "Detalhe",
+      "es-419": "Detalle",
+      "translated": true,
+      "bound_to_ui": true,
+      "rendered_element": ".dtc-gallery__scene img[title] (scene rail thumbnail 3)"
+    },
+    "gallery.productCounter": {
+      "pt-BR": "{current} de {total}",
+      "es-419": "{current} de {total}",
+      "translated": false,
+      "bound_to_ui": false,
+      "note": "Defined per Section 12 canonical copy but NOT bound to the visible counter element. Section 2 (hard gate) requires the counter to render exactly '01 / 06' regardless of locale; binding this template would break that gate. The dictionary key is implemented and available for future use once the gate contract changes."
+    }
+  },
+  "product_title_translations": {
+    "espiral-dourada": { "pt-BR": "Espiral dourada", "es-419": "Espiral dorada" },
+    "orbita-negra": { "pt-BR": "Órbita negra", "es-419": "Órbita negra" },
+    "trama-solar": { "pt-BR": "Trama solar", "es-419": "Trama solar" },
+    "fio-ancestral": { "pt-BR": "Fio ancestral", "es-419": "Hilo ancestral" },
+    "tranca-ambar": { "pt-BR": "Trança âmbar", "es-419": "Trenza ámbar" },
+    "duna-terracota": { "pt-BR": "Duna terracota", "es-419": "Duna terracota" }
+  },
+  "resilience_tests": {
+    "fallback_unmapped_country_code_dk": { "input": "dk", "resolved": "pt-BR", "pass": true },
+    "resolve_real_region_es": { "input": "es", "resolved": "es-419", "pass": true },
+    "resolve_empty_string": { "input": "", "resolved": "pt-BR", "pass": true },
+    "resolve_null": { "input": null, "resolved": "pt-BR", "pass": true },
+    "missing_key_returns_raw_key_no_crash": { "key": "gallery.doesNotExist", "locale": "es-419", "result": "gallery.doesNotExist", "pass": true },
+    "missing_key_in_target_locale_falls_back_to_pt_BR_value": { "pass": true, "simulated": true },
+    "empty_string_placeholder_param_no_crash": { "input_number": "", "result": "Coleção n.º ", "pass": true }
+  },
+  "missing_keys": 0,
+  "high_text_expansion_breakages": 0,
+  "text_expansion_note": "es-419 tagline ('El crochet se mueve', 20 chars) is comparable in length to pt-BR ('O crochê se move', 16 chars); no observed wrapping/overflow regressions in the .dtc-gallery__collection-narrative max-width:280px container across any of the 5 captured viewports."
+}

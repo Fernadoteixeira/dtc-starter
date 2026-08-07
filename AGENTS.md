@@ -129,16 +129,43 @@ The monorepo includes a `packages/` workspace:
 
 ## Agent Infrastructure
 
-The `.agents/` directory contains agent tooling:
+The `.agents/` directory contains agent tooling. See [`.agents/INDEX.md`](.agents/INDEX.md) for the full catalog with activation status and usage instructions.
 
 - `hooks.json` — PreToolUse and Stop hooks (Fio Vivo firewall + stop gate)
 - `scripts/` — PowerShell scripts for pretool-firewall and stop-gate enforcement
-- `skills/` — Canonical skill definitions
-- `ollama-superpowers-pack-v1.0.0/` — Ollama Superpowers Pack (BB01 model intelligence, agents, evals)
-- `fio-vivo-antigravity-rug-pack/` — Fio Vivo anti-gravity-rug capability pack
-- `nos-gallery-canonical-skills-205/` — nos-gallery skill pack (referenced from `apps/storefront/src/modules/nos-gallery/.agents/`)
-- `product-lifecycle-canonical-skills-315/` — Product lifecycle skill pack
-- `contracts/` — Agent contracts
+- `skills/` — `web-design-guidelines` skill (Vercel Web Interface Guidelines review)
+- `ollama-superpowers-pack-v1.0.0/` — 18 multilingual agents, 28 skills, 15 tools (target: `gpt-oss:20b` local, `glm-5.2:cloud` cloud)
+- `fio-vivo-antigravity-rug-pack/` — 7 agents: RUG orchestrator + BB03 CSS spec/implementer/validator, build-verifier, repo-guardian, visual-auditor
+- `nos-gallery-canonical-skills-205/` — 205 atomic skills across 8 domains (web-runtime, identity-auth, data-contracts, radix-ui, styles, interaction, analytics, quality)
+- `product-lifecycle-canonical-skills-315/` — 315 atomic skills across 22 domains, 78 capability packs, 24 cross-domain orchestrations
+- `contracts/` — `session-state-ledger` (gate-state contract + schema) and `nos-gallery-first-fold` (BB03 visual contract)
+- `templates/` — Blank `session-state-ledger.yaml` instance
+
+## Session State Ledger (mandatory)
+
+Any multi-turn Building Block execution in this repository is governed by
+the **Session State Ledger contract**:
+[`.agents/contracts/session-state-ledger.md`](.agents/contracts/session-state-ledger.md)
+(schema: [`session-state-ledger.schema.yaml`](.agents/contracts/session-state-ledger.schema.yaml),
+blank instance: [`.agents/templates/session-state-ledger.yaml`](.agents/templates/session-state-ledger.yaml)).
+This is a repository-specific contract, not a general agent preference.
+
+- **Read** the current ledger state at the start of any session resuming
+  in-progress Building Block work, before taking action.
+- **Update** the ledger immediately after every gate transition — a human
+  decision, a completed quality gate, a Git operation, or a new/resolved
+  blocker.
+- **Never reinterpret a gate that is already resolved.** Reopen an approved
+  gate only for objective regression, a new technical conflict, a
+  destructive risk, or explicit human revocation — never out of generic
+  caution.
+- **The most recent, explicit human authorization prevails** over any
+  earlier instruction, including the agent's own prior reading of an
+  ambiguous one.
+- **Product approval, Git authorization, and merge authorization are three
+  distinct grants.** None of them implies the others; each must be given
+  explicitly. See the contract's "Authorization categories are distinct"
+  section before treating an approval of one as covering another.
 
 ## Fio Vivo Project Documentation
 

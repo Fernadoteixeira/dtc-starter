@@ -7,6 +7,7 @@ Arrancar servicios en orden, resolver puertos, registrar logs y demostrar readin
 ## Contract
 
 Contrato operativo:
+
 1. Inspecciona evidencias antes de proponer cambios.
 2. Declara supuestos, confianza e incertidumbre.
 3. Usa una herramienta solo si puede cambiar la decisión.
