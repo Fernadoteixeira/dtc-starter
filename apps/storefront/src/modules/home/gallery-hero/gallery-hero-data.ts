@@ -1,5 +1,5 @@
 import { listProducts } from "@lib/data/products";
-import { getCollectionByHandle } from "@lib/data/collections";
+import { listCollections } from "@lib/data/collections";
 import { HttpTypes } from "@medusajs/types";
 
 export async function fetchGalleryHeroProducts(
