@@ -181,9 +181,9 @@ Turborepo (pnpm)
 | `docs/artifacts/fio-vivo-360/` (4 arquivos diretamente no diretório) | Criados | Entregáveis executivos ativos |
 | `docs/artifacts/fio-vivo-360/pr-41/` (3 arquivos) | Preservados | Evidências operacionais do PR-41; fora da contagem executiva principal |
 | `docs/artifacts/bb-04/` (17 arquivos) | Preservados | Evidências BB-04 documentadas/ativas |
-| `artifacts/bb-04/` (39 arquivos) | Preservados | Linha histórica BB-04, incluindo `superseded/r1/` |
+| `docs/artifacts/artifacts/bb-04/` (39 arquivos) | Preservados | Linha histórica BB-04, incluindo `superseded/r1/` |
 
-> Nenhum arquivo de código foi alterado. Nenhum commit foi feito. Os conjuntos de evidência foram preservados.
+> Nenhum arquivo de código foi alterado durante a execução da descoberta documental (fase 00). Os conjuntos de evidência foram preservados. Alterações de código, configuração e dependências em commits subsequentes são documentadas separadamente no histórico do PR.
 
 ---
 
