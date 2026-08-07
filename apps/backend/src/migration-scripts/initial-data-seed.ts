@@ -363,10 +363,10 @@ export default async function initial_data_seed({
               url: "/images/fio-vivo/fv-001-espiral-dourada/02-perfil.png",
             },
             {
-              url: "/images/fio-vivo/fv-002-orbita-negra/01-frente.png",
+              url: "/images/fio-vivo/fv-001-espiral-dourada/03-gesto.png",
             },
             {
-              url: "/images/fio-vivo/fv-002-orbita-negra/02-perfil.png",
+              url: "/images/fio-vivo/fv-001-espiral-dourada/04-detalhe.png",
             },
           ],
           options: [
@@ -538,10 +538,10 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "/images/fio-vivo/fv-003-trama-solar/01-frente.png",
+              url: "/images/fio-vivo/fv-002-orbita-negra/01-frente.png",
             },
             {
-              url: "/images/fio-vivo/fv-003-trama-solar/02-perfil.png",
+              url: "/images/fio-vivo/fv-002-orbita-negra/02-perfil.png",
             },
           ],
           options: [{ id: sizeOption.id }],
@@ -634,10 +634,10 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "/images/fio-vivo/fv-004-fio-ancestral/01-frente.png",
+              url: "/images/fio-vivo/fv-003-trama-solar/01-frente.png",
             },
             {
-              url: "/images/fio-vivo/fv-004-fio-ancestral/02-perfil.png",
+              url: "/images/fio-vivo/fv-003-trama-solar/02-perfil.png",
             },
           ],
           options: [{ id: sizeOption.id }],
@@ -730,10 +730,10 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "/images/fio-vivo/fv-005-tranca-ambar/01-frente.png",
+              url: "/images/fio-vivo/fv-004-fio-ancestral/01-frente.png",
             },
             {
-              url: "/images/fio-vivo/fv-005-tranca-ambar/02-perfil.png",
+              url: "/images/fio-vivo/fv-004-fio-ancestral/02-perfil.png",
             },
           ],
           options: [{ id: sizeOption.id }],
