@@ -32,51 +32,70 @@ This directory is the canonical home for Medusa agent skills in this repository.
 
 ```text
 .agents/skills/medusa/
-├── README.md                 ← this file
-├── CATALOG.md                ← 18-skill catalog with plugin, version, MCP, adaptation limits
-├── provenance/
-│   ├── SOURCE.json           ← 107-entry manifest: originalPath, sha256, size
-│   ├── root/                 ← 4 root-level files from clone HEAD (with .source suffix)
-│   │   ├── README.source.md
-│   │   ├── .gitignore.source
-│   │   ├── skills-stats-to-posthog.source.mjs
-│   │   └── skills-stats-to-posthog.source.yml
-│   ├── manifests/            ← 5 plugin/marketplace manifests (with .source.json suffix)
-│   │   ├── marketplace.source.json
-│   │   ├── medusa-dev.plugin.source.json
-│   │   ├── learn-medusa.plugin.source.json
-│   │   ├── medusa-cloud.plugin.source.json
-│   │   └── ecommerce-storefront.plugin.source.json
-│   └── mcps/                 ← 2 MCP configurations (with .source.json suffix)
-│       ├── medusa-dev.mcp.claude.source.json
-│       └── learn-medusa.mcp.claude.source.json
-└── (canonical SKILL.md files — to be added in a subsequent batch)
+├── README.md                                    ← this file
+├── CATALOG.md                                    ← 18-skill catalog with plugin, version, MCP, adaptation limits
+├── medusa-cloud-auth/                            ← SKILL.md (name: medusa-cloud-auth)
+├── medusa-cloud-deployments/                     ← SKILL.md (name: medusa-cloud-deployments)
+├── medusa-cloud-environments/                    ← SKILL.md (name: medusa-cloud-environments)
+├── medusa-cloud-local/                           ← SKILL.md (name: medusa-cloud-local)
+├── medusa-cloud-logs/                            ← SKILL.md (name: medusa-cloud-logs)
+├── medusa-cloud-organizations/                   ← SKILL.md (name: medusa-cloud-organizations)
+├── medusa-cloud-projects/                        ← SKILL.md (name: medusa-cloud-projects)
+├── medusa-cloud-using/                           ← SKILL.md (name: medusa-cloud-using)
+├── medusa-cloud-variables/                       ← SKILL.md (name: medusa-cloud-variables)
+├── medusa-dev-building-admin-dashboard-customizations/ ← SKILL.md
+├── medusa-dev-building-storefronts/              ← SKILL.md (name: medusa-dev-building-storefronts)
+├── medusa-dev-building-with-medusa/              ← SKILL.md (name: medusa-dev-building-with-medusa)
+├── medusa-dev-creating-internal-agents/          ← SKILL.md (name: medusa-dev-creating-internal-agents)
+├── medusa-dev-db-generate/                       ← SKILL.md (name: medusa-dev-db-generate)
+├── medusa-dev-db-migrate/                        ← SKILL.md (name: medusa-dev-db-migrate)
+├── medusa-dev-new-user/                          ← SKILL.md (name: medusa-dev-new-user)
+├── medusa-ecommerce-storefront-best-practices/   ← SKILL.md (name: medusa-ecommerce-storefront-best-practices)
+├── medusa-learning-medusa/                       ← SKILL.md (name: medusa-learning-medusa)
+└── provenance/
+    ├── SOURCE.json           ← 107-entry manifest: originalPath, sha256, size
+    ├── root/                 ← 4 root-level files from clone HEAD (with .source suffix)
+    │   ├── README.source.md
+    │   ├── .gitignore.source
+    │   ├── skills-stats-to-posthog.source.mjs
+    │   └── skills-stats-to-posthog.source.yml
+    ├── manifests/            ← 5 plugin/marketplace manifests (with .source.json suffix)
+    │   ├── marketplace.source.json
+    │   ├── medusa-dev.plugin.source.json
+    │   ├── learn-medusa.plugin.source.json
+    │   ├── medusa-cloud.plugin.source.json
+    │   └── ecommerce-storefront.plugin.source.json
+    └── mcps/                 ← 2 MCP configurations (with .source.json suffix)
+        ├── medusa-dev.mcp.claude.source.json
+        └── learn-medusa.mcp.claude.source.json
 ```
+
+All 18 skill directories contain canonical `SKILL.md` files with validated frontmatter (`name` matches the parent directory and conforms to `^[a-z0-9-]{1,64}$`).
 
 ## Skill Mapping (18 skills)
 
-| # | Canonical name | Source plugin | Source path |
-|---|---|---|---|
-| 1 | `storefront-best-practices` | ecommerce-storefront v1.0.8 | `plugins/ecommerce-storefront/skills/storefront-best-practices/` |
-| 2 | `learning-medusa` | learn-medusa v1.0.8 | `plugins/learn-medusa/skills/learning-medusa/` |
-| 3 | `mcloud-auth` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-auth/` |
-| 4 | `mcloud-deployments` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-deployments/` |
-| 5 | `mcloud-environments` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-environments/` |
-| 6 | `mcloud-local` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-local/` |
-| 7 | `mcloud-logs` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-logs/` |
-| 8 | `mcloud-organizations` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-organizations/` |
-| 9 | `mcloud-projects` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-projects/` |
-| 10 | `mcloud-variables` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-variables/` |
-| 11 | `using-medusa-cloud` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/using-medusa-cloud/` |
-| 12 | `building-admin-dashboard-customizations` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/building-admin-dashboard-customizations/` |
-| 13 | `building-storefronts` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/building-storefronts/` |
-| 14 | `building-with-medusa` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/building-with-medusa/` |
-| 15 | `creating-internal-agents` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/creating-internal-agents/` |
-| 16 | `db-generate` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/db-generate/` |
-| 17 | `db-migrate` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/db-migrate/` |
-| 18 | `new-user` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/new-user/` |
+| # | Canonical directory | `name` in frontmatter | Source plugin | Source path |
+|---|---|---|---|---|
+| 1 | `medusa-ecommerce-storefront-best-practices` | `medusa-ecommerce-storefront-best-practices` | ecommerce-storefront v1.0.8 | `plugins/ecommerce-storefront/skills/storefront-best-practices/` |
+| 2 | `medusa-learning-medusa` | `medusa-learning-medusa` | learn-medusa v1.0.8 | `plugins/learn-medusa/skills/learning-medusa/` |
+| 3 | `medusa-cloud-auth` | `medusa-cloud-auth` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-auth/` |
+| 4 | `medusa-cloud-deployments` | `medusa-cloud-deployments` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-deployments/` |
+| 5 | `medusa-cloud-environments` | `medusa-cloud-environments` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-environments/` |
+| 6 | `medusa-cloud-local` | `medusa-cloud-local` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-local/` |
+| 7 | `medusa-cloud-logs` | `medusa-cloud-logs` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-logs/` |
+| 8 | `medusa-cloud-organizations` | `medusa-cloud-organizations` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-organizations/` |
+| 9 | `medusa-cloud-projects` | `medusa-cloud-projects` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-projects/` |
+| 10 | `medusa-cloud-variables` | `medusa-cloud-variables` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/mcloud-variables/` |
+| 11 | `medusa-cloud-using` | `medusa-cloud-using` | medusa-cloud v1.2.0 | `plugins/medusa-cloud/skills/using-medusa-cloud/` |
+| 12 | `medusa-dev-building-admin-dashboard-customizations` | `medusa-dev-building-admin-dashboard-customizations` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/building-admin-dashboard-customizations/` |
+| 13 | `medusa-dev-building-storefronts` | `medusa-dev-building-storefronts` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/building-storefronts/` |
+| 14 | `medusa-dev-building-with-medusa` | `medusa-dev-building-with-medusa` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/building-with-medusa/` |
+| 15 | `medusa-dev-creating-internal-agents` | `medusa-dev-creating-internal-agents` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/creating-internal-agents/` |
+| 16 | `medusa-dev-db-generate` | `medusa-dev-db-generate` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/db-generate/` |
+| 17 | `medusa-dev-db-migrate` | `medusa-dev-db-migrate` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/db-migrate/` |
+| 18 | `medusa-dev-new-user` | `medusa-dev-new-user` | medusa-dev v1.0.9 | `plugins/medusa-dev/skills/new-user/` |
 
-> **Note:** Skill #15 (`creating-internal-agents`) has `name: creating-agents-in-medusa` in its original frontmatter. The canonical directory name is `creating-internal-agents`. The canonical SKILL.md (to be created in the next batch) must reconcile the `name` field to match the directory for VS Code Copilot discovery (`^[a-z0-9-]{1,64}$`).
+> **Note:** Skill #15's original source frontmatter had `name: creating-agents-in-medusa`. The canonical SKILL.md reconciles the `name` field to `medusa-dev-creating-internal-agents`, matching the directory and conforming to `^[a-z0-9-]{1,64}$` for VS Code Copilot discovery.
 
 ## MCP Server
 

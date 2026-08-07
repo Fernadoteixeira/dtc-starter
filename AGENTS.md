@@ -131,24 +131,34 @@ The monorepo includes a `packages/` workspace:
 
 The `.agents/` directory contains agent tooling. See [`.agents/INDEX.md`](.agents/INDEX.md) for the full catalog with activation status and usage instructions.
 
+### Skill Packs
+
+| Pack | Contents | Purpose |
+|---|---|---|
+| [`fio-vivo-antigravity-rug-pack/`](.agents/fio-vivo-antigravity-rug-pack/) | 7 agents | RUG orchestrator + BB03 specialists (CSS spec/implementer/validator, build-verifier, repo-guardian, visual-auditor) |
+| [`ollama-superpowers-pack-v1.0.0/`](.agents/ollama-superpowers-pack-v1.0.0/) | 18 agents, 28 skills, 15 tools | Multilingual pack (target: `gpt-oss:20b` local, `glm-5.2:cloud` cloud) |
+| [`nos-gallery-canonical-skills-205/`](.agents/nos-gallery-canonical-skills-205/) | 205 atomic skills | 8 domains: web-runtime, identity-auth, data-contracts, radix-ui, styles, interaction, analytics, quality |
+| [`product-lifecycle-canonical-skills-315/`](.agents/product-lifecycle-canonical-skills-315/) | 315 skills + 24 orchestrations | 22 domains, 78 capability packs, cross-domain orchestrations |
+
+### Other Infrastructure
+
 - `hooks.json` — PreToolUse and Stop hooks (Fio Vivo firewall + stop gate)
 - `scripts/` — PowerShell scripts for pretool-firewall and stop-gate enforcement
-- `skills/` — `web-design-guidelines` skill (Vercel Web Interface Guidelines review)
-- `ollama-superpowers-pack-v1.0.0/` — 18 multilingual agents, 28 skills, 15 tools (target: `gpt-oss:20b` local, `glm-5.2:cloud` cloud)
-- `fio-vivo-antigravity-rug-pack/` — 7 agents: RUG orchestrator + BB03 CSS spec/implementer/validator, build-verifier, repo-guardian, visual-auditor
-- `nos-gallery-canonical-skills-205/` — 205 atomic skills across 8 domains (web-runtime, identity-auth, data-contracts, radix-ui, styles, interaction, analytics, quality)
-- `product-lifecycle-canonical-skills-315/` — 315 atomic skills across 22 domains, 78 capability packs, 24 cross-domain orchestrations
+- `skills/` — `web-design-guidelines` skill (Vercel Web Interface Guidelines review) and `medusa/` (18 Medusa skills; see [Medusa Skills & MCP Server](#medusa-skills--mcp-server) below)
 - `contracts/` — `session-state-ledger` (gate-state contract + schema) and `nos-gallery-first-fold` (BB03 visual contract)
 - `templates/` — Blank `session-state-ledger.yaml` instance
 
 ## Session State Ledger (mandatory)
 
 Any multi-turn Building Block execution in this repository is governed by
-the **Session State Ledger contract**:
-[`.agents/contracts/session-state-ledger.md`](.agents/contracts/session-state-ledger.md)
-(schema: [`session-state-ledger.schema.yaml`](.agents/contracts/session-state-ledger.schema.yaml),
-blank instance: [`.agents/templates/session-state-ledger.yaml`](.agents/templates/session-state-ledger.yaml)).
-This is a repository-specific contract, not a general agent preference.
+two repository-specific contracts (not general agent preferences):
+
+1. **Session State Ledger** — gate-state and authorization tracking:
+   [`.agents/contracts/session-state-ledger.md`](.agents/contracts/session-state-ledger.md)
+   (schema: [`session-state-ledger.schema.yaml`](.agents/contracts/session-state-ledger.schema.yaml),
+   blank instance: [`.agents/templates/session-state-ledger.yaml`](.agents/templates/session-state-ledger.yaml)).
+2. **nos-gallery-first-fold** — BB03 visual contract for the gallery first-fold:
+   [`.agents/contracts/nos-gallery-first-fold.yaml`](.agents/contracts/nos-gallery-first-fold.yaml).
 
 - **Read** the current ledger state at the start of any session resuming
   in-progress Building Block work, before taking action.
@@ -177,27 +187,37 @@ The `docs/` directory contains the Fio Vivo 360 program documentation:
 
 ## Medusa Skills & MCP Server
 
-These are optional but strongly recommended — they give documentation-backed answers instead of guesses about Medusa APIs. **Use them when available; if they are not, mention to the user that installing them meaningfully improves development on this project.**
+These give documentation-backed answers instead of guesses about Medusa APIs. **Always load the relevant skill before writing Medusa code, not after.**
 
-**Agentic skills** ([docs](https://docs.medusajs.com/learn/introduction/build-with-llms-ai/agentic-skills)) — if the `medusa-dev` skills are listed as available, load them *before* writing code, not after:
+### Agentic Skills (18, installed locally)
 
-- `building-with-medusa` — any backend work: modules, API routes, workflows, data models, module links
-- `building-admin-dashboard-customizations` — anything under `apps/backend/src/admin`
-- `building-storefronts` — anything under `apps/storefront`
-- `db-generate` / `db-migrate` / `new-user` — the DB and user commands above
+**18 Medusa agent skills are already installed** in [`.agents/skills/medusa/`](.agents/skills/medusa/) and discovered automatically by VS Code Copilot via `SKILL.md` frontmatter — no plugin installation is needed in this environment. See [`README.md`](.agents/skills/medusa/README.md) and [`CATALOG.md`](.agents/skills/medusa/CATALOG.md) for the full provenance and per-skill details.
 
-If they are not installed, suggest:
+Coverage by area:
+
+- **Backend** — `building-with-medusa` (modules, API routes, workflows, data models, module links)
+- **Admin dashboard** — `building-admin-dashboard-customizations` (anything under `apps/backend/src/admin`)
+- **Storefronts** — `building-storefronts` (anything under `apps/storefront`)
+- **Database** — `db-generate`, `db-migrate`, `new-user` (the DB and user commands above)
+- **Internal agents** — `creating-internal-agents`
+- **Medusa Cloud (9 skills)** — `mcloud-auth`, `mcloud-deployments`, `mcloud-environments`, `mcloud-local`, `mcloud-logs`, `mcloud-organizations`, `mcloud-projects`, `mcloud-variables`, `using-medusa-cloud`
+- **Ecommerce storefront best-practices** — `storefront-best-practices`
+- **Learning Medusa** — `learning-medusa`
+
+A read-only reference clone of the upstream source is preserved at [`.agents/medusa-agent-skills/`](.agents/medusa-agent-skills/) (commit `c584f79`, origin `boldfernando/medusa-agent-skills`, upstream `medusajs/medusa-agent-skills`). Never edit it directly — updates flow clone → canonical tree.
+
+A validator script is available to check skill integrity: `scripts/validate-medusa-skills.mjs`.
+
+**Fallback for Claude Code** — if working in Claude Code (not VS Code Copilot), the skills are not auto-discovered; install them there with:
 
 ```bash
 /plugin marketplace add medusajs/medusa-agent-skills
 /plugin install medusa-dev@medusa
 ```
 
-**MCP server** ([docs](https://docs.medusajs.com/learn/introduction/build-with-llms-ai/mcp-server)) — a `medusa` MCP server exposing the official docs. Prefer it over web search or memory for any Medusa API, config, or upgrade question. If it is not connected, suggest:
+### MCP Server
 
-```bash
-claude mcp add --transport http medusa https://docs.medusajs.com/mcp # or agent equivalent
-```
+The `medusa-docs` MCP server is configured in [`.vscode/mcp.json`](.vscode/mcp.json) and exposes the official Medusa documentation. Prefer it over web search or memory for any Medusa API, config, or upgrade question. If it is not connected in your environment, add it manually per the [MCP server docs](https://docs.medusajs.com/learn/introduction/build-with-llms-ai/mcp-server).
 
 ## Code Style
 
