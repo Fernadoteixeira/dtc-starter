@@ -341,7 +341,7 @@ export default async function initial_data_seed({
   const sizeOption = productOptionsResult.find((o) => o.title === "Size")!;
   const colorOption = productOptionsResult.find((o) => o.title === "Color")!;
 
-  await createProductsWorkflow(container).run({
+  const { result: createdProducts } = await createProductsWorkflow(container).run({
     input: {
       products: [
         {
@@ -817,6 +817,26 @@ export default async function initial_data_seed({
     },
   });
   logger.info("Finished seeding product data.");
+
+  logger.info("Seeding fio-vivo collection...");
+  try {
+    await createCollectionsWorkflow(container).run({
+      input: {
+        collections: [
+          {
+            title: "Fio Vivo",
+            handle: "fio-vivo",
+            products: createdProducts.map((product) => ({ id: product.id })),
+          },
+        ],
+      },
+    })
+    logger.info("Finished seeding fio-vivo collection.")
+  } catch (error) {
+    logger.warn(
+      `Could not seed fio-vivo collection (it may already exist): ${error}`
+    )
+  }
 
   logger.info("Seeding inventory levels.");
 
