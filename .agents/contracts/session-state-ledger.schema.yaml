@@ -1,0 +1,95 @@
+# Session State Ledger — reference schema
+#
+# Canonical shape for tracking gate state and authorization across a
+# multi-round Building Block execution in this repository. See
+# ./session-state-ledger.md for the full contract: when to read/write this,
+# transition rules, authorization precedence, and the batch-file safety
+# protocol.
+#
+# This file is a REFERENCE SCHEMA, not a live ledger. Do not commit a copy
+# of this file populated with real, volatile session data under this path
+# — see session-state-ledger.md, "Where live state lives". A ready-to-copy
+# blank instance lives at .agents/templates/session-state-ledger.yaml.
+#
+# Enums are documented inline as comments next to each field.
+
+project:
+  repository: string               # e.g. "boldfernando/dtc-starter"
+  branch: string                   # current working branch
+  head_sha: string                 # `git rev-parse HEAD`
+
+execution:
+  current_program: string          # e.g. "Fio Vivo Program 360"
+  current_bb: string                # e.g. "BB-04"
+  current_task: string              # free-text description of the active task
+  current_round: string             # e.g. "R1", "R2"
+  current_gate: enum                # READY_FOR_HUMAN_APPROVAL | HUMAN_APPROVED |
+                                     # GIT_AUTHORIZED | PR_CREATED | MERGE_AUTHORIZED |
+                                     # MERGED | BLOCKED
+  status: enum                      # in_progress | blocked | complete
+
+human_decisions:
+  visual_approval:
+    status: enum                    # not_requested | pending | approved | rejected
+    approved_at: string             # ISO 8601 timestamp, or null
+    approved_scope: list            # e.g. [desktop_1600x960, mobile_390x844, pt-BR, es-419]
+    evidence: string                # path to the canonical evidence report
+  architecture_approval:
+    status: enum                    # not_requested | pending | approved | rejected
+  normalized_assets_replacement:
+    status: enum                    # not_requested | pending | approved | rejected
+
+git_authorization:
+  stage: enum                       # forbidden | allowed_by_allowlist | allowed
+  commit: enum                      # forbidden | allowed
+  push: enum                        # forbidden | allowed
+  pull_request: enum                # forbidden | draft_only | allowed
+  merge: enum                       # forbidden | allowed_only_when_explicitly_granted
+  auto_merge: enum                  # forbidden | allowed
+
+mutation_policy:
+  allowed_paths: list               # explicit allowlist of globs/paths for this task
+  forbidden_paths: list             # explicit denylist of globs/paths
+  allowed_operations: list          # e.g. [edit, create]
+  forbidden_operations: list        # e.g. [delete, force_push, merge, rebase_history]
+
+quality_gates:
+  build: enum                       # not_run | pass | fail
+  typecheck: enum                   # not_run | pass | fail
+  tests: enum                       # not_run | pass | fail
+  runtime: enum                     # not_run | pass | fail
+  visual: enum                      # not_run | pass | fail
+  localization: enum                # not_run | pass | fail
+  evidence: enum                    # not_run | pass | fail
+
+blockers:
+  open: list                        # [{id, severity, summary}]
+  resolved: list                    # [{id, severity, summary, resolution}]
+
+evidence:
+  canonical_report: string          # path
+  screenshots: list                 # paths
+  measurements: string              # path
+  hashes: string                    # path to a SHA-256 manifest
+  pull_request: string              # URL, or null
+
+# The most recent entry describes how the ledger arrived at its current
+# state. Older transitions are not retained in the ledger itself — use Git
+# history / PR history / the canonical evidence report for that trail.
+transition:
+  previous_state: string
+  current_state: string
+  trigger: string                   # what caused this transition: a quoted human
+                                     # decision, a command, a detected regression, etc.
+  authorized_by: enum               # human | agent_inference — "agent_inference" is
+                                     # only valid for non-mutating, reversible transitions
+                                     # (e.g. re-presenting an unresolved gate). Any
+                                     # transition that changes human_decisions.* or
+                                     # git_authorization.* MUST be authorized_by: human.
+  timestamp: string                 # ISO 8601
+  irreversible_actions_allowed: bool
+
+next_action:
+  authorized: bool
+  description: string
+  stop_condition: string            # what must be true before the NEXT action after this one

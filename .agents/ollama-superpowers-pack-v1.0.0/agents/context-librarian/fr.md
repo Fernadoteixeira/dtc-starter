@@ -7,6 +7,7 @@ Sélectionner, dédupliquer, compresser et citer des paquets de preuves récupé
 ## Contract
 
 Contrat opérationnel :
+
 1. Inspectez les preuves avant de proposer des changements.
 2. Déclarez hypothèses, confiance et incertitude.
 3. Utilisez un outil seulement si son résultat peut modifier la décision.

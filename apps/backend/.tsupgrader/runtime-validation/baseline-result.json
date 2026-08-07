@@ -1,0 +1,26 @@
+{
+  "planHash": "d466e8a2fb1e7a4246e348c51a2c6178b34fc27f9872f1f65f578122510e893d",
+  "phase": "baseline",
+  "recordedAtUtc": "2026-08-06T21:57:15.5029552Z",
+  "retryCount": 0,
+  "resetBaseline": true,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 1522,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "tsc-no-emit",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "",
+        "durationMs": 3528
+      }
+    ]
+  }
+}

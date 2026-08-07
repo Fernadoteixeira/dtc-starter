@@ -14,7 +14,20 @@ A Fio Vivo é uma marca de bolsas e peças autorais em crochê com 6 produtos ca
 
 **O sistema tem a fundação técnica de commerce, mas está a ~80% de distância da visão do mega-prompt.** Os 6 produtos Fio Vivo existem apenas como fixtures hardcoded no storefront com TODOS os metadados comerciais como "a informar" (preço, material, descrição, disponibilidade). O backend Medusa não tem nenhum produto Fio Vivo, não tem região Brasil, não tem BRL, e o seed é genérico europeu (EUR/USD, 7 países EU). Não há Pix, pricing engine, personalização, lista de espera, drops, reviews, afiliados, analytics estruturado, CRM, lifecycle, ou internacionalização.
 
-Esta execução produziu **descoberta técnica real com evidência**, mapeou 101 capacidades (20% implementadas, 20% parciais, 59% ausentes, 1% bloqueadas), identificou 12 riscos (4 críticos), e gerou **17 artefatos estratégicos** cobrindo produto, design, pricing, growth, tecnologia, analytics e internacionalização. O pricing engine foi especificado com fórmulas auditáveis, a arquitetura-alvo prioriza extensão do Medusa v2 sobre build paralelo, e o roadmap sequencia iniciativas em 6 horizontes (Day 0 a 12 meses).
+Esta execução produziu **descoberta técnica real com evidência**, mapeou 101 capacidades (20% implementadas, 20% parciais, 59% ausentes, 1% bloqueadas), identificou 12 riscos (4 críticos), e organizou a documentação em categorias com critérios distintos: 23 documentos estratégicos em `docs/fio-vivo/`; 4 entregáveis executivos ativos diretamente em `docs/artifacts/fio-vivo-360/`; 3 arquivos adicionais no subdiretório `pr-41/` (2 Markdown e 1 PNG); 17 arquivos de evidência em `docs/artifacts/bb-04/`; e 39 arquivos na linha histórica preservada `artifacts/bb-04/`, incluindo `superseded/r1/`. As contagens são por arquivo e por diretório, não uma soma de artefatos homogêneos. O pricing engine foi especificado com fórmulas auditáveis, a arquitetura-alvo prioriza extensão do Medusa v2 sobre build paralelo, e o roadmap sequencia iniciativas em 6 horizontes (Day 0 a 12 meses).
+
+### Governança documental
+
+- **Documentação estratégica:** `docs/fio-vivo/` contém 23 documentos de descoberta, produto, design, pricing, growth, tecnologia, internacionalização e analytics.
+- **Entregáveis executivos ativos:** o caminho canônico é `docs/artifacts/fio-vivo-360/`. Os quatro arquivos diretamente nesse diretório são [`decision-log.md`](decision-log.md), [`executive-summary.md`](executive-summary.md), [`gate-table.md`](gate-table.md) e [`next-actions.md`](next-actions.md). O subdiretório `pr-41/` contém 3 arquivos adicionais de evidência operacional relacionada ao PR-41, não parte da contagem dos quatro entregáveis executivos ativos.
+- **Evidências de runtime BB-04:** `docs/artifacts/bb-04/` é o conjunto documentado/ativo, com 17 arquivos incluindo checksums, imagens, medições e o material R1. `artifacts/bb-04/` é a linha histórica preservada, com 39 arquivos; seu `superseded/r1/` permanece histórico imutável. Os conjuntos não devem ser mesclados, substituídos ou usados como duplicatas.
+
+### Natureza das informações
+
+- **Fatos confirmados:** são os estados observados no repositório e no runtime documentado, como a fixture com 6 peças, as 24 imagens, a galeria BB-04 R1 e as contagens qualificadas acima.
+- **Decisões:** são escolhas registradas e preservadas em [`decision-log.md`](decision-log.md), como fixture provisória, Brasil como mercado base e extensão do Medusa v2.
+- **Hipóteses e evidências abertas:** preços, custos, metadados comerciais, capacidade e alguns produtos ainda dependem de validação com a artesã; os riscos e pendências estão detalhados em `docs/fio-vivo/00-discovery/assumptions-and-open-evidence.md`.
+- **Próximos passos:** são ações priorizadas, não funcionalidades concluídas; o registro canônico está em [`next-actions.md`](next-actions.md), e os estados dos gates permanecem os documentados em [`gate-table.md`](gate-table.md).
 
 ---
 
@@ -156,7 +169,7 @@ Turborepo (pnpm)
 | 26 | `docs/artifacts/fio-vivo-360/gate-table.md` | Tabela de gates | — |
 | 27 | `docs/artifacts/fio-vivo-360/next-actions.md` | Próximas ações | — |
 
-> Arquivos 7-18 produzidos por subagentes delegados (3 em paralelo). Arquivos 1-6, 19-23, 24-27 produzidos diretamente.
+> A tabela acima enumera 23 documentos estratégicos (itens 1-23) e 4 entregáveis executivos ativos (itens 24-27). Portanto, “27” é a contagem combinada dessas duas categorias. Ela não inclui os 3 arquivos adicionais de `docs/artifacts/fio-vivo-360/pr-41/` nem qualquer evidência BB-04. Arquivos 7-18 foram produzidos por subagentes delegados (3 em paralelo); arquivos 1-6, 19-23 e 24-27 foram produzidos diretamente.
 
 ---
 
@@ -164,10 +177,13 @@ Turborepo (pnpm)
 
 | Arquivo | Tipo de mudança | Justificativa |
 |---|---|---|
-| `docs/fio-vivo/**` (23 arquivos) | Criados | Artefatos estratégicos Fio Vivo 360º |
-| `docs/artifacts/fio-vivo-360/**` (4 arquivos) | Criados | Artefatos executivos finais |
+| `docs/fio-vivo/` (23 documentos) | Criados | Documentação estratégica Fio Vivo 360º |
+| `docs/artifacts/fio-vivo-360/` (4 arquivos diretamente no diretório) | Criados | Entregáveis executivos ativos |
+| `docs/artifacts/fio-vivo-360/pr-41/` (3 arquivos) | Preservados | Evidências operacionais do PR-41; fora da contagem executiva principal |
+| `docs/artifacts/bb-04/` (17 arquivos) | Preservados | Evidências BB-04 documentadas/ativas |
+| `docs/artifacts/artifacts/bb-04/` (39 arquivos) | Preservados | Linha histórica BB-04, incluindo `superseded/r1/` |
 
-> Nenhum arquivo de código foi alterado. Nenhum commit foi feito. Working tree preservado.
+> Nenhum arquivo de código foi alterado durante a execução da descoberta documental (fase 00). Os conjuntos de evidência foram preservados. Alterações de código, configuração e dependências em commits subsequentes são documentadas separadamente no histórico do PR.
 
 ---
 
@@ -375,8 +391,10 @@ Aquisição, Ativação, Conversão, Receita, Margem, Retenção, Operação, Co
 
 | Teste | Comando | Resultado |
 |---|---|---|
-| Validação de arquivos criados | `find docs/fio-vivo -type f \| wc -l` | 23 arquivos ✅ |
-| Validação de artefatos executivos | `find docs/artifacts/fio-vivo-360 -type f \| wc -l` | 4 arquivos ✅ |
+| Validação de documentos estratégicos | `Get-ChildItem docs/fio-vivo -File -Recurse -Filter *.md` | 23 documentos ✅ |
+| Validação de entregáveis executivos ativos | `Get-ChildItem docs/artifacts/fio-vivo-360 -File` | 4 arquivos diretamente no diretório ✅ |
+| Validação de evidências BB-04 documentadas | `Get-ChildItem docs/artifacts/bb-04 -File -Recurse` | 17 arquivos ✅ |
+| Validação de linha histórica BB-04 | `Get-ChildItem artifacts/bb-04 -File -Recurse` | 39 arquivos, incluindo `superseded/r1/` ✅ |
 | Build do gallery-experience | `pnpm --filter=@dtc/gallery-experience run build` | exit 0 ✅ (sessão anterior) |
 | Runtime HTTP 200 /dk | `curl localhost:8000/dk` | HTTP 200 ✅ (sessão anterior, webpack mode) |
 
@@ -388,14 +406,17 @@ Aquisição, Ativação, Conversão, Receita, Margem, Retenção, Operação, Co
 
 | Verificação | Resultado |
 |---|---|
-| 6 artefatos de descoberta criados | ✅ |
+| 6 documentos de descoberta criados | ✅ |
 | 4 artefatos de produto criados (subagente 1) | ✅ |
 | 4 artefatos de pricing criados (subagente 2) | ✅ |
 | 4 artefatos de design criados (subagente 3) | ✅ |
 | 3 artefatos de growth/tech/analytics criados | ✅ |
 | 1 artefato de internacionalização criado | ✅ |
-| 4 artefatos executivos em docs/artifacts/fio-vivo-360/ | ✅ |
-| Total: 27 artefatos | ✅ |
+| 4 entregáveis executivos ativos diretamente em `docs/artifacts/fio-vivo-360/` | ✅ |
+| 3 arquivos adicionais em `docs/artifacts/fio-vivo-360/pr-41/` | ✅ |
+| 17 arquivos de evidência em `docs/artifacts/bb-04/` | ✅ |
+| 39 arquivos na linha histórica `artifacts/bb-04/` | ✅ |
+| Total combinado da tabela de criação: 27 documentos (23 estratégicos + 4 executivos ativos) | ✅ |
 
 ---
 
@@ -493,7 +514,7 @@ A sequência crítica é:
 5. **Implementar growth + analytics** (P2)
 6. **Internacionalizar** (P3-P4)
 
-Os 27 artefatos produzidos formam a base de conhecimento para executar este plano com evidência, rastreabilidade e princípios inegociáveis preservados.
+Os 23 documentos estratégicos e os 4 entregáveis executivos ativos diretamente em `docs/artifacts/fio-vivo-360/` formam a base de conhecimento para executar este plano. As evidências BB-04 permanecem separadas por responsabilidade: `docs/artifacts/bb-04/` é o conjunto documentado/ativo; `artifacts/bb-04/` é a linha histórica preservada, incluindo `superseded/r1/`. Essa separação mantém evidência, rastreabilidade e princípios inegociáveis preservados.
 
 ---
 

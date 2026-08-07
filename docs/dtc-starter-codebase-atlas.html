@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Codebase Atlas · Medusa DTC Starter</title>
+<meta name="description" content="Catálogo editorial da arquitetura do monorepo dtc-starter, gerado localmente a partir do índice CodeGraph.">
+<style>
+/** @format — tokens copiados de apps/storefront/src/modules/nos-gallery/app/globals.css (design system real do produto) */
+:root{
+  --gallery-ink:#1b1814;--gallery-ink-deep:#120e0b;--gallery-surface:#272119;--gallery-surface-raised:#332a21;
+  --gallery-paper:#ede3d2;--gallery-paper-bright:#fff8ec;--gallery-copy:#d7c6ae;--gallery-muted:#aa9a84;--gallery-subtle:#9b8d78;
+  --gallery-accent:#c88f68;--gallery-accent-bright:#e0ad82;--gallery-accent-soft:rgb(200 143 104 / 14%);--gallery-accent-line:rgb(200 143 104 / 72%);
+  --gallery-paper-soft:rgb(237 227 210 / 76%);--gallery-paper-muted:rgb(237 227 210 / 58%);--gallery-paper-faint:rgb(237 227 210 / 38%);--gallery-paper-ghost:rgb(237 227 210 / 8%);
+  --gallery-frame:rgb(237 227 210 / 20%);--gallery-frame-subtle:rgb(237 227 210 / 11%);--gallery-frame-active:rgb(200 143 104 / 92%);
+  --gallery-shadow-color:rgb(18 14 11 / 82%);--gallery-ease:cubic-bezier(.22,1,.36,1);
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --font-serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --font-mono:ui-monospace,SFMono-Regular,"Courier New",monospace;
+  --green:#8fae7d;--blue:#8fa8c4;--violet:#b5a3d6;--red:#c47d6f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--gallery-ink);color:var(--gallery-copy);font-family:var(--font-sans);line-height:1.6;font-feature-settings:'ss01' 1,'kern' 1}
+::selection{color:var(--gallery-ink-deep);background:var(--gallery-accent)}
+a{color:var(--gallery-accent-bright)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gallery-accent);outline-offset:3px}
+.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.14;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 1.75rem 6rem}
+
+/* ── Masthead ─────────────────────────────────────────── */
+.masthead{position:relative;padding:5.5rem 0 3.5rem;border-bottom:1px solid var(--gallery-frame-subtle);overflow:hidden}
+.masthead::before{content:"";position:absolute;inset:-30% -10% auto -10%;height:70%;pointer-events:none;
+  background:radial-gradient(ellipse at 20% 0%,var(--gallery-accent-soft),transparent 60%)}
+.eyebrow{display:flex;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.68rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gallery-accent-bright)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgb(143 174 125/.7)}
+.masthead h1{font-family:var(--font-serif);font-style:italic;font-weight:600;font-size:clamp(2.4rem,5vw,4rem);line-height:1.04;letter-spacing:-.01em;margin:.9rem 0 1rem;color:var(--gallery-paper-bright)}
+.masthead .lede{max-width:640px;font-size:1.02rem;color:var(--gallery-copy);margin:0 0 2.2rem}
+.masthead .lede b{color:var(--gallery-paper)}
+.meta-strip{display:flex;flex-wrap:wrap;gap:.5rem}
+.meta-chip{display:flex;align-items:center;gap:.4rem;padding:.5rem .75rem;border:1px solid var(--gallery-frame);border-radius:2px;background:var(--gallery-paper-ghost);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;color:var(--gallery-copy)}
+.meta-chip strong{color:var(--gallery-paper-bright);font-weight:700}
+
+/* ── Sticky index ─────────────────────────────────────── */
+.index-nav{position:sticky;top:0;z-index:10;display:flex;gap:1.6rem;overflow-x:auto;padding:.9rem 1.75rem;
+  background:color-mix(in srgb,var(--gallery-ink) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--gallery-frame-subtle)}
+.index-nav a{flex:none;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gallery-muted);text-decoration:none;padding-bottom:.2rem;border-bottom:1px solid transparent;transition:color .2s var(--gallery-ease),border-color .2s var(--gallery-ease)}
+.index-nav a:hover,.index-nav a.active{color:var(--gallery-accent-bright);border-color:var(--gallery-accent-line)}
+
+/* ── Sections ─────────────────────────────────────────── */
+section{padding:4rem 0;border-bottom:1px solid var(--gallery-frame-subtle)}
+section:last-of-type{border-bottom:0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.section-num{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em;color:var(--gallery-accent);text-transform:uppercase}
+.section-head h2{font-family:var(--font-serif);font-style:italic;font-weight:600;font-size:clamp(1.6rem,3vw,2.2rem);margin:.35rem 0 0;color:var(--gallery-paper-bright)}
+.section-sub{max-width:620px;font-size:.92rem;color:var(--gallery-muted)}
+
+/* ── Cards & grids ────────────────────────────────────── */
+.grid{display:grid;gap:1rem}
+.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{border:1px solid var(--gallery-frame);border-radius:2px;
+  background:linear-gradient(140deg,color-mix(in srgb,var(--gallery-copy) 10%,transparent),color-mix(in srgb,var(--gallery-surface-raised) 70%,transparent));
+  padding:1.15rem;transition:border-color .25s var(--gallery-ease),transform .25s var(--gallery-ease)}
+.card:hover{border-color:var(--gallery-frame-active);transform:translateY(-2px)}
+.stat-card .label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gallery-subtle)}
+.stat-card .value{font-family:var(--font-serif);font-style:italic;font-size:2.1rem;color:var(--gallery-paper-bright);margin:.3rem 0 .15rem}
+.stat-card .note{font-size:.78rem;color:var(--gallery-muted)}
+.tile{display:flex;gap:.85rem}
+.monogram{flex:none;display:grid;width:34px;height:34px;place-items:center;border:1px solid var(--gallery-accent-line);border-radius:50%;color:var(--gallery-accent-bright);font-family:var(--font-serif);font-style:italic;font-size:1rem}
+.tile-body b{display:block;color:var(--gallery-paper);font-size:.92rem;margin-bottom:.25rem}
+.tile-body p{margin:0;font-size:.82rem;color:var(--gallery-muted);line-height:1.55}
+.path{display:inline-block;margin-top:.4rem;font-family:var(--font-mono);font-size:.68rem;color:var(--gallery-subtle);word-break:break-all}
+.tag-row{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem}
+.tag{padding:.22rem .5rem;border:1px solid var(--gallery-frame);border-radius:2px;font-family:var(--font-mono);font-size:.63rem;letter-spacing:.05em;color:var(--gallery-copy);background:var(--gallery-paper-ghost)}
+.tag.accent{border-color:var(--gallery-accent-line);color:var(--gallery-accent-bright);background:var(--gallery-accent-soft)}
+
+/* ── Architecture flow ────────────────────────────────── */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem}
+.flow-step{position:relative;padding:1rem;border:1px solid var(--gallery-frame);border-radius:2px;background:var(--gallery-surface);min-height:108px}
+.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-.85rem;top:44%;color:var(--gallery-accent);font-weight:700}
+.flow-step small{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;color:var(--gallery-accent-bright);text-transform:uppercase}
+.flow-step b{display:block;margin:.4rem 0 .3rem;font-size:.92rem;color:var(--gallery-paper)}
+.flow-step p{margin:0;font-size:.76rem;color:var(--gallery-muted);line-height:1.5}
+
+/* ── Tables ───────────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{text-align:left;font-family:var(--font-mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gallery-subtle);padding:.6rem .5rem;border-bottom:1px solid var(--gallery-frame)}
+td{padding:.7rem .5rem;border-bottom:1px solid var(--gallery-frame-subtle);color:var(--gallery-copy);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.mono,.mono{font-family:var(--font-mono);font-size:.76rem;color:var(--gallery-paper)}
+.badge{display:inline-flex;padding:.18rem .45rem;border-radius:2px;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase}
+.badge.store{color:var(--blue);background:rgb(143 168 196/.14)}
+.badge.checkout{color:var(--green);background:rgb(143 174 125/.14)}
+.badge.gallery{color:var(--gallery-accent-bright);background:var(--gallery-accent-soft)}
+.badge.api{color:var(--violet);background:rgb(181 163 214/.14)}
+
+/* ── Bars (index stats) ───────────────────────────────── */
+.bar-row{display:grid;grid-template-columns:120px 1fr 56px;align-items:center;gap:.6rem;padding:.4rem 0}
+.bar-row b{font-size:.78rem;color:var(--gallery-copy)}
+.bar-track{height:5px;background:var(--gallery-surface-raised);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--gallery-accent),var(--gallery-accent-bright))}
+.bar-fill-w-1{width:1%}.bar-fill-w-2{width:2%}.bar-fill-w-4{width:4%}.bar-fill-w-5{width:5%}.bar-fill-w-6{width:6%}.bar-fill-w-7{width:7%}.bar-fill-w-8{width:8%}.bar-fill-w-10{width:10%}.bar-fill-w-16{width:16%}.bar-fill-w-17{width:17%}.bar-fill-w-30{width:30%}.bar-fill-w-57{width:57%}.bar-fill-w-58{width:58%}.bar-fill-w-100{width:100%}
+.bar-val{text-align:right;font-family:var(--font-mono);font-size:.72rem;color:var(--gallery-muted)}
+
+/* ── Lists ────────────────────────────────────────────── */
+.rule-list{margin:0;padding:0;list-style:none;display:grid;gap:.55rem}
+.rule-list li{position:relative;padding-left:1.1rem;font-size:.87rem;color:var(--gallery-copy);line-height:1.6}
+.rule-list li::before{content:"—";position:absolute;left:0;color:var(--gallery-accent)}
+.rule-list.warn li::before{content:"!";color:var(--red)}
+
+/* ── Footer ───────────────────────────────────────────── */
+.colophon{padding:3rem 0 0;text-align:center}
+.colophon p{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gallery-subtle)}
+
+/* ── Knowledge graph ──────────────────────────────────── */
+.graph-layout{display:grid;grid-template-columns:1fr 360px;gap:1rem;align-items:start}
+.graph-shell{position:relative;height:640px;border:1px solid var(--gallery-frame);border-radius:2px;overflow:hidden;
+  background:radial-gradient(ellipse at 28% 12%,var(--gallery-accent-soft),transparent 46%),var(--gallery-surface)}
+.graph-shell canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.graph-shell canvas.panning{cursor:grabbing}
+.graph-toolbar{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:.5rem;z-index:2}
+.graph-search{flex:1;max-width:260px;height:34px;padding:0 .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--gallery-paper);font-size:.8rem;outline:0}
+.graph-search::placeholder{color:var(--gallery-subtle)}
+.graph-search:focus{border-color:var(--gallery-accent-line)}
+.graph-reset{height:34px;padding:0 .8rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);color:var(--gallery-copy);font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.graph-reset:hover{border-color:var(--gallery-accent-line);color:var(--gallery-accent-bright)}
+.graph-legend{position:absolute;right:12px;bottom:12px;z-index:2;display:grid;grid-template-columns:repeat(2,auto);gap:.3rem .9rem;padding:.6rem .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:.66rem;color:var(--gallery-muted)}
+.graph-legend span{display:flex;align-items:center;gap:.35rem;white-space:nowrap}
+.graph-legend i{width:7px;height:7px;border-radius:50%;display:inline-block;flex:none}
+.legend-hub{background:#e0ad82}.legend-app{background:#8fa8c4}.legend-module{background:#b5a3d6}.legend-route{background:#8fae7d}.legend-package{background:#c88f68}.legend-doc{background:#7fb8b0}.legend-agent{background:#c47d6f}.legend-config{background:#9b8d78}.legend-index{background:#fff8ec}
+.graph-stats{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;gap:.5rem}
+.graph-stats div{padding:.5rem .7rem;border:1px solid var(--gallery-frame);border-radius:2px;background:rgb(18 14 11/.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.graph-stats strong{display:block;font-family:var(--font-serif);font-style:italic;font-size:1.1rem;color:var(--gallery-paper-bright)}
+.graph-stats span{display:block;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gallery-subtle)}
+.graph-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;color:var(--gallery-subtle);pointer-events:none}
+.graph-inspector{border:1px solid var(--gallery-frame);border-radius:2px;background:var(--gallery-surface);padding:1.1rem;min-height:640px}
+.gi-empty{font-size:.82rem;color:var(--gallery-muted);padding:2.5rem 0;text-align:center;line-height:1.6}
+.gi-kicker{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gallery-accent-bright)}
+.gi-title{font-family:var(--font-serif);font-style:italic;font-size:1.35rem;color:var(--gallery-paper-bright);margin:.4rem 0 .6rem;line-height:1.15}
+.gi-copy{font-size:.82rem;color:var(--gallery-copy);line-height:1.6;margin:0}
+.gi-specs{margin-top:.9rem;border-top:1px solid var(--gallery-frame-subtle)}
+.gi-specs div{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--gallery-frame-subtle);font-size:.78rem}
+.gi-specs b{color:var(--gallery-subtle);font-weight:600;text-transform:uppercase;font-size:.63rem;letter-spacing:.08em;font-family:var(--font-mono)}
+.gi-specs span{color:var(--gallery-paper)}
+
+.gi-file{margin-top:1rem;border-top:1px solid var(--gallery-frame-subtle);padding-top:.9rem}
+.gi-file-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+.gi-file-path{font-family:var(--font-mono);font-size:.66rem;color:var(--gallery-accent-bright);word-break:break-all}
+.gi-file-lang{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .4rem;border:1px solid var(--gallery-frame);border-radius:2px;color:var(--gallery-subtle);flex:none}
+.gi-code{max-height:360px;overflow:auto;margin:0;padding:.75rem;background:var(--gallery-ink-deep);border:1px solid var(--gallery-frame);border-radius:2px;font-family:ui-monospace,SFMono-Regular,"Courier New",monospace;font-size:.7rem;line-height:1.55;white-space:pre}
+.gi-code .tok-kw{color:var(--gallery-accent)}
+.gi-code .tok-str{color:#8fae7d}
+.gi-code .tok-com{color:#7d7568;font-style:italic}
+.gi-code .tok-num{color:#b5a3d6}
+.gi-code .tok-key{color:#8fa8c4}
+.gi-md{font-size:.78rem;line-height:1.6;color:var(--gallery-copy);max-height:360px;overflow:auto;padding:.75rem;border:1px solid var(--gallery-frame);border-radius:2px;background:var(--gallery-ink-deep)}
+.gi-md h1,.gi-md h2,.gi-md h3,.gi-md h4{font-family:var(--font-serif);font-style:italic;color:var(--gallery-paper-bright);margin:.7rem 0 .35rem;line-height:1.25}
+.gi-md h1:first-child,.gi-md h2:first-child{margin-top:0}
+.gi-md p{margin:.4rem 0}
+.gi-md code{background:var(--gallery-surface-raised);padding:.1rem .3rem;border-radius:2px;font-size:.85em;font-family:ui-monospace,monospace}
+.gi-md pre{background:var(--gallery-surface-raised);padding:.5rem;border-radius:2px;overflow:auto}
+.gi-md pre code{background:none;padding:0}
+.gi-md ul{margin:.3rem 0;padding-left:1.1rem}
+.gi-md li{margin:.2rem 0}
+.gi-md hr{border:0;border-top:1px solid var(--gallery-frame-subtle);margin:.7rem 0}
+.gi-md a{color:var(--gallery-accent-bright)}
+.gi-truncated{margin-top:.45rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.04em;color:var(--gallery-subtle)}
+
+.card-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gallery-subtle)}
+.card-label-spaced{margin-bottom:.6rem}
+.table-spaced,.tag-row-spaced{margin-top:.6rem}
+.package-copy{font-size:.82rem;color:var(--gallery-muted);margin-top:.8rem}
+.grid-spaced,.card-spaced{margin-top:1rem}
+.contract-card{border-color:var(--gallery-frame-active)}
+.contract-tag{display:inline-block}
+.contract-title{display:block;margin:.5rem 0 .3rem;font-size:.98rem;color:var(--gallery-paper)}
+.contract-path{font-size:.8rem}
+.contract-copy{margin:0;font-size:.85rem;color:var(--gallery-copy);line-height:1.6}
+.card-heading{display:block;margin-bottom:.7rem;color:var(--gallery-paper-bright);font-family:var(--font-serif);font-style:italic;font-size:1.05rem}
+.rule-list-columns{columns:2;column-gap:2rem}
+
+
+@media(max-width:900px){
+  .grid.cols-4{grid-template-columns:repeat(2,1fr)}
+  .grid.cols-3{grid-template-columns:repeat(2,1fr)}
+  .grid.cols-2{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.75rem;transform:translateX(-50%)}
+  .graph-layout{grid-template-columns:1fr}
+  .graph-shell{height:480px}
+  .graph-inspector{min-height:0}
+}
+@media(max-width:560px){
+  .grid.cols-4{grid-template-columns:1fr}
+  .wrap{padding:0 1.1rem 4rem}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<nav class="index-nav" id="indexNav">
+  <a href="#overview">Overview</a>
+  <a href="#graph">Graph</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#modules">Modules</a>
+  <a href="#routes">Routes</a>
+  <a href="#packages">Packages</a>
+  <a href="#docs">Documentation</a>
+  <a href="#agents">Agents &amp; Governance</a>
+  <a href="#conventions">Conventions</a>
+  <a href="#index-stats">Index Stats</a>
+</nav>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow"><span class="dot"></span>Codebase Atlas · generated locally via CodeGraph</div>
+    <h1>The architecture of the storefront, catalogued.</h1>
+    <p class="lede">A field guide to <b>dtc-starter</b> — a Turborepo monorepo pairing a <b>Medusa 2.18.0</b> backend with a <b>Next.js 15.5</b> storefront, forked and extended for the <b>Fio Vivo</b> editorial gallery project. Every figure on this page was read from the actual repository and its local CodeGraph symbol index, not invented.</p>
+    <div class="meta-strip">
+      <div class="meta-chip"><strong>465</strong>&nbsp;files indexed</div>
+      <div class="meta-chip"><strong>3,751</strong>&nbsp;symbols</div>
+      <div class="meta-chip"><strong>6,942</strong>&nbsp;edges</div>
+      <div class="meta-chip"><strong>6</strong>&nbsp;languages</div>
+      <div class="meta-chip">pnpm <strong>10.11.1</strong> workspace</div>
+      <div class="meta-chip">Node <strong>20+</strong></div>
+    </div>
+  </header>
+
+  <section id="overview">
+    <div class="section-head">
+      <div><div class="section-num">01 · Overview</div><h2>Two apps, one shared gallery kernel.</h2></div>
+      <div class="section-sub">The repository ships a commerce backend and storefront as sibling apps, with a framework-agnostic gallery package shared between them and a nested, independently-versioned gallery application.</div>
+    </div>
+    <div class="grid cols-4">
+      <div class="card stat-card"><div class="label">Backend</div><div class="value">Medusa 2.18</div><div class="note">apps/backend · 11 indexed source files</div></div>
+      <div class="card stat-card"><div class="label">Storefront</div><div class="value">Next.js 15.5</div><div class="note">apps/storefront · 400 indexed files (Turbopack, port 8000)</div></div>
+      <div class="card stat-card"><div class="label">Gallery kernel</div><div class="value">@dtc/gallery-experience</div><div class="note">packages/gallery-experience · 16 files, framework-agnostic</div></div>
+      <div class="card stat-card"><div class="label">nos-gallery</div><div class="value">179 files</div><div class="note">nested app under storefront/src/modules, own .git &amp; AGENTS.md</div></div>
+    </div>
+  </section>
+
+  <section id="graph">
+    <div class="section-head">
+      <div><div class="section-num">02 · Knowledge Graph</div><h2>Every folder, every edge — one map.</h2></div>
+      <div class="section-sub">The full repository tree from this page, rendered as one interactive graph — 271 nodes, 275 edges (188 of them unfolded from the real .agents/ tree: every hook, script, skill, orchestration and sub-agent, walked from disk). Drag to pan, scroll to zoom, click a node to inspect it. Nodes backed by a real file (24 of them) preview their actual content — a small, self-contained code/markdown renderer per format, in the same modular spirit as <a href="https://github.com/cweijan/vscode-office" target="_blank" rel="noopener">cweijan/vscode-office</a>, without vendoring its full libraries.</div>
+    </div>
+    <div class="graph-layout">
+      <div class="graph-shell" id="graphShell">
+        <canvas id="archCanvas"></canvas>
+        <div class="graph-toolbar">
+          <input id="graphSearch" class="graph-search" placeholder="Buscar nó… (ex: nos-gallery, checkout, docs)">
+          <button id="graphReset" class="graph-reset" type="button">Reset view</button>
+        </div>
+        <div class="graph-legend">
+          <span><i class="legend-hub"></i>Hub</span>
+          <span><i class="legend-app"></i>App</span>
+          <span><i class="legend-module"></i>Module</span>
+          <span><i class="legend-route"></i>Route</span>
+          <span><i class="legend-package"></i>Package</span>
+          <span><i class="legend-doc"></i>Doc</span>
+          <span><i class="legend-agent"></i>Agent</span>
+          <span><i class="legend-config"></i>Config</span>
+          <span><i class="legend-index"></i>Index</span>
+        </div>
+        <div class="graph-stats">
+          <div><strong id="graphNodeCount">0</strong><span>Nodes</span></div>
+          <div><strong id="graphEdgeCount">0</strong><span>Edges</span></div>
+          <div><strong id="graphVisible">0</strong><span>Visible</span></div>
+        </div>
+      </div>
+      <aside class="graph-inspector" id="graphInspector">
+        <div class="gi-empty">Clique em um nó do grafo para ver seu tipo, caminho, resumo e conexões reais. Nós com um arquivo real associado mostram o conteúdo — highlight de código ou markdown renderizado.</div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="architecture">
+    <div class="section-head">
+      <div><div class="section-num">03 · Architecture</div><h2>From workspace root to running gallery.</h2></div>
+      <div class="section-sub">Root config governs a Turborepo task graph; apps consume the shared package; documentation and agent contracts sit alongside as first-class citizens rather than an afterthought.</div>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><small>01 · Workspace</small><b>turbo.json + pnpm-workspace.yaml</b><p>Task graph for build/dev/lint/test across apps/** and packages/**.</p></div>
+      <div class="flow-step"><small>02 · Backend</small><b>apps/backend</b><p>File-based API routes resolve workflows; workflows compose steps — no logic in route handlers.</p></div>
+      <div class="flow-step"><small>03 · Storefront</small><b>apps/storefront</b><p>Next.js App Router, 14 feature modules, Radix UI + Headless UI (no shadcn/Framer Motion).</p></div>
+      <div class="flow-step"><small>04 · Gallery kernel</small><b>@dtc/gallery-experience</b><p>Domain contracts + Medusa adapter, consumed by home/gallery-hero via peer deps.</p></div>
+      <div class="flow-step"><small>05 · Governance</small><b>.agents/ + docs/</b><p>Session State Ledger contract and Fio Vivo 360 documentation gate multi-turn work.</p></div>
+    </div>
+  </section>
+
+  <section id="modules">
+    <div class="section-head">
+      <div><div class="section-num">04 · Modules</div><h2>Storefront feature modules.</h2></div>
+      <div class="section-sub">apps/storefront/src/modules — each folder owns one commerce or presentation concern.</div>
+    </div>
+    <div class="grid cols-3">
+      <div class="card tile"><div class="monogram">A</div><div class="tile-body"><b>account</b><p>Customer accounts, order history, address management, account nav.</p></div></div>
+      <div class="card tile"><div class="monogram">C</div><div class="tile-body"><b>cart</b><p>Cart drawer/page, line items, promotion codes.</p></div></div>
+      <div class="card tile"><div class="monogram">C</div><div class="tile-body"><b>categories</b><p>Product category listing and filtering.</p></div></div>
+      <div class="card tile"><div class="monogram">C</div><div class="tile-body"><b>checkout</b><p>Multi-step checkout: shipping, payment, review.</p></div></div>
+      <div class="card tile"><div class="monogram">C</div><div class="tile-body"><b>collections</b><p>Curated product collections.</p></div></div>
+      <div class="card tile"><div class="monogram">C</div><div class="tile-body"><b>common</b><p>Shared UI primitives and icons used across modules.</p></div></div>
+      <div class="card tile"><div class="monogram">H</div><div class="tile-body"><b>home</b><p>Landing page, featured products, hero — plus the Fio Vivo gallery-hero integration.<span class="tag-row"><span class="tag accent">gallery-hero</span></span></p></div></div>
+      <div class="card tile"><div class="monogram">L</div><div class="tile-body"><b>layout</b><p>Nav, footer, Medusa CTA, shared page chrome.</p></div></div>
+      <div class="card tile"><div class="monogram">N</div><div class="tile-body"><b>nos-gallery</b><p>Canonical gallery module — a nested, independently-versioned Next.js app (179 files, own .git + AGENTS.md).<span class="tag-row"><span class="tag accent">nested repo</span></span></p></div></div>
+      <div class="card tile"><div class="monogram">O</div><div class="tile-body"><b>order</b><p>Order confirmation, order detail, order transfer.</p></div></div>
+      <div class="card tile"><div class="monogram">P</div><div class="tile-body"><b>products</b><p>Product listing, PDP, variant selection, thumbnails.</p></div></div>
+      <div class="card tile"><div class="monogram">S</div><div class="tile-body"><b>shipping</b><p>Shipping option selection and display.</p></div></div>
+      <div class="card tile"><div class="monogram">S</div><div class="tile-body"><b>skeletons</b><p>Loading-state placeholders for async product/cart data.</p></div></div>
+      <div class="card tile"><div class="monogram">S</div><div class="tile-body"><b>store</b><p>Store/catalog page — the storefront's product grid entry point.</p></div></div>
+    </div>
+  </section>
+
+  <section id="routes">
+    <div class="section-head">
+      <div><div class="section-num">05 · Routes</div><h2>What actually resolves.</h2></div>
+      <div class="section-sub">Pulled directly from the CodeGraph route index — 22 route symbols across three route trees.</div>
+    </div>
+    <table>
+      <tr><th>Path</th><th>Source</th><th>Tree</th></tr>
+      <tr><td class="mono">/:countryCode/(main)</td><td class="path">apps/storefront/src/app/[countryCode]/(main)/page.tsx</td><td><span class="badge store">storefront</span></td></tr>
+      <tr><td class="mono">/:countryCode/(main)/store</td><td class="path">apps/storefront/src/app/[countryCode]/(main)/store/page.tsx</td><td><span class="badge store">storefront</span></td></tr>
+      <tr><td class="mono">/:countryCode/(main)/cart</td><td class="path">apps/storefront/src/app/[countryCode]/(main)/cart/page.tsx</td><td><span class="badge store">storefront</span></td></tr>
+      <tr><td class="mono">/:countryCode/(checkout)/checkout</td><td class="path">apps/storefront/src/app/[countryCode]/(checkout)/checkout/page.tsx</td><td><span class="badge checkout">checkout</span></td></tr>
+      <tr><td class="mono">/</td><td class="path">apps/storefront/src/modules/nos-gallery/app/page.tsx</td><td><span class="badge gallery">nos-gallery</span></td></tr>
+      <tr><td class="mono">/privacidade</td><td class="path">apps/storefront/src/modules/nos-gallery/app/privacidade/page.tsx</td><td><span class="badge gallery">nos-gallery</span></td></tr>
+      <tr><td class="mono">/api/health</td><td class="path">apps/storefront/src/modules/nos-gallery/app/api/health/route.ts</td><td><span class="badge gallery">nos-gallery</span></td></tr>
+      <tr><td class="mono">/api/v1/artworks</td><td class="path">apps/storefront/src/modules/nos-gallery/app/api/v1/artworks/route.ts</td><td><span class="badge gallery">nos-gallery</span></td></tr>
+      <tr><td class="mono">/api/v1/artworks/[code]</td><td class="path">apps/storefront/src/modules/nos-gallery/app/api/v1/artworks/[code]/route.ts</td><td><span class="badge gallery">nos-gallery</span></td></tr>
+      <tr><td class="mono">/api/webhooks/clerk</td><td class="path">apps/storefront/src/modules/nos-gallery/app/api/webhooks/clerk/route.ts</td><td><span class="badge gallery">nos-gallery</span></td></tr>
+      <tr><td class="mono">/api/internal/inquiry-notifications</td><td class="path">apps/storefront/src/modules/nos-gallery/app/api/internal/inquiry-notifications/route.ts</td><td><span class="badge gallery">nos-gallery</span></td></tr>
+      <tr><td class="mono">api/store/custom</td><td class="path">apps/backend/src/api/store/custom/route.ts</td><td><span class="badge api">backend</span></td></tr>
+      <tr><td class="mono">api/admin/custom</td><td class="path">apps/backend/src/api/admin/custom/route.ts</td><td><span class="badge api">backend</span></td></tr>
+    </table>
+  </section>
+
+  <section id="packages">
+    <div class="section-head">
+      <div><div class="section-num">06 · Packages</div><h2>@dtc/gallery-experience.</h2></div>
+      <div class="section-sub">The one shared workspace package — an isolated, editorial gallery presentation module. React, React DOM and Next.js are peer dependencies supplied by the storefront.</div>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="label card-label">Source files</div>
+        <table class="table-spaced">
+          <tr><td class="mono">adapters/medusa/map-store-product-to-gallery-item.ts</td><td>Maps a Medusa StoreProduct to a GalleryItem</td></tr>
+          <tr><td class="mono">components/gallery-experience.tsx</td><td>Root gallery presentation component</td></tr>
+          <tr><td class="mono">components/artwork-card.tsx</td><td>Single artwork/product card</td></tr>
+          <tr><td class="mono">components/gallery-ambient.tsx</td><td>Ambient/atmospheric scene layer</td></tr>
+          <tr><td class="mono">i18n/dictionary.ts</td><td>Localized copy dictionary</td></tr>
+          <tr><td class="mono">types/index.ts</td><td>GalleryItem, GalleryScene, GalleryPrice, GalleryAvailability</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="label card-label">Design tokens (from nos-gallery, reused on this page)</div>
+        <div class="tag-row tag-row-spaced">
+          <span class="tag accent">--gallery-accent #c88f68</span>
+          <span class="tag">--gallery-ink #1b1814</span>
+          <span class="tag">--gallery-paper #ede3d2</span>
+          <span class="tag">Playfair Display / serif</span>
+          <span class="tag">Geist / sans</span>
+          <span class="tag">radius 0.25rem (sharp, editorial)</span>
+        </div>
+        <p class="package-copy">Scoped under <code class="mono">[data-gallery-experience]</code> so the package never leaks styles into the rest of the storefront. Consumed by <code class="mono">home/gallery-hero</code> with product fixtures, analytics and feature flags layered on top.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="docs">
+    <div class="section-head">
+      <div><div class="section-num">07 · Documentation</div><h2>Fio Vivo 360 program docs.</h2></div>
+      <div class="section-sub">docs/ — strategic and executive documentation, not indexed as code symbols but structurally part of the repository.</div>
+    </div>
+    <div class="grid cols-4">
+      <div class="card tile"><div class="tile-body"><b>00 discovery</b><p class="path">docs/fio-vivo/00-discovery</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>01 product</b><p class="path">docs/fio-vivo/01-product</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>02 design</b><p class="path">docs/fio-vivo/02-design</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>03 pricing</b><p class="path">docs/fio-vivo/03-pricing</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>04 growth</b><p class="path">docs/fio-vivo/04-growth</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>05 technology</b><p class="path">docs/fio-vivo/05-technology</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>06 internationalization</b><p class="path">docs/fio-vivo/06-internationalization</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>07 analytics</b><p class="path">docs/fio-vivo/07-analytics</p></div></div>
+    </div>
+    <div class="grid cols-2 grid-spaced">
+      <div class="card tile"><div class="monogram">E</div><div class="tile-body"><b>artifacts/fio-vivo-360</b><p>Decision log, gate table, next actions, executive summary.</p></div></div>
+      <div class="card tile"><div class="monogram">B</div><div class="tile-body"><b>artifacts/bb-04</b><p>Visual evidence and runtime measurement reports for the BB-04 baseline.</p></div></div>
+    </div>
+  </section>
+
+  <section id="agents">
+    <div class="section-head">
+      <div><div class="section-num">08 · Agents &amp; Governance</div><h2>.agents/ — the rules an agent operates under here.</h2></div>
+      <div class="section-sub">22 indexed files: hooks, skill packs and the contract that governs multi-turn Building Block work.</div>
+    </div>
+    <div class="grid cols-3">
+      <div class="card tile"><div class="tile-body"><b>hooks.json</b><p>PreToolUse and Stop hooks — Fio Vivo firewall + stop gate.</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>scripts/</b><p>PowerShell scripts enforcing pretool-firewall and stop-gate.</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>skills/</b><p>Canonical skill definitions.</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>ollama-superpowers-pack-v1.0.0/</b><p>BB01 model intelligence, agents, evals (Python, tested).</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>nos-gallery-canonical-skills-205/</b><p>Skill pack referenced from nos-gallery's own .agents/.</p></div></div>
+      <div class="card tile"><div class="tile-body"><b>product-lifecycle-canonical-skills-315/</b><p>Product lifecycle skill pack.</p></div></div>
+    </div>
+    <div class="card card-spaced contract-card">
+      <div class="tag accent contract-tag">contract</div>
+      <b class="contract-title">Session State Ledger — <span class="mono contract-path">.agents/contracts/session-state-ledger.md</span></b>
+      <p class="contract-copy">Any multi-turn Building Block execution in this repository is governed by this contract. Read the ledger before resuming in-progress work; update it after every gate transition. Product approval, Git authorization and merge authorization are three distinct grants — none implies the others.</p>
+    </div>
+  </section>
+
+  <section id="conventions">
+    <div class="section-head">
+      <div><div class="section-num">09 · Conventions &amp; Guardrails</div><h2>How this codebase wants to be edited.</h2></div>
+      <div class="section-sub">Straight from AGENTS.md — the rules a lint failure or a silent bug usually traces back to.</div>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <b class="card-heading">Code style</b>
+        <ul class="rule-list">
+          <li>Backend must satisfy <span class="mono">@medusajs/eslint-plugin</span>'s recommended config — a lint failure usually means the code is wrong, not just unformatted.</li>
+          <li>No semicolons. Double quotes, 2-space indent.</li>
+          <li>Files kebab-case; types/classes PascalCase; functions/variables camelCase; DB columns snake_case.</li>
+          <li>Backend routing is file-based — no manual router registration.</li>
+          <li>Business logic belongs in workflows, not route handlers.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <b class="card-heading">Off-limits</b>
+        <ul class="rule-list warn">
+          <li><span class="mono">.medusa/</span>, <span class="mono">.next/</span>, <span class="mono">dist/</span>, <span class="mono">out/</span>, <span class="mono">.turbo/</span> — build output, regenerated.</li>
+          <li><span class="mono">pnpm-lock.yaml</span> — never hand-edit; change only via pnpm.</li>
+          <li><span class="mono">.env</span> / <span class="mono">.env.local</span> — never commit, print or copy secret values.</li>
+          <li>Existing migrations in <span class="mono">src/modules/*/migrations/</span> — add new ones, don't rewrite.</li>
+          <li>No destructive DB commands without explicit confirmation.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card card-spaced">
+      <b class="card-heading">Common mistakes on this repo</b>
+      <ul class="rule-list warn rule-list-columns">
+        <li>Installing a dependency at the root instead of inside the app that needs it.</li>
+        <li>Editing a custom module's model without <span class="mono">medusa db:generate</span> — the migration silently never applies.</li>
+        <li>Calling the Medusa API from the storefront without <span class="mono">NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY</span>.</li>
+        <li>Using Tailwind v4 syntax in nos-gallery — this codebase runs Tailwind v3.</li>
+        <li>Assuming Framer Motion or shadcn/ui are installed — they are not; use Radix UI and Headless UI directly.</li>
+        <li>Running tests without a reachable PostgreSQL instance.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="index-stats">
+    <div class="section-head">
+      <div><div class="section-num">10 · Index Stats</div><h2>What CodeGraph actually found.</h2></div>
+      <div class="section-sub">Local SQLite index at .codegraph/codegraph.db — 10.55 MB, WAL mode, node:sqlite backend.</div>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="label card-label card-label-spaced">Nodes by kind</div>
+        <div id="kindBars"></div>
+      </div>
+      <div class="card">
+        <div class="label card-label card-label-spaced">Files by language</div>
+        <div id="langBars"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <p>Codebase Atlas · dtc-starter · generated from a local CodeGraph index · standalone HTML, no external requests</p>
+  </footer>
+</div>
+
+<script>
+var kinds=[["import",1506],["function",864],["file",454],["constant",261],["property",247],["type_alias",154],["interface",91],["method",71],["component",32],["variable",24],["class",22],["route",22]];
+var langs=[["tsx",260],["typescript",151],["javascript",21],["python",19],["yaml",11],["jsx",3]];
+function renderBars(id,data){
+  var max=Math.max.apply(null,data.map(function(d){return d[1]}));
+  var html=data.map(function(d){
+    var pct=Math.round(d[1]/max*100);
+    return '<div class="bar-row"><b>'+d[0]+'</b><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%"></div></div><div class="bar-val">'+d[1].toLocaleString('en-US')+'</div></div>';
+  }).join('');
+  document.getElementById(id).innerHTML=html;
+}
+renderBars('kindBars',kinds);
+renderBars('langBars',langs);
+/* ── Knowledge graph: real repo tree, hand-verified against the sections above ── */
+(function(){
+var FILES = {"ag-scripts-pretool-firewall-ps1":{"path":".agents/scripts/pretool-firewall.ps1","lang":"ps1","truncated":false,"totalLines":34,"b64":"JHJhdyA9IFtDb25zb2xlXTo6SW4uUmVhZFRvRW5kKCkKdHJ5IHsgJHAgPSAkcmF3IHwgQ29udmVydEZyb20tSnNvbiAtRGVwdGggMzAgfQpjYXRjaCB7CiAgQHsgZGVjaXNpb24gPSAiZm9yY2VfYXNrIjsgcmVhc29uID0gIkNvdWxkIG5vdCBwYXJzZSBob29rIHBheWxvYWQuIiB9IHwgQ29udmVydFRvLUpzb24gLUNvbXByZXNzCiAgZXhpdCAwCn0KJG5hbWUgPSBbc3RyaW5nXSRwLnRvb2xDYWxsLm5hbWUKJGFyZ3MgPSAkcC50b29sQ2FsbC5hcmdzIHwgQ29udmVydFRvLUpzb24gLURlcHRoIDMwIC1Db21wcmVzcwoKJGJsb2NrZWRDb21tYW5kcyA9IEAoCiAgJyg/aSlcYmdpdFxzK2NvbW1pdFxiJywnKD9pKVxiZ2l0XHMrcHVzaFxiJywnKD9pKVxiZ2l0XHMrcmVzZXRcYicsCiAgJyg/aSlcYmdpdFxzK3JlYmFzZVxiJywnKD9pKVxiZ2l0XHMrbWVyZ2VcYicsJyg/aSlcYmdpdFxzK3JldmVydFxiJywKICAnKD9pKVxiZ2l0XHMrY2xlYW5cYicsJyg/aSlcYmdpdFxzK2NoZXJyeS1waWNrXGInCikKJHByb3RlY3RlZFBhdGhzID0gQCgKICAnKD9pKWFwcHNbXFwvXStzdG9yZWZyb250W1xcL10rc3JjW1xcL10rYXBwW1xcL10rZ2xvYmFsc1wuY3NzJywKICAnKD9pKXBucG0tbG9ja1wueWFtbCcsJyg/aSlwYWNrYWdlXC5qc29uJywnKD9pKVwuZ2l0aHViW1xcL10rd29ya2Zsb3dzJywKICAnKD9pKXBsYXl3cmlnaHRcLmNvbmZpZycsJyg/aSlhcHBzW1xcL10rc3RvcmVmcm9udFtcXC9dK3NyY1tcXC9dK21vZHVsZXNbXFwvXStub3MtZ2FsbGVyeScKKQoKZm9yZWFjaCAoJHggaW4gJGJsb2NrZWRDb21tYW5kcykgewogIGlmICgkYXJncyAtbWF0Y2ggJHgpIHsKICAgIEB7IGRlY2lzaW9uID0gImRlbnkiOyByZWFzb24gPSAiQmxvY2tlZCB1bmF1dGhvcml6ZWQgR2l0IGhpc3Rvcnkgb3IgcmVtb3RlIG9wZXJhdGlvbi4iIH0gfCBDb252ZXJ0VG8tSnNvbiAtQ29tcHJlc3MKICAgIGV4aXQgMAogIH0KfQpmb3JlYWNoICgkeCBpbiAkcHJvdGVjdGVkUGF0aHMpIHsKICBpZiAoJGFyZ3MgLW1hdGNoICR4IC1hbmQgJG5hbWUgLW1hdGNoICd3cml0ZXxyZXBsYWNlfHJ1bl9jb21tYW5kJykgewogICAgQHsgZGVjaXNpb24gPSAiZm9yY2VfYXNrIjsgcmVhc29uID0gIlByb3RlY3RlZCBwYXRoIHJlcXVpcmVzIGV4cGxpY2l0IHVzZXIgYXBwcm92YWwuIiB9IHwgQ29udmVydFRvLUpzb24gLUNvbXByZXNzCiAgICBleGl0IDAKICB9Cn0KQHsgZGVjaXNpb24gPSAiYWxsb3ciOyByZWFzb24gPSAiQWxsb3dlZCBieSBGaW8gVml2byBmaXJld2FsbC4iIH0gfCBDb252ZXJ0VG8tSnNvbiAtQ29tcHJlc3MK"},"ag-scripts-stop-gate-ps1":{"path":".agents/scripts/stop-gate.ps1","lang":"ps1","truncated":false,"totalLines":19,"b64":"JG51bGwgPSBbQ29uc29sZV06OkluLlJlYWRUb0VuZCgpCiR2ID0gTmV3LU9iamVjdCBTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5MaXN0W3N0cmluZ10KdHJ5IHsKICAkcyA9IGdpdCBzdGF0dXMgLS1zaG9ydCAtLXVudHJhY2tlZC1maWxlcz1hbGwgMj4kbnVsbAogIGZvcmVhY2ggKCRsaW5lIGluICRzKSB7CiAgICBpZiAoJGxpbmUgLW1hdGNoICdhcHBzL3N0b3JlZnJvbnQvc3JjL2FwcC9nbG9iYWxzXC5jc3MnKSB7ICR2LkFkZCgiZ2xvYmFscy5jc3MgbW9kaWZpZWQiKSB9CiAgICBpZiAoJGxpbmUgLW1hdGNoICdwbnBtLWxvY2tcLnlhbWx8cGFja2FnZVwuanNvbicpIHsgJHYuQWRkKCJwYWNrYWdlIG1ldGFkYXRhIG1vZGlmaWVkIikgfQogICAgaWYgKCRsaW5lIC1tYXRjaCAnXC5naXRodWIvd29ya2Zsb3dzfHBsYXl3cmlnaHRcLmNvbmZpZycpIHsgJHYuQWRkKCJDSSBvciBQbGF5d3JpZ2h0IG1vZGlmaWVkIikgfQogIH0KICAkc3ViID0gZ2l0IC1DIGFwcHMvc3RvcmVmcm9udC9zcmMvbW9kdWxlcy9ub3MtZ2FsbGVyeSBzdGF0dXMgLS1zaG9ydCAyPiRudWxsCiAgaWYgKCRzdWIpIHsgJHYuQWRkKCJub3MtZ2FsbGVyeSBzdWJtb2R1bGUgZGlydHkiKSB9Cn0gY2F0Y2ggeyAkdi5BZGQoInJlcG9zaXRvcnkgaW5zcGVjdGlvbiBmYWlsZWQiKSB9CgppZiAoJHYuQ291bnQgLWd0IDApIHsKICBAeyBkZWNpc2lvbiA9ICJjb250aW51ZSI7IHJlYXNvbiA9ICJSZXBvc2l0b3J5IGdhdGUgZmFpbGVkOiAiICsgKCR2IC1qb2luICI7ICIpIH0gfCBDb252ZXJ0VG8tSnNvbiAtQ29tcHJlc3MKfSBlbHNlIHsKICBAeyBkZWNpc2lvbiA9ICJhbGxvdyI7IHJlYXNvbiA9ICJSZXBvc2l0b3J5IGdhdGUgY2xlYW4uIiB9IHwgQ29udmVydFRvLUpzb24gLUNvbXByZXNzCn0K"},"ag-contracts-nos-gallery-first-fold-yaml":{"path":".agents/contracts/nos-gallery-first-fold.yaml","lang":"yaml","truncated":false,"totalLines":36,"b64":"cmVmZXJlbmNlOgogIHNvdXJjZTogYm9sZGZlcm5hbmRvL25vcy1nYWxsZXJ5CiAgdmlld3BvcnQ6CiAgICB3aWR0aDogMTYwMAogICAgaGVpZ2h0OiA5NjAKCnJlcXVpcmVkOgogIGZpcnN0X2ZvbGRfaGVpZ2h0OiAiY2FsYygxMDBzdmggLSBjb21tZXJjZUhlYWRlckhlaWdodCkiCiAgYXN5bW1ldHJpY190aHJlZV96b25lX2xheW91dDogdHJ1ZQogIGVkaXRvcmlhbF9jb2x1bW5fbGVmdDogdHJ1ZQogIGFjdGl2ZV9jYXJkX2NlbnRlcl9kb21pbmFudDogdHJ1ZQogIGFkamFjZW50X2NhcmRfcGFydGlhbGx5X3Zpc2libGU6IHRydWUKICBhY3RpdmVfdG9fbmVpZ2hib3Jfd2lkdGhfcmF0aW9fbWluOiAxLjMwCiAgaW50ZWdyYXRlZF9zY2VuZV90aHVtYm5haWxfcmFpbDogdHJ1ZQogIGR5bmFtaWNfYW1iaWVudF9iYWNrZ3JvdW5kOiB0cnVlCiAgZ3JhaW5fbGF5ZXI6IHRydWUKICB2aWduZXR0ZV9sYXllcjogdHJ1ZQogIGNvcHBlcl91bWJlcl9saW5lbl9wYWxldHRlOiB0cnVlCiAgYm90dG9tX25hdmlnYXRpb25fY2VudGVyZWQ6IHRydWUKICBjb21tZXJjaWFsX2N0YV9ib3R0b21fcmlnaHQ6IHRydWUKICBtZWR1c2FfbWVudV9hY2NvdW50X2NhcnRfcHJlc2VydmVkOiB0cnVlCgpmb3JiaWRkZW46CiAgZXF1YWxfd2lkdGhfcHJvZHVjdF9ncmlkOiB0cnVlCiAgZ2VuZXJpY19zYWFzX2JsdWVfcGFsZXR0ZTogdHJ1ZQogIHJvdW5kZWRfcGlsbF9ldmVyeXdoZXJlOiB0cnVlCiAgc2NlbmVfYnV0dG9uc19vdXRzaWRlX2FjdGl2ZV9jYXJkOiB0cnVlCiAgZHVwbGljYXRlZF9jb21tZXJjZV9oZWFkZXI6IHRydWUKICBoYXJkY29kZWRfYnJhaW5fcGF0aHM6IHRydWUKICBnbG9iYWxfa2V5Ym9hcmRfbGlzdGVuZXJfd2l0aG91dF9mb2N1c19zY29wZTogdHJ1ZQoKZ2F0ZToKICBodW1hbl92aXN1YWxfYXBwcm92YWxfcmVxdWlyZWQ6IHRydWUKICBwbGF5d3JpZ2h0X2Jhc2VsaW5lX3JlcXVpcmVkOiB0cnVlCiAgbWF4X2RpZmZfcGl4ZWxfcmF0aW86IDAuMDUK"},"ag-contracts-session-state-ledger-schema-yaml":{"path":".agents/contracts/session-state-ledger.schema.yaml","lang":"yaml","truncated":true,"totalLines":96,"b64":"IyBTZXNzaW9uIFN0YXRlIExlZGdlciDigJQgcmVmZXJlbmNlIHNjaGVtYQojCiMgQ2Fub25pY2FsIHNoYXBlIGZvciB0cmFja2luZyBnYXRlIHN0YXRlIGFuZCBhdXRob3JpemF0aW9uIGFjcm9zcyBhCiMgbXVsdGktcm91bmQgQnVpbGRpbmcgQmxvY2sgZXhlY3V0aW9uIGluIHRoaXMgcmVwb3NpdG9yeS4gU2VlCiMgLi9zZXNzaW9uLXN0YXRlLWxlZGdlci5tZCBmb3IgdGhlIGZ1bGwgY29udHJhY3Q6IHdoZW4gdG8gcmVhZC93cml0ZSB0aGlzLAojIHRyYW5zaXRpb24gcnVsZXMsIGF1dGhvcml6YXRpb24gcHJlY2VkZW5jZSwgYW5kIHRoZSBiYXRjaC1maWxlIHNhZmV0eQojIHByb3RvY29sLgojCiMgVGhpcyBmaWxlIGlzIGEgUkVGRVJFTkNFIFNDSEVNQSwgbm90IGEgbGl2ZSBsZWRnZXIuIERvIG5vdCBjb21taXQgYSBjb3B5CiMgb2YgdGhpcyBmaWxlIHBvcHVsYXRlZCB3aXRoIHJlYWwsIHZvbGF0aWxlIHNlc3Npb24gZGF0YSB1bmRlciB0aGlzIHBhdGgKIyDigJQgc2VlIHNlc3Npb24tc3RhdGUtbGVkZ2VyLm1kLCAiV2hlcmUgbGl2ZSBzdGF0ZSBsaXZlcyIuIEEgcmVhZHktdG8tY29weQojIGJsYW5rIGluc3RhbmNlIGxpdmVzIGF0IC5hZ2VudHMvdGVtcGxhdGVzL3Nlc3Npb24tc3RhdGUtbGVkZ2VyLnlhbWwuCiMKIyBFbnVtcyBhcmUgZG9jdW1lbnRlZCBpbmxpbmUgYXMgY29tbWVudHMgbmV4dCB0byBlYWNoIGZpZWxkLgoKcHJvamVjdDoKICByZXBvc2l0b3J5OiBzdHJpbmcgICAgICAgICAgICAgICAjIGUuZy4gImJvbGRmZXJuYW5kby9kdGMtc3RhcnRlciIKICBicmFuY2g6IHN0cmluZyAgICAgICAgICAgICAgICAgICAjIGN1cnJlbnQgd29ya2luZyBicmFuY2gKICBoZWFkX3NoYTogc3RyaW5nICAgICAgICAgICAgICAgICAjIGBnaXQgcmV2LXBhcnNlIEhFQURgCgpleGVjdXRpb246CiAgY3VycmVudF9wcm9ncmFtOiBzdHJpbmcgICAgICAgICAgIyBlLmcuICJGaW8gVml2byBQcm9ncmFtIDM2MCIKICBjdXJyZW50X2JiOiBzdHJpbmcgICAgICAgICAgICAgICAgIyBlLmcuICJCQi0wNCIKICBjdXJyZW50X3Rhc2s6IHN0cmluZyAgICAgICAgICAgICAgIyBmcmVlLXRleHQgZGVzY3JpcHRpb24gb2YgdGhlIGFjdGl2ZSB0YXNrCiAgY3VycmVudF9yb3VuZDogc3RyaW5nICAgICAgICAgICAgICMgZS5nLiAiUjEiLCAiUjIiCiAgY3VycmVudF9nYXRlOiBlbnVtICAgICAgICAgICAgICAgICMgUkVBRFlfRk9SX0hVTUFOX0FQUFJPVkFMIHwgSFVNQU5fQVBQUk9WRUQgfAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBHSVRfQVVUSE9SSVpFRCB8IFBSX0NSRUFURUQgfCBNRVJHRV9BVVRIT1JJWkVEIHwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgTUVSR0VEIHwgQkxPQ0tFRAogIHN0YXR1czogZW51bSAgICAgICAgICAgICAgICAgICAgICAjIGluX3Byb2dyZXNzIHwgYmxvY2tlZCB8IGNvbXBsZXRlCgpodW1hbl9kZWNpc2lvbnM6CiAgdmlzdWFsX2FwcHJvdmFsOgogICAgc3RhdHVzOiBlbnVtICAgICAgICAgICAgICAgICAgICAjIG5vdF9yZXF1ZXN0ZWQgfCBwZW5kaW5nIHwgYXBwcm92ZWQgfCByZWplY3RlZAogICAgYXBwcm92ZWRfYXQ6IHN0cmluZyAgICAgICAgICAgICAjIElTTyA4NjAxIHRpbWVzdGFtcCwgb3IgbnVsbAogICAgYXBwcm92ZWRfc2NvcGU6IGxpc3QgICAgICAgICAgICAjIGUuZy4gW2Rlc2t0b3BfMTYwMHg5NjAsIG1vYmlsZV8zOTB4ODQ0LCBwdC1CUiwgZXMtNDE5XQogICAgZXZpZGVuY2U6IHN0cmluZyAgICAgICAgICAgICAgICAjIHBhdGggdG8gdGhlIGNhbm9uaWNhbCBldmlkZW5jZSByZXBvcnQKICBhcmNoaXRlY3R1cmVfYXBwcm92YWw6CiAgICBzdGF0dXM6IGVudW0gICAgICAgICAgICAgICAgICAgICMgbm90X3JlcXVlc3RlZCB8IHBlbmRpbmcgfCBhcHByb3ZlZCB8IHJlamVjdGVkCiAgbm9ybWFsaXplZF9hc3NldHNfcmVwbGFjZW1lbnQ6CiAgICBzdGF0dXM6IGVudW0gICAgICAgICAgICAgICAgICAgICMgbm90X3JlcXVlc3RlZCB8IHBlbmRpbmcgfCBhcHByb3ZlZCB8IHJlamVjdGVkCgpnaXRfYXV0aG9yaXphdGlvbjoKICBzdGFnZTogZW51bSAgICAgICAgICAgICAgICAgICAgICAgIyBmb3JiaWRkZW4gfCBhbGxvd2VkX2J5X2FsbG93bGlzdCB8IGFsbG93ZWQKICBjb21taXQ6IGVudW0gICAgICAgICAgICAgICAgICAgICAgIyBmb3JiaWRkZW4gfCBhbGxvd2VkCiAgcHVzaDogZW51bSAgICAgICAgICAgICAgICAgICAgICAgICMgZm9yYmlkZGVuIHwgYWxsb3dlZAogIHB1bGxfcmVxdWVzdDogZW51bSAgICAgICAgICAgICAgICAjIGZvcmJpZGRlbiB8IGRyYWZ0X29ubHkgfCBhbGxvd2VkCiAgbWVyZ2U6IGVudW0gICAgICAgICAgICAgICAgICAgICAgICMgZm9yYmlkZGVuIHwgYWxsb3dlZF9vbmx5X3doZW5fZXhwbGljaXRseV9ncmFudGVkCiAgYXV0b19tZXJnZTogZW51bSAgICAgICAgICAgICAgICAgICMgZm9yYmlkZGVuIHwgYWxsb3dlZAoKbXV0YXRpb25fcG9saWN5OgogIGFsbG93ZWRfcGF0aHM6IGxpc3QgICAgICAgICAgICAgICAjIGV4cGxpY2l0IGFsbG93bGlzdCBvZiBnbG9icy9wYXRocyBmb3IgdGhpcyB0YXNrCiAgZm9yYmlkZGVuX3BhdGhzOiBsaXN0ICAgICAgICAgICAgICMgZXhwbGljaXQgZGVueWxpc3Qgb2YgZ2xvYnMvcGF0aHMKICBhbGxvd2VkX29wZXJhdGlvbnM6IGxpc3QgICAgICAgICAgIyBlLmcuIFtlZGl0LCBjcmVhdGVdCiAgZm9yYmlkZGVuX29wZXJhdGlvbnM6IGxpc3QgICAgICAgICMgZS5nLiBbZGVsZXRlLCBmb3JjZV9wdXNoLCBtZXJnZSwgcmViYXNlX2hpc3RvcnldCgpxdWFsaXR5X2dhdGVzOgogIGJ1aWxkOiBlbnVtICAgICAgICAgICAgICAgICAgICAgICAjIG5vdF9ydW4gfCBwYXNzIHwgZmFpbAogIHR5cGVjaGVjazogZW51bSAgICAgICAgICAgICAgICAgICAjIG5vdF9ydW4gfCBwYXNzIHwgZmFpbAogIHRlc3RzOiBlbnVtICAgICAgICAgICAgICAgICAgICAgICAjIG5vdF9ydW4gfCBwYXNzIHwgZmFpbAogIHJ1bnRpbWU6IGVudW0gICAgICAgICAgICAgICAgICAgICAjIG5vdF9ydW4gfCBwYXNzIHwgZmFpbAogIHZpc3VhbDogZW51bSAgICAgICAgICAgICAgICAgICAgICAjIG5vdF9ydW4gfCBwYXNzIHwgZmFpbAogIGxvY2FsaXphdGlvbjogZW51bSAgICAgICAgICAgICAgICAjIG5vdF9ydW4gfCBwYXNzIHwgZmFpbAogIGV2aWRlbmNlOiBlbnVtICAgICAgICAgICAgICAgICAgICAjIG5vdF9ydW4gfCBwYXNzIHwgZmFpbAoKYmxvY2tlcnM6CiAgb3BlbjogbGlzdCAgICAgICAgICAgICAgICAgICAgICAgICMgW3tpZCwgc2V2ZXJpdHksIHN1bW1hcnl9XQogIHJlc29sdmVkOiBsaXN0ICAgICAgICAgICAgICAgICAgICAjIFt7aWQsIHNldmVyaXR5LCBzdW1tYXJ5LCByZXNvbHV0aW9ufV0KCmV2aWRlbmNlOgogIGNhbm9uaWNhbF9yZXBvcnQ6IHN0cmluZyAgICAgICAgICAjIHBhdGgKICBzY3JlZW5zaG90czogbGlzdCAgICAgICAgICAgICAgICAgIyBwYXRocwogIG1lYXN1cmVtZW50czogc3RyaW5nICAgICAgICAgICAgICAjIHBhdGgKICBoYXNoZXM6IHN0cmluZyAgICAgICAgICAgICAgICAgICAgIyBwYXRoIHRvIGEgU0hBLTI1NiBtYW5pZmVzdAogIHB1bGxfcmVxdWVzdDogc3RyaW5nICAgICAgICAgICAgICAjIFVSTCwgb3IgbnVsbAoKIyBUaGUgbW9zdCByZWNlbnQgZW50cnkgZGVzY3JpYmVzIGhvdyB0aGUgbGVkZ2VyIGFycml2ZWQgYXQgaXRzIGN1cnJlbnQKIyBzdGF0ZS4gT2xkZXIgdHJhbnNpdGlvbnMgYXJlIG5vdCByZXRhaW5lZCBpbiB0aGUgbGVkZ2VyIGl0c2VsZiDigJQgdXNlIEdpdAojIGhpc3RvcnkgLyBQUiBoaXN0b3J5IC8gdGhlIGNhbm9uaWNhbCBldmlkZW5jZSByZXBvcnQgZm9yIHRoYXQgdHJhaWwuCnRyYW5zaXRpb246CiAgcHJldmlvdXNfc3RhdGU6IHN0cmluZwogIGN1cnJlbnRfc3RhdGU6IHN0cmluZwogIHRyaWdnZXI6IHN0cmluZyAgICAgICAgICAgICAgICAgICAjIHdoYXQgY2F1c2VkIHRoaXMgdHJhbnNpdGlvbjogYSBxdW90ZWQgaHVtYW4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgZGVjaXNpb24sIGEgY29tbWFuZCwgYSBkZXRlY3RlZCByZWdyZXNzaW9uLCBldGMuCiAgYXV0aG9yaXplZF9ieTogZW51bSAgICAgICAgICAgICAgICMgaHVtYW4gfCBhZ2VudF9pbmZlcmVuY2Ug4oCUICJhZ2VudF9pbmZlcmVuY2UiIGlzCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIG9ubHkgdmFsaWQgZm9yIG5vbi1tdXRhdGluZywgcmV2ZXJzaWJsZSB0cmFuc2l0aW9ucwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAoZS5nLiByZS1wcmVzZW50aW5nIGFuIHVucmVzb2x2ZWQgZ2F0ZSkuIEFueQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyB0cmFuc2l0aW9uIHRoYXQgY2hhbmdlcyBodW1hbl9kZWNpc2lvbnMuKiBvcgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBnaXRfYXV0aG9yaXphdGlvbi4qIE1VU1QgYmUgYXV0aG9yaXplZF9ieTogaHVtYW4uCiAgdGltZXN0YW1wOiBzdHJpbmcgICAgICAgICAgICAgICAgICMgSVNPIDg2MDEKICBpcnJldmVyc2libGVfYWN0aW9uc19hbGxvd2VkOiBib29s"},"ag-templates-session-state-ledger-yaml":{"path":".agents/templates/session-state-ledger.yaml","lang":"yaml","truncated":false,"totalLines":81,"b64":"IyBTZXNzaW9uIFN0YXRlIExlZGdlciDigJQgYmxhbmsgaW5zdGFuY2UNCiMNCiMgQ29weSB0aGlzIGludG8geW91ciB3b3JraW5nIG5vdGVzIChvciBpbnRvIGEgZGF0ZWQgYXJ0aWZhY3QgcGF0aCB3aGVuIHRoZQ0KIyB0YXNrIHJlcXVpcmVzIGEgcGVyc2lzdGVkIHNuYXBzaG90KSBhdCB0aGUgc3RhcnQgb2YgYSBtdWx0aS1yb3VuZCBCdWlsZGluZw0KIyBCbG9jayBleGVjdXRpb24uIEZpbGwgaXQgaW4gYW5kIHVwZGF0ZSBpdCBhZnRlciBldmVyeSBnYXRlIHRyYW5zaXRpb24uDQojDQojIERvIE5PVCBjb21taXQgYSBwb3B1bGF0ZWQgY29weSBvZiB0aGlzIGZpbGUgYmFjayB1bmRlciAuYWdlbnRzL3RlbXBsYXRlcy8NCiMgb3IgLmFnZW50cy9jb250cmFjdHMvIOKAlCBzZWUgLi4vY29udHJhY3RzL3Nlc3Npb24tc3RhdGUtbGVkZ2VyLm1kLCBzZWN0aW9uDQojICJXaGVyZSBsaXZlIHN0YXRlIGxpdmVzIi4NCg0KcHJvamVjdDoNCiAgcmVwb3NpdG9yeTogIiINCiAgYnJhbmNoOiAiIg0KICBoZWFkX3NoYTogIiINCg0KZXhlY3V0aW9uOg0KICBjdXJyZW50X3Byb2dyYW06ICIiDQogIGN1cnJlbnRfYmI6ICIiDQogIGN1cnJlbnRfdGFzazogIiINCiAgY3VycmVudF9yb3VuZDogIiINCiAgY3VycmVudF9nYXRlOiBSRUFEWV9GT1JfSFVNQU5fQVBQUk9WQUwNCiAgc3RhdHVzOiBpbl9wcm9ncmVzcw0KDQpodW1hbl9kZWNpc2lvbnM6DQogIHZpc3VhbF9hcHByb3ZhbDoNCiAgICBzdGF0dXM6IG5vdF9yZXF1ZXN0ZWQNCiAgICBhcHByb3ZlZF9hdDogbnVsbA0KICAgIGFwcHJvdmVkX3Njb3BlOiBbXQ0KICAgIGV2aWRlbmNlOiAiIg0KICBhcmNoaXRlY3R1cmVfYXBwcm92YWw6DQogICAgc3RhdHVzOiBub3RfcmVxdWVzdGVkDQogIG5vcm1hbGl6ZWRfYXNzZXRzX3JlcGxhY2VtZW50Og0KICAgIHN0YXR1czogbm90X3JlcXVlc3RlZA0KDQpnaXRfYXV0aG9yaXphdGlvbjoNCiAgc3RhZ2U6IGZvcmJpZGRlbg0KICBjb21taXQ6IGZvcmJpZGRlbg0KICBwdXNoOiBmb3JiaWRkZW4NCiAgcHVsbF9yZXF1ZXN0OiBmb3JiaWRkZW4NCiAgbWVyZ2U6IGZvcmJpZGRlbg0KICBhdXRvX21lcmdlOiBmb3JiaWRkZW4NCg0KbXV0YXRpb25fcG9saWN5Og0KICBhbGxvd2VkX3BhdGhzOiBbXQ0KICBmb3JiaWRkZW5fcGF0aHM6IFtdDQogIGFsbG93ZWRfb3BlcmF0aW9uczogW10NCiAgZm9yYmlkZGVuX29wZXJhdGlvbnM6IFtdDQoNCnF1YWxpdHlfZ2F0ZXM6DQogIGJ1aWxkOiBub3RfcnVuDQogIHR5cGVjaGVjazogbm90X3J1bg0KICB0ZXN0czogbm90X3J1bg0KICBydW50aW1lOiBub3RfcnVuDQogIHZpc3VhbDogbm90X3J1bg0KICBsb2NhbGl6YXRpb246IG5vdF9ydW4NCiAgZXZpZGVuY2U6IG5vdF9ydW4NCg0KYmxvY2tlcnM6DQogIG9wZW46IFtdDQogIHJlc29sdmVkOiBbXQ0KDQpldmlkZW5jZToNCiAgY2Fub25pY2FsX3JlcG9ydDogIiINCiAgc2NyZWVuc2hvdHM6IFtdDQogIG1lYXN1cmVtZW50czogIiINCiAgaGFzaGVzOiAiIg0KICBwdWxsX3JlcXVlc3Q6IG51bGwNCg0KdHJhbnNpdGlvbjoNCiAgcHJldmlvdXNfc3RhdGU6IG51bGwNCiAgY3VycmVudF9zdGF0ZTogUkVBRFlfRk9SX0hVTUFOX0FQUFJPVkFMDQogIHRyaWdnZXI6ICJzZXNzaW9uIHN0YXJ0ZWQiDQogIGF1dGhvcml6ZWRfYnk6IGFnZW50X2luZmVyZW5jZQ0KICB0aW1lc3RhbXA6ICIiDQogIGlycmV2ZXJzaWJsZV9hY3Rpb25zX2FsbG93ZWQ6IGZhbHNlDQoNCm5leHRfYWN0aW9uOg0KICBhdXRob3JpemVkOiBmYWxzZQ0KICBkZXNjcmlwdGlvbjogIiINCiAgc3RvcF9jb25kaXRpb246ICIiDQo="},"ag-skills-web-design-guidelines-skill-md":{"path":".agents/skills/web-design-guidelines/SKILL.md","lang":"md","truncated":false,"totalLines":41,"b64":"LS0tCm5hbWU6IHdlYi1kZXNpZ24tZ3VpZGVsaW5lcwpkZXNjcmlwdGlvbjogUmV2aWV3IFVJIGNvZGUgZm9yIFdlYiBJbnRlcmZhY2UgR3VpZGVsaW5lcyBjb21wbGlhbmNlLiBVc2Ugd2hlbiBhc2tlZCB0byAicmV2aWV3IG15IFVJIiwgImNoZWNrIGFjY2Vzc2liaWxpdHkiLCAiYXVkaXQgZGVzaWduIiwgInJldmlldyBVWCIsIG9yICJjaGVjayBteSBzaXRlIGFnYWluc3QgYmVzdCBwcmFjdGljZXMiLgptZXRhZGF0YToKICBhdXRob3I6IHZlcmNlbAogIHZlcnNpb246ICcxLjAuMCcKICBhcmd1bWVudC1oaW50OiA8ZmlsZS1vci1wYXR0ZXJuPgotLS0KCiMgV2ViIEludGVyZmFjZSBHdWlkZWxpbmVzCgpSZXZpZXcgZmlsZXMgZm9yIGNvbXBsaWFuY2Ugd2l0aCBXZWIgSW50ZXJmYWNlIEd1aWRlbGluZXMuCgojIyBIb3cgSXQgV29ya3MKCjEuIEZldGNoIHRoZSBsYXRlc3QgZ3VpZGVsaW5lcyBmcm9tIHRoZSBzb3VyY2UgVVJMIGJlbG93CjIuIFJlYWQgdGhlIHNwZWNpZmllZCBmaWxlcyAob3IgcHJvbXB0IHVzZXIgZm9yIGZpbGVzL3BhdHRlcm4pCjMuIENoZWNrIGFnYWluc3QgYWxsIHJ1bGVzIGluIHRoZSBmZXRjaGVkIGd1aWRlbGluZXMKNC4gT3V0cHV0IGZpbmRpbmdzIGluIHRoZSB0ZXJzZSBgZmlsZTpsaW5lYCBmb3JtYXQKCiMjIEd1aWRlbGluZXMgU291cmNlCgpGZXRjaCBmcmVzaCBndWlkZWxpbmVzIGJlZm9yZSBlYWNoIHJldmlldzoKCmBgYApodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vdmVyY2VsLWxhYnMvd2ViLWludGVyZmFjZS1ndWlkZWxpbmVzL21haW4vY29tbWFuZC5tZApgYGAKClVzZSBgcmVhZF91cmxfY29udGVudGAgdG8gcmV0cmlldmUgdGhlIGxhdGVzdCBydWxlcy4gVGhlIGZldGNoZWQgY29udGVudCBjb250YWlucyBhbGwgdGhlIHJ1bGVzIGFuZCBvdXRwdXQgZm9ybWF0IGluc3RydWN0aW9ucy4KCiMjIFVzYWdlCgpXaGVuIGEgdXNlciBwcm92aWRlcyBhIGZpbGUgb3IgcGF0dGVybiBhcmd1bWVudDoKCjEuIEZldGNoIGd1aWRlbGluZXMgZnJvbSB0aGUgc291cmNlIFVSTCBhYm92ZQoyLiBSZWFkIHRoZSBzcGVjaWZpZWQgZmlsZXMKMy4gQXBwbHkgYWxsIHJ1bGVzIGZyb20gdGhlIGZldGNoZWQgZ3VpZGVsaW5lcwo0LiBPdXRwdXQgZmluZGluZ3MgdXNpbmcgdGhlIGZvcm1hdCBzcGVjaWZpZWQgaW4gdGhlIGd1aWRlbGluZXMKCklmIG5vIGZpbGVzIHNwZWNpZmllZCwgYXNrIHRoZSB1c2VyIHdoaWNoIGZpbGVzIHRvIHJldmlldy4K"},"cfg-turbo":{"path":"turbo.json","lang":"json","truncated":false,"totalLines":29,"b64":"ew0KICAiJHNjaGVtYSI6ICJodHRwczovL3R1cmJvLmJ1aWxkL3NjaGVtYS5qc29uIiwNCiAgInRhc2tzIjogew0KICAgICJidWlsZCI6IHsNCiAgICAgICJkZXBlbmRzT24iOiBbIl5idWlsZCJdLA0KICAgICAgIm91dHB1dHMiOiBbImRpc3QvKioiLCAiLm5leHQvKioiXQ0KICAgIH0sDQogICAgImRldiI6IHsNCiAgICAgICJjYWNoZSI6IGZhbHNlLA0KICAgICAgInBlcnNpc3RlbnQiOiB0cnVlDQogICAgfSwNCiAgICAic3RhcnQiOiB7DQogICAgICAiZGVwZW5kc09uIjogWyJeYnVpbGQiXQ0KICAgIH0sDQogICAgImxpbnQiOiB7DQogICAgICAib3V0cHV0cyI6IFtdDQogICAgfSwNCiAgICAidGVzdCI6IHsNCiAgICAgICJvdXRwdXRzIjogW10NCiAgICB9LA0KICAgICJ0ZXN0OmUyZSI6IHsNCiAgICAgICJvdXRwdXRzIjogWyJwbGF5d3JpZ2h0LXJlcG9ydC8qKiIsICJ0ZXN0LXJlc3VsdHMvKioiXQ0KICAgIH0sDQogICAgInNlZWQiOiB7DQogICAgICAib3V0cHV0cyI6IFtdDQogICAgfQ0KICB9DQp9DQo="},"cfg-pnpm-workspace":{"path":"pnpm-workspace.yaml","lang":"yaml","truncated":false,"totalLines":5,"b64":"cGFja2FnZXM6DQogIC0gImFwcHMvKioiDQogIC0gInBhY2thZ2VzLyoqIg0KICAtICIhYXBwcy9iYWNrZW5kLy5tZWR1c2EvKioiDQo="},"cfg-eslint":{"path":"eslint.config.ts","lang":"ts","truncated":false,"totalLines":5,"b64":"aW1wb3J0IHsgZGVmaW5lQ29uZmlnIH0gZnJvbSAiZXNsaW50L2NvbmZpZyINCmltcG9ydCBtZWR1c2EgZnJvbSAiQG1lZHVzYWpzL2VzbGludC1wbHVnaW4iDQoNCmV4cG9ydCBkZWZhdWx0IGRlZmluZUNvbmZpZyhbLi4ubWVkdXNhLmNvbmZpZ3MucmVjb21tZW5kZWRdKQ0K"},"cfg-playwright":{"path":"playwright.config.ts","lang":"ts","truncated":false,"totalLines":72,"b64":"aW1wb3J0IHsgZGVmaW5lQ29uZmlnLCBkZXZpY2VzIH0gZnJvbSAiQHBsYXl3cmlnaHQvdGVzdCIKCi8qKgogKiBTZWUgaHR0cHM6Ly9wbGF5d3JpZ2h0LmRldi9kb2NzL3Rlc3QtY29uZmlndXJhdGlvbi4KICovCmV4cG9ydCBkZWZhdWx0IGRlZmluZUNvbmZpZyh7CiAgdGVzdERpcjogIi4vZTJlIiwKICAvKiBSdW4gdGVzdHMgaW4gZmlsZXMgaW4gcGFyYWxsZWwgKi8KICBmdWxseVBhcmFsbGVsOiB0cnVlLAogIC8qIEZhaWwgdGhlIGJ1aWxkIG9uIENJIGlmIHlvdSBhY2NpZGVudGFsbHkgbGVmdCB0ZXN0Lm9ubHkgaW4gdGhlIHNvdXJjZSBjb2RlLiAqLwogIGZvcmJpZE9ubHk6ICEhcHJvY2Vzcy5lbnYuQ0ksCiAgLyogUmV0cnkgb24gQ0kgb25seSAqLwogIHJldHJpZXM6IHByb2Nlc3MuZW52LkNJID8gMiA6IDAsCiAgLyogT3B0IG91dCBvZiBwYXJhbGxlbCB0ZXN0cyBvbiBDSS4gKi8KICB3b3JrZXJzOiBwcm9jZXNzLmVudi5DSSA/IDIgOiB1bmRlZmluZWQsCiAgLyogUmVwb3J0ZXIgdG8gdXNlLiBTZWUgaHR0cHM6Ly9wbGF5d3JpZ2h0LmRldi9kb2NzL3Rlc3QtcmVwb3J0ZXJzICovCiAgcmVwb3J0ZXI6IFsKICAgIFsiaHRtbCIsIHsgb3BlbjogIm5ldmVyIiB9XSwKICAgIFsibGlzdCJdLAogIF0sCiAgLyogU2hhcmVkIHNldHRpbmdzIGZvciBhbGwgdGhlIHByb2plY3RzIGJlbG93LiBTZWUgaHR0cHM6Ly9wbGF5d3JpZ2h0LmRldi9kb2NzL2FwaS9jbGFzcy10ZXN0b3B0aW9ucy4gKi8KICB1c2U6IHsKICAgIC8qIEJhc2UgVVJMIHRvIHVzZSBpbiBhY3Rpb25zIGxpa2UgYGF3YWl0IHBhZ2UuZ290bygnLycpYC4gKi8KICAgIGJhc2VVUkw6IHByb2Nlc3MuZW52LlBMQVlXUklHSFRfVEVTVF9CQVNFX1VSTCB8fCAiaHR0cDovL2xvY2FsaG9zdDo4MDAwIiwKCiAgICAvKiBDb2xsZWN0IHRyYWNlIHdoZW4gcmV0cnlpbmcgdGhlIGZhaWxlZCB0ZXN0LiBTZWUgaHR0cHM6Ly9wbGF5d3JpZ2h0LmRldi9kb2NzL3RyYWNlLXZpZXdlciAqLwogICAgdHJhY2U6ICJvbi1maXJzdC1yZXRyeSIsCiAgICBzY3JlZW5zaG90OiAib25seS1vbi1mYWlsdXJlIiwKICAgIHZpZGVvOiAicmV0YWluLW9uLWZhaWx1cmUiLAogIH0sCgogIC8qIENvbmZpZ3VyZSBwcm9qZWN0cyBmb3IgbWFqb3IgYnJvd3NlcnMgKi8KICBwcm9qZWN0czogWwogICAgewogICAgICBuYW1lOiAiY2hyb21pdW0iLAogICAgICB1c2U6IHsgLi4uZGV2aWNlc1siRGVza3RvcCBDaHJvbWUiXSB9LAogICAgfSwKICAgIHsKICAgICAgbmFtZTogImZpcmVmb3giLAogICAgICB1c2U6IHsgLi4uZGV2aWNlc1siRGVza3RvcCBGaXJlZm94Il0gfSwKICAgIH0sCiAgICB7CiAgICAgIG5hbWU6ICJ3ZWJraXQiLAogICAgICB1c2U6IHsgLi4uZGV2aWNlc1siRGVza3RvcCBTYWZhcmkiXSB9LAogICAgfSwKICAgIHsKICAgICAgbmFtZTogIk1vYmlsZSBDaHJvbWUiLAogICAgICB1c2U6IHsgLi4uZGV2aWNlc1siUGl4ZWwgNSJdIH0sCiAgICB9LAogICAgewogICAgICBuYW1lOiAiTW9iaWxlIFNhZmFyaSIsCiAgICAgIHVzZTogeyAuLi5kZXZpY2VzWyJpUGhvbmUgMTIiXSB9LAogICAgfSwKICBdLAoKICAvKiBSdW4gbG9jYWwgZGV2IHNlcnZlcnMgYmVmb3JlIHN0YXJ0aW5nIHRoZSB0ZXN0cyAqLwogIHdlYlNlcnZlcjogWwogICAgewogICAgICBjb21tYW5kOiAicG5wbSBydW4gYmFja2VuZDpkZXYiLAogICAgICB1cmw6ICJodHRwOi8vbG9jYWxob3N0OjkwMDAvaGVhbHRoIiwKICAgICAgcmV1c2VFeGlzdGluZ1NlcnZlcjogIXByb2Nlc3MuZW52LkNJLAogICAgICB0aW1lb3V0OiAxMjAgKiAxMDAwLAogICAgfSwKICAgIHsKICAgICAgY29tbWFuZDogInBucG0gcnVuIHN0b3JlZnJvbnQ6ZGV2IiwKICAgICAgdXJsOiAiaHR0cDovL2xvY2FsaG9zdDo4MDAwIiwKICAgICAgcmV1c2VFeGlzdGluZ1NlcnZlcjogIXByb2Nlc3MuZW52LkNJLAogICAgICB0aW1lb3V0OiAxMjAgKiAxMDAwLAogICAgfSwKICBdLAp9KQo="},"cfg-package":{"path":"package.json","lang":"json","truncated":false,"totalLines":39,"b64":"ewogICJuYW1lIjogImR0Yy1zdGFydGVyLW1vbm9yZXBvIiwKICAicHJpdmF0ZSI6IGZhbHNlLAogICJwYWNrYWdlTWFuYWdlciI6ICJwbnBtQDEwLjExLjEiLAogICJlbmdpbmVzIjogewogICAgIm5vZGUiOiAiPj0yMCIKICB9LAogICJzY3JpcHRzIjogewogICAgImRldiI6ICJwbnBtIC1yIGRldiIsCiAgICAiYnVpbGQiOiAicG5wbSAtciBidWlsZCIsCiAgICAic3RhcnQiOiAidHVyYm8gc3RhcnQiLAogICAgImxpbnQiOiAidHVyYm8gbGludCIsCiAgICAidGVzdCI6ICJ0dXJibyB0ZXN0IiwKICAgICJ0ZXN0OmUyZSI6ICJwbGF5d3JpZ2h0IHRlc3QiLAogICAgInRlc3Q6ZTJlOnVpIjogInBsYXl3cmlnaHQgdGVzdCAtLXVpIiwKICAgICJiYWNrZW5kOnNlZWQiOiAidHVyYm8gc2VlZCAtLWZpbHRlcj1AZHRjL2JhY2tlbmQiLAogICAgImJhY2tlbmQ6ZGV2IjogInR1cmJvIGRldiAtLWZpbHRlcj1AZHRjL2JhY2tlbmQiLAogICAgInN0b3JlZnJvbnQ6ZGV2IjogInR1cmJvIGRldiAtLWZpbHRlcj1AZHRjL3N0b3JlZnJvbnQiLAogICAgImRvY2tlcjp1cCI6ICJkb2NrZXIgY29tcG9zZSB1cCAtZCIsCiAgICAiZG9ja2VyOmRvd24iOiAiZG9ja2VyIGNvbXBvc2UgZG93biIsCiAgICAiZG9ja2VyOmxvZ3MiOiAiZG9ja2VyIGNvbXBvc2UgbG9ncyAtZiIKICB9LAogICJwbnBtIjogewogICAgIm92ZXJyaWRlcyI6IHsKICAgICAgIkB0eXBlcy9yZWFjdCI6ICIxOS4wLjUiLAogICAgICAiQHR5cGVzL3JlYWN0LWRvbSI6ICIxOS4wLjUiCiAgICB9CiAgfSwKICAiZGV2RGVwZW5kZW5jaWVzIjogewogICAgIkBheGUtY29yZS9wbGF5d3JpZ2h0IjogIl40LjEyLjEiLAogICAgIkBtZWR1c2Fqcy9lc2xpbnQtcGx1Z2luIjogIjIuMTguMCIsCiAgICAiQHBsYXl3cmlnaHQvdGVzdCI6ICJeMS42Mi4xIiwKICAgICJlc2xpbnQiOiAiXjkuMzkuNCIsCiAgICAiaml0aSI6ICJeMi43LjAiLAogICAgInByZXR0aWVyIjogIl4zLjIuNSIsCiAgICAidHVyYm8iOiAiXjIuMC4xNCIKICB9Cn0K"},"cfg-docker":{"path":"docker-compose.yml","lang":"yaml","truncated":true,"totalLines":144,"b64":"bmFtZTogZHRjLXN0YXJ0ZXItZGV2LWVudgoKc2VydmljZXM6CiAgIyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgIyAwLiBUUkFFRklLIChSRVZFUlNFIFBST1hZICYgTE9DQUwgUk9VVElORyBHQVRFV0FZKQogICMgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIHRyYWVmaWs6CiAgICBpbWFnZTogdHJhZWZpazp2My4wCiAgICBjb250YWluZXJfbmFtZTogZHRjLXRyYWVmaWsKICAgIHJlc3RhcnQ6IGFsd2F5cwogICAgY29tbWFuZDoKICAgICAgLSAiLS1hcGkuaW5zZWN1cmU9dHJ1ZSIKICAgICAgLSAiLS1wcm92aWRlcnMuZG9ja2VyPXRydWUiCiAgICAgIC0gIi0tcHJvdmlkZXJzLmRvY2tlci5leHBvc2VkYnlkZWZhdWx0PWZhbHNlIgogICAgICAtICItLWVudHJ5cG9pbnRzLndlYi5hZGRyZXNzPTo4MCIKICAgIHBvcnRzOgogICAgICAtICI4MDgyOjgwIiAgICAjIFdlYiBQcm94eSBQb3J0IChldml0YSBjb25mbGl0byBjb20gYSBwb3J0YSA4MCBkbyBXaW5kb3dzIEhUVFAuc3lzKQogICAgICAtICI4MDg4OjgwODAiICAjIFRyYWVmaWsgRGFzaGJvYXJkIFdlYiBVSQogICAgdm9sdW1lczoKICAgICAgLSAvdmFyL3J1bi9kb2NrZXIuc29jazovdmFyL3J1bi9kb2NrZXIuc29jazpybwogICAgbGFiZWxzOgogICAgICAtICJ0cmFlZmlrLmVuYWJsZT10cnVlIgogICAgICAtICJ0cmFlZmlrLmh0dHAucm91dGVycy50cmFlZmlrLnJ1bGU9SG9zdChgdHJhZWZpay5sb2NhbGhvc3RgKSIKICAgICAgLSAidHJhZWZpay5odHRwLnJvdXRlcnMudHJhZWZpay5zZXJ2aWNlPWFwaUBpbnRlcm5hbCIKCiAgIyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgIyAxLiBQT1NUR1JFU1FMIDE1IC8gU1VQQUJBU0UtQ09NUEFUSUJMRSBEQVRBQkFTRQogICMgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIGRiOgogICAgaW1hZ2U6IHBvc3RncmVzOjE1LWFscGluZQogICAgY29udGFpbmVyX25hbWU6IGR0Yy1wb3N0Z3JlcwogICAgcmVzdGFydDogYWx3YXlzCiAgICBlbnZpcm9ubWVudDoKICAgICAgUE9TVEdSRVNfVVNFUjogcG9zdGdyZXMKICAgICAgUE9TVEdSRVNfUEFTU1dPUkQ6IHBvc3RncmVzcGFzc3dvcmQKICAgICAgUE9TVEdSRVNfREI6IHBvc3RncmVzCiAgICBwb3J0czoKICAgICAgLSAiNTQzMjo1NDMyIgogICAgdm9sdW1lczoKICAgICAgLSBwb3N0Z3Jlcy1kYXRhOi92YXIvbGliL3Bvc3RncmVzcWwvZGF0YQogICAgaGVhbHRoY2hlY2s6CiAgICAgIHRlc3Q6IFsiQ01ELVNIRUxMIiwgInBnX2lzcmVhZHkgLVUgcG9zdGdyZXMiXQogICAgICBpbnRlcnZhbDogNXMKICAgICAgdGltZW91dDogNXMKICAgICAgcmV0cmllczogNQoKICAjID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAjIDIuIEFETUlORVIgKERBVEFCQVNFIE1BTkFHRU1FTlQgREFTSEJPQVJEICYgUVVFUlkgUlVOTkVSKQogICMgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIGRiLWRhc2hib2FyZDoKICAgIGltYWdlOiBhZG1pbmVyOmxhdGVzdAogICAgY29udGFpbmVyX25hbWU6IGR0Yy1kYi1kYXNoYm9hcmQKICAgIHJlc3RhcnQ6IGFsd2F5cwogICAgcG9ydHM6CiAgICAgIC0gIjgwODE6ODA4MCIKICAgIGxhYmVsczoKICAgICAgLSAidHJhZWZpay5lbmFibGU9dHJ1ZSIKICAgICAgLSAidHJhZWZpay5odHRwLnJvdXRlcnMuZGItZGFzaGJvYXJkLnJ1bGU9SG9zdChgZGIubG9jYWxob3N0YCkiCiAgICAgIC0gInRyYWVmaWsuaHR0cC5zZXJ2aWNlcy5kYi1kYXNoYm9hcmQubG9hZGJhbGFuY2VyLnNlcnZlci5wb3J0PTgwODAiCiAgICBkZXBlbmRzX29uOgogICAgICBkYjoKICAgICAgICBjb25kaXRpb246IHNlcnZpY2VfaGVhbHRoeQoKICAjID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAjIDMuIE1JTklPIChISUdIIFBFUkZPUk1BTkNFIFMzLUNPTVBBVElCTEUgT0JKRUNUIFNUT1JBR0UpCiAgIyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgbWluaW86CiAgICBpbWFnZTogbWluaW8vbWluaW86bGF0ZXN0CiAgICBjb250YWluZXJfbmFtZTogZHRjLW1pbmlvCiAgICByZXN0YXJ0OiBhbHdheXMKICAgIGNvbW1hbmQ6IHNlcnZlciAvZGF0YSAtLWNvbnNvbGUtYWRkcmVzcyAiOjkwMDEiCiAgICBwb3J0czoKICAgICAgLSAiOTAwMjo5MDAwIiAjIE1pbklPIFMzIEFQSSBFbmRwb2ludAogICAgICAtICI5MDAxOjkwMDEiICMgTWluSU8gQ29uc29sZSBXZWIgVUkKICAgIGVudmlyb25tZW50OgogICAgICBNSU5JT19ST09UX1VTRVI6IG1pbmlvYWRtaW4KICAgICAgTUlOSU9fUk9PVF9QQVNTV09SRDogbWluaW9hZG1pbnBhc3N3b3JkCiAgICB2b2x1bWVzOgogICAgICAtIG1pbmlvLWRhdGE6L2RhdGEKICAgIGxhYmVsczoKICAgICAgLSAidHJhZWZpay5lbmFibGU9dHJ1ZSIKICAgICAgLSAidHJhZWZpay5odHRwLnJvdXRlcnMubWluaW8tY29uc29sZS5ydWxlPUhvc3QoYG1pbmlvLmxvY2FsaG9zdGApIgogICAgICAtICJ0cmFlZmlrLmh0dHAuc2VydmljZXMubWluaW8tY29uc29sZS5sb2FkYmFsYW5jZXIuc2VydmVyLnBvcnQ9OTAwMSIKICAgICAgLSAidHJhZWZpay5odHRwLnJvdXRlcnMubWluaW8tczMucnVsZT1Ib3N0KGBzMy5sb2NhbGhvc3RgKSIKICAgICAgLSAidHJhZWZpay5odHRwLnNlcnZpY2VzLm1pbmlvLXMzLmxvYWRiYWxhbmNlci5zZXJ2ZXIucG9ydD05MDAwIgogICAgaGVhbHRoY2hlY2s6CiAgICAgIHRlc3Q6IFsiQ01EIiwgImN1cmwiLCAiLWYiLCAiaHR0cDovL2xvY2FsaG9zdDo5MDAwL21pbmlvL2hlYWx0aC9saXZlIl0KICAgICAgaW50ZXJ2YWw6IDVzCiAgICAgIHRpbWVvdXQ6IDVzCiAgICAgIHJldHJpZXM6IDU="},"backend-config":{"path":"apps/backend/medusa-config.ts","lang":"ts","truncated":false,"totalLines":17,"b64":"aW1wb3J0IHsgbG9hZEVudiwgZGVmaW5lQ29uZmlnIH0gZnJvbSAnQG1lZHVzYWpzL2ZyYW1ld29yay91dGlscycNCg0KbG9hZEVudihwcm9jZXNzLmVudi5OT0RFX0VOViB8fCAnZGV2ZWxvcG1lbnQnLCBwcm9jZXNzLmN3ZCgpKQ0KDQptb2R1bGUuZXhwb3J0cyA9IGRlZmluZUNvbmZpZyh7DQogIHByb2plY3RDb25maWc6IHsNCiAgICBkYXRhYmFzZVVybDogcHJvY2Vzcy5lbnYuREFUQUJBU0VfVVJMLA0KICAgIGh0dHA6IHsNCiAgICAgIHN0b3JlQ29yczogcHJvY2Vzcy5lbnYuU1RPUkVfQ09SUyEsDQogICAgICBhZG1pbkNvcnM6IHByb2Nlc3MuZW52LkFETUlOX0NPUlMhLA0KICAgICAgYXV0aENvcnM6IHByb2Nlc3MuZW52LkFVVEhfQ09SUyEsDQogICAgICBqd3RTZWNyZXQ6IHByb2Nlc3MuZW52LkpXVF9TRUNSRVQsDQogICAgICBjb29raWVTZWNyZXQ6IHByb2Nlc3MuZW52LkNPT0tJRV9TRUNSRVQsDQogICAgfQ0KICB9DQp9KQ0K"},"api-store-custom":{"path":"apps/backend/src/api/store/custom/route.ts","lang":"ts","truncated":false,"totalLines":9,"b64":"aW1wb3J0IHsgTWVkdXNhUmVxdWVzdCwgTWVkdXNhUmVzcG9uc2UgfSBmcm9tICJAbWVkdXNhanMvZnJhbWV3b3JrL2h0dHAiOw0KDQpleHBvcnQgYXN5bmMgZnVuY3Rpb24gR0VUKA0KICByZXE6IE1lZHVzYVJlcXVlc3QsDQogIHJlczogTWVkdXNhUmVzcG9uc2UNCikgew0KICByZXMuc2VuZFN0YXR1cygyMDApOw0KfQ0K"},"api-admin-custom":{"path":"apps/backend/src/api/admin/custom/route.ts","lang":"ts","truncated":false,"totalLines":9,"b64":"aW1wb3J0IHsgTWVkdXNhUmVxdWVzdCwgTWVkdXNhUmVzcG9uc2UgfSBmcm9tICJAbWVkdXNhanMvZnJhbWV3b3JrL2h0dHAiOw0KDQpleHBvcnQgYXN5bmMgZnVuY3Rpb24gR0VUKA0KICByZXE6IE1lZHVzYVJlcXVlc3QsDQogIHJlczogTWVkdXNhUmVzcG9uc2UNCikgew0KICByZXMuc2VuZFN0YXR1cygyMDApOw0KfQ0K"},"sf-middleware":{"path":"apps/storefront/src/middleware.ts","lang":"ts","truncated":true,"totalLines":144,"b64":"aW1wb3J0IHsgSHR0cFR5cGVzIH0gZnJvbSAiQG1lZHVzYWpzL3R5cGVzIgppbXBvcnQgeyBOZXh0UmVxdWVzdCwgTmV4dFJlc3BvbnNlIH0gZnJvbSAibmV4dC9zZXJ2ZXIiCgpjb25zdCBCQUNLRU5EX1VSTCA9IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX01FRFVTQV9CQUNLRU5EX1VSTApjb25zdCBQVUJMSVNIQUJMRV9BUElfS0VZID0gcHJvY2Vzcy5lbnYuTkVYVF9QVUJMSUNfTUVEVVNBX1BVQkxJU0hBQkxFX0tFWQpjb25zdCBERUZBVUxUX1JFR0lPTiA9IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX0RFRkFVTFRfUkVHSU9OIHx8ICJkayIKCmNvbnN0IHJlZ2lvbk1hcENhY2hlID0gewogIHJlZ2lvbk1hcDogbmV3IE1hcDxzdHJpbmcsIEh0dHBUeXBlcy5TdG9yZVJlZ2lvbj4oKSwKICByZWdpb25NYXBVcGRhdGVkOiBEYXRlLm5vdygpLAp9Cgphc3luYyBmdW5jdGlvbiBnZXRSZWdpb25NYXAoY2FjaGVJZDogc3RyaW5nKSB7CiAgY29uc3QgeyByZWdpb25NYXAsIHJlZ2lvbk1hcFVwZGF0ZWQgfSA9IHJlZ2lvbk1hcENhY2hlCgogIGlmICghQkFDS0VORF9VUkwpIHsKICAgIHRocm93IG5ldyBFcnJvcigKICAgICAgIk1pZGRsZXdhcmUudHM6IEVycm9yIGZldGNoaW5nIHJlZ2lvbnMuIERpZCB5b3Ugc2V0IHVwIHJlZ2lvbnMgaW4geW91ciBNZWR1c2EgQWRtaW4gYW5kIGRlZmluZSBhIE5FWFRfUFVCTElDX01FRFVTQV9CQUNLRU5EX1VSTCBlbnZpcm9ubWVudCB2YXJpYWJsZS4iCiAgICApCiAgfQoKICBpZiAoCiAgICAhcmVnaW9uTWFwLmtleXMoKS5uZXh0KCkudmFsdWUgfHwKICAgIHJlZ2lvbk1hcFVwZGF0ZWQgPCBEYXRlLm5vdygpIC0gMzYwMCAqIDEwMDAKICApIHsKICAgIC8vIEZldGNoIHJlZ2lvbnMgZnJvbSBNZWR1c2EuIFdlIGNhbid0IHVzZSB0aGUgSlMgY2xpZW50IGhlcmUgYmVjYXVzZSBtaWRkbGV3YXJlIGlzIHJ1bm5pbmcgb24gRWRnZSBhbmQgdGhlIGNsaWVudCBuZWVkcyBhIE5vZGUgZW52aXJvbm1lbnQuCiAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGAke0JBQ0tFTkRfVVJMfS9zdG9yZS9yZWdpb25zYCwgewogICAgICBtZXRob2Q6ICJHRVQiLAogICAgICBoZWFkZXJzOiB7CiAgICAgICAgIngtcHVibGlzaGFibGUtYXBpLWtleSI6IFBVQkxJU0hBQkxFX0FQSV9LRVkhLAogICAgICB9LAogICAgICBuZXh0OiB7CiAgICAgICAgcmV2YWxpZGF0ZTogMzYwMCwKICAgICAgICB0YWdzOiBbYHJlZ2lvbnMtJHtjYWNoZUlkfWBdLAogICAgICB9LAogICAgICBjYWNoZTogImZvcmNlLWNhY2hlIiwKICAgIH0pCgogICAgaWYgKCFyZXNwb25zZS5vaykgewogICAgICB0aHJvdyBuZXcgRXJyb3IoYEJhY2tlbmQgcmV0dXJuZWQgJHtyZXNwb25zZS5zdGF0dXN9YCkKICAgIH0KCiAgICBjb25zdCBqc29uID0gYXdhaXQgcmVzcG9uc2UuanNvbigpCgogICAgY29uc3QgeyByZWdpb25zIH0gPSBqc29uCgogICAgaWYgKCFyZWdpb25zPy5sZW5ndGgpIHsKICAgICAgcmV0dXJuIG5ldyBNYXA8c3RyaW5nLCBIdHRwVHlwZXMuU3RvcmVSZWdpb24+KCkKICAgIH0KCiAgICAvLyBDcmVhdGUgYSBtYXAgb2YgY291bnRyeSBjb2RlcyB0byByZWdpb25zLgogICAgcmVnaW9ucy5mb3JFYWNoKChyZWdpb246IEh0dHBUeXBlcy5TdG9yZVJlZ2lvbikgPT4gewogICAgICByZWdpb24uY291bnRyaWVzPy5mb3JFYWNoKChjKSA9PiB7CiAgICAgICAgcmVnaW9uTWFwQ2FjaGUucmVnaW9uTWFwLnNldChjLmlzb18yID8/ICIiLCByZWdpb24pCiAgICAgIH0pCiAgICB9KQoKICAgIHJlZ2lvbk1hcENhY2hlLnJlZ2lvbk1hcFVwZGF0ZWQgPSBEYXRlLm5vdygpCiAgfQoKICByZXR1cm4gcmVnaW9uTWFwQ2FjaGUucmVnaW9uTWFwCn0KCi8qKgogKiBGZXRjaGVzIHJlZ2lvbnMgZnJvbSBNZWR1c2EgYW5kIHNldHMgdGhlIHJlZ2lvbiBjb29raWUuCiAqIEBwYXJhbSByZXF1ZXN0CiAqIEBwYXJhbSByZXNwb25zZQogKi8KYXN5bmMgZnVuY3Rpb24gZ2V0Q291bnRyeUNvZGUoCiAgcmVxdWVzdDogTmV4dFJlcXVlc3QsCiAgcmVnaW9uTWFwOiBNYXA8c3RyaW5nLCBIdHRwVHlwZXMuU3RvcmVSZWdpb24gfCBudW1iZXI+CikgewogIGxldCBjb3VudHJ5Q29kZQoKICBjb25zdCB1cmxDb3VudHJ5Q29kZSA9IHJlcXVlc3QubmV4dFVybC5wYXRobmFtZS5zcGxpdCgiLyIpWzFdPy50b0xvd2VyQ2FzZSgpCgogIC8vIENsb3VkZmxhcmUgV29ya2VycyBwcm92aWRlcyBjb3VudHJ5IHZpYSByZXF1ZXN0LmNmLmNvdW50cnkKICBjb25zdCBjbG91ZGZsYXJlQ291bnRyeUNvZGUgPSAocmVxdWVzdCBhcyB7IGNmPzogeyBjb3VudHJ5Pzogc3RyaW5nIH0gfSkuY2Y/LmNvdW50cnk/LnRvTG93ZXJDYXNlKCkKCiAgLy8gVmVyY2VsIHByb3ZpZGVzIHgtdmVyY2VsLWlwLWNvdW50cnkgaGVhZGVyCiAgY29uc3QgdmVyY2VsQ291bnRyeUNvZGUgPSByZXF1ZXN0LmhlYWRlcnMKICAgIC5nZXQoIngtdmVyY2VsLWlwLWNvdW50cnkiKQogICAgPy50b0xvd2VyQ2FzZSgpCgogIGlmICh1cmxDb3VudHJ5Q29kZSAmJiByZWdpb25NYXAuaGFzKHVybENvdW50cnlDb2RlKSkgewogICAgY291bnRyeUNvZGUgPSB1cmxDb3VudHJ5Q29kZQogIH0gZWxzZSBpZiAoY2xvdWRmbGFyZUNvdW50cnlDb2RlICYmIHJlZ2lvbk1hcC5oYXMoY2xvdWRmbGFyZUNvdW50cnlDb2RlKSkgewogICAgY291bnRyeUNvZGUgPSBjbG91ZGZsYXJlQ291bnRyeUNvZGUKICB9IGVsc2UgaWYgKHZlcmNlbENvdW50cnlDb2RlICYmIHJlZ2lvbk1hcC5oYXModmVyY2VsQ291bnRyeUNvZGUpKSB7CiAgICBjb3VudHJ5Q29kZSA9IHZlcmNlbENvdW50cnlDb2Rl"},"route-main":{"path":"apps/storefront/src/app/[countryCode]/(main)/page.tsx","lang":"tsx","truncated":false,"totalLines":42,"b64":"aW1wb3J0IHsgTWV0YWRhdGEgfSBmcm9tICJuZXh0Ig0KDQppbXBvcnQgRmVhdHVyZWRQcm9kdWN0cyBmcm9tICJAbW9kdWxlcy9ob21lL2NvbXBvbmVudHMvZmVhdHVyZWQtcHJvZHVjdHMiDQppbXBvcnQgR2FsbGVyeUhlcm8gZnJvbSAiQG1vZHVsZXMvaG9tZS9nYWxsZXJ5LWhlcm8iDQppbXBvcnQgeyBsaXN0Q29sbGVjdGlvbnMgfSBmcm9tICJAbGliL2RhdGEvY29sbGVjdGlvbnMiDQppbXBvcnQgeyBnZXRSZWdpb24gfSBmcm9tICJAbGliL2RhdGEvcmVnaW9ucyINCg0KZXhwb3J0IGNvbnN0IG1ldGFkYXRhOiBNZXRhZGF0YSA9IHsNCiAgdGl0bGU6ICJNZWR1c2EgTmV4dC5qcyBTdGFydGVyIFRlbXBsYXRlIiwNCiAgZGVzY3JpcHRpb246DQogICAgIkEgcGVyZm9ybWFudCBmcm9udGVuZCBlY29tbWVyY2Ugc3RhcnRlciB0ZW1wbGF0ZSB3aXRoIE5leHQuanMgMTUgYW5kIE1lZHVzYS4iLA0KfQ0KDQpleHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiBIb21lKHByb3BzOiB7DQogIHBhcmFtczogUHJvbWlzZTx7IGNvdW50cnlDb2RlOiBzdHJpbmcgfT4NCn0pIHsNCiAgY29uc3QgcGFyYW1zID0gYXdhaXQgcHJvcHMucGFyYW1zDQoNCiAgY29uc3QgeyBjb3VudHJ5Q29kZSB9ID0gcGFyYW1zDQoNCiAgY29uc3QgcmVnaW9uID0gYXdhaXQgZ2V0UmVnaW9uKGNvdW50cnlDb2RlKQ0KDQogIGNvbnN0IHsgY29sbGVjdGlvbnMgfSA9IGF3YWl0IGxpc3RDb2xsZWN0aW9ucyh7DQogICAgZmllbGRzOiAiaWQsIGhhbmRsZSwgdGl0bGUiLA0KICB9KQ0KDQogIGlmICghY29sbGVjdGlvbnMgfHwgIXJlZ2lvbikgew0KICAgIHJldHVybiBudWxsDQogIH0NCg0KICByZXR1cm4gKA0KICAgIDw+DQogICAgICA8R2FsbGVyeUhlcm8gY291bnRyeUNvZGU9e2NvdW50cnlDb2RlfSAvPg0KICAgICAgPGRpdiBjbGFzc05hbWU9InB5LTEyIj4NCiAgICAgICAgPHVsIGNsYXNzTmFtZT0iZmxleCBmbGV4LWNvbCBnYXAteC02Ij4NCiAgICAgICAgICA8RmVhdHVyZWRQcm9kdWN0cyBjb2xsZWN0aW9ucz17Y29sbGVjdGlvbnN9IHJlZ2lvbj17cmVnaW9ufSAvPg0KICAgICAgICA8L3VsPg0KICAgICAgPC9kaXY+DQogICAgPC8+DQogICkNCn0NCg=="},"route-cart":{"path":"apps/storefront/src/app/[countryCode]/(main)/cart/page.tsx","lang":"tsx","truncated":false,"totalLines":22,"b64":"aW1wb3J0IHsgcmV0cmlldmVDYXJ0IH0gZnJvbSAiQGxpYi9kYXRhL2NhcnQiDQppbXBvcnQgeyByZXRyaWV2ZUN1c3RvbWVyIH0gZnJvbSAiQGxpYi9kYXRhL2N1c3RvbWVyIg0KaW1wb3J0IENhcnRUZW1wbGF0ZSBmcm9tICJAbW9kdWxlcy9jYXJ0L3RlbXBsYXRlcyINCmltcG9ydCB7IE1ldGFkYXRhIH0gZnJvbSAibmV4dCINCmltcG9ydCB7IG5vdEZvdW5kIH0gZnJvbSAibmV4dC9uYXZpZ2F0aW9uIg0KDQpleHBvcnQgY29uc3QgbWV0YWRhdGE6IE1ldGFkYXRhID0gew0KICB0aXRsZTogIkNhcnQiLA0KICBkZXNjcmlwdGlvbjogIlZpZXcgeW91ciBjYXJ0IiwNCn0NCg0KZXhwb3J0IGRlZmF1bHQgYXN5bmMgZnVuY3Rpb24gQ2FydCgpIHsNCiAgY29uc3QgY2FydCA9IGF3YWl0IHJldHJpZXZlQ2FydCgpLmNhdGNoKChlcnJvcikgPT4gew0KICAgIGNvbnNvbGUuZXJyb3IoZXJyb3IpDQogICAgcmV0dXJuIG5vdEZvdW5kKCkNCiAgfSkNCg0KICBjb25zdCBjdXN0b21lciA9IGF3YWl0IHJldHJpZXZlQ3VzdG9tZXIoKQ0KDQogIHJldHVybiA8Q2FydFRlbXBsYXRlIGNhcnQ9e2NhcnR9IGN1c3RvbWVyPXtjdXN0b21lcn0gLz4NCn0NCg=="},"route-store":{"path":"apps/storefront/src/app/[countryCode]/(main)/store/page.tsx","lang":"tsx","truncated":false,"totalLines":40,"b64":"aW1wb3J0IHsgTWV0YWRhdGEgfSBmcm9tICJuZXh0Ig0KDQppbXBvcnQgeyBwYXJzZU9wdGlvblZhbHVlSWRzIH0gZnJvbSAiQGxpYi91dGlsL3Byb2R1Y3Qtb3B0aW9uLWZpbHRlcnMiDQppbXBvcnQgeyBTb3J0T3B0aW9ucyB9IGZyb20gIkBtb2R1bGVzL3N0b3JlL2NvbXBvbmVudHMvcmVmaW5lbWVudC1saXN0L3NvcnQtcHJvZHVjdHMiDQppbXBvcnQgU3RvcmVUZW1wbGF0ZSBmcm9tICJAbW9kdWxlcy9zdG9yZS90ZW1wbGF0ZXMiDQoNCmV4cG9ydCBjb25zdCBtZXRhZGF0YTogTWV0YWRhdGEgPSB7DQogIHRpdGxlOiAiU3RvcmUiLA0KICBkZXNjcmlwdGlvbjogIkV4cGxvcmUgYWxsIG9mIG91ciBwcm9kdWN0cy4iLA0KfQ0KDQp0eXBlIFN0b3JlUGFnZVNlYXJjaFBhcmFtcyA9IFJlY29yZDxzdHJpbmcsIHN0cmluZyB8IHN0cmluZ1tdIHwgdW5kZWZpbmVkPiAmIHsNCiAgc29ydEJ5PzogU29ydE9wdGlvbnMNCiAgcGFnZT86IHN0cmluZw0KICBvcHRpb25WYWx1ZUlkcz86IHN0cmluZyB8IHN0cmluZ1tdDQp9DQoNCnR5cGUgUGFyYW1zID0gew0KICBzZWFyY2hQYXJhbXM6IFByb21pc2U8U3RvcmVQYWdlU2VhcmNoUGFyYW1zPg0KICBwYXJhbXM6IFByb21pc2U8ew0KICAgIGNvdW50cnlDb2RlOiBzdHJpbmcNCiAgfT4NCn0NCg0KZXhwb3J0IGRlZmF1bHQgYXN5bmMgZnVuY3Rpb24gU3RvcmVQYWdlKHByb3BzOiBQYXJhbXMpIHsNCiAgY29uc3QgcGFyYW1zID0gYXdhaXQgcHJvcHMucGFyYW1zOw0KICBjb25zdCBzZWFyY2hQYXJhbXMgPSBhd2FpdCBwcm9wcy5zZWFyY2hQYXJhbXM7DQogIGNvbnN0IHsgc29ydEJ5LCBwYWdlIH0gPSBzZWFyY2hQYXJhbXMNCiAgY29uc3Qgb3B0aW9uVmFsdWVJZHMgPSBwYXJzZU9wdGlvblZhbHVlSWRzKHNlYXJjaFBhcmFtcykNCg0KICByZXR1cm4gKA0KICAgIDxTdG9yZVRlbXBsYXRlDQogICAgICBzb3J0Qnk9e3NvcnRCeX0NCiAgICAgIHBhZ2U9e3BhZ2V9DQogICAgICBjb3VudHJ5Q29kZT17cGFyYW1zLmNvdW50cnlDb2RlfQ0KICAgICAgb3B0aW9uVmFsdWVJZHM9e29wdGlvblZhbHVlSWRzfQ0KICAgIC8+DQogICkNCn0NCg=="},"route-checkout":{"path":"apps/storefront/src/app/[countryCode]/(checkout)/checkout/page.tsx","lang":"tsx","truncated":false,"totalLines":31,"b64":"aW1wb3J0IHsgcmV0cmlldmVDYXJ0IH0gZnJvbSAiQGxpYi9kYXRhL2NhcnQiDQppbXBvcnQgeyByZXRyaWV2ZUN1c3RvbWVyIH0gZnJvbSAiQGxpYi9kYXRhL2N1c3RvbWVyIg0KaW1wb3J0IFBheW1lbnRXcmFwcGVyIGZyb20gIkBtb2R1bGVzL2NoZWNrb3V0L2NvbXBvbmVudHMvcGF5bWVudC13cmFwcGVyIg0KaW1wb3J0IENoZWNrb3V0Rm9ybSBmcm9tICJAbW9kdWxlcy9jaGVja291dC90ZW1wbGF0ZXMvY2hlY2tvdXQtZm9ybSINCmltcG9ydCBDaGVja291dFN1bW1hcnkgZnJvbSAiQG1vZHVsZXMvY2hlY2tvdXQvdGVtcGxhdGVzL2NoZWNrb3V0LXN1bW1hcnkiDQppbXBvcnQgeyBNZXRhZGF0YSB9IGZyb20gIm5leHQiDQppbXBvcnQgeyBub3RGb3VuZCB9IGZyb20gIm5leHQvbmF2aWdhdGlvbiINCg0KZXhwb3J0IGNvbnN0IG1ldGFkYXRhOiBNZXRhZGF0YSA9IHsNCiAgdGl0bGU6ICJDaGVja291dCIsDQp9DQoNCmV4cG9ydCBkZWZhdWx0IGFzeW5jIGZ1bmN0aW9uIENoZWNrb3V0KCkgew0KICBjb25zdCBjYXJ0ID0gYXdhaXQgcmV0cmlldmVDYXJ0KCkNCg0KICBpZiAoIWNhcnQpIHsNCiAgICByZXR1cm4gbm90Rm91bmQoKQ0KICB9DQoNCiAgY29uc3QgY3VzdG9tZXIgPSBhd2FpdCByZXRyaWV2ZUN1c3RvbWVyKCkNCg0KICByZXR1cm4gKA0KICAgIDxkaXYgY2xhc3NOYW1lPSJncmlkIGdyaWQtY29scy0xIHNtYWxsOmdyaWQtY29scy1bMWZyXzQxNnB4XSBjb250ZW50LWNvbnRhaW5lciBnYXAteC00MCBweS0xMiI+DQogICAgICA8UGF5bWVudFdyYXBwZXIgY2FydD17Y2FydH0+DQogICAgICAgIDxDaGVja291dEZvcm0gY2FydD17Y2FydH0gY3VzdG9tZXI9e2N1c3RvbWVyfSAvPg0KICAgICAgPC9QYXltZW50V3JhcHBlcj4NCiAgICAgIDxDaGVja291dFN1bW1hcnkgY2FydD17Y2FydH0gLz4NCiAgICA8L2Rpdj4NCiAgKQ0KfQ0K"},"ng-route-root":{"path":"apps/storefront/src/modules/nos-gallery/app/page.tsx","lang":"tsx","truncated":false,"totalLines":47,"b64":"LyoqIEBmb3JtYXQgKi8KCmltcG9ydCB7IEFydEdhbGxlcnlTbGlkZXIgfSBmcm9tICdAL2NvbXBvbmVudHMvYXJ0LWdhbGxlcnktc2xpZGVyJzsKaW1wb3J0IHsgR2FsbGVyeVN0YXRlU2NyZWVuIH0gZnJvbSAnQC9jb21wb25lbnRzL2dhbGxlcnktc3RhdGUtc2NyZWVuJzsKaW1wb3J0IHsgZ2V0R2FsbGVyeUFydHdvcmtzIH0gZnJvbSAnQC9saWIvYXJ0d29ya3MvY2F0YWxvZyc7CmltcG9ydCB7IGJ1aWxkR2FsbGVyeUpzb25MZCB9IGZyb20gJ0AvbGliL3NjaGVtYSc7CgpleHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiBIb21lKHsKCXNlYXJjaFBhcmFtcywKfTogewoJc2VhcmNoUGFyYW1zOiBQcm9taXNlPHsgb2JyYT86IHN0cmluZyB9PjsKfSkgewoJY29uc3QgW3BhcmFtcywgYXJ0d29ya3NdID0gYXdhaXQgUHJvbWlzZS5hbGwoWwoJCXNlYXJjaFBhcmFtcywKCQlnZXRHYWxsZXJ5QXJ0d29ya3MoKSwKCV0pOwoJY29uc3Qgb2JyYSA9IHBhcmFtcz8ub2JyYTsKCWNvbnN0IGluaXRpYWxBcnR3b3JrQ29kZSA9IHR5cGVvZiBvYnJhID09PSAnc3RyaW5nJyA/IG9icmEgOiB1bmRlZmluZWQ7Cgljb25zdCBqc29uTGQgPSBidWlsZEdhbGxlcnlKc29uTGQoYXJ0d29ya3MpOwoKCWlmIChhcnR3b3Jrcy5sZW5ndGggPT09IDApIHsKCQlyZXR1cm4gKAoJCQk8R2FsbGVyeVN0YXRlU2NyZWVuCgkJCQlleWVicm93PSdBcnF1aXZvIGVtIHByZXBhcmHDp8OjbycKCQkJCXRpdGxlPSdBIHByw7N4aW1hIHRyYW1hIGVzdMOhIHNlbmRvIG1vbnRhZGEuJwoJCQkJZGVzY3JpcHRpb249J0EgY29sZcOnw6NvIGFpbmRhIG7Do28gcG9zc3VpIG9icmFzIHB1YmxpY2FkYXMuIFZvbHRlIGVtIGJyZXZlIHBhcmEgaW5pY2lhciBhIHZpc2l0YS4nCgkJCS8+CgkJKTsKCX0KCglyZXR1cm4gKAoJCTxtYWluCgkJCWlkPSdnYWxsZXJ5LW1haW4nCgkJCXRhYkluZGV4PXstMX0KCQkJY2xhc3NOYW1lPSdoLWR2aCBtaW4taC1zdmggdy1mdWxsIG92ZXJmbG93LWhpZGRlbiBiZy0oLS1nYWxsZXJ5LWluayknPgoJCQk8c2NyaXB0CgkJCQl0eXBlPSdhcHBsaWNhdGlvbi9sZCtqc29uJwoJCQkJZGFuZ2Vyb3VzbHlTZXRJbm5lckhUTUw9e3sgX19odG1sOiBKU09OLnN0cmluZ2lmeShqc29uTGQpIH19CgkJCS8+CgkJCTxBcnRHYWxsZXJ5U2xpZGVyCgkJCQlhcnR3b3Jrcz17YXJ0d29ya3N9CgkJCQlpbml0aWFsQXJ0d29ya0NvZGU9e2luaXRpYWxBcnR3b3JrQ29kZX0KCQkJLz4KCQk8L21haW4+CgkpOwp9Cg=="},"ng-route-privacidade":{"path":"apps/storefront/src/modules/nos-gallery/app/privacidade/page.tsx","lang":"tsx","truncated":true,"totalLines":113,"b64":"LyoqIEBmb3JtYXQgKi8KCmltcG9ydCB0eXBlIHsgTWV0YWRhdGEgfSBmcm9tICduZXh0JzsKaW1wb3J0IExpbmsgZnJvbSAnbmV4dC9saW5rJzsKaW1wb3J0IHsKCUdBTExFUllfQ09OVEFDVF9FTUFJTCwKCVNJVEVfVVJMLAp9IGZyb20gJ0AvbGliL2NvbnN0YW50cyc7CmltcG9ydCB7IElOUVVJUllfUFJJVkFDWV9OT1RJQ0VfVkVSU0lPTiB9IGZyb20gJ0AvbGliL2lucXVpcmllcy9jb25zdGFudHMnOwoKZXhwb3J0IGNvbnN0IG1ldGFkYXRhOiBNZXRhZGF0YSA9IHsKCXRpdGxlOiAnUHJpdmFjaWRhZGUgfCBGaW8gVml2bycsCglkZXNjcmlwdGlvbjoKCQknQ29tbyBhIEZpbyBWaXZvIHRyYXRhIG9zIGRhZG9zIGVudmlhZG9zIGVtIHNvbGljaXRhw6fDtWVzIHNvYnJlIGFzIG9icmFzLicsCglhbHRlcm5hdGVzOiB7CgkJY2Fub25pY2FsOiBgJHtTSVRFX1VSTH0vcHJpdmFjaWRhZGVgLAoJfSwKfTsKCmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFByaXZhY3lQYWdlKCkgewoJcmV0dXJuICgKCQk8bWFpbgoJCQlpZD0nZ2FsbGVyeS1tYWluJwoJCQl0YWJJbmRleD17LTF9CgkJCWNsYXNzTmFtZT0nZ2FsbGVyeS1kZXRhaWwtc2Nyb2xsIGgtc3ZoIG92ZXJmbG93LXktYXV0byBvdmVyc2Nyb2xsLXktY29udGFpbiBiZy0oLS1nYWxsZXJ5LWluaykgcHgtNSBweS0xMiB0ZXh0LSgtLWdhbGxlcnktcGFwZXIpIHNtOnB4LTggc206cHktMTYnPgoJCQk8YXJ0aWNsZSBjbGFzc05hbWU9J214LWF1dG8gbWF4LXctMnhsJz4KCQkJCTxwIGNsYXNzTmFtZT0nZm9udC1tb25vIHRleHQtWzAuNjJyZW1dIHVwcGVyY2FzZSB0cmFja2luZy1bMC4yNGVtXSB0ZXh0LSgtLWdhbGxlcnktYWNjZW50KSc+CgkJCQkJRmlvIFZpdm8gwrcgUHJpdmFjaWRhZGUKCQkJCTwvcD4KCQkJCTxoMSBjbGFzc05hbWU9J210LTUgZm9udC1zZXJpZiB0ZXh0LTR4bCBsZWFkaW5nLXRpZ2h0IHRyYWNraW5nLVstMC4wMzVlbV0gdGV4dC0oLS1nYWxsZXJ5LXBhcGVyLWJyaWdodCkgdGV4dC1wcmV0dHkgc206dGV4dC01eGwnPgoJCQkJCVNldSBjb250YXRvIMOpIHRyYXRhZG8gY29tIGN1aWRhZG8uCgkJCQk8L2gxPgoJCQkJPHAgY2xhc3NOYW1lPSdtdC02IG1heC13LXhsIHRleHQtc20gbGVhZGluZy03IHRleHQtKC0tZ2FsbGVyeS1tdXRlZCknPgoJCQkJCUVzdGUgYXZpc28gZGVzY3JldmUgbyB0cmF0YW1lbnRvIGRvcyBkYWRvcyBlbnZpYWRvcyBhbwoJCQkJCWRlbW9uc3RyYXIgaW50ZXJlc3NlIGVtIHVtYSBvYnJhLiBWZXJzw6NveycgJ30KCQkJCQl7SU5RVUlSWV9QUklWQUNZX05PVElDRV9WRVJTSU9OfS4KCQkJCTwvcD4KCgkJCQk8ZGl2IGNsYXNzTmFtZT0nbXQtMTIgc3BhY2UteS0xMCBib3JkZXItdCBib3JkZXItKC0tZ2FsbGVyeS1mcmFtZSkgcHQtMTAgdGV4dC1zbSBsZWFkaW5nLTcgdGV4dC0oLS1nYWxsZXJ5LWNvcHkpJz4KCQkJCQk8c2VjdGlvbiBjbGFzc05hbWU9J3Njcm9sbC1tdC04Jz4KCQkJCQkJPGgyIGNsYXNzTmFtZT0nZm9udC1zZXJpZiB0ZXh0LTJ4bCB0ZXh0LSgtLWdhbGxlcnktcGFwZXIpIHRleHQtcHJldHR5Jz4KCQkJCQkJCURhZG9zIGUgZmluYWxpZGFkZQoJCQkJCQk8L2gyPgoJCQkJCQk8cCBjbGFzc05hbWU9J210LTMnPgoJCQkJCQkJQ29sZXRhbW9zIG5vbWUsIGVtYWlsLCBvYnJhIGRlIGludGVyZXNzZSBlIGEgbWVuc2FnZW0KCQkJCQkJCW9wY2lvbmFsIGV4Y2x1c2l2YW1lbnRlIHBhcmEgcmVzcG9uZGVyIGFvIGNvbnRhdG8sIGVzY2xhcmVjZXIKCQkJCQkJCWNvbmRpw6fDtWVzIGRhIG9icmEgZSBtYW50ZXIgbyBoaXN0w7NyaWNvIGNvbWVyY2lhbCBuZWNlc3PDoXJpby4KCQkJCQkJPC9wPgoJCQkJCTwvc2VjdGlvbj4KCgkJCQkJPHNlY3Rpb24gY2xhc3NOYW1lPSdzY3JvbGwtbXQtOCc+CgkJCQkJCTxoMiBjbGFzc05hbWU9J2ZvbnQtc2VyaWYgdGV4dC0yeGwgdGV4dC0oLS1nYWxsZXJ5LXBhcGVyKSB0ZXh0LXByZXR0eSc+CgkJCQkJCQlVc28gZSByZXRlbsOnw6NvCgkJCQkJCTwvaDI+CgkJCQkJCTxwIGNsYXNzTmFtZT0nbXQtMyc+CgkJCQkJCQlPcyBkYWRvcyBzw6NvIHVzYWRvcyBwYXJhIGF0ZW5kZXIgw6Agc3VhIHNvbGljaXRhw6fDo28gZSByZWFsaXphciBvcwoJCQkJCQkJcHJvY2VkaW1lbnRvcyBwcmVsaW1pbmFyZXMgZGUgdW1hIHBvc3PDrXZlbCBjb250cmF0YcOnw6NvLCBzZW1wcmUgYQoJCQkJCQkJc2V1IHBlZGlkby4gRWxlcyBzw6NvIG1hbnRpZG9zIHNvbWVudGUgcGVsbyBwZXLDrW9kbyBuZWNlc3PDoXJpbyDDoAoJCQkJCQkJcmVzcG9zdGEsIGFvIHJlbGFjaW9uYW1lbnRvIHNvbGljaXRhZG8gZSDDoHMgb2JyaWdhw6fDtWVzIGxlZ2FpcwoJCQkJCQkJYXBsaWPDoXZlaXMuCgkJCQkJCTwvcD4KCQkJCQk8L3NlY3Rpb24+CgoJCQkJCTxzZWN0aW9uIGNsYXNzTmFtZT0nc2Nyb2xsLW10LTgnPgoJCQkJCQk8aDIgY2xhc3NOYW1lPSdmb250LXNlcmlmIHRleHQtMnhsIHRleHQtKC0tZ2FsbGVyeS1wYXBlcikgdGV4dC1wcmV0dHknPgoJCQkJCQkJQ29tcGFydGlsaGFtZW50byBlIHNlZ3VyYW7Dp2EKCQkJCQkJPC9oMj4KCQkJCQkJPHAgY2xhc3NOYW1lPSdtdC0zJz4KCQkJCQkJCU9zIGRhZG9zIG7Do28gc8OjbyB2ZW5kaWRvcy4gRWxlcyBwb2RlbSBzZXIgcHJvY2Vzc2Fkb3MgcG9yCgkJCQkJCQlmb3JuZWNlZG9yZXMgZGUgaW5mcmFlc3RydXR1cmEgZXN0cml0YW1lbnRlIG5lY2Vzc8OhcmlvcyBhbwoJCQkJCQkJYXJtYXplbmFtZW50bywgw6AgZW50cmVnYSBkYSBub3RpZmljYcOnw6NvIGUgw6Agb3BlcmHDp8OjbyBkYSBnYWxlcmlhLAoJCQkJCQkJY29tIGFjZXNzbyBsaW1pdGFkbyDDoCBmaW5hbGlkYWRlIGluZm9ybWFkYS4KCQkJCQkJPC9wPgoJCQkJCTwvc2VjdGlvbj4KCgkJCQkJPHNlY3Rpb24gY2xhc3NOYW1lPSdzY3JvbGwtbXQtOCc+CgkJCQkJCTxoMiBjbGFzc05hbWU9J2ZvbnQtc2VyaWYgdGV4dC0yeGwgdGV4dC0oLS1nYWxsZXJ5LXBhcGVyKSB0ZXh0LXByZXR0eSc+CgkJCQkJCQlTZXVzIGRpcmVpdG9zCgkJCQkJCTwvaDI+CgkJCQkJCTxwIGNsYXNzTmFtZT0nbXQtMyc+CgkJCQkJCQlWb2PDqiBwb2RlIHNvbGljaXRhciBjb25maXJtYcOnw6NvLCBhY2Vzc28sIGNvcnJlw6fDo28sIGVsaW1pbmHDp8OjbwoJCQkJCQkJcXVhbmRvIGFwbGljw6F2ZWwgb3Ugb3Bvc2nDp8OjbyBhbyB0cmF0YW1lbnRvIGUsIHF1YW5kbyBhcGxpY8OhdmVsLAoJCQkJCQkJcmV2b2dhw6fDo28gZG8gY29uc2VudGltZW50byBwZWxvIGVtYWlseycgJ30KCQkJCQkJCTxhCgkJCQkJCQkJaHJlZj17YG1haWx0bzoke0dBTExFUllfQ09OVEFDVF9FTUFJTH1gfQoJCQkJCQkJCWNsYXNzTmFtZT0ndGV4dC0oLS1nYWxsZXJ5LWFjY2VudC1icmlnaHQpIHVuZGVybGluZSB1bmRlcmxpbmUtb2Zmc2V0LTQnPgoJCQkJCQkJCXtHQUxMRVJZX0NPTlRBQ1RfRU1BSUx9CgkJCQkJCQk8L2E+CgkJCQkJCQkuIEEgcmV2b2dhw6fDo28gbsOjbyBhZmV0YSB0cmF0YW1lbnRvcyByZWFsaXphZG9zIGFudGVyaW9ybWVudGUgZGUKCQkJCQkJCWZvcm1hIGxlZ8OtdGltYS4gQXsnICd9"},"ng-api-health":{"path":"apps/storefront/src/modules/nos-gallery/app/api/health/route.ts","lang":"ts","truncated":false,"totalLines":42,"b64":"LyoqIEBmb3JtYXQgKi8KCmltcG9ydCB7IGdldEFydHdvcmtEYXRhU291cmNlIH0gZnJvbSAnQC9saWIvZGIvY29uZmlnJzsKaW1wb3J0IHsgbG9nU2VydmVyRXZlbnQgfSBmcm9tICdAL2xpYi9vYnNlcnZhYmlsaXR5JzsKCmV4cG9ydCBjb25zdCBkeW5hbWljID0gJ2ZvcmNlLWR5bmFtaWMnOwoKY29uc3QgTk9fU1RPUkVfSEVBREVSUyA9IHsKCSdDYWNoZS1Db250cm9sJzogJ25vLXN0b3JlLCBtYXgtYWdlPTAnLAp9IGFzIGNvbnN0OwoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVCgpIHsKCWxldCBkYXRhU291cmNlID0gJ3Vua25vd24nOwoKCXRyeSB7CgkJZGF0YVNvdXJjZSA9IGdldEFydHdvcmtEYXRhU291cmNlKCk7CgkJaWYgKGRhdGFTb3VyY2UgPT09ICdzdGF0aWMnKSB7CgkJCXJldHVybiBSZXNwb25zZS5qc29uKAoJCQkJeyBzdGF0dXM6ICdvaycsIGRhdGFTb3VyY2UgfSwKCQkJCXsgaGVhZGVyczogTk9fU1RPUkVfSEVBREVSUyB9LAoJCQkpOwoJCX0KCgkJY29uc3QgeyBjaGVja0RhdGFiYXNlSGVhbHRoIH0gPSBhd2FpdCBpbXBvcnQoJ0AvbGliL2RiL3F1ZXJ5Jyk7CgkJYXdhaXQgY2hlY2tEYXRhYmFzZUhlYWx0aCgpOwoKCQlyZXR1cm4gUmVzcG9uc2UuanNvbigKCQkJeyBzdGF0dXM6ICdvaycsIGRhdGFTb3VyY2UgfSwKCQkJeyBoZWFkZXJzOiBOT19TVE9SRV9IRUFERVJTIH0sCgkJKTsKCX0gY2F0Y2ggKGVycm9yKSB7CgkJbG9nU2VydmVyRXZlbnQoJ2Vycm9yJywgJ2hlYWx0aC5wZXJzaXN0ZW5jZV91bmF2YWlsYWJsZScsIHsKCQkJbmFtZTogZXJyb3IgaW5zdGFuY2VvZiBFcnJvciA/IGVycm9yLm5hbWUgOiAnVW5rbm93bkVycm9yJywKCQl9KTsKCgkJcmV0dXJuIFJlc3BvbnNlLmpzb24oCgkJCXsgc3RhdHVzOiAnZGVncmFkZWQnLCBkYXRhU291cmNlIH0sCgkJCXsgc3RhdHVzOiA1MDMsIGhlYWRlcnM6IE5PX1NUT1JFX0hFQURFUlMgfSwKCQkpOwoJfQp9Cg=="},"ng-api-artworks":{"path":"apps/storefront/src/modules/nos-gallery/app/api/v1/artworks/route.ts","lang":"ts","truncated":false,"totalLines":59,"b64":"LyoqIEBmb3JtYXQgKi8KCmltcG9ydCB7CglBcnR3b3JrQ3Vyc29yTm90Rm91bmRFcnJvciwKCWFydHdvcmtMaXN0UXVlcnlTY2hlbWEsCglsaXN0QXJ0d29ya3MsCn0gZnJvbSAnQC9saWIvYXJ0d29ya3MvY2F0YWxvZyc7CmltcG9ydCB7CglhcGlFcnJvciwKCWFwaVN1Y2Nlc3MsCglpbnRlcm5hbEFwaUVycm9yLAoJUFVCTElDX0NBVEFMT0dfQ0FDSEVfSEVBREVSUywKfSBmcm9tICdAL2xpYi9hcGkvcmVzcG9uc2UnOwoKY29uc3QgdmFsaWRhdGlvbkRldGFpbHMgPSAoaXNzdWVzOiB7IHBhdGg6IFByb3BlcnR5S2V5W107IG1lc3NhZ2U6IHN0cmluZyB9W10pID0+Cglpc3N1ZXMubWFwKChpc3N1ZSkgPT4gKHsKCQlwYXRoOiBpc3N1ZS5wYXRoLmpvaW4oJy4nKSwKCQltZXNzYWdlOiBpc3N1ZS5tZXNzYWdlLAoJfSkpOwoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBSZXF1ZXN0KSB7Cgl0cnkgewoJCWNvbnN0IHNlYXJjaFBhcmFtcyA9IG5ldyBVUkwocmVxdWVzdC51cmwpLnNlYXJjaFBhcmFtczsKCQljb25zdCBwYXJzZWRRdWVyeSA9IGFydHdvcmtMaXN0UXVlcnlTY2hlbWEuc2FmZVBhcnNlKAoJCQlPYmplY3QuZnJvbUVudHJpZXMoc2VhcmNoUGFyYW1zKSwKCQkpOwoKCQlpZiAoIXBhcnNlZFF1ZXJ5LnN1Y2Nlc3MpIHsKCQkJcmV0dXJuIGFwaUVycm9yKAoJCQkJJ0lOVkFMSURfUVVFUlknLAoJCQkJJ09zIHBhcsOibWV0cm9zIGRlIGNvbnN1bHRhIHPDo28gaW52w6FsaWRvcy4nLAoJCQkJNDAwLAoJCQkJdmFsaWRhdGlvbkRldGFpbHMocGFyc2VkUXVlcnkuZXJyb3IuaXNzdWVzKSwKCQkJKTsKCQl9CgoJCWNvbnN0IHJlc3VsdCA9IGF3YWl0IGxpc3RBcnR3b3JrcyhwYXJzZWRRdWVyeS5kYXRhKTsKCgkJcmV0dXJuIGFwaVN1Y2Nlc3MocmVzdWx0Lml0ZW1zLCB7CgkJCWhlYWRlcnM6IFBVQkxJQ19DQVRBTE9HX0NBQ0hFX0hFQURFUlMsCgkJCW1ldGE6IHsKCQkJCXRvdGFsOiByZXN1bHQudG90YWwsCgkJCQlsaW1pdDogcGFyc2VkUXVlcnkuZGF0YS5saW1pdCwKCQkJCW5leHRDdXJzb3I6IHJlc3VsdC5uZXh0Q3Vyc29yLAoJCQl9LAoJCX0pOwoJfSBjYXRjaCAoZXJyb3IpIHsKCQlpZiAoZXJyb3IgaW5zdGFuY2VvZiBBcnR3b3JrQ3Vyc29yTm90Rm91bmRFcnJvcikgewoJCQlyZXR1cm4gYXBpRXJyb3IoCgkJCQknSU5WQUxJRF9DVVJTT1InLAoJCQkJJ08gY3Vyc29yIGluZm9ybWFkbyBuw6NvIGV4aXN0ZSBubyBjb25qdW50byBmaWx0cmFkby4nLAoJCQkJNDAwLAoJCQkpOwoJCX0KCgkJcmV0dXJuIGludGVybmFsQXBpRXJyb3IoZXJyb3IsICdHRVQgL2FwaS92MS9hcnR3b3JrcycpOwoJfQp9Cg=="},"ng-api-artworks-code":{"path":"apps/storefront/src/modules/nos-gallery/app/api/v1/artworks/[code]/route.ts","lang":"ts","truncated":false,"totalLines":50,"b64":"LyoqIEBmb3JtYXQgKi8KCmltcG9ydCB7CglhcnR3b3JrQ29kZVNjaGVtYSwKCWdldEFydHdvcmtCeUNvZGUsCn0gZnJvbSAnQC9saWIvYXJ0d29ya3MvY2F0YWxvZyc7CmltcG9ydCB7CglhcGlFcnJvciwKCWFwaVN1Y2Nlc3MsCglpbnRlcm5hbEFwaUVycm9yLAoJUFVCTElDX0NBVEFMT0dfQ0FDSEVfSEVBREVSUywKfSBmcm9tICdAL2xpYi9hcGkvcmVzcG9uc2UnOwoKaW50ZXJmYWNlIEFydHdvcmtSb3V0ZUNvbnRleHQgewoJcGFyYW1zOiBQcm9taXNlPHsgY29kZTogc3RyaW5nIH0+Owp9CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gR0VUKAoJX3JlcXVlc3Q6IFJlcXVlc3QsCgl7IHBhcmFtcyB9OiBBcnR3b3JrUm91dGVDb250ZXh0LAopIHsKCXRyeSB7CgkJY29uc3QgcGFyc2VkQ29kZSA9IGFydHdvcmtDb2RlU2NoZW1hLnNhZmVQYXJzZSgoYXdhaXQgcGFyYW1zKS5jb2RlKTsKCgkJaWYgKCFwYXJzZWRDb2RlLnN1Y2Nlc3MpIHsKCQkJcmV0dXJuIGFwaUVycm9yKAoJCQkJJ0lOVkFMSURfQVJUV09SS19DT0RFJywKCQkJCSdPIGPDs2RpZ28gZGEgb2JyYSDDqSBpbnbDoWxpZG8uJywKCQkJCTQwMCwKCQkJKTsKCQl9CgoJCWNvbnN0IGFydHdvcmsgPSBhd2FpdCBnZXRBcnR3b3JrQnlDb2RlKHBhcnNlZENvZGUuZGF0YSk7CgoJCWlmICghYXJ0d29yaykgewoJCQlyZXR1cm4gYXBpRXJyb3IoCgkJCQknQVJUV09SS19OT1RfRk9VTkQnLAoJCQkJJ05lbmh1bWEgb2JyYSBmb2kgZW5jb250cmFkYSBjb20gZXNzZSBjw7NkaWdvLicsCgkJCQk0MDQsCgkJCSk7CgkJfQoKCQlyZXR1cm4gYXBpU3VjY2VzcyhhcnR3b3JrLCB7CgkJCWhlYWRlcnM6IFBVQkxJQ19DQVRBTE9HX0NBQ0hFX0hFQURFUlMsCgkJfSk7Cgl9IGNhdGNoIChlcnJvcikgewoJCXJldHVybiBpbnRlcm5hbEFwaUVycm9yKGVycm9yLCAnR0VUIC9hcGkvdjEvYXJ0d29ya3MvW2NvZGVdJyk7Cgl9Cn0K"},"ng-api-webhook-clerk":{"path":"apps/storefront/src/modules/nos-gallery/app/api/webhooks/clerk/route.ts","lang":"ts","truncated":false,"totalLines":63,"b64":"LyoqIEBmb3JtYXQgKi8KCmltcG9ydCB7IHZlcmlmeVdlYmhvb2sgfSBmcm9tICdAY2xlcmsvbmV4dGpzL3dlYmhvb2tzJzsKaW1wb3J0IHR5cGUgeyBOZXh0UmVxdWVzdCB9IGZyb20gJ25leHQvc2VydmVyJzsKaW1wb3J0IHsgcmVjb3JkQ2xlcmtTZXNzaW9uUmV2b2NhdGlvbiB9IGZyb20gJ0AvbGliL2F1dGgvc2Vzc2lvbi1yZXZvY2F0aW9uJzsKaW1wb3J0IHsgbG9nU2VydmVyRXZlbnQgfSBmcm9tICdAL2xpYi9vYnNlcnZhYmlsaXR5JzsKCmV4cG9ydCBjb25zdCBkeW5hbWljID0gJ2ZvcmNlLWR5bmFtaWMnOwoKY29uc3QgUkVWT0NBVElPTl9FVkVOVF9UWVBFUyA9IG5ldyBTZXQoWwoJJ3Nlc3Npb24uZW5kZWQnLAoJJ3Nlc3Npb24ucmVtb3ZlZCcsCgknc2Vzc2lvbi5yZXZva2VkJywKXSk7CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gUE9TVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewoJdHJ5IHsKCQljb25zdCBldmVudCA9IGF3YWl0IHZlcmlmeVdlYmhvb2socmVxdWVzdCk7CgkJaWYgKCFSRVZPQ0FUSU9OX0VWRU5UX1RZUEVTLmhhcyhldmVudC50eXBlKSkgewoJCQlyZXR1cm4gUmVzcG9uc2UuanNvbigKCQkJCXsgYWNjZXB0ZWQ6IHRydWUsIGhhbmRsZWQ6IGZhbHNlIH0sCgkJCQl7IGhlYWRlcnM6IHsgJ0NhY2hlLUNvbnRyb2wnOiAncHJpdmF0ZSwgbm8tc3RvcmUnIH0gfSwKCQkJKTsKCQl9CgoJCWlmICgKCQkJZXZlbnQudHlwZSAhPT0gJ3Nlc3Npb24uZW5kZWQnICYmCgkJCWV2ZW50LnR5cGUgIT09ICdzZXNzaW9uLnJlbW92ZWQnICYmCgkJCWV2ZW50LnR5cGUgIT09ICdzZXNzaW9uLnJldm9rZWQnCgkJKSB7CgkJCXJldHVybiBSZXNwb25zZS5qc29uKHsgYWNjZXB0ZWQ6IHRydWUsIGhhbmRsZWQ6IGZhbHNlIH0pOwoJCX0KCgkJYXdhaXQgcmVjb3JkQ2xlcmtTZXNzaW9uUmV2b2NhdGlvbih7CgkJCXNlc3Npb25JZDogZXZlbnQuZGF0YS5pZCwKCQkJcHJvdmlkZXJTdWJqZWN0OiBldmVudC5kYXRhLnVzZXJfaWQsCgkJCWV4cGlyZXNBdDogbmV3IERhdGUoCgkJCQlNYXRoLm1heChldmVudC5kYXRhLmV4cGlyZV9hdCwgRGF0ZS5ub3coKSArIDI0ICogNjAgKiA2MCAqIDFfMDAwKSwKCQkJKSwKCQl9KTsKCQlsb2dTZXJ2ZXJFdmVudCgnaW5mbycsICdhdXRoLnNlc3Npb25fcmV2b2tlZCcsIHsKCQkJc2Vzc2lvbklkOiBldmVudC5kYXRhLmlkLAoJCQlldmVudFR5cGU6IGV2ZW50LnR5cGUsCgkJfSk7CgoJCXJldHVybiBSZXNwb25zZS5qc29uKAoJCQl7IGFjY2VwdGVkOiB0cnVlLCBoYW5kbGVkOiB0cnVlIH0sCgkJCXsgaGVhZGVyczogeyAnQ2FjaGUtQ29udHJvbCc6ICdwcml2YXRlLCBuby1zdG9yZScgfSB9LAoJCSk7Cgl9IGNhdGNoIChlcnJvcikgewoJCWxvZ1NlcnZlckV2ZW50KCd3YXJuJywgJ2F1dGgud2ViaG9va19yZWplY3RlZCcsIHsKCQkJZXJyb3JOYW1lOiBlcnJvciBpbnN0YW5jZW9mIEVycm9yID8gZXJyb3IubmFtZSA6ICdVbmtub3duRXJyb3InLAoJCX0pOwoJCXJldHVybiBSZXNwb25zZS5qc29uKAoJCQl7IGFjY2VwdGVkOiBmYWxzZSB9LAoJCQl7CgkJCQlzdGF0dXM6IDQwMCwKCQkJCWhlYWRlcnM6IHsgJ0NhY2hlLUNvbnRyb2wnOiAncHJpdmF0ZSwgbm8tc3RvcmUnIH0sCgkJCX0sCgkJKTsKCX0KfQo="},"ng-api-inquiry":{"path":"apps/storefront/src/modules/nos-gallery/app/api/internal/inquiry-notifications/route.ts","lang":"ts","truncated":false,"totalLines":56,"b64":"LyoqIEBmb3JtYXQgKi8KCmltcG9ydCB7IGdldEFydHdvcmtEYXRhU291cmNlIH0gZnJvbSAnQC9saWIvZGIvY29uZmlnJzsKaW1wb3J0IHsgZGlzcGF0Y2hJbnF1aXJ5VG9TdGFmZiB9IGZyb20gJ0AvbGliL2lucXVpcmllcy9ub3RpZmljYXRpb24tZGVsaXZlcnknOwppbXBvcnQgeyB2ZXJpZnlJbnF1aXJ5Tm90aWZpY2F0aW9uIH0gZnJvbSAnQC9saWIvaW5xdWlyaWVzL25vdGlmaWNhdGlvbi1yZWNlaXZlcic7CmltcG9ydCB7IGxvZ1NlcnZlckV2ZW50IH0gZnJvbSAnQC9saWIvb2JzZXJ2YWJpbGl0eSc7CgpleHBvcnQgY29uc3QgZHluYW1pYyA9ICdmb3JjZS1keW5hbWljJzsKCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBQT1NUKHJlcXVlc3Q6IFJlcXVlc3QpIHsKCWNvbnN0IHJhd0JvZHkgPSBhd2FpdCByZXF1ZXN0LnRleHQoKTsKCWNvbnN0IHZlcmlmaWNhdGlvbiA9IHZlcmlmeUlucXVpcnlOb3RpZmljYXRpb24oCgkJcmF3Qm9keSwKCQlyZXF1ZXN0LmhlYWRlcnMsCgkJcHJvY2Vzcy5lbnYuSU5RVUlSWV9XRUJIT09LX1NFQ1JFVCwKCSk7CgoJaWYgKCF2ZXJpZmljYXRpb24ub2sgfHwgZ2V0QXJ0d29ya0RhdGFTb3VyY2UoKSAhPT0gJ3Bvc3RncmVzJykgewoJCWxvZ1NlcnZlckV2ZW50KCd3YXJuJywgJ2lucXVpcnkubm90aWZpY2F0aW9uX3JlamVjdGVkJywgewoJCQlyZWFzb246IHZlcmlmaWNhdGlvbi5vayA/ICdwZXJzaXN0ZW5jZV91bmF2YWlsYWJsZScgOiB2ZXJpZmljYXRpb24ucmVhc29uLAoJCX0pOwoJCXJldHVybiBSZXNwb25zZS5qc29uKAoJCQl7IGFjY2VwdGVkOiBmYWxzZSB9LAoJCQl7CgkJCQlzdGF0dXM6IHZlcmlmaWNhdGlvbi5vayA/IDUwMyA6IDQwMSwKCQkJCWhlYWRlcnM6IHsgJ0NhY2hlLUNvbnRyb2wnOiAncHJpdmF0ZSwgbm8tc3RvcmUnIH0sCgkJCX0sCgkJKTsKCX0KCgljb25zdCBkaXNwYXRjaCA9IGF3YWl0IGRpc3BhdGNoSW5xdWlyeVRvU3RhZmYodmVyaWZpY2F0aW9uLnBheWxvYWQpOwoJaWYgKCFkaXNwYXRjaC5vaykgewoJCWxvZ1NlcnZlckV2ZW50KCdlcnJvcicsICdpbnF1aXJ5LnN0YWZmX2RlbGl2ZXJ5X2ZhaWxlZCcsIHsKCQkJcmVxdWVzdElkOiB2ZXJpZmljYXRpb24ucGF5bG9hZC5yZXF1ZXN0SWQsCgkJCXJlYXNvbjogZGlzcGF0Y2gucmVhc29uLAoJCQlzdGF0dXNDb2RlOiBkaXNwYXRjaC5zdGF0dXNDb2RlLAoJCX0pOwoJCXJldHVybiBSZXNwb25zZS5qc29uKAoJCQl7IGFjY2VwdGVkOiBmYWxzZSwgcmV0cnlhYmxlOiB0cnVlIH0sCgkJCXsKCQkJCXN0YXR1czogNTAzLAoJCQkJaGVhZGVyczogeyAnQ2FjaGUtQ29udHJvbCc6ICdwcml2YXRlLCBuby1zdG9yZScgfSwKCQkJfSwKCQkpOwoJfQoKCWxvZ1NlcnZlckV2ZW50KCdpbmZvJywgJ2lucXVpcnkuc3RhZmZfZGVsaXZlcnlfc3VjY2VlZGVkJywgewoJCXJlcXVlc3RJZDogdmVyaWZpY2F0aW9uLnBheWxvYWQucmVxdWVzdElkLAoJCWR1cGxpY2F0ZTogZGlzcGF0Y2guZHVwbGljYXRlLAoJfSk7CglyZXR1cm4gUmVzcG9uc2UuanNvbigKCQl7IGFjY2VwdGVkOiB0cnVlLCBkdXBsaWNhdGU6IGRpc3BhdGNoLmR1cGxpY2F0ZSB9LAoJCXsgaGVhZGVyczogeyAnQ2FjaGUtQ29udHJvbCc6ICdwcml2YXRlLCBuby1zdG9yZScgfSB9LAoJKTsKfQo="},"session-ledger":{"path":".agents/contracts/session-state-ledger.md","lang":"md","truncated":true,"totalLines":245,"b64":"IyBTZXNzaW9uIFN0YXRlIExlZGdlciDigJQgQ2Fub25pY2FsIENvbnRyYWN0CgpTY29wZTogKip0aGlzIHJlcG9zaXRvcnkgb25seS4qKiBUaGlzIGlzIG5vdCBhIGdlbmVyYWwtcHVycG9zZSBhZ2VudApwcmVmZXJlbmNlIOKAlCBpdCBnb3Zlcm5zIGhvdyBhbnkgYWdlbnQgc2Vzc2lvbiBpbiBgZHRjLXN0YXJ0ZXJgIHRyYWNrcyBnYXRlCnN0YXRlLCBodW1hbiBkZWNpc2lvbnMsIGFuZCBHaXQgYXV0aG9yaXphdGlvbiBhY3Jvc3MgYSBtdWx0aS1yb3VuZCBCdWlsZGluZwpCbG9jayBleGVjdXRpb24uCgpBZG9wdGVkIDIwMjYtMDgtMDYgYWZ0ZXIgdGhlIEJCLTA0IEZpbyBWaXZvIGJhc2VsaW5lIGV4ZWN1dGlvbiwgd2hlcmUgdGhlCmdhdGUgc3RhdGUgKGBSRUFEWSBGT1IgSFVNQU4gVklTVUFMIEFQUFJPVkFMYCDihpIgYEhVTUFOIEFQUFJPVkVEYCDihpIKYEdJVCBBVVRIT1JJWkVEYCkgaGFkIHRvIGJlIHJlLWRlcml2ZWQgZnJvbSBjb252ZXJzYXRpb24gY29udGV4dCBvbiBldmVyeQp0dXJuLiBUaGlzIGNvbnRyYWN0IHJlcGxhY2VzIHRoYXQgcmUtZGVyaXZhdGlvbiB3aXRoIGFuIGV4cGxpY2l0LCB2ZXJzaW9uZWQKcmVjb3JkLgoKIyMgMS4gUHVycG9zZQoKQW4gYWdlbnQgd29ya2luZyBhIEJ1aWxkaW5nIEJsb2NrIGFjcm9zcyBzZXZlcmFsIHR1cm5zIGFjY3VtdWxhdGVzIHN0YXRlCnRoYXQgaXMgZWFzeSB0byBsb3NlIHRyYWNrIG9mOiB3aGF0J3MgYXBwcm92ZWQsIHdoYXQncyBtZXJlbHkgcHJvcG9zZWQsCndoYXQgR2l0IG9wZXJhdGlvbnMgYXJlIGN1cnJlbnRseSBhdXRob3JpemVkLCBhbmQgd2hhdCdzIHN0aWxsIGJsb2NrZWQuIFRoaXMKY29udHJhY3QgZGVmaW5lczoKCi0gdGhlICoqc2hhcGUqKiBvZiB0aGF0IHN0YXRlIChzZWUgW2BzZXNzaW9uLXN0YXRlLWxlZGdlci5zY2hlbWEueWFtbGBdKC4vc2Vzc2lvbi1zdGF0ZS1sZWRnZXIuc2NoZW1hLnlhbWwpKTsKLSAqKndoZW4qKiB0byByZWFkIGFuZCB3cml0ZSBpdDsKLSB0aGUgKipnYXRlIHRyYW5zaXRpb24gcnVsZXMqKiB0aGF0IHN0YXRlIG11c3Qgb2JleTsKLSB0aGUgKipwcmVjZWRlbmNlIG9yZGVyKiogZm9yIHJlc29sdmluZyBjb25mbGljdGluZyBpbnN0cnVjdGlvbnM7Ci0gYSAqKmJhdGNoLW11dGF0aW9uIHNhZmV0eSBwcm90b2NvbCoqIGZvciBoZXRlcm9nZW5lb3VzIGZpbGUgcGlwZWxpbmVzOwotICoqb3BlcmF0aW9uYWwgZWZmaWNpZW5jeSBydWxlcyoqIHRvIGJvdW5kIGludmVzdGlnYXRpb24gYW5kIHRvb2xpbmcgY2h1cm4uCgojIyAyLiBXaGVuIHRvIHJlYWQgYW5kIHdyaXRlIHRoZSBsZWRnZXIKCi0gKipSZWFkKiogdGhlIGN1cnJlbnQgbGVkZ2VyIHN0YXRlIGF0IHRoZSBzdGFydCBvZiBhbnkgc2Vzc2lvbiAob3IgdHVybikKICB0aGF0IHJlc3VtZXMgd29yayBvbiBhIEJ1aWxkaW5nIEJsb2NrIGFscmVhZHkgaW4gcHJvZ3Jlc3MsIGJlZm9yZSB0YWtpbmcKICBhbnkgYWN0aW9uLgotICoqV3JpdGUqKiAodXBkYXRlKSB0aGUgbGVkZ2VyIGltbWVkaWF0ZWx5IGFmdGVyIGFueSBnYXRlIHRyYW5zaXRpb24g4oCUCiAgYSBodW1hbiBkZWNpc2lvbiwgYSBjb21wbGV0ZWQgcXVhbGl0eSBnYXRlLCBhIEdpdCBvcGVyYXRpb24sIG9yIGEgbmV3CiAgYmxvY2tlciBiZWluZyBvcGVuZWQgb3IgcmVzb2x2ZWQuIERvIG5vdCBiYXRjaCBtdWx0aXBsZSB0cmFuc2l0aW9ucyBpbnRvCiAgb25lIGRlbGF5ZWQgdXBkYXRlLgotIFRoZSBsZWRnZXIgcmVmbGVjdHMgKipjdXJyZW50IHN0YXRlKiosIG5vdCBoaXN0b3J5LiBHaXQgaGlzdG9yeSwgdGhlIFBSLAogIGFuZCB0aGUgY2Fub25pY2FsIGV2aWRlbmNlIHJlcG9ydCBhcmUgdGhlIGF1ZGl0IHRyYWlsOyB0aGUgbGVkZ2VyIGlzIHRoZQogIGxpdmUgcG9pbnRlciBpbnRvIHRoYXQgdHJhaWwuCgojIyAzLiBXaGVyZSBsaXZlIHN0YXRlIGxpdmVzCgpUaGUgbGVkZ2VyJ3MgKnNoYXBlKiBpcyB2ZXJzaW9uZWQgYXQKW2BzZXNzaW9uLXN0YXRlLWxlZGdlci5zY2hlbWEueWFtbGBdKC4vc2Vzc2lvbi1zdGF0ZS1sZWRnZXIuc2NoZW1hLnlhbWwpLgpBIGJsYW5rLCByZWFkeS10by1jb3B5IGluc3RhbmNlIG9mIHRoYXQgc2hhcGUgbGl2ZXMgYXQKW2AuLi90ZW1wbGF0ZXMvc2Vzc2lvbi1zdGF0ZS1sZWRnZXIueWFtbGBdKC4uL3RlbXBsYXRlcy9zZXNzaW9uLXN0YXRlLWxlZGdlci55YW1sKS4KCkEgKipsaXZlIGxlZGdlciBwb3B1bGF0ZWQgd2l0aCByZWFsIHNlc3Npb24gZGF0YSBpcyBub3QgY29tbWl0dGVkIHRvIEdpdCoqCnVuZGVyIGVpdGhlciBvZiB0aG9zZSBwYXRocy4gU2Vzc2lvbiBzdGF0ZSBpcyB2b2xhdGlsZSBieSBuYXR1cmUgKGJyYW5jaApuYW1lcywgaW4tcHJvZ3Jlc3MgZ2F0ZSBzdGF0dXMsIHRpbWVzdGFtcHMpIGFuZCBkb2VzIG5vdCBiZWxvbmcgaW4gdmVyc2lvbgpjb250cm9sIGFzIGEgdHJhY2tlZCBmaWxlIHRoYXQgY2h1cm5zIGV2ZXJ5IHR1cm4uIFdoZW4gYSB0YXNrJ3MgYXVkaXQKcmVxdWlyZW1lbnRzIGNhbGwgZm9yIGEgcGVyc2lzdGVkLCBwb2ludC1pbi10aW1lIHNuYXBzaG90IG9mIHRoZSBsZWRnZXIKKGUuZy4gYXR0YWNoZWQgdG8gYSByZWxlYXNlKSwgd3JpdGUgaXQgYXMgYSBkYXRlZCBhcnRpZmFjdCB1bmRlciB0aGF0IHRhc2sncwpvd24gYXJ0aWZhY3QgZGlyZWN0b3J5IChmb3IgZXhhbXBsZSBgYXJ0aWZhY3RzL2JiLTA0L3Nlc3Npb24tc3RhdGUtKi55YW1sYCkK4oCUIG5ldmVyIHVuZGVyIGAuYWdlbnRzL2NvbnRyYWN0cy9gIG9yIGAuYWdlbnRzL3RlbXBsYXRlcy9gLgoKIyMgNC4gR2F0ZSBzdGF0ZXMgYW5kIHRyYW5zaXRpb24gcnVsZXMKCmBgYHRleHQKUkVBRFlfRk9SX0hVTUFOX0FQUFJPVkFMCiAgY29tbWl0OiAgICAgICAgZm9yYmlkZGVuCiAgcHVzaDogICAgICAgICAgZm9yYmlkZGVuCiAgcHVsbF9yZXF1ZXN0OiAgZm9yYmlkZGVuCgpIVU1BTl9BUFBST1ZFRAogIGJhc2VsaW5lX211dGF0aW9uOiAgZm9yYmlkZGVuCiAgZ2l0X29wZXJhdGlvbnM6ICAgICAgZGVwZW5kX29uX2V4cGxpY2l0X2F1dGhvcml6YXRpb24KCkdJVF9BVVRIT1JJWkVECiAgc3RhZ2U6ICAgICAgYWxsb3dlZF9ieV9hbGxvd2xpc3QKICBjb21taXQ6ICAgICBhbGxvd2VkCiAgcHVzaDogICAgICAgYWxsb3dlZAogIGRyYWZ0X3ByOiAgIGFsbG93ZWQKICBtZXJnZTogICAgICBmb3JiaWRkZW4KClBSX0NSRUFURUQKICBpbXBsZW1lbnRhdGlvbl9iYl9jb21wbGV0ZTogIHRydWUKICBuZXh0X2JiOiAgICAgICAgICAgICAgICAgICAgICBmb3JiaWRkZW5fdW50aWxfZXhwbGljaXRfYXV0aG9yaXphdGlvbgoKTUVSR0VfQVVUSE9SSVpFRAogIG1lcmdlOiAgYWxsb3dlZF9vbmx5X3doZW5fZXhwbGljaXRseV9ncmFudGVkCmBgYAoKQSByZWdpc3RlcmVkIHRyYW5zaXRpb24gKipjYW5ub3QgYmUgcmV2ZXJ0ZWQgYnkgaW5mZXJlbmNlLioqIFRoZSBhZ2VudCBtYXkKb25seSByZW9wZW4gYW4gYXBwcm92ZWQgZ2F0ZSB3aGVuIHRoZXJlIGlzOgoKLSBvYmplY3RpdmUgZXZpZGVuY2Ugb2YgcmVncmVzc2lvbiAoYSBxdWFsaXR5IGdhdGUgdGhhdCB3YXMgcGFzc2luZyBub3cKICBmYWlscywgb24gdGhlIHNhbWUgc3VyZmFjZSB0aGF0IHdhcyBhcHByb3ZlZCk7Ci0gYSBuZXcgdGVjaG5pY2FsIGNvbmZsaWN0IGRpc2NvdmVyZWQgYWZ0ZXIgYXBwcm92YWw7Ci0gYSBkZXN0cnVjdGl2ZSByaXNrIGlkZW50aWZpZWQgYWZ0ZXIgYXBwcm92YWw7"},"ge-types":{"path":"packages/gallery-experience/src/types/index.ts","lang":"ts","truncated":false,"totalLines":68,"b64":"ZXhwb3J0IGludGVyZmFjZSBHYWxsZXJ5SW1hZ2UgewogIHVybDogc3RyaW5nOwogIGFsdDogc3RyaW5nOwogIHdpZHRoPzogbnVtYmVyOwogIGhlaWdodD86IG51bWJlcjsKfQoKZXhwb3J0IGludGVyZmFjZSBHYWxsZXJ5U2NlbmUgewogIGlkOiBzdHJpbmc7CiAgaW1hZ2U6IEdhbGxlcnlJbWFnZTsKICBsYWJlbDogc3RyaW5nOwp9CgpleHBvcnQgaW50ZXJmYWNlIEdhbGxlcnlQcmljZSB7CiAgYW1vdW50OiBudW1iZXI7CiAgY3VycmVuY3lDb2RlOiBzdHJpbmc7CiAgZm9ybWF0dGVkOiBzdHJpbmc7CiAgb3JpZ2luYWxBbW91bnQ/OiBudW1iZXI7Cn0KCmV4cG9ydCB0eXBlIEdhbGxlcnlBdmFpbGFiaWxpdHkgPQogIHwgImF2YWlsYWJsZSIKICB8ICJsb3ctc3RvY2siCiAgfCAib3V0LW9mLXN0b2NrIgogIHwgInByZW9yZGVyIgogIHwgInVuYXZhaWxhYmxlIjsKCmV4cG9ydCBpbnRlcmZhY2UgR2FsbGVyeUl0ZW0gewogIGlkOiBzdHJpbmc7CiAgaGFuZGxlOiBzdHJpbmc7CiAgdGl0bGU6IHN0cmluZzsKICBjb250ZXh0dWFsTmFtZT86IHN0cmluZzsKICBkZXNjcmlwdGlvbj86IHN0cmluZzsKICBhcnRpc3Q/OiBzdHJpbmc7CiAgbWF0ZXJpYWw/OiBzdHJpbmc7CiAgY2F0ZWdvcnk/OiBzdHJpbmc7CiAgeWVhcj86IHN0cmluZyB8IG51bWJlcjsKICBwcmltYXJ5SW1hZ2U6IEdhbGxlcnlJbWFnZTsKICBzY2VuZXM6IEdhbGxlcnlTY2VuZVtdOwogIHByaWNlPzogR2FsbGVyeVByaWNlOwogIGF2YWlsYWJpbGl0eTogR2FsbGVyeUF2YWlsYWJpbGl0eTsKICBwcm9kdWN0VXJsOiBzdHJpbmc7CiAgdGFncz86IHN0cmluZ1tdOwogIGFtYmllbnRDb2xvcnM/OiByZWFkb25seSBbc3RyaW5nLCBzdHJpbmcsIHN0cmluZ107CiAgbWV0YWRhdGE/OiBSZWNvcmQ8c3RyaW5nLCB1bmtub3duPjsKfQoKZXhwb3J0IGludGVyZmFjZSBHYWxsZXJ5UHJvZ3Jlc3MgewogIGN1cnJlbnRJbmRleDogbnVtYmVyOwogIHRvdGFsSXRlbXM6IG51bWJlcjsKICBhY3RpdmVTY2VuZUlkPzogc3RyaW5nOwp9CgpleHBvcnQgaW50ZXJmYWNlIEdhbGxlcnlFeHBlcmllbmNlUHJvcHMgewogIGl0ZW1zOiBHYWxsZXJ5SXRlbVtdOwogIGNvbGxlY3Rpb25UaXRsZT86IHN0cmluZzsKICBjb2xsZWN0aW9uTnVtYmVyPzogc3RyaW5nOwogIGNvbGxlY3Rpb25OYXJyYXRpdmU/OiBzdHJpbmc7CiAgaW5pdGlhbEl0ZW1IYW5kbGU/OiBzdHJpbmc7CiAgbG9jYWxlPzogc3RyaW5nOwogIHJlZHVjZWRNb3Rpb24/OiBib29sZWFuOwogIG9uSXRlbVZpZXc/OiAoaXRlbTogR2FsbGVyeUl0ZW0sIGluZGV4OiBudW1iZXIpID0+IHZvaWQ7CiAgb25TY2VuZVZpZXc/OiAoaXRlbTogR2FsbGVyeUl0ZW0sIHNjZW5lOiBHYWxsZXJ5U2NlbmUpID0+IHZvaWQ7CiAgb25Qcm9kdWN0SW50ZW50PzogKGl0ZW06IEdhbGxlcnlJdGVtKSA9PiB2b2lkOwogIG9uU2hhcmU/OiAoaXRlbTogR2FsbGVyeUl0ZW0pID0+IHZvaWQ7CiAgb25Qcm9ncmVzc0NoYW5nZT86IChwcm9ncmVzczogR2FsbGVyeVByb2dyZXNzKSA9PiB2b2lkOwp9Cg=="},"ge-adapters":{"path":"packages/gallery-experience/src/adapters/medusa/map-store-product-to-gallery-item.ts","lang":"ts","truncated":true,"totalLines":133,"b64":"aW1wb3J0IHsgSHR0cFR5cGVzIH0gZnJvbSAiQG1lZHVzYWpzL3R5cGVzIjsKaW1wb3J0IHsKICBHYWxsZXJ5QXZhaWxhYmlsaXR5LAogIEdhbGxlcnlJbWFnZSwKICBHYWxsZXJ5SXRlbSwKICBHYWxsZXJ5UHJpY2UsCiAgR2FsbGVyeVNjZW5lLAp9IGZyb20gIi4uLy4uL3R5cGVzL2luZGV4IjsKCmV4cG9ydCBpbnRlcmZhY2UgR2FsbGVyeVByb2R1Y3RNZXRhZGF0YSB7CiAgc2NoZW1hVmVyc2lvbj86IG51bWJlcjsKICBjb250ZXh0dWFsTmFtZT86IHN0cmluZzsKICBhcnRpc3Q/OiBzdHJpbmc7CiAgbWF0ZXJpYWw/OiBzdHJpbmc7CiAgeWVhcj86IHN0cmluZyB8IG51bWJlcjsKICBzdG9yeT86IHN0cmluZzsKICBzY2VuZUltYWdlcz86IEFycmF5PHsKICAgIHVybDogc3RyaW5nOwogICAgYWx0Pzogc3RyaW5nOwogICAgbGFiZWw/OiBzdHJpbmc7CiAgfT47CiAgYW1iaWVudENvbG9ycz86IFtzdHJpbmcsIHN0cmluZywgc3RyaW5nXTsKICBkaXNwbGF5T3JkZXI/OiBudW1iZXI7CiAgZmVhdHVyZWQ/OiBib29sZWFuOwp9CgpleHBvcnQgZnVuY3Rpb24gbWFwU3RvcmVQcm9kdWN0VG9HYWxsZXJ5SXRlbSgKICBwcm9kdWN0OiBIdHRwVHlwZXMuU3RvcmVQcm9kdWN0LAogIGNvdW50cnlDb2RlOiBzdHJpbmcgPSAiZGsiCik6IEdhbGxlcnlJdGVtIHsKICBjb25zdCBtZXRhZGF0YSA9IChwcm9kdWN0Lm1ldGFkYXRhPy5nYWxsZXJ5IHx8IHt9KSBhcyBHYWxsZXJ5UHJvZHVjdE1ldGFkYXRhOwoKICAvLyBQcmltYXJ5IEltYWdlIEZhbGxiYWNrIFBvbGljeQogIGNvbnN0IHByaW1hcnlJbWFnZVVybCA9CiAgICBwcm9kdWN0LnRodW1ibmFpbCB8fAogICAgcHJvZHVjdC5pbWFnZXM/LlswXT8udXJsIHx8CiAgICAiaHR0cHM6Ly92aWEucGxhY2Vob2xkZXIuY29tLzgwMHgxMDAwP3RleHQ9Tm8rSW1hZ2UiOwoKICBjb25zdCBwcmltYXJ5SW1hZ2U6IEdhbGxlcnlJbWFnZSA9IHsKICAgIHVybDogcHJpbWFyeUltYWdlVXJsLAogICAgYWx0OiBwcm9kdWN0LnRpdGxlIHx8ICJQcm9kdWN0IGltYWdlIiwKICB9OwoKICAvLyBTY2VuZXMgbWFwcGluZyBmcm9tIHByb2R1Y3QuaW1hZ2VzIG9yIG1ldGFkYXRhLnNjZW5lSW1hZ2VzCiAgY29uc3Qgc2NlbmVzOiBHYWxsZXJ5U2NlbmVbXSA9IFtdOwogIGlmIChtZXRhZGF0YS5zY2VuZUltYWdlcyAmJiBBcnJheS5pc0FycmF5KG1ldGFkYXRhLnNjZW5lSW1hZ2VzKSkgewogICAgbWV0YWRhdGEuc2NlbmVJbWFnZXMuZm9yRWFjaCgoaW1nLCBpZHgpID0+IHsKICAgICAgc2NlbmVzLnB1c2goewogICAgICAgIGlkOiBgc2NlbmUtJHtpZHh9YCwKICAgICAgICBpbWFnZTogewogICAgICAgICAgdXJsOiBpbWcudXJsLAogICAgICAgICAgYWx0OiBpbWcuYWx0IHx8IGAke3Byb2R1Y3QudGl0bGV9IHNjZW5lICR7aWR4ICsgMX1gLAogICAgICAgIH0sCiAgICAgICAgbGFiZWw6IGltZy5sYWJlbCB8fCBgU2NlbmUgJHtpZHggKyAxfWAsCiAgICAgIH0pOwogICAgfSk7CiAgfSBlbHNlIGlmIChwcm9kdWN0LmltYWdlcyAmJiBwcm9kdWN0LmltYWdlcy5sZW5ndGggPiAxKSB7CiAgICBwcm9kdWN0LmltYWdlcy5zbGljZSgxKS5mb3JFYWNoKChpbWcsIGlkeCkgPT4gewogICAgICBzY2VuZXMucHVzaCh7CiAgICAgICAgaWQ6IGBpbWctJHtpbWcuaWQgfHwgaWR4fWAsCiAgICAgICAgaW1hZ2U6IHsKICAgICAgICAgIHVybDogaW1nLnVybCwKICAgICAgICAgIGFsdDogYCR7cHJvZHVjdC50aXRsZX0gYW5nbGUgJHtpZHggKyAyfWAsCiAgICAgICAgfSwKICAgICAgICBsYWJlbDogYFZpZXcgJHtpZHggKyAyfWAsCiAgICAgIH0pOwogICAgfSk7CiAgfQoKICAvLyBQcmljZSBDYWxjdWxhdGlvbiBQb2xpY3kKICBsZXQgcHJpY2U6IEdhbGxlcnlQcmljZSB8IHVuZGVmaW5lZDsKICBjb25zdCBmaXJzdFZhcmlhbnQgPSBwcm9kdWN0LnZhcmlhbnRzPy5bMF07CiAgaWYgKGZpcnN0VmFyaWFudD8uY2FsY3VsYXRlZF9wcmljZSkgewogICAgY29uc3QgY2FsYyA9IGZpcnN0VmFyaWFudC5jYWxjdWxhdGVkX3ByaWNlOwogICAgY29uc3QgYW1vdW50ID0gY2FsYy5jYWxjdWxhdGVkX2Ftb3VudCA/PyAwOwogICAgY29uc3QgY3VycmVuY3lDb2RlID0gKGNhbGMuY3VycmVuY3lfY29kZSB8fCAiZXVyIikudG9VcHBlckNhc2UoKTsKICAgIGNvbnN0IGZvcm1hdHRlZCA9IG5ldyBJbnRsLk51bWJlckZvcm1hdChjb3VudHJ5Q29kZSB8fCAiZW4tVVMiLCB7CiAgICAgIHN0eWxlOiAiY3VycmVuY3kiLAogICAgICBjdXJyZW5jeTogY3VycmVuY3lDb2RlLAogICAgfSkuZm9ybWF0KGFtb3VudCk7CgogICAgcHJpY2UgPSB7CiAgICAgIGFtb3VudCwKICAgICAgY3VycmVuY3lDb2RlLAogICAgICBmb3JtYXR0ZWQsCiAgICB9OwogIH0KCiAgLy8gQXZhaWxhYmlsaXR5IFBvbGljeQogIGxldCBhdmFpbGFiaWxpdHk6IEdhbGxlcnlBdmFpbGFiaWxpdHkgPSAiYXZhaWxhYmxlIjs="}};
+var GROUP_ANCHORS = {
+  core:[0,0], apps:[-40,-260], backend:[-460,-420], backendapi:[-620,-560],
+  storefront:[260,-380], sfrouter:[440,-520], sfmodules:[500,-200],
+  galleryhero:[640,-80], nosgallery:[560,-340], ngroutes:[740,-420],
+  packages:[-280,220], galleryexp:[-460,320], docs:[280,300], fiovivo:[440,420],
+  artifacts:[180,460], agentssub:[-40,540], contracts:[-180,600], config:[-320,-60],
+  codegraphgrp:[0,-420]
+};
+var NODES = [
+  {id:'root',label:'dtc-starter',type:'hub',group:'core',parent:null,summary:'Turborepo monorepo — Medusa backend + Next.js 15.5 storefront, forked for the Fio Vivo project.'},
+  {id:'apps',label:'apps/',type:'hub',group:'apps',parent:'root',summary:'Deployable applications: Medusa backend and Next.js storefront.'},
+  {id:'packages',label:'packages/',type:'hub',group:'packages',parent:'root',summary:'Shared workspace packages consumed by apps.'},
+  {id:'docs',label:'docs/',type:'hub',group:'docs',parent:'root',summary:'Fio Vivo 360 program documentation and executive artifacts.'},
+  {id:'agents',label:'.agents/',type:'hub',group:'agentssub',parent:'root',summary:'Agent infrastructure: hooks, skill packs, contracts.'},
+  {id:'config',label:'root config',type:'hub',group:'config',parent:'root',summary:'Workspace and tooling configuration at the repo root.'},
+  {id:'codegraph',label:'CodeGraph index',type:'index',group:'codegraphgrp',parent:'root',summary:'Local SQLite symbol index: 465 files, 3,751 nodes, 6,942 edges.'},
+  {id:'backend',label:'apps/backend',type:'app',group:'apps',parent:'apps',summary:'@dtc/backend — Medusa 2.18.0, Node 20+, PostgreSQL 15+.'},
+  {id:'storefront',label:'apps/storefront',type:'app',group:'apps',parent:'apps',summary:'@dtc/storefront — Next.js 15.5 with Turbopack, port 8000.'},
+  {id:'backend-admin',label:'admin',type:'module',group:'backend',parent:'backend',summary:'Admin dashboard extensions: widgets, i18n, routes.'},
+  {id:'backend-api',label:'api',type:'module',group:'backend',parent:'backend',summary:'File-based API routes: api/store/*, api/admin/*.'},
+  {id:'backend-jobs',label:'jobs',type:'module',group:'backend',parent:'backend',summary:'Scheduled jobs.'},
+  {id:'backend-links',label:'links',type:'module',group:'backend',parent:'backend',summary:'Module links between Medusa modules.'},
+  {id:'backend-migrations',label:'migration-scripts',type:'module',group:'backend',parent:'backend',summary:'Data migration scripts (initial-data-seed.ts).'},
+  {id:'backend-modules',label:'modules (scaffold)',type:'module',group:'backend',parent:'backend',summary:'Custom modules scaffold — currently empty, README only.'},
+  {id:'backend-subscribers',label:'subscribers',type:'module',group:'backend',parent:'backend',summary:'Event subscribers.'},
+  {id:'backend-workflows',label:'workflows (scaffold)',type:'module',group:'backend',parent:'backend',summary:'Workflows and workflow steps — currently empty, README only.'},
+  {id:'backend-config',label:'medusa-config.ts',type:'config',group:'backend',parent:'backend',summary:'DB URL, CORS, secrets, modules.',file:'backend-config'},
+  {id:'api-store-custom',label:'api/store/custom',type:'route',group:'backendapi',parent:'backend-api',summary:'apps/backend/src/api/store/custom/route.ts',file:'api-store-custom'},
+  {id:'api-admin-custom',label:'api/admin/custom',type:'route',group:'backendapi',parent:'backend-api',summary:'apps/backend/src/api/admin/custom/route.ts',file:'api-admin-custom'},
+  {id:'sf-app-router',label:'app/',type:'module',group:'storefront',parent:'storefront',summary:'Next.js App Router pages.'},
+  {id:'sf-modules',label:'modules/',type:'module',group:'storefront',parent:'storefront',summary:'14 feature modules.'},
+  {id:'sf-lib',label:'lib/',type:'module',group:'storefront',parent:'storefront',summary:'Shared utilities and config.'},
+  {id:'sf-styles',label:'styles/',type:'module',group:'storefront',parent:'storefront',summary:'Global styles.'},
+  {id:'sf-middleware',label:'middleware.ts',type:'config',group:'storefront',parent:'storefront',summary:'Next.js middleware.',file:'sf-middleware'},
+  {id:'route-main',label:'/:countryCode/(main)',type:'route',group:'sfrouter',parent:'sf-app-router',summary:'Storefront home route.',file:'route-main'},
+  {id:'route-cart',label:'/:countryCode/(main)/cart',type:'route',group:'sfrouter',parent:'sf-app-router',summary:'Cart page.',file:'route-cart'},
+  {id:'route-store',label:'/:countryCode/(main)/store',type:'route',group:'sfrouter',parent:'sf-app-router',summary:'Store / catalog page.',file:'route-store'},
+  {id:'route-checkout',label:'/:countryCode/(checkout)/checkout',type:'route',group:'sfrouter',parent:'sf-app-router',summary:'Multi-step checkout.',file:'route-checkout'},
+  {id:'mod-account',label:'account',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Customer accounts, order history, address management.'},
+  {id:'mod-cart',label:'cart',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Cart drawer/page, line items, promotion codes.'},
+  {id:'mod-categories',label:'categories',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Product category listing and filtering.'},
+  {id:'mod-checkout',label:'checkout',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Shipping, payment, review steps.'},
+  {id:'mod-collections',label:'collections',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Curated product collections.'},
+  {id:'mod-common',label:'common',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Shared UI primitives and icons.'},
+  {id:'mod-home',label:'home',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Landing page, featured products, hero.'},
+  {id:'mod-layout',label:'layout',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Nav, footer, shared page chrome.'},
+  {id:'mod-nos-gallery',label:'nos-gallery',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Canonical gallery module — embeds a nested app.'},
+  {id:'mod-order',label:'order',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Order confirmation, detail, transfer.'},
+  {id:'mod-products',label:'products',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Product listing, PDP, variant selection.'},
+  {id:'mod-shipping',label:'shipping',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Shipping option selection.'},
+  {id:'mod-skeletons',label:'skeletons',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Loading-state placeholders.'},
+  {id:'mod-store',label:'store',type:'module',group:'sfmodules',parent:'sf-modules',summary:'Product grid entry point.'},
+  {id:'gallery-hero',label:'home/gallery-hero',type:'module',group:'galleryhero',parent:'mod-home',summary:'Fio Vivo gallery hero: product fixtures, analytics, feature flags, Medusa adapter.'},
+  {id:'nos-gallery-repo',label:'nos-gallery (nested app)',type:'app',group:'nosgallery',parent:'mod-nos-gallery',summary:'179 indexed files — its own .git, AGENTS.md and skill pack.'},
+  {id:'ng-route-root',label:'/',type:'route',group:'ngroutes',parent:'nos-gallery-repo',summary:'nos-gallery/app/page.tsx',file:'ng-route-root'},
+  {id:'ng-route-privacidade',label:'/privacidade',type:'route',group:'ngroutes',parent:'nos-gallery-repo',summary:'nos-gallery/app/privacidade/page.tsx',file:'ng-route-privacidade'},
+  {id:'ng-api-health',label:'/api/health',type:'route',group:'ngroutes',parent:'nos-gallery-repo',summary:'nos-gallery/app/api/health/route.ts',file:'ng-api-health'},
+  {id:'ng-api-artworks',label:'/api/v1/artworks',type:'route',group:'ngroutes',parent:'nos-gallery-repo',summary:'nos-gallery/app/api/v1/artworks/route.ts',file:'ng-api-artworks'},
+  {id:'ng-api-artworks-code',label:'/api/v1/artworks/[code]',type:'route',group:'ngroutes',parent:'nos-gallery-repo',summary:'nos-gallery/app/api/v1/artworks/[code]/route.ts',file:'ng-api-artworks-code'},
+  {id:'ng-api-webhook-clerk',label:'/api/webhooks/clerk',type:'route',group:'ngroutes',parent:'nos-gallery-repo',summary:'nos-gallery/app/api/webhooks/clerk/route.ts',file:'ng-api-webhook-clerk'},
+  {id:'ng-api-inquiry',label:'/api/internal/inquiry-notifications',type:'route',group:'ngroutes',parent:'nos-gallery-repo',summary:'nos-gallery/app/api/internal/inquiry-notifications/route.ts',file:'ng-api-inquiry'},
+  {id:'gallery-experience',label:'@dtc/gallery-experience',type:'package',group:'galleryexp',parent:'packages',summary:'16 files — isolated editorial gallery presentation module.'},
+  {id:'ge-adapters',label:'adapters/medusa',type:'module',group:'galleryexp',parent:'gallery-experience',summary:'mapStoreProductToGalleryItem.',file:'ge-adapters'},
+  {id:'ge-components',label:'components',type:'module',group:'galleryexp',parent:'gallery-experience',summary:'artwork-card, gallery-ambient, gallery-experience.'},
+  {id:'ge-i18n',label:'i18n',type:'module',group:'galleryexp',parent:'gallery-experience',summary:'dictionary.ts.'},
+  {id:'ge-types',label:'types',type:'module',group:'galleryexp',parent:'gallery-experience',summary:'GalleryItem, GalleryScene, GalleryPrice, GalleryAvailability.',file:'ge-types'},
+  {id:'docs-fio-vivo',label:'fio-vivo/',type:'doc',group:'docs',parent:'docs',summary:'Strategic docs: discovery through analytics.'},
+  {id:'docs-artifacts',label:'artifacts/',type:'doc',group:'docs',parent:'docs',summary:'Executive artifacts and audit reports.'},
+  {id:'fv-discovery',label:'00-discovery',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/00-discovery'},
+  {id:'fv-product',label:'01-product',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/01-product'},
+  {id:'fv-design',label:'02-design',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/02-design'},
+  {id:'fv-pricing',label:'03-pricing',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/03-pricing'},
+  {id:'fv-growth',label:'04-growth',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/04-growth'},
+  {id:'fv-tech',label:'05-technology',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/05-technology'},
+  {id:'fv-i18n',label:'06-internationalization',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/06-internationalization'},
+  {id:'fv-analytics',label:'07-analytics',type:'doc',group:'fiovivo',parent:'docs-fio-vivo',summary:'docs/fio-vivo/07-analytics'},
+  {id:'art-360',label:'fio-vivo-360',type:'doc',group:'artifacts',parent:'docs-artifacts',summary:'Decision log, gate table, next actions, executive summary.'},
+  {id:'art-bb04',label:'bb-04',type:'doc',group:'artifacts',parent:'docs-artifacts',summary:'Visual evidence and runtime measurement reports.'},
+  {id:'ag-hooks',label:'hooks.json',type:'agent',group:'agentssub',parent:'agents',summary:'PreToolUse and Stop hooks — firewall + stop gate.'},
+  {id:'ag-scripts',label:'scripts/',type:'agent',group:'agentssub',parent:'agents',summary:'PowerShell firewall / stop-gate enforcement.'},
+  {id:'ag-skills',label:'skills/',type:'agent',group:'agentssub',parent:'agents',summary:'Canonical skill definitions.'},
+  {id:'ag-ollama-pack',label:'ollama-superpowers-pack',type:'agent',group:'agentssub',parent:'agents',summary:'Model intelligence, agents, evals (Python, tested).'},
+  {id:'ag-contracts',label:'contracts/',type:'agent',group:'agentssub',parent:'agents',summary:'Agent contracts.'},
+  {id:'ag-nos-gallery-skills',label:'nos-gallery-canonical-skills-205',type:'agent',group:'agentssub',parent:'agents',summary:'nos-gallery skill pack.'},
+  {id:'ag-product-lifecycle-skills',label:'product-lifecycle-canonical-skills-315',type:'agent',group:'agentssub',parent:'agents',summary:'Product lifecycle skill pack.'},
+  {id:'session-ledger',label:'Session State Ledger',type:'agent',group:'contracts',parent:'ag-contracts',summary:'Governs multi-turn Building Block execution in this repo.',file:'session-ledger'},
+  {id:'cfg-turbo',label:'turbo.json',type:'config',group:'config',parent:'config',summary:'Task graph: build, dev, start, lint, test, seed.',file:'cfg-turbo'},
+  {id:'cfg-pnpm-workspace',label:'pnpm-workspace.yaml',type:'config',group:'config',parent:'config',summary:'Workspace globs: apps/**, packages/**.',file:'cfg-pnpm-workspace'},
+  {id:'cfg-eslint',label:'eslint.config.ts',type:'config',group:'config',parent:'config',summary:'@medusajs/eslint-plugin recommended.',file:'cfg-eslint'},
+  {id:'cfg-docker',label:'docker-compose.yml',type:'config',group:'config',parent:'config',summary:'PostgreSQL + supporting services.',file:'cfg-docker'},
+  {id:'cfg-playwright',label:'playwright.config.ts',type:'config',group:'config',parent:'config',summary:'Root-level e2e config.',file:'cfg-playwright'},
+  {id:'cfg-package',label:'package.json',type:'config',group:'config',parent:'config',summary:'packageManager pinned to pnpm@10.11.1.',file:'cfg-package'}
+];
+var DEEP_NODES = [{"id":"ag-hooks-fio-vivo-pretool-firewall-pretooluse","label":"fio-vivo-pretool-firewall · PreToolUse","type":"config","parent":"ag-hooks","summary":"PreToolUse hook — runs `.agents/scripts/pretool-firewall.ps1` (matcher: run_command|write_to_file|replace_file_content|multi_replace_file_content)","group":"agentssub","deep":true},{"id":"ag-hooks-fio-vivo-stop-gate-stop","label":"fio-vivo-stop-gate · Stop","type":"config","parent":"ag-hooks","summary":"Stop hook — runs `.agents/scripts/stop-gate.ps1`","group":"agentssub","deep":true},{"id":"ag-scripts-pretool-firewall-ps1","label":"pretool-firewall.ps1","type":"config","parent":"ag-scripts","summary":".agents/scripts/pretool-firewall.ps1","group":"agentssub","deep":true},{"id":"ag-scripts-stop-gate-ps1","label":"stop-gate.ps1","type":"config","parent":"ag-scripts","summary":".agents/scripts/stop-gate.ps1","group":"agentssub","deep":true},{"id":"ag-skills-web-design-guidelines","label":"web-design-guidelines","type":"agent","parent":"ag-skills","summary":".agents/skills/web-design-guidelines","group":"agentssub","deep":true},{"id":"ag-skills-web-design-guidelines-skill-md","label":"SKILL.md","type":"doc","parent":"ag-skills-web-design-guidelines","summary":".agents/skills/web-design-guidelines/SKILL.md","group":"agentssub","deep":true},{"id":"ag-templates","label":"templates/","type":"agent","parent":"agents","summary":"Blank, ready-to-copy instances of canonical schemas.","group":"agentssub","deep":false},{"id":"ag-templates-session-state-ledger-yaml","label":"session-state-ledger.yaml","type":"config","parent":"ag-templates","summary":".agents/templates/session-state-ledger.yaml","group":"agentssub","deep":true},{"id":"ag-contracts-nos-gallery-first-fold-yaml","label":"nos-gallery-first-fold.yaml","type":"config","parent":"ag-contracts","summary":".agents/contracts/nos-gallery-first-fold.yaml","group":"agentssub","deep":true},{"id":"ag-contracts-session-state-ledger-schema-yaml","label":"session-state-ledger.schema.yaml","type":"config","parent":"ag-contracts","summary":".agents/contracts/session-state-ledger.schema.yaml","group":"agentssub","deep":true},{"id":"ag-fio-vivo-rug","label":"fio-vivo-antigravity-rug-pack","type":"agent","parent":"agents","summary":"Fio Vivo anti-gravity-rug capability pack — a self-contained agent bundle with its own hooks and 7 specialized sub-agents.","group":"agentssub","deep":false},{"id":"ag-fvr-readme-md","label":"README.md","type":"doc","parent":"ag-fio-vivo-rug","summary":"fio-vivo-antigravity-rug-pack/README.md","group":"agentssub","deep":true},{"id":"ag-fvr-hooks","label":"hooks.json","type":"config","parent":"ag-fio-vivo-rug","summary":"fio-vivo-antigravity-rug-pack/.agents/hooks.json (nested firewall + stop-gate)","group":"agentssub","deep":true},{"id":"ag-fvr-scripts","label":"scripts/","type":"module","parent":"ag-fio-vivo-rug","summary":"fio-vivo-antigravity-rug-pack/.agents/scripts — 2 PowerShell enforcement scripts","group":"agentssub","deep":true},{"id":"ag-fvr-scripts-pretool-firewall-ps1","label":"pretool-firewall.ps1","type":"config","parent":"ag-fvr-scripts","summary":"fio-vivo-antigravity-rug-pack/.agents/scripts/pretool-firewall.ps1","group":"agentssub","deep":true},{"id":"ag-fvr-scripts-stop-gate-ps1","label":"stop-gate.ps1","type":"config","parent":"ag-fvr-scripts","summary":"fio-vivo-antigravity-rug-pack/.agents/scripts/stop-gate.ps1","group":"agentssub","deep":true},{"id":"ag-fvr-agents","label":"agents/","type":"module","parent":"ag-fio-vivo-rug","summary":"fio-vivo-antigravity-rug-pack/.agents/agents — 7 specialized sub-agents for the BB03 CSS pipeline","group":"agentssub","deep":true},{"id":"ag-fvr-agents-bb03-css-implementer","label":"bb03-css-implementer","type":"agent","parent":"ag-fvr-agents","summary":"fio-vivo-antigravity-rug-pack/.agents/agents/bb03-css-implementer","group":"agentssub","deep":true},{"id":"ag-fvr-agents-bb03-css-spec","label":"bb03-css-spec","type":"agent","parent":"ag-fvr-agents","summary":"fio-vivo-antigravity-rug-pack/.agents/agents/bb03-css-spec","group":"agentssub","deep":true},{"id":"ag-fvr-agents-bb03-css-validator","label":"bb03-css-validator","type":"agent","parent":"ag-fvr-agents","summary":"fio-vivo-antigravity-rug-pack/.agents/agents/bb03-css-validator","group":"agentssub","deep":true},{"id":"ag-fvr-agents-build-verifier","label":"build-verifier","type":"agent","parent":"ag-fvr-agents","summary":"fio-vivo-antigravity-rug-pack/.agents/agents/build-verifier","group":"agentssub","deep":true},{"id":"ag-fvr-agents-fio-vivo-rug","label":"fio-vivo-rug","type":"agent","parent":"ag-fvr-agents","summary":"fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug","group":"agentssub","deep":true},{"id":"ag-fvr-agents-repo-guardian","label":"repo-guardian","type":"agent","parent":"ag-fvr-agents","summary":"fio-vivo-antigravity-rug-pack/.agents/agents/repo-guardian","group":"agentssub","deep":true},{"id":"ag-fvr-agents-visual-auditor","label":"visual-auditor","type":"agent","parent":"ag-fvr-agents","summary":"fio-vivo-antigravity-rug-pack/.agents/agents/visual-auditor","group":"agentssub","deep":true},{"id":"ag-ngs-readme-md","label":"README.md","type":"doc","parent":"ag-nos-gallery-skills","summary":"nos-gallery-canonical-skills-205/README.md","group":"agentssub","deep":true},{"id":"ag-ngs-manifest","label":"manifest/","type":"module","parent":"ag-nos-gallery-skills","summary":"nos-gallery-canonical-skills-205/manifest — 5 generated index files","group":"agentssub","deep":true},{"id":"ag-ngs-manifest-domain-summary-json","label":"domain-summary.json","type":"config","parent":"ag-ngs-manifest","summary":"nos-gallery-canonical-skills-205/manifest/domain-summary.json","group":"agentssub","deep":true},{"id":"ag-ngs-manifest-integrity-report-json","label":"integrity-report.json","type":"config","parent":"ag-ngs-manifest","summary":"nos-gallery-canonical-skills-205/manifest/integrity-report.json","group":"agentssub","deep":true},{"id":"ag-ngs-manifest-package-summary-json","label":"package-summary.json","type":"config","parent":"ag-ngs-manifest","summary":"nos-gallery-canonical-skills-205/manifest/package-summary.json","group":"agentssub","deep":true},{"id":"ag-ngs-manifest-skills-csv","label":"skills.csv","type":"config","parent":"ag-ngs-manifest","summary":"nos-gallery-canonical-skills-205/manifest/skills.csv","group":"agentssub","deep":true},{"id":"ag-ngs-manifest-skills-json","label":"skills.json","type":"config","parent":"ag-ngs-manifest","summary":"nos-gallery-canonical-skills-205/manifest/skills.json","group":"agentssub","deep":true},{"id":"ag-ngs-skills","label":"skills/","type":"module","parent":"ag-nos-gallery-skills","summary":"nos-gallery-canonical-skills-205/skills — 8 domain packs covering the nos-gallery frontend","group":"agentssub","deep":true},{"id":"ag-ngs-skills-01-web-runtime","label":"01-web-runtime","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/01-web-runtime (26 files)","group":"agentssub","deep":true},{"id":"ag-ngs-skills-02-identity-auth","label":"02-identity-auth","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/02-identity-auth (14 files)","group":"agentssub","deep":true},{"id":"ag-ngs-skills-03-data-contracts-forms","label":"03-data-contracts-forms","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/03-data-contracts-forms (36 files)","group":"agentssub","deep":true},{"id":"ag-ngs-skills-04-radix-ui","label":"04-radix-ui","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/04-radix-ui (65 files)","group":"agentssub","deep":true},{"id":"ag-ngs-skills-05-styles-themes-css","label":"05-styles-themes-css","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/05-styles-themes-css (36 files)","group":"agentssub","deep":true},{"id":"ag-ngs-skills-06-interaction-visualization-ux","label":"06-interaction-visualization-ux","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/06-interaction-visualization-ux (43 files)","group":"agentssub","deep":true},{"id":"ag-ngs-skills-07-analytics-performance","label":"07-analytics-performance","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/07-analytics-performance (11 files)","group":"agentssub","deep":true},{"id":"ag-ngs-skills-08-quality-engineering","label":"08-quality-engineering","type":"agent","parent":"ag-ngs-skills","summary":"nos-gallery-canonical-skills-205/skills/08-quality-engineering (54 files)","group":"agentssub","deep":true},{"id":"ag-ngs-templates","label":"templates/","type":"module","parent":"ag-nos-gallery-skills","summary":"nos-gallery-canonical-skills-205/templates","group":"agentssub","deep":true},{"id":"ag-ngs-templates-orchestration-skill-template-md","label":"orchestration-skill-template.md","type":"doc","parent":"ag-ngs-templates","summary":"nos-gallery-canonical-skills-205/templates/orchestration-skill-template.md","group":"agentssub","deep":true},{"id":"ag-plc-readme-md","label":"README.md","type":"doc","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/README.md","group":"agentssub","deep":true},{"id":"ag-plc-checksums","label":"checksums/","type":"module","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/checksums","group":"agentssub","deep":true},{"id":"ag-plc-checksums-sha256sums-txt","label":"SHA256SUMS.txt","type":"config","parent":"ag-plc-checksums","summary":"product-lifecycle-canonical-skills-315/checksums/SHA256SUMS.txt","group":"agentssub","deep":true},{"id":"ag-plc-docs","label":"docs/","type":"module","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/docs — pack-level model documentation","group":"agentssub","deep":true},{"id":"ag-plc-docs-lifecycle-model-md","label":"LIFECYCLE_MODEL.md","type":"doc","parent":"ag-plc-docs","summary":"product-lifecycle-canonical-skills-315/docs/LIFECYCLE_MODEL.md","group":"agentssub","deep":true},{"id":"ag-plc-docs-quality-model-md","label":"QUALITY_MODEL.md","type":"doc","parent":"ag-plc-docs","summary":"product-lifecycle-canonical-skills-315/docs/QUALITY_MODEL.md","group":"agentssub","deep":true},{"id":"ag-plc-docs-usage-md","label":"USAGE.md","type":"doc","parent":"ag-plc-docs","summary":"product-lifecycle-canonical-skills-315/docs/USAGE.md","group":"agentssub","deep":true},{"id":"ag-plc-manifest","label":"manifest/","type":"module","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/manifest — 8 generated index files","group":"agentssub","deep":true},{"id":"ag-plc-manifest-capability-packs-json","label":"capability-packs.json","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/capability-packs.json","group":"agentssub","deep":true},{"id":"ag-plc-manifest-domain-summary-csv","label":"domain-summary.csv","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/domain-summary.csv","group":"agentssub","deep":true},{"id":"ag-plc-manifest-domains-json","label":"domains.json","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/domains.json","group":"agentssub","deep":true},{"id":"ag-plc-manifest-integrity-report-json","label":"integrity-report.json","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/integrity-report.json","group":"agentssub","deep":true},{"id":"ag-plc-manifest-lifecycle-coverage-csv","label":"lifecycle-coverage.csv","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/lifecycle-coverage.csv","group":"agentssub","deep":true},{"id":"ag-plc-manifest-orchestrations-json","label":"orchestrations.json","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/orchestrations.json","group":"agentssub","deep":true},{"id":"ag-plc-manifest-skills-csv","label":"skills.csv","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/skills.csv","group":"agentssub","deep":true},{"id":"ag-plc-manifest-skills-json","label":"skills.json","type":"config","parent":"ag-plc-manifest","summary":"product-lifecycle-canonical-skills-315/manifest/skills.json","group":"agentssub","deep":true},{"id":"ag-plc-orchestrations","label":"orchestrations/","type":"module","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/orchestrations — 24 cross-domain playbooks","group":"agentssub","deep":true},{"id":"ag-plc-orch-accessibility-by-design","label":"accessibility-by-design","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/accessibility-by-design (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-compliance-readiness","label":"compliance-readiness","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/compliance-readiness (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-concept-to-mvp","label":"concept-to-mvp","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/concept-to-mvp (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-customer-feedback-loop","label":"customer-feedback-loop","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/customer-feedback-loop (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-data-product-lifecycle","label":"data-product-lifecycle","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/data-product-lifecycle (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-design-to-production","label":"design-to-production","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/design-to-production (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-documentation-as-product","label":"documentation-as-product","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/documentation-as-product (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-experiment-to-decision","label":"experiment-to-decision","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/experiment-to-decision (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-full-stack-product-review","label":"full-stack-product-review","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/full-stack-product-review (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-incident-to-prevention","label":"incident-to-prevention","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/incident-to-prevention (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-international-market-expansion","label":"international-market-expansion","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/international-market-expansion (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-legacy-modernization","label":"legacy-modernization","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/legacy-modernization (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-operational-readiness","label":"operational-readiness","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/operational-readiness (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-performance-engineering-lifecycle","label":"performance-engineering-lifecycle","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/performance-engineering-lifecycle (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-platform-scalability-review","label":"platform-scalability-review","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/platform-scalability-review (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-product-cost-optimization","label":"product-cost-optimization","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/product-cost-optimization (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-product-discovery-to-delivery","label":"product-discovery-to-delivery","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/product-discovery-to-delivery (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-product-portfolio-governance","label":"product-portfolio-governance","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/product-portfolio-governance (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-product-sunset","label":"product-sunset","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/product-sunset (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-release-readiness","label":"release-readiness","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/release-readiness (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-requirements-to-architecture","label":"requirements-to-architecture","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/requirements-to-architecture (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-secure-feature-delivery","label":"secure-feature-delivery","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/secure-feature-delivery (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-technical-debt-governance","label":"technical-debt-governance","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/technical-debt-governance (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-orch-third-party-integration-lifecycle","label":"third-party-integration-lifecycle","type":"agent","parent":"ag-plc-orchestrations","summary":"product-lifecycle-canonical-skills-315/orchestrations/third-party-integration-lifecycle (1 files)","group":"agentssub","deep":true},{"id":"ag-plc-schemas","label":"schemas/","type":"module","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/schemas","group":"agentssub","deep":true},{"id":"ag-plc-schemas-skill-schema-json","label":"skill.schema.json","type":"config","parent":"ag-plc-schemas","summary":"product-lifecycle-canonical-skills-315/schemas/skill.schema.json","group":"agentssub","deep":true},{"id":"ag-plc-skills","label":"skills/","type":"module","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/skills — 22 lifecycle domain packs","group":"agentssub","deep":true},{"id":"ag-plc-skills-01-product-strategy-portfolio","label":"01-product-strategy-portfolio","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/01-product-strategy-portfolio (19 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-02-discovery-research-market","label":"02-discovery-research-market","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/02-discovery-research-market (20 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-03-product-definition-requirements","label":"03-product-definition-requirements","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/03-product-definition-requirements (19 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-04-solution-architecture-systems","label":"04-solution-architecture-systems","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/04-solution-architecture-systems (24 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-05-ux-service-design-information-architecture","label":"05-ux-service-design-information-architecture","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/05-ux-service-design-information-architecture (22 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-06-ui-design-system-content-accessibility","label":"06-ui-design-system-content-accessibility","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/06-ui-design-system-content-accessibility (24 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-07-frontend-client-applications","label":"07-frontend-client-applications","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/07-frontend-client-applications (21 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-08-backend-apis-services","label":"08-backend-apis-services","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/08-backend-apis-services (22 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-09-data-databases-analytics-intelligence","label":"09-data-databases-analytics-intelligence","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/09-data-databases-analytics-intelligence (26 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-10-security-privacy-compliance","label":"10-security-privacy-compliance","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/10-security-privacy-compliance (24 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-11-quality-testing-validation","label":"11-quality-testing-validation","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/11-quality-testing-validation (22 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-12-platform-cloud-devops-cicd","label":"12-platform-cloud-devops-cicd","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/12-platform-cloud-devops-cicd (21 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-13-reliability-observability-operations","label":"13-reliability-observability-operations","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/13-reliability-observability-operations (21 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-14-performance-capacity-scalability","label":"14-performance-capacity-scalability","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/14-performance-capacity-scalability (16 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-15-integrations-external-ecosystem","label":"15-integrations-external-ecosystem","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/15-integrations-external-ecosystem (14 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-16-growth-experimentation-monetization","label":"16-growth-experimentation-monetization","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/16-growth-experimentation-monetization (19 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-17-delivery-release-change","label":"17-delivery-release-change","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/17-delivery-release-change (18 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-18-documentation-dx-governance","label":"18-documentation-dx-governance","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/18-documentation-dx-governance (16 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-19-internationalization-localization","label":"19-internationalization-localization","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/19-internationalization-localization (11 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-20-support-customer-operations","label":"20-support-customer-operations","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/20-support-customer-operations (14 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-21-cost-sustainability-efficiency","label":"21-cost-sustainability-efficiency","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/21-cost-sustainability-efficiency (11 files)","group":"agentssub","deep":true},{"id":"ag-plc-skills-22-migration-deprecation-end-of-life","label":"22-migration-deprecation-end-of-life","type":"agent","parent":"ag-plc-skills","summary":"product-lifecycle-canonical-skills-315/skills/22-migration-deprecation-end-of-life (11 files)","group":"agentssub","deep":true},{"id":"ag-plc-templates","label":"templates/","type":"module","parent":"ag-product-lifecycle-skills","summary":"product-lifecycle-canonical-skills-315/templates","group":"agentssub","deep":true},{"id":"ag-plc-templates-atomic-skill-template-md","label":"atomic-skill-template.md","type":"doc","parent":"ag-plc-templates","summary":"product-lifecycle-canonical-skills-315/templates/atomic-skill-template.md","group":"agentssub","deep":true},{"id":"ag-plc-templates-orchestration-template-md","label":"orchestration-template.md","type":"doc","parent":"ag-plc-templates","summary":"product-lifecycle-canonical-skills-315/templates/orchestration-template.md","group":"agentssub","deep":true},{"id":"ag-ollama-agents","label":"agents/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/agents — 18 specialized roles","group":"agentssub","deep":true},{"id":"ag-ollama-agents-code-reviewer","label":"code-reviewer","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/code-reviewer (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-context-librarian","label":"context-librarian","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/context-librarian (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-dev-environment-operator","label":"dev-environment-operator","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/dev-environment-operator (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-implementation-engineer","label":"implementation-engineer","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/implementation-engineer (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-incident-debugger","label":"incident-debugger","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/incident-debugger (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-localization-editor","label":"localization-editor","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/localization-editor (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-media-inspector","label":"media-inspector","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/media-inspector (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-orchestrator","label":"orchestrator","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/orchestrator (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-product-pricing-analyst","label":"product-pricing-analyst","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/product-pricing-analyst (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-qa-test-lead","label":"qa-test-lead","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/qa-test-lead (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-regression-auditor","label":"regression-auditor","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/regression-auditor (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-release-operator","label":"release-operator","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/release-operator (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-repo-cartographer","label":"repo-cartographer","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/repo-cartographer (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-research-analyst","label":"research-analyst","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/research-analyst (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-runtime-verifier","label":"runtime-verifier","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/runtime-verifier (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-security-governor","label":"security-governor","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/security-governor (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-software-architect","label":"software-architect","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/software-architect (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-agents-visual-catalog-curator","label":"visual-catalog-curator","type":"agent","parent":"ag-ollama-agents","summary":"ollama-superpowers-pack-v1.0.0/agents/visual-catalog-curator (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-capabilities","label":"capabilities/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/capabilities — 3 files","group":"agentssub","deep":true},{"id":"ag-ollama-config","label":"config/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/config","group":"agentssub","deep":true},{"id":"ag-ollama-config-models","label":"models","type":"config","parent":"ag-ollama-config","summary":"ollama-superpowers-pack-v1.0.0/config/models (4 files)","group":"agentssub","deep":true},{"id":"ag-ollama-config-policies","label":"policies","type":"config","parent":"ag-ollama-config","summary":"ollama-superpowers-pack-v1.0.0/config/policies (2 files)","group":"agentssub","deep":true},{"id":"ag-ollama-docs","label":"docs/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/docs — localized documentation","group":"agentssub","deep":true},{"id":"ag-ollama-docs-en","label":"en","type":"doc","parent":"ag-ollama-docs","summary":"ollama-superpowers-pack-v1.0.0/docs/en (4 files)","group":"agentssub","deep":true},{"id":"ag-ollama-docs-es","label":"es","type":"doc","parent":"ag-ollama-docs","summary":"ollama-superpowers-pack-v1.0.0/docs/es (4 files)","group":"agentssub","deep":true},{"id":"ag-ollama-docs-fr","label":"fr","type":"doc","parent":"ag-ollama-docs","summary":"ollama-superpowers-pack-v1.0.0/docs/fr (4 files)","group":"agentssub","deep":true},{"id":"ag-ollama-docs-pt-br","label":"pt-BR","type":"doc","parent":"ag-ollama-docs","summary":"ollama-superpowers-pack-v1.0.0/docs/pt-BR (4 files)","group":"agentssub","deep":true},{"id":"ag-ollama-evals","label":"evals/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/evals — 1 files","group":"agentssub","deep":true},{"id":"ag-ollama-integrations","label":"integrations/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/integrations — provider adapters","group":"agentssub","deep":true},{"id":"ag-ollama-integrations-claude-code","label":"claude-code","type":"agent","parent":"ag-ollama-integrations","summary":"ollama-superpowers-pack-v1.0.0/integrations/claude-code (1 files)","group":"agentssub","deep":true},{"id":"ag-ollama-integrations-codex","label":"codex","type":"agent","parent":"ag-ollama-integrations","summary":"ollama-superpowers-pack-v1.0.0/integrations/codex (1 files)","group":"agentssub","deep":true},{"id":"ag-ollama-integrations-mcp-web-search","label":"mcp-web-search","type":"agent","parent":"ag-ollama-integrations","summary":"ollama-superpowers-pack-v1.0.0/integrations/mcp-web-search (1 files)","group":"agentssub","deep":true},{"id":"ag-ollama-integrations-openai-compatible","label":"openai-compatible","type":"agent","parent":"ag-ollama-integrations","summary":"ollama-superpowers-pack-v1.0.0/integrations/openai-compatible (2 files)","group":"agentssub","deep":true},{"id":"ag-ollama-integrations-opencode","label":"opencode","type":"agent","parent":"ag-ollama-integrations","summary":"ollama-superpowers-pack-v1.0.0/integrations/opencode (1 files)","group":"agentssub","deep":true},{"id":"ag-ollama-modelfiles","label":"modelfiles/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/modelfiles — 1 files","group":"agentssub","deep":true},{"id":"ag-ollama-playbooks","label":"playbooks/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/playbooks — 6 files","group":"agentssub","deep":true},{"id":"ag-ollama-provenance","label":"provenance/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/provenance — 2 files","group":"agentssub","deep":true},{"id":"ag-ollama-reports","label":"reports/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/reports — Building Block execution reports","group":"agentssub","deep":true},{"id":"ag-ollama-reports-bb01-model-intelligence","label":"bb01-model-intelligence","type":"doc","parent":"ag-ollama-reports","summary":"ollama-superpowers-pack-v1.0.0/reports/bb01-model-intelligence","group":"agentssub","deep":true},{"id":"ag-ollama-reports-bb02-canary","label":"bb02-canary","type":"doc","parent":"ag-ollama-reports","summary":"ollama-superpowers-pack-v1.0.0/reports/bb02-canary","group":"agentssub","deep":true},{"id":"ag-ollama-reports-bb02-repository-intelligence","label":"bb02-repository-intelligence","type":"doc","parent":"ag-ollama-reports","summary":"ollama-superpowers-pack-v1.0.0/reports/bb02-repository-intelligence","group":"agentssub","deep":true},{"id":"ag-ollama-scripts","label":"scripts/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/scripts — 6 files","group":"agentssub","deep":true},{"id":"ag-ollama-skills","label":"skills/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/skills — 28 reusable agent skills","group":"agentssub","deep":true},{"id":"ag-ollama-skills-code-review","label":"code-review","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/code-review (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-context-compaction","label":"context-compaction","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/context-compaction (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-cost-governance","label":"cost-governance","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/cost-governance (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-debugging","label":"debugging","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/debugging (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-dependency-audit","label":"dependency-audit","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/dependency-audit (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-dev-env-bringup","label":"dev-env-bringup","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/dev-env-bringup (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-documentation","label":"documentation","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/documentation (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-git-workflow","label":"git-workflow","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/git-workflow (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-issue-to-plan","label":"issue-to-plan","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/issue-to-plan (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-localization","label":"localization","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/localization (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-media-analysis","label":"media-analysis","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/media-analysis (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-multilingual-qa","label":"multilingual-qa","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/multilingual-qa (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-performance-analysis","label":"performance-analysis","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/performance-analysis (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-plan-to-patch","label":"plan-to-patch","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/plan-to-patch (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-pricing-scenarios","label":"pricing-scenarios","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/pricing-scenarios (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-product-catalog","label":"product-catalog","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/product-catalog (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-rag-pipeline","label":"rag-pipeline","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/rag-pipeline (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-regression-attribution","label":"regression-attribution","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/regression-attribution (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-release-readiness","label":"release-readiness","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/release-readiness (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-repo-map","label":"repo-map","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/repo-map (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-research-synthesis","label":"research-synthesis","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/research-synthesis (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-root-cause-analysis","label":"root-cause-analysis","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/root-cause-analysis (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-runtime-verification","label":"runtime-verification","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/runtime-verification (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-security-review","label":"security-review","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/security-review (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-structured-output","label":"structured-output","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/structured-output (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-test-generation","label":"test-generation","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/test-generation (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-tool-design","label":"tool-design","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/tool-design (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-skills-web-research","label":"web-research","type":"agent","parent":"ag-ollama-skills","summary":"ollama-superpowers-pack-v1.0.0/skills/web-research (5 files)","group":"agentssub","deep":true},{"id":"ag-ollama-src","label":"src/ollama_superpowers","type":"module","parent":"ag-ollama-pack","summary":"Python package — already indexed in the main CodeGraph run (14 modules: agent_loop, audit, cli, config, context, doctor, registry, router, safety, tools, usage_tracker...).","group":"agentssub","deep":true},{"id":"ag-ollama-tests","label":"tests/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/tests — 5 pytest files","group":"agentssub","deep":true},{"id":"ag-ollama-tools","label":"tools/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/tools","group":"agentssub","deep":true},{"id":"ag-ollama-tools-schemas","label":"schemas","type":"config","parent":"ag-ollama-tools","summary":"ollama-superpowers-pack-v1.0.0/tools/schemas (15 files)","group":"agentssub","deep":true},{"id":"ag-ollama-audit","label":".audit/","type":"module","parent":"ag-ollama-pack","summary":"ollama-superpowers-pack-v1.0.0/.audit — 15 audit trail files","group":"agentssub","deep":true}];
+NODES = NODES.concat(DEEP_NODES);
+var CROSS_EDGES = [
+  {source:'gallery-hero',target:'gallery-experience',kind:'uses'},
+  {source:'session-ledger',target:'apps',kind:'governs'},
+  {source:'codegraph',target:'backend',kind:'indexes'},
+  {source:'codegraph',target:'storefront',kind:'indexes'},
+  {source:'codegraph',target:'packages',kind:'indexes'}
+];
+var NMAP={}; NODES.forEach(function(n){ NMAP[n.id]=n });
+var groupCounters={};
+NODES.forEach(function(n){
+  if(n.deep) return;
+  var i=groupCounters[n.group]=(groupCounters[n.group]||0)+1;
+  var a=GROUP_ANCHORS[n.group]||[0,0];
+  var ang=i*2.399963, rad=26+(i%9)*12;
+  n.x=a[0]+Math.cos(ang)*rad; n.y=a[1]+Math.sin(ang)*rad;
+  n._placed=true;
+});
+// Pass B: "deep" nodes (real subtree unfolded under .agents/) inherit position
+// from their parent — recursive golden-angle burst, no manual anchor needed.
+(function(){
+  var byParent={};
+  NODES.forEach(function(n){ if(n.parent){ (byParent[n.parent]=byParent[n.parent]||[]).push(n) } });
+  var queue=NODES.filter(function(n){ return n._placed });
+  var qi=0;
+  while(qi<queue.length){
+    var cur=queue[qi++];
+    var kids=(byParent[cur.id]||[]).filter(function(k){ return !k._placed });
+    kids.forEach(function(k,idx){
+      var ang=idx*2.399963;
+      var rad=30+Math.min(kids.length,30)*2.1;
+      k.x=cur.x+Math.cos(ang)*rad; k.y=cur.y+Math.sin(ang)*rad;
+      k._placed=true;
+      queue.push(k);
+    });
+  }
+})();
+var EDGES=[];
+NODES.forEach(function(n){ if(n.parent) EDGES.push({source:n.parent,target:n.id,kind:'contains'}) });
+EDGES=EDGES.concat(CROSS_EDGES);
+var TYPE_COLOR={hub:'#e0ad82',app:'#8fa8c4',module:'#b5a3d6',route:'#8fae7d',package:'#c88f68',doc:'#7fb8b0',agent:'#c47d6f',config:'#9b8d78',index:'#fff8ec'};
+var TYPE_RADIUS={hub:13,app:11,module:6,route:5.5,package:9,doc:6,agent:6,config:5.5,index:12};
+
+var canvas=document.getElementById('archCanvas'), ctx=canvas.getContext('2d'), shell=document.getElementById('graphShell');
+var dpr=Math.min(window.devicePixelRatio||1,2);
+var gscale=.34, targetScale=.34, gox=0, goy=0, panVX=0, panVY=0, panning=false, glast={x:0,y:0}, hovered=null, selected=null, searchQ='';
+var hoverScaleMap={};
+function gresize(){
+  var r=shell.getBoundingClientRect();
+  canvas.width=Math.max(1,r.width*dpr); canvas.height=Math.max(1,r.height*dpr);
+  canvas.style.width=r.width+'px'; canvas.style.height=r.height+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function toScreen(n){ var r=shell.getBoundingClientRect(); return {x:r.width/2+gox+(n.x+(n._jx||0))*gscale, y:r.height/2+goy+(n.y+(n._jy||0))*gscale} }
+function gvisible(n){ if(!searchQ) return true; return (n.label+' '+(n.summary||'')+' '+n.type).toLowerCase().indexOf(searchQ)>-1 }
+
+/* ── Cinematic layer: BFS reveal order, idle drift phase, starfield ── */
+var CHILDREN_OF={};
+NODES.forEach(function(n){ if(n.parent) (CHILDREN_OF[n.parent]=CHILDREN_OF[n.parent]||[]).push(n) });
+(function(){
+  var seen={}, q=[NMAP['root']]; seen['root']=true; var i=0;
+  while(q.length){
+    var cur=q.shift(); cur._revealIndex=i++;
+    (CHILDREN_OF[cur.id]||[]).forEach(function(c){ if(!seen[c.id]){ seen[c.id]=true; q.push(c) } });
+  }
+})();
+NODES.forEach(function(n){
+  var h=0; for(var i=0;i<n.id.length;i++) h=(h*31+n.id.charCodeAt(i))>>>0;
+  n._phase=(h%1000)/1000*Math.PI*2;
+});
+var STAGE_STARS=[];
+(function(){
+  var h=17; function rnd(){ h=(h*1103515245+12345)>>>0; return (h%10000)/10000 }
+  for(var i=0;i<70;i++) STAGE_STARS.push({x:rnd(),y:rnd(),r:.4+rnd()*1.1,phase:rnd()*Math.PI*2});
+})();
+var REVEAL_START=null, lastNow=0, REVEAL_STAGGER=2.6, REVEAL_DUR=560;
+function easeOutCubic(t){ return 1-Math.pow(1-t,3) }
+function ease01(v){ return v<0?0:v>1?1:v }
+function revealP(n,now){ var lt=now-REVEAL_START-n._revealIndex*REVEAL_STAGGER; return easeOutCubic(ease01(lt/REVEAL_DUR)) }
+function gdraw(now){
+  now = now||lastNow; lastNow=now;
+  if(REVEAL_START===null) REVEAL_START=now;
+  var r=shell.getBoundingClientRect();
+
+  gscale += (targetScale-gscale)*.16;
+  if(!panning){
+    gox += panVX; goy += panVY;
+    panVX *= .90; panVY *= .90;
+    if(Math.abs(panVX)<.02) panVX=0;
+    if(Math.abs(panVY)<.02) panVY=0;
+  }
+
+  ctx.clearRect(0,0,r.width,r.height); ctx.lineCap='round';
+
+  var tw=now*.0012;
+  STAGE_STARS.forEach(function(s){
+    var a=.10+.10*Math.sin(tw+s.phase);
+    ctx.beginPath(); ctx.arc(s.x*r.width,s.y*r.height,s.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(224,173,130,'+a.toFixed(3)+')'; ctx.fill();
+  });
+
+  var t=now*.0005;
+  NODES.forEach(function(n){
+    n._jx=Math.sin(t*1.3+n._phase)*(n.deep?1.4:2.2);
+    n._jy=Math.cos(t*1.1+n._phase*1.4)*(n.deep?1.4:2.2);
+  });
+
+  EDGES.forEach(function(e){
+    var a=NMAP[e.source], b=NMAP[e.target];
+    if(!a||!b||!gvisible(a)||!gvisible(b)) return;
+    var rp=Math.min(revealP(a,now),revealP(b,now));
+    if(rp<=0) return;
+    var pa=toScreen(a), pb=toScreen(b);
+    var isSel=selected&&(e.source===selected.id||e.target===selected.id);
+    var isHov=hovered&&(e.source===hovered.id||e.target===hovered.id);
+    var baseA=e.kind==='contains'?.1:.4;
+    ctx.strokeStyle=isSel?'rgba(224,173,130,.92)':isHov?'rgba(224,173,130,.55)':('rgba(237,227,210,'+(baseA*rp).toFixed(3)+')');
+    ctx.lineWidth=isSel?1.7:isHov?1.2:(e.kind==='contains'?.6:1.1);
+    ctx.beginPath(); ctx.moveTo(pa.x,pa.y); ctx.lineTo(pb.x,pb.y); ctx.stroke();
+    if(isSel||isHov){
+      for(var i=0;i<2;i++){
+        var u=((now*.00045)+i/2+(e.source.length+e.target.length)*.01)%1;
+        var px=pa.x+(pb.x-pa.x)*u, py=pa.y+(pb.y-pa.y)*u;
+        ctx.save(); ctx.shadowColor='#e0ad82'; ctx.shadowBlur=10;
+        ctx.beginPath(); ctx.arc(px,py,1.8,0,Math.PI*2);
+        ctx.fillStyle='#ffe3c2'; ctx.fill(); ctx.restore();
+      }
+    }
+  });
+
+  var visibleCount=0;
+  NODES.forEach(function(n){
+    if(!gvisible(n)) return; visibleCount++;
+    var rp=revealP(n,now);
+    if(rp<=0) return;
+    var p=toScreen(n);
+    var hs=hoverScaleMap[n.id]||0;
+    var targetHs=(n===hovered||n===selected)?1:0;
+    hs += (targetHs-hs)*.22;
+    hoverScaleMap[n.id]=hs;
+    var boost=1+hs*.42;
+    var rad=(TYPE_RADIUS[n.type]||6)*boost*Math.min(1.5,Math.max(.55,gscale*2.4))*(.35+.65*rp);
+    var glow=n.type==='hub'||n.type==='index'||n===hovered||n===selected;
+    if(glow){ ctx.save(); ctx.shadowColor=TYPE_COLOR[n.type]||'#e0ad82'; ctx.shadowBlur=(n===selected?22:14); }
+    ctx.globalAlpha=(n.type==='route'?.82:1)*rp;
+    ctx.beginPath(); ctx.arc(p.x,p.y,rad,0,Math.PI*2);
+    ctx.fillStyle=TYPE_COLOR[n.type]||'#aaa';
+    ctx.fill();
+    ctx.globalAlpha=rp;
+    ctx.lineWidth=1.3; ctx.strokeStyle='rgba(18,14,11,.75)'; ctx.stroke();
+    if(glow) ctx.restore();
+    ctx.globalAlpha=1;
+    if(n.type==='hub'||n.type==='app'||n.type==='index'||n===hovered||n===selected||gscale>.75){
+      ctx.globalAlpha=rp;
+      ctx.font='700 10px ui-monospace, monospace'; ctx.fillStyle='#ede3d2';
+      ctx.fillText(n.label, p.x+rad+5, p.y+3);
+      ctx.globalAlpha=1;
+    }
+  });
+  document.getElementById('graphVisible').textContent=visibleCount;
+  requestAnimationFrame(gdraw);
+}
+function ghit(x,y){
+  for(var i=NODES.length-1;i>=0;i--){
+    var n=NODES[i]; if(!gvisible(n)) continue;
+    var p=toScreen(n), rad=(TYPE_RADIUS[n.type]||6)+7;
+    if((p.x-x)*(p.x-x)+(p.y-y)*(p.y-y)<rad*rad) return n;
+  }
+  return null;
+}
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+function b64ToUtf8(b64){ return decodeURIComponent(escape(window.atob(b64))) }
+function highlightCode(raw, lang){
+  var esc = escapeHtml(raw);
+  if(lang==='json'){
+    return esc.replace(/("(?:\\.|[^"\\])*")(\s*:)|("(?:\\.|[^"\\])*")|\b(true|false|null)\b|\b(-?\d+(?:\.\d+)?)\b/g,
+      function(m,key,colon,str,kw,num){
+        if(key) return '<span class="tok-key">'+key+'</span>'+colon;
+        if(str) return '<span class="tok-str">'+str+'</span>';
+        if(kw) return '<span class="tok-kw">'+kw+'</span>';
+        if(num) return '<span class="tok-num">'+num+'</span>';
+        return m;
+      });
+  }
+  if(lang==='ps1'){
+    return esc.replace(/(#.*)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(\$[A-Za-z_][\w]*)/g,
+      function(m,com,str,va){
+        if(com) return '<span class="tok-com">'+com+'</span>';
+        if(str) return '<span class="tok-str">'+str+'</span>';
+        if(va) return '<span class="tok-key">'+va+'</span>';
+        return m;
+      });
+  }
+  if(lang==='yaml'){
+    return esc.replace(/(#.*)|^([ \t]*[\w.\-\/\[\]!]+)(?=:)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/gm,
+      function(m,com,key,str){
+        if(com) return '<span class="tok-com">'+com+'</span>';
+        if(key) return '<span class="tok-key">'+key+'</span>';
+        if(str) return '<span class="tok-str">'+str+'</span>';
+        return m;
+      });
+  }
+  var kwList = 'import|export|from|default|const|let|var|function|async|await|return|if|else|for|while|do|new|class|extends|implements|interface|type|enum|try|catch|finally|throw|typeof|instanceof|in|of|as|public|private|protected|readonly|static|void|this|super|yield|switch|case|break|continue|null|undefined|true|false';
+  var re = new RegExp('(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)|(`(?:\\\\[\\s\\S]|\\$\\{[^}]*\\}|[^`\\\\])*`|"(?:\\\\.|[^"\\\\])*"|\'(?:\\\\.|[^\'\\\\])*\')|\\b(' + kwList + ')\\b|\\b(\\d+(?:\\.\\d+)?)\\b','g');
+  return esc.replace(re, function(m,com,str,kw,num){
+    if(com) return '<span class="tok-com">'+com+'</span>';
+    if(str) return '<span class="tok-str">'+str+'</span>';
+    if(kw) return '<span class="tok-kw">'+kw+'</span>';
+    if(num) return '<span class="tok-num">'+num+'</span>';
+    return m;
+  });
+}
+function inlineMd(s){
+  var e = escapeHtml(s);
+  e = e.replace(/`([^`]+)`/g,'<code>$1</code>');
+  e = e.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  e = e.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  return e;
+}
+function renderMarkdown(md){
+  var lines = md.split(/\r?\n/);
+  var out = [], inCode=false, codeBuf=[], inList=false;
+  lines.forEach(function(line){
+    if(/^```/.test(line)){
+      if(inCode){ out.push('<pre><code>'+escapeHtml(codeBuf.join('\n'))+'</code></pre>'); codeBuf=[]; inCode=false; }
+      else { inCode=true; }
+      return;
+    }
+    if(inCode){ codeBuf.push(line); return; }
+    var h = line.match(/^(#{1,4})\s+(.*)/);
+    if(h){
+      if(inList){ out.push('</ul>'); inList=false; }
+      var lvl = Math.min(h[1].length+1,4);
+      out.push('<h'+lvl+'>'+inlineMd(h[2])+'</h'+lvl+'>');
+      return;
+    }
+    var li = line.match(/^[-*]\s+(.*)/);
+    if(li){
+      if(!inList){ out.push('<ul>'); inList=true; }
+      out.push('<li>'+inlineMd(li[1])+'</li>');
+      return;
+    }
+    if(inList && line.trim()===''){ out.push('</ul>'); inList=false; return; }
+    if(line.trim()===''){ return; }
+    if(/^-{3,}$/.test(line.trim())){ out.push('<hr>'); return; }
+    out.push('<p>'+inlineMd(line)+'</p>');
+  });
+  if(inList) out.push('</ul>');
+  if(inCode) out.push('<pre><code>'+escapeHtml(codeBuf.join('\n'))+'</code></pre>');
+  return out.join('\n');
+}
+function showInspector(n){
+  var el=document.getElementById('graphInspector');
+  if(!n){ el.innerHTML='<div class="gi-empty">Clique em um nó do grafo para ver seu tipo, caminho, resumo e conexões reais. Nós com um arquivo real associado mostram o conteúdo — highlight de código ou markdown renderizado.</div>'; return }
+  var childCount=NODES.filter(function(x){return x.parent===n.id}).length;
+  var connCount=EDGES.filter(function(e){return e.source===n.id||e.target===n.id}).length;
+  var fileHtml='';
+  var fd=FILES[n.id];
+  if(fd){
+    var content=b64ToUtf8(fd.b64);
+    var shownLines=content.split(/\r?\n/).length;
+    var body = fd.lang==='md'
+      ? '<div class="gi-md">'+renderMarkdown(content)+'</div>'
+      : '<pre class="gi-code">'+highlightCode(content, fd.lang)+'</pre>';
+    fileHtml = '<div class="gi-file">'+
+      '<div class="gi-file-head"><span class="gi-file-path">'+fd.path+'</span><span class="gi-file-lang">'+fd.lang+'</span></div>'+
+      body+
+      (fd.truncated?'<div class="gi-truncated">showing '+shownLines+' of '+fd.totalLines+' lines</div>':'')+
+      '</div>';
+  }
+  el.innerHTML='<div class="gi-kicker">'+n.type+' · '+n.group+'</div>'+
+    '<div class="gi-title">'+n.label+'</div>'+
+    '<p class="gi-copy">'+(n.summary||'')+'</p>'+
+    '<div class="gi-specs"><div><b>Children</b><span>'+childCount+'</span></div><div><b>Connections</b><span>'+connCount+'</span></div></div>'+
+    fileHtml;
+}
+canvas.addEventListener('pointerdown',function(e){
+  var rect=canvas.getBoundingClientRect(), x=e.clientX-rect.left, y=e.clientY-rect.top;
+  var n=ghit(x,y);
+  if(n){ selected=n; showInspector(n) } else { panning=true; panVX=0; panVY=0; canvas.classList.add('panning'); glast={x:e.clientX,y:e.clientY} }
+});
+window.addEventListener('pointermove',function(e){
+  if(panning){
+    var dx=e.clientX-glast.x, dy=e.clientY-glast.y;
+    gox+=dx; goy+=dy; panVX=dx; panVY=dy; glast={x:e.clientX,y:e.clientY};
+    return;
+  }
+  var rect=canvas.getBoundingClientRect();
+  if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom) return;
+  var n=ghit(e.clientX-rect.left,e.clientY-rect.top);
+  if(n!==hovered){ hovered=n }
+});
+window.addEventListener('pointerup',function(){ panning=false; canvas.classList.remove('panning') });
+canvas.addEventListener('wheel',function(e){ e.preventDefault(); targetScale=Math.max(.08,Math.min(2.2,targetScale*(e.deltaY<0?1.12:.89))) },{passive:false});
+document.getElementById('graphSearch').addEventListener('input',function(e){ searchQ=e.target.value.toLowerCase() });
+document.getElementById('graphReset').addEventListener('click',function(){
+  targetScale=.34; gscale=.34; gox=0; goy=0; panVX=0; panVY=0; selected=null; hovered=null; showInspector(null);
+  REVEAL_START=lastNow; // replay the cinematic reveal
+});
+window.addEventListener('resize',function(){ gresize() });
+document.getElementById('graphNodeCount').textContent=NODES.length;
+document.getElementById('graphEdgeCount').textContent=EDGES.length;
+gresize(); showInspector(null); requestAnimationFrame(gdraw);
+})();
+
+var links=[].slice.call(document.querySelectorAll('#indexNav a'));
+var sections=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+window.addEventListener('scroll',function(){
+  var y=window.scrollY+120,active=0;
+  sections.forEach(function(s,i){if(s&&s.offsetTop<=y)active=i});
+  links.forEach(function(a,i){a.classList.toggle('active',i===active)});
+},{passive:true});
+</script>
+</body>
+</html>
