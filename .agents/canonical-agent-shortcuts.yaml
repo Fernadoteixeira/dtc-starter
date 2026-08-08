@@ -57,7 +57,7 @@ shortcuts:
     core_skills: [issue-to-plan, research-synthesis, dependency-audit, structured-output]
     orchestrations: [ORCH-02, ORCH-04, ORCH-13]
     nos_domains: [01-web-runtime, 03-data-contracts-forms, 06-interaction-visualization-ux, 08-quality-engineering]
-    contracts: [nos_gallery_first_fold]
+    contracts: [nos_gallery_first_fold, session_state_ledger]
   impl:
     canonical_agent: implementation-engineer
     core_skills: [plan-to-patch, test-generation, debugging, documentation]

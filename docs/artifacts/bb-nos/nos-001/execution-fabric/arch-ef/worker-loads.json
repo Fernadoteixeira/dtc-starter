@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+  "task_id": "NOS-001-ARCH",
+  "route_path": "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef/worker-route.json",
+  "route_sha256": "e6cbfaf939e1c3c541237c0bd7725ef7470d17b3dfc5112e94e3209495b03e34",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+    "task_id": "NOS-001-ARCH",
+    "shortcut": "architect:nos",
+    "canonical_agent": "software-architect",
+    "core_skills": [
+      "issue-to-plan",
+      "research-synthesis",
+      "dependency-audit",
+      "structured-output"
+    ],
+    "external_skills": [],
+    "orchestrations": [
+      "ORCH-02",
+      "ORCH-04",
+      "ORCH-13"
+    ],
+    "contracts": [
+      "nos_gallery_first_fold",
+      "session_state_ledger"
+    ],
+    "contract_paths": {
+      "nos_gallery_first_fold": ".agents/contracts/nos-gallery-first-fold.yaml",
+      "session_state_ledger": ".agents/contracts/session-state-ledger.md"
+    },
+    "specialist_agents": [],
+    "nos_domains": [
+      "01-web-runtime",
+      "03-data-contracts-forms",
+      "06-interaction-visualization-ux",
+      "08-quality-engineering"
+    ],
+    "mode": null,
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "0a7a0bd7-f234-4c00-84c3-b4f1de71f6e4",
+        "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+        "timestamp": "2026-08-08T04:59:46.720Z",
+        "status": "LOADED",
+        "task_id": "NOS-001-ARCH",
+        "shortcut": "architect:nos",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "88662fff8e28cd71a838e21050bfe6008cae7026de82ad00813b0b8ab70abc73"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "a817fa54-26eb-4aa7-8445-bea80f6693f0",
+        "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+        "timestamp": "2026-08-08T04:59:46.720Z",
+        "status": "LOADED",
+        "task_id": "NOS-001-ARCH",
+        "agent_id": "software-architect",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/software-architect/agent.json",
+        "sha256": "3ec4bcccdb4dc0f8b4162533e06ed9d4a7549ff2aa8cfab56018b9abbcc3a5ac"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "7f3b6c15-b0df-4c19-a627-bd762db5bce2",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.785Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "c906d3fb-088b-4ff0-a2eb-a8fe99ed6dcc",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.786Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "1c79753b-7b55-4086-a5a0-83c265baee32",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.787Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-worker",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md",
+      "sha256": "e73ba72c0b0ecb60560067662aa88db5ef23f5639824225a844228b22dcbd647"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "31257253-8d70-4248-8aad-048d122f54a4",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.789Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "issue-to-plan",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/issue-to-plan/skill.json",
+      "sha256": "22008ad1cbe9039001e590ddde2a15cd3ad81d3c88624e474db9967b4dce2239"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "6c4de415-4eb9-4e0d-945c-55bf23f4193e",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.791Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "research-synthesis",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/research-synthesis/skill.json",
+      "sha256": "1ee80e82b31950cf86cfb26f114962c985971e2154baf065101c56d5436a93c1"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "808b8d02-bbab-46e8-9be1-e532b59dcba1",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.793Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "dependency-audit",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/dependency-audit/skill.json",
+      "sha256": "d6d1718cd5620686cfbedc9682d0d61d7915b1d3d8c0aacecf1841180a9ed0b4"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "b5b500f7-2c77-47d1-b191-4569b73cb6f5",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.795Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "structured-output",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/structured-output/skill.json",
+      "sha256": "ead16e89b9e87a72a6f2e7234dbe177ddc5f4c8018d03c952f0b87a0ef3a63a4"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "862f72b9-608d-46da-86eb-fa7f125410a6",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.797Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-02",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/full-stack-product-review/SKILL.md",
+      "sha256": "cad9969c6a1d11c45c835b56e57253d21dd6523af80da34fc46e7b1ade60d0c5",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "4f3f287d-42ad-427a-9c98-b5a0e61ddffc",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.799Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-04",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/requirements-to-architecture/SKILL.md",
+      "sha256": "f963f10aee7a33729c0c2013d6d59106e3a0983a2ba2945ee51f69e08fe7aa2a",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "9b8adacb-3810-4cf3-8f07-84cbabacaf98",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.801Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-13",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/third-party-integration-lifecycle/SKILL.md",
+      "sha256": "8b57a558e23b48e5c316794ac5bcfc236cbdbb78e52aea379be1dd51448ebefd",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    },
+    {
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "4a7faa92-02a5-414f-a815-8d789a517b21",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.801Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "contract_id": "nos_gallery_first_fold",
+      "path": ".agents/contracts/nos-gallery-first-fold.yaml",
+      "sha256": "c513f7f8672d01d2df49ab4218f44cba59e57792076d6eee3fe7aa6b121a4fef"
+    },
+    {
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "3cc7a0bc-fb34-4c22-adc6-9fdaac3988c6",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "timestamp": "2026-08-08T04:59:49.802Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "instructions_acknowledged": false,
+      "contract_id": "session_state_ledger",
+      "path": ".agents/contracts/session-state-ledger.md",
+      "sha256": "ada5a9602deddff95906206a5468b313de65f8c9ee6506e8be32f5c8d6ebef82"
+    }
+  ]
+}

@@ -175,11 +175,11 @@ A plain `PASS` is invalid for EF-01 because it hides the expected failing load v
 | ID | Task | Hard predecessors | Status | Gate |
 |---|---|---|---|---|
 | ADR-EF-01 | Compare Option A direct ledger load with Option B validated delegated context | EF-01 `PASS: EXPECTED_FAIL_CLOSED` | DONE | `execution-fabric/adr-ef-01-option-analysis.md` |
-| ADR-EF-02 | Human selects Option A or Option B | ADR-EF-01 | NEXT / HUMAN GATE | explicit human decision |
-| ARCH-EF-01 | Implement only the selected correction | ADR-EF-02 | PENDING | minimal authorized patch |
-| ARCH-EF-02 | Re-run architect route/load preflight | ARCH-EF-01 | PENDING | all required loads validated |
-| ARCH-EF-03 | Run real canonical architect worker | ARCH-EF-02 | PENDING | completed host-issued AGENT-RUN |
-| ARCH-EF | Record corrected Architect Chain PASS | ARCH-EF-03 | PENDING | artifacts and validated receipts |
+| ADR-EF-02 | Human selects Option A or Option B | ADR-EF-01 | APPROVED | Option A selected by human lead |
+| ARCH-EF-01 | Implement only the selected correction | ADR-EF-02 | DONE | minimal authorized patch to architect:nos |
+| ARCH-EF-02 | Re-run architect route/load preflight | ARCH-EF-01 | DONE | all required loads validated (LOAD-VALIDATION-E) |
+| ARCH-EF-03 | Real host worker & reviewer invocation proof | ARCH-EF-02 | BLOCKED | execution provenance primitive missing |
+| ARCH-EF | Record corrected Architect Chain PASS | ARCH-EF-03 | YELLOW | structural integrity validated; host provenance required |
 
 ### EF-02–EF-05
 
@@ -322,8 +322,11 @@ RESOLVERS / VALIDATOR              MATERIALIZED
 STATIC DIAGNOSTICS                 PASS
 HOST PROOF                         PASS
 EF-01                              PASS: EXPECTED_FAIL_CLOSED
-ARCH-EF                            NOT RUN
-EF-02                              NOT RUN
+ARCH-EF-01                         PASS
+ARCH-EF-02                         PASS
+ARCH-EF-03                         BLOCKED (PROVENANCE CAPTURE REQUIRED)
+ARCH-EF                            YELLOW
+EF-02                              BLOCKED
 EF-03                              NOT RUN
 EF-04                              NOT RUN
 EF-05                              NOT RUN
@@ -333,10 +336,12 @@ EXECUTION-FABRIC-001               OPEN
 
 ## Next executable action
 
-`ADR-EF-02 — Human selects Option A or Option B`
+`ARCH-EF-03-R1 — Real Host Invocation Proof`
 
-EF-01 evidence is complete and the trade-off analysis is published. Do not begin `ARCH-EF-01` without the explicit human selection. Required outcome before W1 remains:
+Replace synthetic `AGENT-RUN` and `REVIEW-E` generation with actual host-issued execution provenance capture. Required outcome before W1 remains:
 
 `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
 
 Until the fabric closes and #13 independently reaches DoD PASS, #14/#21, PR green, merge, rollout and release remain forbidden.
+
+

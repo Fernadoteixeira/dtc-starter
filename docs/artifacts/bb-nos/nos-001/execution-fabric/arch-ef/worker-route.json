@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-agent-route",
+  "status": "LOADED",
+  "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+  "task_id": "NOS-001-ARCH",
+  "shortcut": "architect:nos",
+  "canonical_agent": "software-architect",
+  "core_skills": [
+    "issue-to-plan",
+    "research-synthesis",
+    "dependency-audit",
+    "structured-output"
+  ],
+  "external_skills": [],
+  "orchestrations": [
+    "ORCH-02",
+    "ORCH-04",
+    "ORCH-13"
+  ],
+  "contracts": [
+    "nos_gallery_first_fold",
+    "session_state_ledger"
+  ],
+  "contract_paths": {
+    "nos_gallery_first_fold": ".agents/contracts/nos-gallery-first-fold.yaml",
+    "session_state_ledger": ".agents/contracts/session-state-ledger.md"
+  },
+  "specialist_agents": [],
+  "nos_domains": [
+    "01-web-runtime",
+    "03-data-contracts-forms",
+    "06-interaction-visualization-ux",
+    "08-quality-engineering"
+  ],
+  "mode": null,
+  "writer": false,
+  "receipts": [
+    {
+      "type": "ROUTE-E",
+      "receipt_id": "0a7a0bd7-f234-4c00-84c3-b4f1de71f6e4",
+      "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+      "timestamp": "2026-08-08T04:59:46.720Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "shortcut": "architect:nos",
+      "path": ".agents/canonical-agent-shortcuts.yaml",
+      "sha256": "88662fff8e28cd71a838e21050bfe6008cae7026de82ad00813b0b8ab70abc73"
+    },
+    {
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "a817fa54-26eb-4aa7-8445-bea80f6693f0",
+      "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+      "timestamp": "2026-08-08T04:59:46.720Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH",
+      "agent_id": "software-architect",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/software-architect/agent.json",
+      "sha256": "3ec4bcccdb4dc0f8b4162533e06ed9d4a7549ff2aa8cfab56018b9abbcc3a5ac"
+    }
+  ]
+}

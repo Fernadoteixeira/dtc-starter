@@ -1,0 +1,66 @@
+[
+  {
+    "source": "process.env.ANTIGRAVITY_TRAJECTORY_ID",
+    "description": "Unique trajectory execution UUID injected by the host runtime into every process",
+    "classification": "HOST_ISSUED",
+    "stability": "Unique per host trajectory execution",
+    "forgeable_by_repo": false,
+    "selected": true
+  },
+  {
+    "source": "process.env.ANTIGRAVITY_CONVERSATION_ID",
+    "description": "Host conversation identifier injected by the host runtime environment",
+    "classification": "HOST_ISSUED",
+    "stability": "Consistent across host agent session; distinct across subagent sessions",
+    "forgeable_by_repo": false,
+    "selected": true
+  },
+  {
+    "source": "process.env.ANTIGRAVITY_PROJECT_ID",
+    "description": "Host project/workspace identifier assigned by the host runtime",
+    "classification": "HOST_ISSUED",
+    "stability": "Unique per project workspace",
+    "forgeable_by_repo": false,
+    "selected": true
+  },
+  {
+    "source": "invoke_subagent conversationID",
+    "description": "Distinct subagent session UUID returned by the host subagent orchestrator",
+    "classification": "HOST_ISSUED",
+    "stability": "Unique per subagent invocation",
+    "forgeable_by_repo": false,
+    "selected": true
+  },
+  {
+    "source": "process.env.ANTIGRAVITY_SOURCE_METADATA.tool.stepIndex",
+    "description": "Monotonically increasing host step index and tool invocation identifier",
+    "classification": "HOST_ISSUED",
+    "stability": "Monotonically increasing integer per host tool step",
+    "forgeable_by_repo": false,
+    "selected": true
+  },
+  {
+    "source": "node process.pid / process.ppid",
+    "description": "Operating system process identifiers",
+    "classification": "PROCESS_LOCAL",
+    "stability": "Ephemeral OS process IDs",
+    "forgeable_by_repo": false,
+    "selected": false
+  },
+  {
+    "source": "crypto.randomUUID() / randomUUID()",
+    "description": "Local repository JavaScript random UUID generation",
+    "classification": "REPOSITORY_ISSUED",
+    "stability": "Non-deterministic ephemeral UUID",
+    "forgeable_by_repo": true,
+    "selected": false
+  },
+  {
+    "source": "Hardcoded test fixtures / mocks",
+    "description": "Static mock values in test files or scripts",
+    "classification": "REPOSITORY_ISSUED",
+    "stability": "Static",
+    "forgeable_by_repo": true,
+    "selected": false
+  }
+]
