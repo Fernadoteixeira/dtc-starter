@@ -524,5 +524,8 @@ acceptance_checklist:
   no_runtime_code_changes: true
   ownership_reconciled_with_issues_14_32: true
   provenance_taxonomy_repaired: true
+  execution_fabric_materialized: true
+  execution_fabric_validated: false
+  platform_attestation_verified: false
   independent_review_passed: false
-  manifest_sufficient_for_subsequent_issues: pending_review
+  manifest_sufficient_for_subsequent_issues: blocked_by_execution_fabric

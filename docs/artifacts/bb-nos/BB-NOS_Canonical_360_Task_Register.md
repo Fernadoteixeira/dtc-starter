@@ -79,9 +79,9 @@ The 18 Ollama Superpowers agents remain canonical identities. RUG agents are spe
 | T16 | Evolve human release gate with #29–#32 evidence | #28 | DONE / OPEN | release decision |
 | T17 | Reconcile parent EPIC child map, DAG, waves and gates | #12 | DONE / OPEN | program SSOT |
 | T18 | Rebuild #13 ownership matrix from current #14–#32 bodies | #13 remediation | DONE | manifest freeze |
-| T19 | Repair #13 provenance taxonomy AGENT/SKILL/CONTRACT/GOV | #13 remediation | DONE | DoD |
-| T20 | Execute #13 self-critique + Auto-Improve Iteration 1 | #13 remediation | DONE | cross-review |
-| T21 | Execute independent #13 cross-agent review | #13 remediation | NEXT | final evidence |
+| T19 | Repair provenance taxonomy and materialize Canonical Agent Execution Fabric | #13 remediation | MATERIALIZED / RUNTIME VALIDATION BLOCKED | DoD |
+| T20 | Execute #13 self-critique + Auto-Improve Iterations 1–2 | #13 remediation | DONE | cross-review |
+| T21 | Execute protocol-compliant independent #13 cross-agent review | #13 remediation | BLOCKED BY EXECUTION-FABRIC-001 | final evidence |
 | T22 | Reconcile #13 DoD + final GO/NO-GO | #13 remediation | BLOCKED BY T21 | #14/#21 DoR |
 | T23 | Publish #13 final 360° completion record | #13 | BLOCKED BY T22 | W1 |
 | T24 | Launch independent DoR for #14 and #21 | W1 | BLOCKED BY #13 DoD PASS | implementation |
@@ -176,12 +176,25 @@ HUMAN RELEASE                       OWNED #28
 ADMIN CURATION EXPERIENCE           OUTSIDE BB-NOS / FUTURE EPIC
 ```
 
+## Canonical Agent Execution Fabric gate
+
+```text
+REGISTRY / ROUTING                 MATERIALIZED
+PROTOCOL / ADAPTERS                MATERIALIZED
+RESOLVERS / VALIDATOR              MATERIALIZED
+STATIC DIAGNOSTICS                 PASS
+NODE SECURITY TESTS                NOT RUN
+WORKER LOAD + RUN RECEIPTS         NOT RUN
+REVIEWER LOAD + REVIEW-E           NOT RUN
+VALIDATION-E                       NOT RUN
+PLATFORM ATTESTATION               UNVERIFIED
+EXECUTION-FABRIC-001               OPEN
+```
+
 ## Next executable action
 
-`#13 REMEDIATION / AUTO-IMPROVE ITERATION 1`
-
-Required outcome before W1:
+Restore executable Node/PowerShell integration, then run the Canonical Agent Execution Fabric end to end for #13. Required outcome before W1 remains:
 
 `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
 
-Until then, #14 and #21 remain candidates only, not authorized implementation work.
+Until validated worker/reviewer receipts exist, #13 remains NO-GO and #14/#21 remain blocked.

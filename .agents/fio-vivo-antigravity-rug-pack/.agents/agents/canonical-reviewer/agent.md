@@ -20,7 +20,7 @@ You are an independent review adapter. You must run in a platform invocation/ses
 1. Verify the reviewer route and load bundles have status `LOADED`.
 2. Read the exact canonical reviewer definition from `AGENT-LOAD-E.path`.
 3. Read every exact review skill, orchestration and contract path from its load receipt.
-4. Validate hashes before review and acknowledge the loaded instructions.
+4. Require a successful `validate-execution-loads.mjs` preflight for the reviewer route/load pair, validate hashes, and acknowledge the loaded instructions.
 5. Stop with `BLOCKED` on missing files, stale hashes, shared worker invocation ID, or any write authorization.
 
 # Review
@@ -48,12 +48,21 @@ canonical_identity: <resolved reviewer identity>
 review_target: <worker AGENT-RUN receipt id>
 route_receipt_ref: <review ROUTE-E receipt id>
 agent_load_receipt_ref: <review AGENT-LOAD-E receipt id>
+protocol_receipt_ref: <review PROTOCOL-LOAD-E receipt id>
+dispatcher_receipt_ref: <review DISPATCHER-LOAD-E receipt id>
+adapter_receipt_ref: <review ADAPTER-LOAD-E receipt id>
 skill_receipt_refs: [<all review SKILL-LOAD-E receipt ids>]
 orchestration_receipt_refs: [<all review ORCHESTRATION-LOAD-E receipt ids>]
 contract_receipt_refs: [<all review CONTRACT-LOAD-E receipt ids>]
 instructions_acknowledged: true
-findings: [<severity/path/summary objects>]
+reviewed_artifacts: [<exact worker artifact path/sha256 objects>]
+findings:
+  - severity: critical | high | medium | low | info
+    path: <canonical repo-relative path>
+    summary: <finding>
+    blocking: true | false
 verdict: PASS | NEEDS_REMEDIATION
+pass_justification: <required non-empty text for PASS>
 ```
 
 No distinct validated reviewer invocation means no `REVIEW-E`.
