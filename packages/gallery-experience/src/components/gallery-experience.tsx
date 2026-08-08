@@ -75,6 +75,9 @@ function InteractiveArtworkCard({
   if (isAdjacent) cardClass += " dtc-gallery__card--adjacent";
   if (isContinuation) cardClass += " dtc-gallery__card--continuation";
 
+  const modelNumber = String(index + 1).padStart(2, "0");
+  const sceneCount = item.scenes?.length || 1;
+
   return (
     <article
       className={cardClass}
@@ -90,6 +93,16 @@ function InteractiveArtworkCard({
         }
       }}
     >
+      <div className="dtc-gallery__badge-model">
+        MODELO {modelNumber}
+      </div>
+
+      {isActive && (
+        <div className="dtc-gallery__badge-scene">
+          1 DE {sceneCount} CENAS &bull; MOVA O CURSOR
+        </div>
+      )}
+
       <div className="dtc-gallery__media">
         <img
           src={item.primaryImage.url}
@@ -111,26 +124,24 @@ function InteractiveArtworkCard({
           />
 
           <div className="dtc-gallery__caption">
-            <div className="dtc-gallery__year-wrapper">
-              <span className="dtc-gallery__artwork-index" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span className="dtc-gallery__divider" aria-hidden="true" />
-            </div>
+            <span className="dtc-gallery__artwork-index" aria-hidden="true">
+              {item.year || "2020"} &bull;
+            </span>
 
             <h2 className="dtc-gallery__artwork-title">{item.title}</h2>
 
-            {item.artist && (
-              <p className="dtc-gallery__artist-text">
-                por {item.artist}
-              </p>
-            )}
+            <p className="dtc-gallery__artwork-subtitle">
+              Crochê em movimento
+            </p>
 
-            {item.price?.formatted && (
-              <p className="dtc-gallery__price-text font-mono text-sm mt-1 text-[#d6b08a]">
-                {item.price.formatted}
-              </p>
-            )}
+            <p className="dtc-gallery__artwork-credit">
+              POR @LUIZASCROCHE &bull; BRASIL - ARACAJU-SE &bull; {item.artist || "Fio Vivo"}
+            </p>
+
+            <div className="flex items-center justify-between text-[10px] font-mono text-white/50 mt-1 pt-1 border-t border-white/10">
+              <span>01 / {String(sceneCount).padStart(2, "0")}</span>
+              <span className="text-[#d48c46]">FRENTE &check;</span>
+            </div>
           </div>
         </>
       )}
@@ -334,11 +345,39 @@ export function GalleryExperience({
     >
       <GalleryAmbient colors={activeItem?.ambientColors} />
 
-      <aside className="dtc-gallery__editorial">
+      {/* Top Brand Header Overlay */}
+      <div className="absolute top-4 left-6 right-6 z-10 flex items-center justify-between pointer-events-none text-white/70 text-xs font-mono">
+        <div className="flex items-center gap-3">
+          <div className="w-7 h-7 rounded-full border border-white/20 flex items-center justify-center font-serif text-xs text-[#d48c46]">
+            71
+          </div>
+          <div>
+            <div className="font-bold tracking-widest text-white uppercase text-[11px]">FIO VIVO</div>
+            <div className="text-[9px] text-white/40 italic font-serif">atelier multiverse</div>
+          </div>
+          <div className="ml-4 pl-4 border-l border-white/10 hidden md:block">
+            <span className="bg-white/10 px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider text-[#d48c46]">EM FOCO</span>
+            <span className="ml-2 font-bold text-white text-[11px]">Crochê em movimento</span>
+            <span className="ml-2 text-white/40 text-[9px]">CROCHÊ MANUAL &bull; FIBRA &bull; GESTO</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 text-[10px] uppercase tracking-widest hidden lg:flex">
+          <span className="text-white/40">&bull; EXPLORAÇÃO 1/16 &mdash;&mdash; CONTINUAR &rarr;</span>
+          <span className="text-white font-bold">COLEÇÃO 01 &mdash;&mdash; 01 / 04</span>
+        </div>
+      </div>
+
+      <aside className="dtc-gallery__editorial pt-12">
         <p className="dtc-gallery__collection-number">{collectionLabel}</p>
-        <h1 className="dtc-gallery__collection-title">{collectionTitle}</h1>
-        <p className="dtc-gallery__collection-narrative">{tagline}</p>
-        <span className="dtc-gallery__counter" aria-live="polite">
+        <h1 className="dtc-gallery__collection-title text-4xl lg:text-5xl font-serif font-bold">
+          O crochê<br />
+          <span className="italic font-serif text-[#d48c46]">se move.</span>
+        </h1>
+        <p className="dtc-gallery__collection-narrative text-sm text-white/60 mt-2">
+          Os dois primeiros gestos transformam o crochê em presença viva.
+        </p>
+        <span className="dtc-gallery__counter font-mono text-xs text-[#d48c46] mt-4" aria-live="polite">
           {formattedCounter}
         </span>
       </aside>
@@ -413,7 +452,7 @@ export function GalleryExperience({
 
         <button
           type="button"
-          className="dtc-gallery__cta cursor-pointer bg-transparent border-0 font-mono uppercase tracking-[0.16em] text-xs hover:text-white transition-colors"
+          className="dtc-gallery__cta cursor-pointer"
           onClick={() => {
             if (onProductIntent && activeItem) {
               onProductIntent(activeItem);
@@ -422,7 +461,9 @@ export function GalleryExperience({
             }
           }}
         >
-          {translateGallery(locale, "gallery.cta")}
+          <span>&equiv;</span>
+          <span>CONHECER A PEÇA</span>
+          <span>&nearr;</span>
         </button>
       </div>
     </div>
