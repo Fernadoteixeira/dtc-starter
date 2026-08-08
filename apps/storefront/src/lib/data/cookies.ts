@@ -1,5 +1,17 @@
 import "server-only"
 import { cookies as nextCookies } from "next/headers"
+import { revalidateTag } from "next/cache"
+
+export const revalidateCacheTag = (tag: string) => {
+  if (!tag) return
+  try {
+    (revalidateTag as any)(tag)
+  } catch {
+    try {
+      (revalidateTag as any)(tag, "max")
+    } catch {}
+  }
+}
 
 export const getAuthHeaders = async (): Promise<
   { authorization: string } | Record<string, never>
