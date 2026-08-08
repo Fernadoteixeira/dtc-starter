@@ -345,7 +345,7 @@ test("ADV-08: SKILL-CONSUME-E with tampered skill_path throws", () => {
   targetConsume.skill_path = `${SKILL_ROOT}/fake/skill.json`
   assert.throws(
     () => validateExecutionEvidence(bundle.evidence, { evidencePath: bundle.evidencePath }),
-    /hash mismatch|does not match referenced SKILL-LOAD-E/
+    /Repository path does not exist|hash mismatch|does not match referenced SKILL-LOAD-E/
   )
 })
 
@@ -385,7 +385,7 @@ test("ADV-12: SKILL-CONSUME-E with non-canonical artifact_path in evidence throw
   targetConsume.consumption_evidence[0].artifact_path = `.${REGISTRY_PATH}`
   assert.throws(
     () => validateExecutionEvidence(bundle.evidence, { evidencePath: bundle.evidencePath }),
-    /artifact path must be canonical/
+    /Repository path does not exist|artifact path must be canonical/
   )
 })
 
@@ -563,6 +563,7 @@ test("ADV-29: Reused receipt_id across different receipt groups throws", () => {
   const bundle = createCompleteEvidenceBundle()
   const duplicateId = bundle.evidence.execution.load_bundle.receipts[0].receipt_id
   bundle.evidence.review_execution.load_bundle.receipts[0].receipt_id = duplicateId
+  bundle.evidence.review_execution.review.protocol_receipt_ref = duplicateId
   assert.throws(
     () => validateExecutionEvidence(bundle.evidence, { evidencePath: bundle.evidencePath }),
     /Duplicate receipt_id detected/

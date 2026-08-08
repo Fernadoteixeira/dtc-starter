@@ -433,13 +433,15 @@ export function validateExecutionEvidence(evidence, context = {}) {
     }
   }
 
-  if (agentRun.instructions_acknowledged === true) {
+  if (Array.isArray(agentRun.skill_consume_receipts)) {
     if (workerRoute.core_skills && workerRoute.core_skills.length > 0) {
       const allRequiredConsumed = workerRoute.core_skills.every((id) => workerConsumedSkills.has(id))
       if (!allRequiredConsumed) {
         throw new Error("instructions_acknowledged cannot be true without all required core skills consumed")
       }
     }
+  } else if (Array.isArray(agentRun.skill_consume_receipt_refs) && agentRun.skill_consume_receipt_refs.length > 0) {
+    throw new Error("instructions_acknowledged cannot be true without valid SKILL-CONSUME-E receipts")
   }
 
   const workerArtifacts = validateArtifacts(execution.artifacts, agentRun)
@@ -471,13 +473,15 @@ export function validateExecutionEvidence(evidence, context = {}) {
     }
   }
 
-  if (review.instructions_acknowledged === true) {
+  if (Array.isArray(review.skill_consume_receipts)) {
     if (reviewerRoute.core_skills && reviewerRoute.core_skills.length > 0) {
       const allRequiredConsumed = reviewerRoute.core_skills.every((id) => reviewerConsumedSkills.has(id))
       if (!allRequiredConsumed) {
         throw new Error("instructions_acknowledged cannot be true without all required reviewer core skills consumed")
       }
     }
+  } else if (Array.isArray(review.skill_consume_receipt_refs) && review.skill_consume_receipt_refs.length > 0) {
+    throw new Error("instructions_acknowledged cannot be true without valid SKILL-CONSUME-E receipts")
   }
 
   validateReviewedArtifacts(review.reviewed_artifacts, workerArtifacts)
