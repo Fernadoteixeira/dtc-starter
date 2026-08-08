@@ -31,9 +31,7 @@ export function mapStoreProductToGalleryItem(
   const metadata = (product.metadata?.gallery || {}) as GalleryProductMetadata;
 
   const primaryImageUrl =
-    product.thumbnail ||
-    product.images?.[0]?.url ||
-    "/images/fio-vivo/fv-006-duna-terracota/01-frente.png";
+    product.thumbnail || product.images?.[0]?.url || "";
 
   const primaryImage: GalleryImage = {
     url: primaryImageUrl,
@@ -70,7 +68,7 @@ export function mapStoreProductToGalleryItem(
   if (firstVariant?.calculated_price) {
     const calc = firstVariant.calculated_price;
     const amount = calc.calculated_amount ?? 0;
-    const currencyCode = (calc.currency_code || "eur").toUpperCase();
+    const currencyCode = (calc.currency_code || "BRL").toUpperCase();
     const formatted = new Intl.NumberFormat(countryCode || "en-US", {
       style: "currency",
       currency: currencyCode,
@@ -106,16 +104,16 @@ export function mapStoreProductToGalleryItem(
     title: product.title,
     contextualName: metadata.contextualName || product.title,
     description: product.description || metadata.story || undefined,
-    artist: metadata.artist || "Fio Vivo",
+    artist: metadata.artist || undefined,
     material: metadata.material || undefined,
     category: categoryName || undefined,
-    year: metadata.year || new Date().getFullYear(),
+    year: metadata.year || undefined,
     primaryImage,
     scenes,
     price,
     availability,
     productUrl: `/${countryCode}/products/${product.handle}`,
-    ambientColors: metadata.ambientColors || ["#1a1a2e", "#16213e", "#0f3460"],
+    ambientColors: metadata.ambientColors || undefined,
     metadata: product.metadata as Record<string, unknown> | undefined,
   };
 }

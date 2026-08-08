@@ -80,7 +80,7 @@ function InteractiveArtworkCard({
       className={cardClass}
       role={isActive ? "region" : "button"}
       aria-label={item.title}
-      aria-selected={isActive}
+      aria-current={isActive ? "true" : undefined}
       tabIndex={0}
       onClick={onClick}
       onKeyDown={(e) => {
