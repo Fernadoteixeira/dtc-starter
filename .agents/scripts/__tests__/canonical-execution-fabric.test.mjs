@@ -44,7 +44,9 @@ import {
 const temporaryDirectory = mkdtempSync(path.join(REPO_ROOT, ".agents", "scripts", "__tests__", "evidence-"))
 
 after(() => {
-  rmSync(temporaryDirectory, { recursive: true, force: true })
+  try {
+    rmSync(temporaryDirectory, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 })
+  } catch {}
 })
 
 function createEvidenceDirectory() {

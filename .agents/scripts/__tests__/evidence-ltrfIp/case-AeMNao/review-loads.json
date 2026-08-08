@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+  "task_id": "TEST-REV-REUSE:review",
+  "route_path": ".agents/scripts/__tests__/evidence-ltrfIp/case-AeMNao/review-route.json",
+  "route_sha256": "6f07f47cfdf02ebb8d1562d3d93cc74e732658c266bf39fbedcdfa1d63f23a8a",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "06cc0ac7-3bac-4910-a3ae-a0a8298352d1",
+    "task_id": "TEST-REV-REUSE:review",
+    "shortcut": "review:canonical",
+    "canonical_agent": "code-reviewer",
+    "core_skills": [
+      "code-review",
+      "regression-attribution",
+      "structured-output"
+    ],
+    "external_skills": [],
+    "orchestrations": [
+      "ORCH-12"
+    ],
+    "contracts": [],
+    "contract_paths": {},
+    "specialist_agents": [],
+    "nos_domains": [],
+    "mode": "read_only",
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "51f1ff46-027e-45bd-951a-fd9cf56e11ed",
+        "invocation_id": "06cc0ac7-3bac-4910-a3ae-a0a8298352d1",
+        "timestamp": "2026-08-08T15:53:56.469Z",
+        "status": "LOADED",
+        "task_id": "TEST-REV-REUSE:review",
+        "shortcut": "review:canonical",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "0b09e3c7-4a76-4ff5-9df5-751e27877c6b",
+        "invocation_id": "06cc0ac7-3bac-4910-a3ae-a0a8298352d1",
+        "timestamp": "2026-08-08T15:53:56.469Z",
+        "status": "LOADED",
+        "task_id": "TEST-REV-REUSE:review",
+        "agent_id": "code-reviewer",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
+        "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "a136bb7a-5098-4183-b08d-6c551b3bb688",
+      "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+      "timestamp": "2026-08-08T15:53:56.473Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE:review",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "473ff24c-5b66-42fd-afbf-f07453f3650e",
+      "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+      "timestamp": "2026-08-08T15:53:56.473Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE:review",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "d281ad6d-f097-48db-bccd-add905dcc9c1",
+      "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+      "timestamp": "2026-08-08T15:53:56.474Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE:review",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-reviewer",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md",
+      "sha256": "4c8b69310a18c1217700e3e08e50242ff4f2b3a30dab6eba0a403b291004bf49"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "23336b86-5002-48ee-98a3-e95dc4e61432",
+      "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+      "timestamp": "2026-08-08T15:53:56.475Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "code-review",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/code-review/skill.json",
+      "sha256": "001d6ab6fe102372bf97cef5cbe08ea845e2897c9d9a5ac91c9eab3587e2018f"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "6a5278c0-c4a7-44e5-8711-51c0dd7cc86d",
+      "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+      "timestamp": "2026-08-08T15:53:56.477Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "regression-attribution",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/regression-attribution/skill.json",
+      "sha256": "288ddcfa18966e94f2726fc5410b674cf0178e54b7fa9278a7d684f811eabfcc"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "6d02e0ed-9bb9-43f3-927d-99fad031754a",
+      "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+      "timestamp": "2026-08-08T15:53:56.478Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "structured-output",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/structured-output/skill.json",
+      "sha256": "ead16e89b9e87a72a6f2e7234dbe177ddc5f4c8018d03c952f0b87a0ef3a63a4"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "a4abec3f-f7fd-47e5-a622-0ad3492efe83",
+      "invocation_id": "84f2eaa4-33ed-4ed0-8ea5-6bea8e5bbcde",
+      "timestamp": "2026-08-08T15:53:56.481Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE:review",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-12",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/release-readiness/SKILL.md",
+      "sha256": "b33dc44575cee95d42bb384c87ea2e3aecc1e91c7897161b3d3481cef2f6574d",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    }
+  ]
+}
