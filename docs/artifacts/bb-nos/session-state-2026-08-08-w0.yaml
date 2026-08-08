@@ -1,7 +1,7 @@
 project:
   repository: Fernadoteixeira/dtc-starter
   branch: main
-  head_sha: 38246f64e82b37670edf84d386b55b866fb425bf
+  head_sha: f4c1139f1b4151e919e7bf346271bd2ff79b3015
 
 execution:
   current_program: BB-NOS 360

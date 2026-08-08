@@ -15,8 +15,8 @@
   "target_baseline": {
     "repository": "Fernadoteixeira/dtc-starter",
     "branch": "main",
-    "head_sha": "38246f64e82b37670edf84d386b55b866fb425bf",
-    "previous_head_sha": "45ef2606512a5a26f0fee2a377ffda823423fce9",
+    "head_sha": "f4c1139f1b4151e919e7bf346271bd2ff79b3015",
+    "previous_head_sha": "38246f64e82b37670edf84d386b55b866fb425bf",
     "transition": "EXTERNAL_COMMIT_OBSERVED_DURING_W0",
     "transition_evidence": "docs/artifacts/bb-nos/2026-08-08-external-git-drift.md"
   },

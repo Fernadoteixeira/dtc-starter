@@ -84,8 +84,8 @@
   },
   "git_state": {
     "branch": "main",
-    "head": "38246f64e82b37670edf84d386b55b866fb425bf",
-    "previous_head": "45ef2606512a5a26f0fee2a377ffda823423fce9",
+    "head": "f4c1139f1b4151e919e7bf346271bd2ff79b3015",
+    "previous_head": "38246f64e82b37670edf84d386b55b866fb425bf",
     "head_transition": "EXTERNAL_COMMIT_OBSERVED_DURING_W0",
     "working_tree_clean": false,
     "preexisting_pdp_state": "COMMITTED_EXTERNALLY_UNCHANGED_FROM_BASE_E",
