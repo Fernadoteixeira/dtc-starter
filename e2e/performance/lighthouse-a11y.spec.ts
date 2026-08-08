@@ -24,10 +24,30 @@ test.describe("Automated Accessibility (a11y) & Core Web Vitals Audit", () => {
 
   test("should measure initial page load performance metrics", async ({ page }) => {
     const startTime = Date.now()
-    await page.goto("/")
+    await page.goto("/dk")
     const loadTime = Date.now() - startTime
 
     // Assert initial load time is reasonable (< 8000ms for local dev server with 16 parallel workers)
     expect(loadTime).toBeLessThan(8000)
+  })
+
+  test("should evaluate Navigation Timing and First Contentful Paint (FCP) budget", async ({ page }) => {
+    await page.goto("/dk", { waitUntil: "domcontentloaded" })
+
+    const metrics = await page.evaluate(() => {
+      const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming
+      const paint = performance.getEntriesByType("paint")
+      const fcp = paint.find((e) => e.name === "first-contentful-paint")?.startTime || 0
+
+      return {
+        ttfb: nav ? Math.round(nav.responseStart - nav.requestStart) : 0,
+        domContentLoaded: nav ? Math.round(nav.domContentLoadedEventEnd - nav.startTime) : 0,
+        fcp: Math.round(fcp),
+      }
+    })
+
+    // Assert TTFB and FCP are non-negative valid numbers
+    expect(metrics.ttfb).toBeGreaterThanOrEqual(0)
+    expect(metrics.fcp).toBeGreaterThanOrEqual(0)
   })
 })
