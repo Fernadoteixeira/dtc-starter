@@ -258,7 +258,7 @@ describe("mapStoreProductToGalleryItem", () => {
       expect(item.primaryImage.url).toBe("/img/first.png")
     })
 
-    it("uses fallback image when no thumbnail and no images", () => {
+    it("uses empty string for primaryImage.url when no thumbnail and no images", () => {
       const product = makeProduct({
         thumbnail: undefined,
         images: [],
@@ -266,7 +266,7 @@ describe("mapStoreProductToGalleryItem", () => {
 
       const item = mapStoreProductToGalleryItem(product, "dk")
 
-      expect(item.primaryImage.url).toContain("/images/fio-vivo/")
+      expect(item.primaryImage.url).toBe("")
     })
 
     it("uses product title as alt when title is set", () => {
@@ -317,7 +317,7 @@ describe("mapStoreProductToGalleryItem", () => {
       expect(item.contextualName).toBe("Original Title")
     })
 
-    it("uses metadata.artist when present, otherwise 'Fio Vivo'", () => {
+    it("uses metadata.artist when present, otherwise undefined", () => {
       const withArtist = makeProduct({
         metadata: { gallery: { artist: "Jane Doe" } },
       })
@@ -326,9 +326,7 @@ describe("mapStoreProductToGalleryItem", () => {
       expect(mapStoreProductToGalleryItem(withArtist, "dk").artist).toBe(
         "Jane Doe"
       )
-      expect(mapStoreProductToGalleryItem(withoutArtist, "dk").artist).toBe(
-        "Fio Vivo"
-      )
+      expect(mapStoreProductToGalleryItem(withoutArtist, "dk").artist).toBeUndefined()
     })
 
     it("uses description when present, otherwise metadata.story", () => {
@@ -375,15 +373,11 @@ describe("mapStoreProductToGalleryItem", () => {
       expect(item.ambientColors).toEqual(["#111", "#222", "#333"])
     })
 
-    it("uses default ambientColors when metadata has none", () => {
+    it("returns undefined ambientColors when metadata has none", () => {
       const product = makeProduct({ metadata: {} })
       const item = mapStoreProductToGalleryItem(product, "dk")
 
-      expect(item.ambientColors).toEqual([
-        "#1a1a2e",
-        "#16213e",
-        "#0f3460",
-      ])
+      expect(item.ambientColors).toBeUndefined()
     })
 
     it("uses metadata.year when present", () => {
@@ -396,11 +390,11 @@ describe("mapStoreProductToGalleryItem", () => {
       expect(item.year).toBe(2023)
     })
 
-    it("defaults year to current year when metadata has none", () => {
+    it("returns undefined year when metadata has none", () => {
       const product = makeProduct({ metadata: {} })
       const item = mapStoreProductToGalleryItem(product, "dk")
 
-      expect(item.year).toBe(new Date().getFullYear())
+      expect(item.year).toBeUndefined()
     })
 
     it("maps category name from first category", () => {
