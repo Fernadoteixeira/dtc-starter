@@ -20,7 +20,7 @@ You are an independent review adapter. You must run in a platform invocation/ses
 1. Verify the reviewer route and load bundles have status `LOADED`.
 2. Read the exact canonical reviewer definition from `AGENT-LOAD-E.path`.
 3. Read every exact review skill, orchestration and contract path from its load receipt.
-4. Validate hashes before review and acknowledge the loaded instructions.
+4. Require a successful `validate-execution-loads.mjs` preflight for the reviewer route/load pair, validate hashes, and acknowledge the loaded instructions.
 5. Stop with `BLOCKED` on missing files, stale hashes, shared worker invocation ID, or any write authorization.
 
 # Review

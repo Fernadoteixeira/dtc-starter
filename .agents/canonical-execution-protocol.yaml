@@ -35,6 +35,7 @@ adapters:
 scripts:
   resolve_route: .agents/scripts/resolve-agent-shortcut.mjs
   resolve_loads: .agents/scripts/resolve-agent-skills.mjs
+  validate_loads: .agents/scripts/validate-execution-loads.mjs
   validate_evidence: .agents/scripts/validate-execution-evidence.mjs
 
 execution_flow:
@@ -44,6 +45,9 @@ execution_flow:
   - step: resolve_worker_loads
     command: node .agents/scripts/resolve-agent-skills.mjs --route <dir>/worker-route.json --evidence-dir <dir> --output <dir>/worker-loads.json --nos-skill <SK-nnn>
     emits: [SKILL-LOAD-E, ORCHESTRATION-LOAD-E, CONTRACT-LOAD-E]
+  - step: validate_worker_loads
+    command: node .agents/scripts/validate-execution-loads.mjs --route <dir>/worker-route.json --load-bundle <dir>/worker-loads.json --evidence-dir <dir>
+    emits: [LOAD-VALIDATION-E]
   - step: invoke_worker
     dispatcher_action: invoke_subagent
     adapter: canonical-worker
@@ -56,18 +60,21 @@ execution_flow:
     maximum_iterations: 2
     emits: [AUTO-E]
   - step: resolve_reviewer_route
-    command: node .agents/scripts/resolve-agent-shortcut.mjs --shortcut review:canonical --task-id <task-id>:review --evidence-dir <dir> --output <dir>/reviewer-route.json
+    command: node .agents/scripts/resolve-agent-shortcut.mjs --shortcut review:canonical --task-id <task-id>:review --evidence-dir <dir> --output <dir>/review-route.json
     emits: [ROUTE-E, AGENT-LOAD-E]
   - step: resolve_reviewer_loads
-    command: node .agents/scripts/resolve-agent-skills.mjs --route <dir>/reviewer-route.json --evidence-dir <dir> --output <dir>/reviewer-loads.json
+    command: node .agents/scripts/resolve-agent-skills.mjs --route <dir>/review-route.json --evidence-dir <dir> --output <dir>/review-loads.json
     emits: [SKILL-LOAD-E, ORCHESTRATION-LOAD-E, CONTRACT-LOAD-E]
+  - step: validate_reviewer_loads
+    command: node .agents/scripts/validate-execution-loads.mjs --route <dir>/review-route.json --load-bundle <dir>/review-loads.json --evidence-dir <dir>
+    emits: [LOAD-VALIDATION-E]
   - step: invoke_reviewer
     dispatcher_action: invoke_subagent
     adapter: canonical-reviewer
     requires: [review-route.json, review-loads.json, AGENT-RUN, artifacts]
     emits: [REVIEW-E]
   - step: validate
-    command: node .agents/scripts/validate-execution-evidence.mjs --evidence <dir>/execution-evidence.json --evidence-dir <dir> --output <dir>/validation.json
+    command: node .agents/scripts/validate-execution-evidence.mjs --evidence <dir>/execution-evidence.json --evidence-dir <dir> --output <dir>/validation-evidence.json
     emits: [VALIDATION-E]
 
 receipt_requirements:

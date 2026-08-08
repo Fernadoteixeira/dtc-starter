@@ -236,14 +236,24 @@ export function hashExecutionInputBundle(route, loadBundle) {
   return hashCanonicalValue({ route, load_bundle: loadBundle }, "execution input bundle")
 }
 
-function validateValidationRecords(records) {
+export function validateCompletedValidationRecords(records) {
   if (!Array.isArray(records) || records.length === 0) throw new Error("AGENT-RUN.validation must be a non-empty array")
   for (let index = 0; index < records.length; index += 1) {
     const record = assertExactObjectKeys(records[index], ["command", "status", "output"], `AGENT-RUN.validation[${index}]`)
     assertNonEmptyString(record.command, `AGENT-RUN.validation[${index}].command`)
     assertNonEmptyString(record.output, `AGENT-RUN.validation[${index}].output`)
-    if (!["PASS", "FAIL", "BLOCKED"].includes(record.status)) throw new Error(`AGENT-RUN.validation[${index}].status is invalid`)
+    if (record.status !== "PASS") throw new Error(`Completed AGENT-RUN validation status must be PASS at index ${index}`)
   }
+}
+
+export function validateTaskValue(task) {
+  if (typeof task === "string") {
+    return assertNonEmptyString(task, "AGENT-RUN.task")
+  }
+  if (!task || typeof task !== "object" || Array.isArray(task) || Object.getPrototypeOf(task) !== Object.prototype || Object.keys(task).length === 0) {
+    throw new Error("AGENT-RUN.task must be a non-empty trimmed string or non-empty plain object")
+  }
+  return task
 }
 
 function validateArtifacts(artifacts, agentRun) {
@@ -259,7 +269,7 @@ function validateArtifacts(artifacts, agentRun) {
   return artifacts
 }
 
-function validateReviewedArtifacts(reviewedArtifacts, workerArtifacts) {
+export function validateReviewedArtifacts(reviewedArtifacts, workerArtifacts) {
   if (!Array.isArray(reviewedArtifacts)) throw new Error("REVIEW-E.reviewed_artifacts must be an array")
   const workerPairs = workerArtifacts.map((artifact) => `${artifact.path}:${artifact.sha256}`)
   const reviewedPairs = reviewedArtifacts.map((artifact, index) => {
@@ -270,7 +280,7 @@ function validateReviewedArtifacts(reviewedArtifacts, workerArtifacts) {
   assertExactSet(reviewedPairs, workerPairs, "REVIEW-E.reviewed_artifacts")
 }
 
-function validateFindings(findings) {
+export function validateFindings(findings) {
   if (!Array.isArray(findings)) throw new Error("REVIEW-E.findings must be an array")
   for (let index = 0; index < findings.length; index += 1) {
     const finding = assertExactObjectKeys(findings[index], ["severity", "path", "summary", "blocking"], `REVIEW-E.findings[${index}]`)
@@ -309,7 +319,21 @@ function validateGlobalReceiptIds(receiptGroups) {
 export function validateAgentRunSchema(receipt) {
   const agentRun = assertExactObjectKeys(receipt, AGENT_RUN_KEYS, "AGENT-RUN")
   assertReceiptEnvelope(agentRun, "AGENT-RUN", "COMPLETED")
+  validateTaskValue(agentRun.task)
+  validateCompletedValidationRecords(agentRun.validation)
   return agentRun
+}
+
+export function validateReviewDecision(findings, verdict, passJustification) {
+  const validatedFindings = validateFindings(findings)
+  if (verdict !== "PASS" && verdict !== "NEEDS_REMEDIATION") throw new Error("REVIEW-E.verdict must be PASS or NEEDS_REMEDIATION")
+  if (typeof passJustification !== "string") throw new Error("REVIEW-E.pass_justification must be a string")
+  const blockingFindings = validatedFindings.filter((finding) => finding.blocking)
+  if (verdict === "PASS") {
+    assertNonEmptyString(passJustification, "REVIEW-E.pass_justification")
+    if (blockingFindings.length > 0) throw new Error("REVIEW-E cannot PASS with blocking findings")
+  }
+  return blockingFindings
 }
 
 export function validateReviewerRoutePolicy(routeValidation, parentTaskId) {
@@ -338,7 +362,6 @@ export function validateExecutionEvidence(evidence, context = {}) {
   if (agentRun.instructions_acknowledged !== true || agentRun.stop_condition_satisfied !== true) throw new Error("AGENT-RUN must acknowledge instructions and satisfy its stop condition")
   assertNonEmptyString(agentRun.self_critique, "AGENT-RUN.self_critique")
   if (!Number.isInteger(agentRun.auto_improve_iterations) || agentRun.auto_improve_iterations < 0 || agentRun.auto_improve_iterations > 2) throw new Error("AGENT-RUN.auto_improve_iterations must be an integer from 0 to 2")
-  validateValidationRecords(agentRun.validation)
   assertSha256(agentRun.task_sha256, "AGENT-RUN.task_sha256")
   if (agentRun.task_sha256 !== hashCanonicalValue(agentRun.task, "AGENT-RUN.task")) throw new Error("AGENT-RUN.task_sha256 does not match the canonical task")
   assertSha256(agentRun.input_bundle_sha256, "AGENT-RUN.input_bundle_sha256")
@@ -359,14 +382,7 @@ export function validateExecutionEvidence(evidence, context = {}) {
   validateExecutionReceiptRefs(review, reviewerRouteValidation, reviewerLoadReceipts, "REVIEW-E")
   if (review.review_target !== agentRun.receipt_id) throw new Error("REVIEW-E.review_target must equal the worker AGENT-RUN receipt_id")
   validateReviewedArtifacts(review.reviewed_artifacts, workerArtifacts)
-  const findings = validateFindings(review.findings)
-  if (review.verdict !== "PASS" && review.verdict !== "NEEDS_REMEDIATION") throw new Error("REVIEW-E.verdict must be PASS or NEEDS_REMEDIATION")
-  if (typeof review.pass_justification !== "string") throw new Error("REVIEW-E.pass_justification must be a string")
-  const blockingFindings = findings.filter((finding) => finding.blocking)
-  if (review.verdict === "PASS") {
-    assertNonEmptyString(review.pass_justification, "REVIEW-E.pass_justification")
-    if (blockingFindings.length > 0) throw new Error("REVIEW-E cannot PASS with blocking findings")
-  }
+  const blockingFindings = validateReviewDecision(review.findings, review.verdict, review.pass_justification)
 
   assertDistinctInvocations([
     ["worker route", workerRoute.invocation_id],
