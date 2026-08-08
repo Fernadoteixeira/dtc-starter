@@ -39,7 +39,7 @@ import {
   validateSkillConsumeReceipt,
   writeJsonExclusive
 } from "./canonical-execution-lib.mjs"
-import { TRUST_LEVELS } from "./host-provenance-adapter.mjs"
+import { TRUST_LEVELS, verifyExternalHostAttestation } from "./host-provenance-adapter.mjs"
 
 const AGENT_RUN_BASE_KEYS = [
   "type", "receipt_id", "invocation_id", "timestamp", "status", "task_id",
@@ -164,7 +164,7 @@ export function validateContractReceipt(receipt, contractMap, bundle) {
   if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) {
     throw new Error(`CONTRACT-LOAD-E has an invalid invocation_id or task_id`)
   }
-  const name = assertNonEmptyString(receipt.contract_name, "CONTRACT-LOAD-E.contract_name")
+  const name = assertNonEmptyString(receipt.contract_name || receipt.contract_id, "CONTRACT-LOAD-E.contract_name")
   const expectedPath = contractMap.get(name)
   if (!expectedPath) throw new Error(`Unknown contract name ${name}`)
   if (receipt.path !== expectedPath) throw new Error(`Contract ${name} path does not match route mapping`)
@@ -249,6 +249,7 @@ export function validateAgentRunSchema(agentRun) {
   const allowedKeys = [...AGENT_RUN_BASE_KEYS]
   if (agentRun?.provenance !== undefined) allowedKeys.push("provenance")
   if (agentRun?.skill_consume_receipt_refs !== undefined) allowedKeys.push("skill_consume_receipt_refs")
+  if (agentRun?.skill_consume_receipts !== undefined) allowedKeys.push("skill_consume_receipts")
   if (agentRun?.host_correlation !== undefined) allowedKeys.push("host_correlation")
   const value = assertExactObjectKeys(agentRun, allowedKeys, "AGENT-RUN")
   assertReceiptEnvelope(value, "AGENT-RUN", "COMPLETED")
@@ -422,10 +423,22 @@ export function validateExecutionEvidence(evidence, context = {}) {
   if (agentRun.input_bundle_sha256 !== hashExecutionInputBundle(workerRoute, execution.load_bundle)) throw new Error("AGENT-RUN.input_bundle_sha256 does not match route and load_bundle")
   validateExecutionReceiptRefs(agentRun, workerRouteValidation, workerLoadReceipts, "AGENT-RUN")
 
-  // Validate SKILL-CONSUME-E receipts if present
-  if (Array.isArray(agentRun.skill_consume_receipt_refs)) {
-    if (agentRun.skill_receipt_refs.length > 0 && agentRun.instructions_acknowledged === true && agentRun.skill_consume_receipt_refs.length === 0) {
-      throw new Error("instructions_acknowledged cannot be true with zero consume receipts")
+  // Validate SKILL-CONSUME-E receipts with independent dereferencing
+  const workerSkillLoadMap = new Map(workerLoadReceipts.skillReceipts.map((r) => [r.receipt_id, r]))
+  const workerConsumedSkills = new Set()
+  if (Array.isArray(agentRun.skill_consume_receipts)) {
+    for (const consume of agentRun.skill_consume_receipts) {
+      validateSkillConsumeReceipt(consume, workerSkillLoadMap, agentRun)
+      workerConsumedSkills.add(consume.skill_id)
+    }
+  }
+
+  if (agentRun.instructions_acknowledged === true) {
+    if (workerRoute.core_skills && workerRoute.core_skills.length > 0) {
+      const allRequiredConsumed = workerRoute.core_skills.every((id) => workerConsumedSkills.has(id))
+      if (!allRequiredConsumed) {
+        throw new Error("instructions_acknowledged cannot be true without all required core skills consumed")
+      }
     }
   }
 
@@ -439,6 +452,7 @@ export function validateExecutionEvidence(evidence, context = {}) {
   const allowedReviewKeys = [...REVIEW_BASE_KEYS]
   if (reviewExecution.review?.provenance !== undefined) allowedReviewKeys.push("provenance")
   if (reviewExecution.review?.skill_consume_receipt_refs !== undefined) allowedReviewKeys.push("skill_consume_receipt_refs")
+  if (reviewExecution.review?.skill_consume_receipts !== undefined) allowedReviewKeys.push("skill_consume_receipts")
   if (reviewExecution.review?.host_correlation !== undefined) allowedReviewKeys.push("host_correlation")
   const review = assertExactObjectKeys(reviewExecution.review, allowedReviewKeys, "REVIEW-E")
   assertReceiptEnvelope(review, "REVIEW-E", "COMPLETED")
@@ -447,6 +461,25 @@ export function validateExecutionEvidence(evidence, context = {}) {
   if (review.instructions_acknowledged !== true) throw new Error("REVIEW-E.instructions_acknowledged must be true")
   validateExecutionReceiptRefs(review, reviewerRouteValidation, reviewerLoadReceipts, "REVIEW-E")
   if (review.review_target !== agentRun.receipt_id) throw new Error("REVIEW-E.review_target must equal the worker AGENT-RUN receipt_id")
+
+  const reviewerSkillLoadMap = new Map(reviewerLoadReceipts.skillReceipts.map((r) => [r.receipt_id, r]))
+  const reviewerConsumedSkills = new Set()
+  if (Array.isArray(review.skill_consume_receipts)) {
+    for (const consume of review.skill_consume_receipts) {
+      validateSkillConsumeReceipt(consume, reviewerSkillLoadMap, review)
+      reviewerConsumedSkills.add(consume.skill_id)
+    }
+  }
+
+  if (review.instructions_acknowledged === true) {
+    if (reviewerRoute.core_skills && reviewerRoute.core_skills.length > 0) {
+      const allRequiredConsumed = reviewerRoute.core_skills.every((id) => reviewerConsumedSkills.has(id))
+      if (!allRequiredConsumed) {
+        throw new Error("instructions_acknowledged cannot be true without all required reviewer core skills consumed")
+      }
+    }
+  }
+
   validateReviewedArtifacts(review.reviewed_artifacts, workerArtifacts)
   const blockingFindings = validateReviewDecision(review.findings, review.verdict, review.pass_justification)
   assertDistinctInvocations([
@@ -503,19 +536,20 @@ export function validateExecutionEvidence(evidence, context = {}) {
       throw new Error("Reviewer invocation id does not match host provenance invocation id")
     }
 
-    // Trust level derivation hierarchy:
-    // 1. If external transcript correlation is proven: host_provenance_correlated
-    // 2. If asymmetric cryptographic signature is verified: host_provenance_verified
-    // 3. Otherwise: host_provenance_claimed
-    // platform_attestation_verified is true ONLY when host_provenance_verified.
-    if (agentRun.host_correlation && review.host_correlation &&
-        agentRun.host_correlation.correlation_status === "CORRELATED" &&
-        review.host_correlation.correlation_status === "CORRELATED") {
-      trustLevel = TRUST_LEVELS.HOST_PROVENANCE_CORRELATED
-      platformAttestationVerified = false
-    } else if (workerProv.cryptographic_signature && reviewerProv.cryptographic_signature) {
+    // Fail-closed cryptographic attestation verification
+    const workerAttestation = verifyExternalHostAttestation(workerProv)
+    const reviewerAttestation = verifyExternalHostAttestation(reviewerProv)
+
+    if (workerAttestation.verified === true && reviewerAttestation.verified === true) {
       trustLevel = TRUST_LEVELS.HOST_PROVENANCE_VERIFIED
       platformAttestationVerified = true
+    } else if (
+      agentRun.host_correlation && review.host_correlation &&
+      agentRun.host_correlation.correlation_status === "CORRELATED" &&
+      review.host_correlation.correlation_status === "CORRELATED"
+    ) {
+      trustLevel = TRUST_LEVELS.HOST_PROVENANCE_CORRELATED
+      platformAttestationVerified = false
     } else {
       trustLevel = TRUST_LEVELS.HOST_PROVENANCE_CLAIMED
       platformAttestationVerified = false

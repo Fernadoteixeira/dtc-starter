@@ -80,19 +80,21 @@ export function emitWorkerAgentRun({
   const orchestrationReceipts = loadBundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E").map((r) => r.receipt_id)
   const contractReceipts = loadBundle.receipts.filter((r) => r.type === "CONTRACT-LOAD-E").map((r) => r.receipt_id)
 
-  const skillLoadSet = new Set(skillReceipts)
+  const loadSkillReceiptMap = new Map(
+    loadBundle.receipts.filter((r) => r.type === "SKILL-LOAD-E").map((r) => [r.receipt_id, r])
+  )
   const validatedSkillConsumes = []
   if (Array.isArray(skillConsumeReceipts) && skillConsumeReceipts.length > 0) {
     for (const consume of skillConsumeReceipts) {
-      validateSkillConsumeReceipt(consume)
-      if (!skillLoadSet.has(consume.skill_load_receipt_ref)) {
-        throw new Error(`SKILL-CONSUME-E references skill load that was not in load bundle: ${consume.skill_load_receipt_ref}`)
-      }
+      validateSkillConsumeReceipt(consume, loadSkillReceiptMap)
       validatedSkillConsumes.push(consume)
     }
   }
 
-  const instructionsAcknowledged = validatedSkillConsumes.length > 0
+  const consumedSkillIds = new Set(validatedSkillConsumes.map((c) => c.skill_id))
+  const requiredCoreSkills = resolved.core_skills || []
+  const allCoreSkillsConsumed = requiredCoreSkills.length === 0 || requiredCoreSkills.every((id) => consumedSkillIds.has(id))
+  const instructionsAcknowledged = validatedSkillConsumes.length > 0 && allCoreSkillsConsumed
 
   const agentRun = {
     type: "AGENT-RUN",
@@ -173,19 +175,21 @@ export function emitReviewerReview({
   const orchestrationReceipts = loadBundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E").map((r) => r.receipt_id)
   const contractReceipts = loadBundle.receipts.filter((r) => r.type === "CONTRACT-LOAD-E").map((r) => r.receipt_id)
 
-  const skillLoadSet = new Set(skillReceipts)
+  const loadSkillReceiptMap = new Map(
+    loadBundle.receipts.filter((r) => r.type === "SKILL-LOAD-E").map((r) => [r.receipt_id, r])
+  )
   const validatedSkillConsumes = []
   if (Array.isArray(skillConsumeReceipts) && skillConsumeReceipts.length > 0) {
     for (const consume of skillConsumeReceipts) {
-      validateSkillConsumeReceipt(consume)
-      if (!skillLoadSet.has(consume.skill_load_receipt_ref)) {
-        throw new Error(`SKILL-CONSUME-E references skill load that was not in load bundle: ${consume.skill_load_receipt_ref}`)
-      }
+      validateSkillConsumeReceipt(consume, loadSkillReceiptMap)
       validatedSkillConsumes.push(consume)
     }
   }
 
-  const instructionsAcknowledged = validatedSkillConsumes.length > 0
+  const consumedSkillIds = new Set(validatedSkillConsumes.map((c) => c.skill_id))
+  const requiredCoreSkills = resolved.core_skills || []
+  const allCoreSkillsConsumed = requiredCoreSkills.length === 0 || requiredCoreSkills.every((id) => consumedSkillIds.has(id))
+  const instructionsAcknowledged = validatedSkillConsumes.length > 0 && allCoreSkillsConsumed
 
   const review = {
     type: "REVIEW-E",

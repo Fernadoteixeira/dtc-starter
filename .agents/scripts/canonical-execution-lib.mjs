@@ -560,7 +560,7 @@ export function validateReceiptFileHash(receipt, label) {
   return value
 }
 
-export function validateSkillConsumeReceipt(receipt, label = "SKILL-CONSUME-E") {
+export function validateSkillConsumeReceipt(receipt, loadReceiptMap, agentRunOrReview, label = "SKILL-CONSUME-E") {
   const value = assertObject(receipt, label)
   if (value.type !== "SKILL-CONSUME-E") throw new Error(`${label}.type must be SKILL-CONSUME-E`)
   assertUuid(value.receipt_id, `${label}.receipt_id`)
@@ -571,6 +571,43 @@ export function validateSkillConsumeReceipt(receipt, label = "SKILL-CONSUME-E") 
   assertNonEmptyString(value.skill_path, `${label}.skill_path`)
   assertSha256(value.skill_sha256, `${label}.skill_sha256`)
   if (value.status !== "CONSUMED") throw new Error(`${label}.status must be CONSUMED`)
+
+  if (agentRunOrReview) {
+    if (value.agent_run_ref !== agentRunOrReview.receipt_id) {
+      throw new Error(`${label}.agent_run_ref does not match the target execution receipt_id`)
+    }
+    if (value.task_id !== agentRunOrReview.task_id) {
+      throw new Error(`${label}.task_id does not match the execution task_id`)
+    }
+  }
+
+  const canonicalSkillPath = canonicalRepoPath(value.skill_path)
+  if (value.skill_path !== canonicalSkillPath) {
+    throw new Error(`${label}.skill_path must be canonical: ${canonicalSkillPath}`)
+  }
+  if (hashFile(canonicalSkillPath) !== value.skill_sha256) {
+    throw new Error(`${label} skill file hash mismatch for ${canonicalSkillPath}`)
+  }
+
+  if (loadReceiptMap) {
+    const loadReceipt = loadReceiptMap.get(value.skill_load_receipt_ref)
+    if (!loadReceipt) {
+      throw new Error(`${label}.skill_load_receipt_ref ${value.skill_load_receipt_ref} not found in load bundle`)
+    }
+    if (loadReceipt.type !== "SKILL-LOAD-E") {
+      throw new Error(`${label}.skill_load_receipt_ref does not point to a SKILL-LOAD-E receipt`)
+    }
+    if (loadReceipt.skill_id !== value.skill_id) {
+      throw new Error(`${label}.skill_id (${value.skill_id}) does not match referenced SKILL-LOAD-E.skill_id (${loadReceipt.skill_id})`)
+    }
+    if (loadReceipt.path !== value.skill_path) {
+      throw new Error(`${label}.skill_path (${value.skill_path}) does not match referenced SKILL-LOAD-E.path (${loadReceipt.path})`)
+    }
+    if (loadReceipt.sha256 !== value.skill_sha256) {
+      throw new Error(`${label}.skill_sha256 does not match referenced SKILL-LOAD-E.sha256`)
+    }
+  }
+
   if (!Array.isArray(value.consumption_evidence) || value.consumption_evidence.length === 0) {
     throw new Error(`${label}.consumption_evidence must be a non-empty array`)
   }
@@ -582,6 +619,9 @@ export function validateSkillConsumeReceipt(receipt, label = "SKILL-CONSUME-E") 
     assertNonEmptyString(item.rule_or_capability_applied, `${label}.consumption_evidence[${i}].rule_or_capability_applied`)
     assertNonEmptyString(item.evidence, `${label}.consumption_evidence[${i}].evidence`)
     const canonicalArt = canonicalRepoPath(item.artifact_path)
+    if (item.artifact_path !== canonicalArt) {
+      throw new Error(`${label} artifact path must be canonical: ${canonicalArt}`)
+    }
     if (hashFile(canonicalArt) !== item.artifact_sha256) {
       throw new Error(`${label} artifact hash mismatch for ${item.artifact_path}`)
     }

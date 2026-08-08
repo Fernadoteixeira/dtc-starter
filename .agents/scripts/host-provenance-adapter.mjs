@@ -101,7 +101,8 @@ export function correlateHostTranscript({
 
   const content = readFileSync(transcriptPath, "utf8")
   const lines = content.trim().split("\n")
-  let matchedEvent = null
+  let matchedSubagentCall = null
+  let matchedConversationBinding = false
   let recordHash = null
 
   for (let i = 0; i < lines.length; i += 1) {
@@ -116,22 +117,23 @@ export function correlateHostTranscript({
               (agentIdentity && rawArgs.includes(agentIdentity)) ||
               (taskId && rawArgs.includes(taskId))
             ) {
-              matchedEvent = {
+              matchedSubagentCall = {
                 step_index: entry.step_index,
                 created_at: entry.created_at,
                 tool_action: tc.args.toolAction
               }
               recordHash = hashBytes(line)
-              break
             }
           }
         }
       }
+      if (line.includes(provenance.host_session_id)) {
+        matchedConversationBinding = true
+      }
     } catch {}
-    if (matchedEvent) break
   }
 
-  if (!matchedEvent) {
+  if (!matchedSubagentCall) {
     return {
       type: "HOST-EXECUTION-CORRELATION-E",
       receipt_id: randomUUID(),
@@ -144,6 +146,22 @@ export function correlateHostTranscript({
     }
   }
 
+  if (!matchedConversationBinding) {
+    return {
+      type: "HOST-EXECUTION-CORRELATION-E",
+      receipt_id: randomUUID(),
+      task_id: taskId || "UNKNOWN",
+      host_session_id: provenance.host_session_id,
+      invocation_id: provenance.invocation_id,
+      transcript_path: transcriptPath,
+      transcript_record_hash: recordHash,
+      matched_event: matchedSubagentCall,
+      correlation_status: "UNBOUND_SESSION",
+      trust_level: TRUST_LEVELS.HOST_PROVENANCE_CLAIMED,
+      reason: "Transcript contains invoke_subagent but lacks binding to the claimed host_session_id"
+    }
+  }
+
   return {
     type: "HOST-EXECUTION-CORRELATION-E",
     receipt_id: randomUUID(),
@@ -152,7 +170,7 @@ export function correlateHostTranscript({
     invocation_id: provenance.invocation_id,
     transcript_path: transcriptPath,
     transcript_record_hash: recordHash,
-    matched_event: matchedEvent,
+    matched_event: matchedSubagentCall,
     correlation_status: "CORRELATED",
     trust_level: TRUST_LEVELS.HOST_PROVENANCE_CORRELATED
   }
