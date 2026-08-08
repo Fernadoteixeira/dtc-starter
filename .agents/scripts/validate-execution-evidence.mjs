@@ -209,123 +209,201 @@ export function validateLoadBundle(loadBundle, routeBundle) {
   return bundle.receipts
 }
 
-function collectFinalReceipts(evidence) {
-  const receipts = []
-  if (evidence.receipts !== undefined) {
-    if (!Array.isArray(evidence.receipts)) {
-      throw new Error("evidence.receipts must be an array")
-    }
-    receipts.push(...evidence.receipts)
+function assertExactObjectKeys(value, expectedKeys, label) {
+  const actualKeys = Object.keys(value).sort()
+  const sortedExpected = [...expectedKeys].sort()
+  if (JSON.stringify(actualKeys) !== JSON.stringify(sortedExpected)) {
+    throw new Error(`${label} must contain exactly: ${sortedExpected.join(", ")}`)
   }
-  if (evidence.agent_run !== undefined) {
-    receipts.push(evidence.agent_run)
-  }
-  if (evidence.review !== undefined) {
-    receipts.push(evidence.review)
-  }
-  const ids = new Set()
-  for (const receipt of receipts) {
-    const value = assertObject(receipt, "final receipt")
-    if (typeof value.receipt_id === "string" && ids.has(value.receipt_id)) {
-      throw new Error(`Final receipt appears more than once: ${value.receipt_id}`)
-    }
-    if (typeof value.receipt_id === "string") {
-      ids.add(value.receipt_id)
-    }
-  }
+}
+
+function receiptIdsByType(receipts, type) {
   return receipts
+    .filter((receipt) => receipt.type === type)
+    .map((receipt) => receipt.receipt_id)
 }
 
-function exactlyOneReceipt(receipts, type) {
-  const matches = receipts.filter((receipt) => receipt?.type === type)
-  if (matches.length !== 1) {
-    throw new Error(`${type} must appear exactly once in final evidence`)
+function validateExecutionReceiptRefs(receipt, routeValidation, loadReceipts, label) {
+  if (receipt.route_receipt_ref !== routeValidation.routeReceipt.receipt_id) {
+    throw new Error(`${label}.route_receipt_ref does not match its ROUTE-E receipt`)
   }
-  return matches[0]
+  if (receipt.agent_load_receipt_ref !== routeValidation.agentReceipt.receipt_id) {
+    throw new Error(`${label}.agent_load_receipt_ref does not match its AGENT-LOAD-E receipt`)
+  }
+  assertExactSet(receipt.skill_receipt_refs, receiptIdsByType(loadReceipts, "SKILL-LOAD-E"), `${label}.skill_receipt_refs`)
+  assertExactSet(receipt.orchestration_receipt_refs, receiptIdsByType(loadReceipts, "ORCHESTRATION-LOAD-E"), `${label}.orchestration_receipt_refs`)
+  assertExactSet(receipt.contract_receipt_refs, receiptIdsByType(loadReceipts, "CONTRACT-LOAD-E"), `${label}.contract_receipt_refs`)
 }
 
-function validateArtifacts(evidence, agentRun) {
-  const artifacts = evidence.artifacts ?? agentRun.artifacts
+function validateTaskPayload(task) {
+  if (typeof task === "string") {
+    assertNonEmptyString(task, "AGENT-RUN.task")
+    return
+  }
+  const value = assertObject(task, "AGENT-RUN.task")
+  if (Object.keys(value).length === 0) {
+    throw new Error("AGENT-RUN.task must not be empty")
+  }
+}
+
+function validateArtifacts(artifacts, agentRun) {
   if (!Array.isArray(artifacts) || artifacts.length === 0) {
-    throw new Error("Execution evidence must contain at least one artifact")
-  }
-  if (evidence.artifacts !== undefined && agentRun.artifacts !== undefined && JSON.stringify(evidence.artifacts) !== JSON.stringify(agentRun.artifacts)) {
-    throw new Error("Top-level and AGENT-RUN artifacts differ")
+    throw new Error("execution.artifacts must contain at least one artifact")
   }
   const paths = []
   for (let index = 0; index < artifacts.length; index += 1) {
-    const artifact = validateReceiptFileHash(artifacts[index], `artifacts[${index}]`)
+    const artifact = validateReceiptFileHash(artifacts[index], `execution.artifacts[${index}]`)
     if (paths.includes(artifact.path)) {
       throw new Error(`Duplicate artifact path: ${artifact.path}`)
     }
     paths.push(artifact.path)
   }
-  if (agentRun.artifact_refs !== undefined) {
-    assertExactSet(agentRun.artifact_refs, paths, "AGENT-RUN.artifact_refs")
-  } else if (agentRun.artifacts === undefined) {
-    throw new Error("AGENT-RUN must bind artifacts through artifacts or artifact_refs")
-  }
+  assertExactSet(agentRun.artifact_refs, paths, "AGENT-RUN.artifact_refs")
   return artifacts
+}
+
+function assertDistinctInvocations(entries) {
+  const seen = new Map()
+  for (const [label, invocationId] of entries) {
+    assertUuid(invocationId, `${label}.invocation_id`)
+    if (seen.has(invocationId)) {
+      throw new Error(`${label}.invocation_id must differ from ${seen.get(invocationId)}.invocation_id`)
+    }
+    seen.set(invocationId, label)
+  }
+}
+
+function validateGlobalReceiptIds(receiptGroups) {
+  const seen = new Set()
+  let count = 0
+  for (const receipts of receiptGroups) {
+    for (const receipt of receipts) {
+      assertUuid(receipt.receipt_id, `${receipt.type}.receipt_id`)
+      if (seen.has(receipt.receipt_id)) {
+        throw new Error(`Receipt ids must be globally unique: ${receipt.receipt_id}`)
+      }
+      seen.add(receipt.receipt_id)
+      count += 1
+    }
+  }
+  return count
 }
 
 export function validateExecutionEvidence(evidence) {
   assertNode20()
   const value = assertObject(evidence, "execution evidence")
-  const routeBundle = assertObject(value.route, "evidence.route")
-  validateRouteBundle(routeBundle)
-  const loadBundle = assertObject(value.load_bundle, "evidence.load_bundle")
-  const loadReceipts = validateLoadBundle(loadBundle, routeBundle)
-  if (value.task_id !== undefined && value.task_id !== routeBundle.task_id) {
-    throw new Error("Evidence task_id does not match the route")
+  assertExactObjectKeys(value, ["schema_version", "kind", "task_id", "execution", "review_execution"], "execution evidence")
+  if (value.schema_version !== 1 || value.kind !== "canonical-execution-evidence") {
+    throw new Error("Execution evidence must use schema_version 1 and kind canonical-execution-evidence")
   }
+  const taskId = assertNonEmptyString(value.task_id, "execution evidence.task_id")
 
-  const finalReceipts = collectFinalReceipts(value)
-  const agentRun = assertReceiptEnvelope(exactlyOneReceipt(finalReceipts, "AGENT-RUN"), "AGENT-RUN", "COMPLETED")
-  const review = assertReceiptEnvelope(exactlyOneReceipt(finalReceipts, "REVIEW-E"), "REVIEW-E", "COMPLETED")
-  if (finalReceipts.length !== 2) {
-    throw new Error("Final evidence may only contain one AGENT-RUN and one REVIEW-E receipt")
+  const execution = assertObject(value.execution, "execution")
+  assertExactObjectKeys(execution, ["route", "load_bundle", "agent_run", "artifacts"], "execution")
+  const workerRoute = assertObject(execution.route, "execution.route")
+  const workerRouteValidation = validateRouteBundle(workerRoute)
+  if (workerRoute.task_id !== taskId) {
+    throw new Error("Worker route task_id must equal the parent task_id")
   }
-  if (agentRun.task_id !== routeBundle.task_id || review.task_id !== routeBundle.task_id) {
-    throw new Error("Final receipt task_id does not match the route")
+  const workerLoadBundle = assertObject(execution.load_bundle, "execution.load_bundle")
+  const workerLoadReceipts = validateLoadBundle(workerLoadBundle, workerRoute)
+  const agentRun = assertReceiptEnvelope(execution.agent_run, "AGENT-RUN", "COMPLETED")
+  if (agentRun.type !== "AGENT-RUN") {
+    throw new Error("execution.agent_run.type must be AGENT-RUN")
+  }
+  if (agentRun.adapter !== "canonical-worker") {
+    throw new Error("AGENT-RUN.adapter must be canonical-worker")
+  }
+  if (agentRun.canonical_identity !== workerRoute.canonical_agent) {
+    throw new Error("AGENT-RUN.canonical_identity must equal the worker route canonical_agent")
+  }
+  if (agentRun.task_id !== taskId) {
+    throw new Error("AGENT-RUN.task_id must equal the parent task_id")
   }
   if (agentRun.instructions_acknowledged !== true) {
     throw new Error("AGENT-RUN.instructions_acknowledged must be true")
   }
-  const skillReceiptIds = loadReceipts
-    .filter((receipt) => receipt.type === "SKILL-LOAD-E")
-    .map((receipt) => receipt.receipt_id)
-  assertExactSet(agentRun.skill_receipt_refs, skillReceiptIds, "AGENT-RUN.skill_receipt_refs")
-  validateArtifacts(value, agentRun)
+  validateTaskPayload(agentRun.task)
+  validateExecutionReceiptRefs(agentRun, workerRouteValidation, workerLoadReceipts, "AGENT-RUN")
+  validateArtifacts(execution.artifacts, agentRun)
 
-  if (review.invocation_id === agentRun.invocation_id) {
-    throw new Error("REVIEW-E must use an invocation_id different from AGENT-RUN")
+  const reviewExecution = assertObject(value.review_execution, "review_execution")
+  assertExactObjectKeys(reviewExecution, ["route", "load_bundle", "review"], "review_execution")
+  const reviewerRoute = assertObject(reviewExecution.route, "review_execution.route")
+  const reviewerRouteValidation = validateRouteBundle(reviewerRoute)
+  const reviewerTaskId = `${taskId}:review`
+  if (reviewerRoute.task_id !== reviewerTaskId) {
+    throw new Error(`Reviewer route task_id must be exactly ${reviewerTaskId}`)
   }
+  if (reviewerRoute.canonical_agent !== "code-reviewer") {
+    throw new Error("Reviewer route canonical_agent must be code-reviewer")
+  }
+  const reviewerLoadBundle = assertObject(reviewExecution.load_bundle, "review_execution.load_bundle")
+  const reviewerLoadReceipts = validateLoadBundle(reviewerLoadBundle, reviewerRoute)
+  const review = assertObject(reviewExecution.review, "REVIEW-E")
+  assertNonEmptyString(review.type, "REVIEW-E.type")
+  assertUuid(review.receipt_id, "REVIEW-E.receipt_id")
+  assertUuid(review.invocation_id, "REVIEW-E.invocation_id")
+  assertIsoTimestamp(review.timestamp, "REVIEW-E.timestamp")
+  if (review.status !== "REVIEWED" && review.status !== "COMPLETED") {
+    throw new Error("REVIEW-E.status must be REVIEWED or COMPLETED")
+  }
+  if (review.type !== "REVIEW-E") {
+    throw new Error("review_execution.review.type must be REVIEW-E")
+  }
+  if (review.adapter !== "canonical-reviewer") {
+    throw new Error("REVIEW-E.adapter must be canonical-reviewer")
+  }
+  if (review.canonical_identity !== reviewerRoute.canonical_agent) {
+    throw new Error("REVIEW-E.canonical_identity must equal the reviewer route canonical_agent")
+  }
+  if (review.task_id !== reviewerTaskId) {
+    throw new Error("REVIEW-E.task_id must match the reviewer route task_id")
+  }
+  if (review.instructions_acknowledged !== true) {
+    throw new Error("REVIEW-E.instructions_acknowledged must be true")
+  }
+  validateExecutionReceiptRefs(review, reviewerRouteValidation, reviewerLoadReceipts, "REVIEW-E")
   if (review.review_target !== agentRun.receipt_id) {
-    throw new Error("REVIEW-E.review_target must equal the AGENT-RUN receipt_id")
+    throw new Error("REVIEW-E.review_target must equal the worker AGENT-RUN receipt_id")
+  }
+  if (!Array.isArray(review.findings)) {
+    throw new Error("REVIEW-E.findings must be an array")
   }
   if (review.verdict !== "PASS" && review.verdict !== "NEEDS_REMEDIATION") {
     throw new Error("REVIEW-E.verdict must be PASS or NEEDS_REMEDIATION")
   }
 
-  const allReceiptIds = [
-    ...routeBundle.receipts.map((receipt) => receipt.receipt_id),
-    ...loadReceipts.map((receipt) => receipt.receipt_id),
-    agentRun.receipt_id,
-    review.receipt_id
-  ]
-  if (new Set(allReceiptIds).size !== allReceiptIds.length) {
-    throw new Error("Receipt ids must be globally unique")
-  }
+  assertDistinctInvocations([
+    ["worker route", workerRoute.invocation_id],
+    ["worker load", workerLoadBundle.invocation_id],
+    ["AGENT-RUN", agentRun.invocation_id],
+    ["reviewer route", reviewerRoute.invocation_id],
+    ["reviewer load", reviewerLoadBundle.invocation_id],
+    ["REVIEW-E", review.invocation_id]
+  ])
+
+  const validatedReceiptCount = validateGlobalReceiptIds([
+    workerRoute.receipts,
+    workerLoadReceipts,
+    [agentRun],
+    reviewerRoute.receipts,
+    reviewerLoadReceipts,
+    [review]
+  ])
+  const status = review.verdict === "PASS" ? "VALID" : "REMEDIATION_REQUIRED"
 
   return {
     schema_version: 1,
     kind: "canonical-execution-evidence-validation",
-    status: "VALID",
-    task_id: routeBundle.task_id,
+    status,
+    task_id: taskId,
+    worker_identity: workerRoute.canonical_agent,
+    reviewer_identity: reviewerRoute.canonical_agent,
     agent_run_receipt_id: agentRun.receipt_id,
     review_receipt_id: review.receipt_id,
     verdict: review.verdict,
-    validated_receipt_count: allReceiptIds.length
+    validated_receipt_count: validatedReceiptCount
   }
 }
 
@@ -337,6 +415,9 @@ export function main(argv = process.argv.slice(2)) {
   const evidence = readJson(evidencePath, evidencePath)
   const result = validateExecutionEvidence(evidence)
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`)
+  if (result.status === "REMEDIATION_REQUIRED") {
+    process.exitCode = 1
+  }
   return result
 }
 
