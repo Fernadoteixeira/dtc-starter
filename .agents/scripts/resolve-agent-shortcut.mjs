@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto"
 import { pathToFileURL } from "node:url"
 import {
   AGENT_ROOT,
+  PHASE_FILENAMES,
   ROUTE_KIND,
   assertNode20,
   assertNonEmptyString,
@@ -12,8 +13,9 @@ import {
   loadRegistry,
   parseArguments,
   readJson,
+  resolveEvidenceOutputPath,
   resolveShortcut,
-  writeJson
+  writeJsonExclusive
 } from "./canonical-execution-lib.mjs"
 
 export function buildRouteBundle({ shortcut: shortcutValue, taskId }) {
@@ -31,7 +33,6 @@ export function buildRouteBundle({ shortcut: shortcutValue, taskId }) {
   if (agentDefinition.id !== route.canonical_agent) {
     throw new Error(`Agent definition id mismatch: expected ${route.canonical_agent}`)
   }
-
   const routeReceipt = {
     ...createReceipt("ROUTE-E", "LOADED", invocationId),
     task_id: taskId,
@@ -46,7 +47,6 @@ export function buildRouteBundle({ shortcut: shortcutValue, taskId }) {
     path: agentPath,
     sha256: hashFile(agentPath)
   }
-
   return {
     schema_version: 1,
     kind: ROUTE_KIND,
@@ -62,14 +62,13 @@ export function main(argv = process.argv.slice(2)) {
   const args = parseArguments(argv, {
     "--shortcut": { required: true },
     "--task-id": { required: true },
+    "--evidence-dir": { required: true },
     "--output": { required: true }
   })
-  const bundle = buildRouteBundle({
-    shortcut: args["--shortcut"],
-    taskId: args["--task-id"]
-  })
-  const outputPath = canonicalRepoPath(args["--output"], { mustExist: false })
-  const serialized = writeJson(outputPath, bundle)
+  const bundle = buildRouteBundle({ shortcut: args["--shortcut"], taskId: args["--task-id"] })
+  const allowedName = bundle.shortcut === "review:canonical" ? PHASE_FILENAMES.reviewerRoute : PHASE_FILENAMES.workerRoute
+  const outputPath = resolveEvidenceOutputPath(args["--output"], args["--evidence-dir"], [allowedName])
+  const serialized = writeJsonExclusive(outputPath, bundle)
   process.stdout.write(serialized)
   return bundle
 }
