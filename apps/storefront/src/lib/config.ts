@@ -35,5 +35,12 @@ sdk.client.fetch = async <T>(
     ...init,
     headers: newHeaders,
   }
-  return originalFetch(input, init)
+  try {
+    return await originalFetch(input, init)
+  } catch (error) {
+    if (typeof window !== "undefined") {
+      return {} as T
+    }
+    throw error
+  }
 }
