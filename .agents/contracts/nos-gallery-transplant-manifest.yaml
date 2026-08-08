@@ -1,14 +1,13 @@
 # NOS-Gallery Transplant Manifest — BB-00 (Issue #13 / NOS-001)
-# Status: FROZEN. This manifest is the authoritative plan for transplanting the
-# nos-gallery first-fold experience into @dtc/gallery-experience +
-# apps/storefront/src/modules/home/gallery-hero. Subsequent issues must execute
-# against this manifest without rediscovery. Changes require a new gate.
+# Status: REMEDIATION REVIEW. The canonical source SHA is pinned, but the
+# transplant manifest remains mutable until T18-T23 evidence reconciliation and
+# independent review pass. Subsequent issues must not treat it as frozen yet.
 
 manifest:
   id: nos-gallery-transplant-manifest
   issue: BB-00 / NOS-001 (GitHub Issue #13)
-  frozen_at: "2026-08-07T14:33:32-03:00"
-  gate_verdict: NOS-GALLERY TRANSPLANT MANIFEST FROZEN
+  frozen_at: null
+  gate_verdict: REMEDIATION_REVIEW_PENDING
   runtime_code_changes: none   # audit + mapping only, per issue scope
 
 canonical_source:
@@ -488,11 +487,13 @@ deviations:
     rationale: First-fold visual/interaction parity is the BB-NOS gate; persistence/gamification is additive and lands in wave 2 with a re-namespaced storage key.
 
 # ---------------------------------------------------------------------------
-# 4. Freeze record
+# 4. Freeze candidate record
 # ---------------------------------------------------------------------------
 freeze:
+  status: pending_independent_review
   pinned_commit: 2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e
-  immutable_for_slice: true
+  canonical_source_immutable_for_slice: true
+  manifest_immutable: false
   dispositions_total: 29
   dispositions_by_class: { ADAPT: 9, PORT: 4, KEEP_DTC: 2, DEFER: 7, REJECT_WITH_REASON: 7 }
   note: >
@@ -521,4 +522,7 @@ acceptance_checklist:
   every_first_fold_component_has_disposition: true
   every_deviation_has_evidence_and_rationale: true
   no_runtime_code_changes: true
-  manifest_sufficient_for_subsequent_issues: true
+  ownership_reconciled_with_issues_14_32: true
+  provenance_taxonomy_repaired: true
+  independent_review_passed: false
+  manifest_sufficient_for_subsequent_issues: pending_review

@@ -3,7 +3,8 @@
 **Issue:** #13 (NOS-001)
 **Protocol:** Canonical Autonomous Execution v4.0
 **DoR status:** PASS (13/13)
-**DoD phrase:** `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
+**DoD status:** `PENDING INDEPENDENT REVIEW`  
+**Reserved DoD phrase:** `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
 
 > This is THE core deliverable of NOS-001. Every upstream symbol is mapped to its target path and disposition. Dispositions are: **PORT** (copy canonical), **ADAPT** (canonical logic, target-compatible types/imports), **KEEP_DTC** (use existing DTC code, do not transplant), **DEFER** (implement in a later child issue), **REJECT_WITH_REASON** (do not transplant, documented reason).
 
@@ -102,7 +103,7 @@
 |---|---|---|---|---|
 | 58 | `framer-motion` | gallery-experience components/hooks | PORT (already in package.json) | Already a direct dep of `@dtc/gallery-experience`. No new dep needed. |
 | 59 | `lucide-react` | artwork-card.tsx (5 icons) | REJECT_WITH_REASON → ADAPT | NOT available. Replace 5 icons with inline SVG components. Icons: ArrowUpRight, BookOpenText, Bookmark, Check, Share2. Implement as inline SVG in gallery-experience package. |
-| 60 | `sonner` | art-gallery-slider.tsx (inquiry toast) | DEFER | NOT available. Inquiry modal is child issue #22. For NOS-001, omit inquiry toast or stub with console.log. |
+| 60 | `sonner` | art-gallery-slider.tsx (inquiry toast) | DEFER | NOT available. No current #14–#32 issue owns the inquiry modal; retain as an explicit owner gap. Do not add a console stub. |
 | 61 | `@vercel/analytics` | analytics.ts, use-artwork-dwell.ts | ADAPT | NOT available. Create `AnalyticsAdapter` interface in gallery-experience. Storefront injects concrete implementation. Package exports no-op default. |
 | 62 | `clsx` | utils.ts | KEEP_DTC | Already available in storefront and gallery-experience. |
 | 63 | `tailwind-merge` | utils.ts | KEEP_DTC | Already available in gallery-experience package. |
@@ -113,30 +114,30 @@
 
 | # | Behavior | Disposition | Owner Issue |
 |---|---|---|---|
-| B01 | Drag navigation | PORT → #14 | #14 |
-| B02 | Wheel navigation | PORT → #14 | #14 |
-| B03 | Touch swipe navigation | PORT → #14 | #14 |
-| B04 | Keyboard navigation | PORT → #15 | #15 |
-| B05 | Navigation dots | PORT → #15 | #15 |
-| B06 | Pointer scene discovery | PORT → #16 | #16 |
-| B07 | Color extraction | PORT → #16 | #16 |
-| B08 | Ambient crossfade | PORT → #16 | #16 |
-| B09 | Parallax effects | PORT → #17 | #17 |
-| B10 | Progress tracking | PORT → #18 | #18 |
-| B11 | Saved artworks | PORT → #19 | #19 |
-| B12 | Share | PORT → #19 | #19 |
-| B13 | Inquiry modal | DEFER → #22 | #22 |
-| B14 | Details dialog | PORT → #20 | #20 |
-| B15 | JSON-LD schema | PORT → #20 | #20 |
-| B16 | Analytics events | ADAPT → #23 | #23 |
-| B17 | Image preloading | PORT → #14 | #14 |
-| B18 | Reduced motion | PORT → #15 | #15 |
-| B19 | Skip link | PORT → #15 | #15 |
-| B20 | SSR fallback | PORT → #13 | #13 |
-| B21 | Availability labels | ADAPT → #13 | #13 |
-| B22 | CSS palette | PORT → #13 | #13 |
-| B23 | CSS effects (grain/vignette/reflection) | PORT → #13 | #13 |
-| B24 | Responsive layout | PORT → #13 | #13 |
+| B01 | Drag navigation | PORT | #18 |
+| B02 | Wheel navigation | PORT | #18 |
+| B03 | Touch swipe navigation | PORT | #18 |
+| B04 | Keyboard navigation | PORT + VALIDATE | #17 + #24 |
+| B05 | Navigation dots | PORT | #17 |
+| B06 | Pointer scene discovery | PORT | #16 |
+| B07 | Color extraction / ambient input | ADAPT | #15 |
+| B08 | Ambient crossfade | PORT | #15 |
+| B09 | Parallax effects | PORT | #19 |
+| B10 | Progress tracking | ADAPT | #20 |
+| B11 | Saved artworks | DEFER / OWNER GAP | unresolved |
+| B12 | Share | DEFER / OWNER GAP | unresolved |
+| B13 | Inquiry modal | DEFER / OWNER GAP | unresolved |
+| B14 | Details dialog | DEFER / OWNER GAP | unresolved |
+| B15 | JSON-LD schema | DEFER / OWNER GAP | unresolved |
+| B16 | Analytics events | ADAPT + OBSERVE | #23 + #31 |
+| B17 | Image preloading | ADAPT + BUDGET | #16 + #26 |
+| B18 | Reduced motion | PORT + VALIDATE | #19 + #24 |
+| B19 | Skip link | PORT | #24 |
+| B20 | SSR/degraded fallback | ADAPT | #29 |
+| B21 | Availability labels | ADAPT | #22 |
+| B22 | CSS palette | PORT | #14 |
+| B23 | CSS effects (grain/vignette/reflection) | PORT | #15 |
+| B24 | Responsive layout | PORT + VALIDATE | #24 |
 
 ---
 
@@ -173,4 +174,4 @@ See accompanying file: `06-source-target-manifest.json` for machine-readable ver
 
 ---
 
-**End of artifact 06. This manifest is now FROZEN per the DoD phrase: `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`**
+**End of artifact 06. Ownership was remediated against current issues #14–#32. Freeze remains pending independent review and final DoD reconciliation.**

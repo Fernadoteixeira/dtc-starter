@@ -3,13 +3,17 @@
   "issue": 13,
   "protocol": "canonical-autonomous-execution-v4.0",
   "canonical_sha": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
-  "dod_phrase": "NOS-GALLERY TRANSPLANT MANIFEST FROZEN",
+  "status": "remediation_review_pending",
+  "dod_phrase_reserved": "NOS-GALLERY TRANSPLANT MANIFEST FROZEN",
+  "dod_phrase_permitted": false,
+  "ownership_ssot": "Current literal Depends on fields in GitHub issues #14-#32",
   "generated_at": "2025-07-21T00:00:00Z",
+  "remediated_at": "2026-08-07",
   "dispositions": {
     "PORT": "Copy canonical source to target with minimal changes (path/imports only)",
     "ADAPT": "Port canonical logic but adapt types, imports, or interfaces to target system",
     "KEEP_DTC": "Use existing DTC code, do not transplant",
-    "DEFER": "Implement in a later child issue (#14-#28)",
+    "DEFER": "Implement in a later explicitly-owned child issue (#14-#32); unresolved owner gaps remain deferred",
     "REJECT_WITH_REASON": "Do not transplant, documented reason"
   },
   "components": [

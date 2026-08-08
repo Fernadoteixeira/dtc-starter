@@ -1,174 +1,117 @@
-# 16 — Agent-Skill Evidence YAML (NOS-001)
-
-# Evidence-backed provenance for all agents and skills used in NOS-001 execution.
+version: 2
+issue: 13
+nos_id: NOS-001
+iteration: auto-improve-1
+status: remediation_in_progress
 
 agent_evidence:
-  AGENT-E1:
-    path: ".agents/fio-vivo-antigravity-rug-pack/agents/rug-orchestrator.md"
-    task: "Orchestrate NOS-001 360° execution: DoR, analysis, manifest, DoD, GO/NO-GO"
+  AGENT-E-R1:
+    runtime: zed-delegated-analysis-agent
+    session_id: 162eadea-b3c6-40a8-a241-1ed1e4727e33
+    task: derive current ownership and hard DAG from GitHub issue bodies 14-32
     inputs:
-      - "User request: Protocol v4.0 execution"
-      - "GitHub issue #13 Governance Overlay v3.0"
-      - "Canonical SHA: 2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e"
+      - https://api.github.com/repos/Fernadoteixeira/dtc-starter/issues
+      - docs/artifacts/bb-nos/nos-001/12-issue-ownership-matrix.md
+      - docs/artifacts/bb-nos/nos-001/13-dependency-dag.md
     outputs:
-      - "24 artifact files under docs/artifacts/bb-nos/nos-001/"
-      - "DoR PASS verdict (13/13)"
-      - "Transplant manifest FROZEN"
-    verdict: "PASS"
-    artifact: "docs/artifacts/bb-nos/nos-001/"
+      - remediated ownership matrix input
+      - remediated hard DAG input
+      - ambiguity register for issues 27 and 28
+    verdict: pass
+  AGENT-E-R2:
+    runtime: zed-delegated-audit-agent
+    session_id: dde947e9-6aab-4532-9f1d-691ad32abaa4
+    task: audit shortcut registry paths and DRAFT-0 provenance
+    inputs:
+      - .agents/canonical-agent-shortcuts.yaml
+      - docs/artifacts/bb-nos/nos-001/15-agent-skill-binding.md
+      - docs/artifacts/bb-nos/nos-001/16-agent-skill-evidence.yaml
+    outputs:
+      - valid path inventory
+      - false execution-claim findings
+      - corrected evidence taxonomy
+    verdict: pass
 
-  AGENT-E2:
-    path: ".agents/ollama-superpowers-pack-v1.0.0/agents/researcher.md"
-    task: "Read and analyze all upstream and target source files"
-    inputs:
-      - "8 upstream component files"
-      - "10 upstream hook files"
-      - "8 upstream lib files"
-      - "7 target gallery-experience files"
-      - "8 target gallery-hero files"
-    outputs:
-      - "Artifact 02: current-state.md"
-      - "Artifact 03: canonical-lineage.md"
-      - "Artifact 04: upstream-inventory.md"
-      - "Artifact 05: target-inventory.md"
-    verdict: "PASS"
-    artifact: "docs/artifacts/bb-nos/nos-001/02-current-state.md"
-
-  AGENT-E3:
-    path: ".agents/ollama-superpowers-pack-v1.0.0/agents/code-analyzer.md"
-    task: "Type system comparison, dependency mapping, behavior analysis"
-    inputs:
-      - "Upstream types/artwork.ts"
-      - "Target types/index.ts"
-      - "Upstream package.json"
-      - "Target package.json files"
-      - "All upstream component imports"
-    outputs:
-      - "Artifact 06: source-target-manifest (72 entries)"
-      - "Artifact 07: behavior-contract-matrix (90 behaviors)"
-      - "Artifact 09: medusa-adaptation-register"
-      - "Artifact 10: intentional-deviations (16 deviations)"
-    verdict: "PASS"
-    artifact: "docs/artifacts/bb-nos/nos-001/06-source-target-manifest.md"
-
-  AGENT-E4:
-    path: ".agents/fio-vivo-antigravity-rug-pack/agents/css-spec-validator.md"
-    task: "CSS palette and token verification"
-    inputs:
-      - "Upstream app/globals.css (577 lines)"
-      - "Target gallery-experience.css (~200 lines)"
-      - "nos-gallery-first-fold.yaml visual contract"
-    outputs:
-      - "CSS palette comparison: TOTAL MISMATCH documented"
-      - "20 CSS token dispositions (all PORT)"
-      - "Border-radius correction: 1.25rem → 2px"
-    verdict: "PASS"
-    artifact: "docs/artifacts/bb-nos/nos-001/06-source-target-manifest.md#5-css-dispositions"
-
-  AGENT-E5:
-    path: ".agents/fio-vivo-antigravity-rug-pack/agents/repo-guardian.md"
-    task: "Runtime immutability verification"
-    inputs:
-      - "Git HEAD: 34306f194a8548d0d0ca3ef01953d89a34503755"
-      - "Target surfaces: packages/gallery-experience/**, apps/storefront/src/modules/home/gallery-hero/**"
-    outputs:
-      - "Pre-execution git diff: 0 changes on target surfaces"
-      - "Post-execution git diff: 0 changes on target surfaces (artifacts are docs/, not code)"
-      - "Runtime immutability: CONFIRMED"
-    verdict: "PASS"
-    artifact: "docs/artifacts/bb-nos/nos-001/21-go-no-go.md"
+invalidated_draft0_agent_claims:
+  - id: AGENT-E1
+    status: invalidated
+    reason: stale path and no invocation evidence
+  - id: AGENT-E2
+    status: invalidated
+    reason: old artifact states delegated agents returned zero useful turns
+  - id: AGENT-E3
+    status: invalidated
+    reason: old artifact states delegated agents returned zero useful turns
+  - id: AGENT-E4
+    status: invalidated
+    reason: old artifact states delegated agents returned zero useful turns
+  - id: AGENT-E5
+    status: invalidated
+    reason: no invocation evidence and referenced output artifact does not exist
 
 skill_evidence:
-  SKILL-E1:
-    path: ".agents/skills/medusa/building-with-medusa/SKILL.md"
-    consumer: "AGENT-E2"
-    instructions_applied:
-      - "Module structure patterns for understanding Medusa adapter"
-      - "API route patterns for store.product endpoints"
-      - "Workflow patterns for data fetching"
-    compliance: "PASS"
-
-  SKILL-E2:
-    path: ".agents/skills/medusa/building-storefronts/SKILL.md"
-    consumer: "AGENT-E2"
-    instructions_applied:
-      - "Storefront SDK usage patterns"
-      - "Publishable key requirement documented"
-      - "Data fetching with store.product.list"
-    compliance: "PASS"
-
-  SKILL-E3:
-    path: ".agents/skills/medusa/storefront-best-practices/SKILL.md"
-    consumer: "AGENT-E2"
-    instructions_applied:
-      - "Storefront architecture patterns"
-      - "Commerce integration best practices"
-      - "Cart/checkout separation from gallery"
-    compliance: "PASS"
-
-  SKILL-E4:
-    path: ".agents/nos-gallery-canonical-skills-205/manifest/skills.json"
-    sha256: "97B63C9520C46FBD5917F2F9E5AFB466700112F9FDE74F110CBCA9771EDBCDC9"
-    size_bytes: 95382
-    consumer: "AGENT-E3"
-    instructions_applied:
-      - "web-runtime: 27 skills for runtime behavior"
-      - "data-contracts: 26 skills for type contracts"
-      - "radix-ui: 22 skills for UI primitives"
-      - "styles: 24 skills for CSS/token system"
-      - "interaction: 28 skills for gesture/pointer"
-      - "analytics: 20 skills for event tracking"
-      - "quality: 31 skills for testing/validation"
-    compliance: "PASS"
-    note: "Path corrected from skills.json to manifest/skills.json per DoR verification"
-
-  SKILL-E5:
-    path: ".agents/skills/web-design-guidelines/SKILL.md"
-    consumer: "AGENT-E4"
-    instructions_applied:
-      - "Color contrast guidelines for copper/umber/linen palette"
-      - "Accessibility requirements for ARIA carousel"
-      - "Layout guidelines for 3-zone gallery"
-    compliance: "PASS"
-
-  SKILL-E6:
-    path: ".agents/product-lifecycle-canonical-skills-315/domains.json"
-    consumer: "AGENT-E3"
-    instructions_applied:
-      - "22 domains, 78 capability packs"
-      - "Cross-domain orchestration patterns"
-    compliance: "PASS"
-
-  SKILL-E7:
-    path: ".agents/contracts/nos-gallery-first-fold.yaml"
-    consumer: "AGENT-E4"
-    instructions_applied:
-      - "Copper/umber/linen palette requirement"
-      - "3-zone layout (active | adjacent | continuation)"
-      - "Active-to-neighbor width ratio >= 1.30"
-      - "max_diff_pixel_ratio: 0.05"
-      - "Human visual approval required"
-    compliance: "PASS"
-
-  SKILL-E8:
-    path: ".agents/contracts/session-state-ledger.md"
-    consumer: "AGENT-E1"
-    instructions_applied:
-      - "Gate state contract (DoR/DoD gates)"
-      - "Authorization categories are distinct (product/git/PR/merge/release)"
-      - "GO is NOT inherited across DAG"
-      - "Evidence taxonomy (14 evidence types)"
-    compliance: "PASS"
+  status: none_claimed
+  reason: no atomic skill load or invocation was recorded during this remediation
 
 contract_evidence:
-  canonical_sha: "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e"
-  canonical_sha_verified_on:
-    - "Fernadoteixeira/nos-gallery (GitHub API)"
-    - "boldfernando/nos-gallery (GitHub API)"
-  subproject_sha: "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e"
-  subproject_dirty:
-    - "AGENTS.md (modified)"
-    - ".turbo/ (untracked)"
-  target_surfaces_immutable: true
-  git_head: "34306f194a8548d0d0ca3ef01953d89a34503755"
-  git_branch: "main"
+  CONTRACT-E1:
+    path: .agents/contracts/session-state-ledger.md
+    applied:
+      - authorization categories remain distinct
+      - live ledger created under ignored .vscode path
+      - merge and release remain forbidden
+  CONTRACT-E2:
+    path: .agents/contracts/nos-gallery-first-fold.yaml
+    applied:
+      - human visual approval remains terminal
+      - manifest freeze does not imply visual or release approval
+
+governance_evidence:
+  GOV-E1:
+    source: https://api.github.com/repos/Fernadoteixeira/dtc-starter/issues/13
+    purpose: remediation checklist and freeze restriction
+  GOV-E2:
+    source: current issue bodies 14-32
+    purpose: ownership and hard scheduling SSOT
+  GOV-E3:
+    path: .agents/canonical-agent-shortcuts.yaml
+    purpose: shortcut registry and evidence separation
+  GOV-E4:
+    path: .agents/nos-gallery-canonical-skills-205/manifest/skills.json
+    purpose: atomic skill resolver only
+  GOV-E5:
+    path: .agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json
+    purpose: orchestration resolver only
+
+automation_evidence:
+  AUTO-E1:
+    operation: GitHub API fetch
+    result: issue 13 remediation requirements captured
+  AUTO-E2:
+    operation: delegated GitHub issue body reconciliation
+    result: issue ownership and hard DAG rebuilt for 14-32
+  AUTO-E3:
+    operation: workspace path audit
+    result: canonical registry paths valid; stale DRAFT-0 paths identified
+  AUTO-E4:
+    operation: workspace file inventory
+    result: 20 current entries found under docs/artifacts/bb-nos/nos-001
+  AUTO-E5:
+    operation: mutation allowlist enforcement
+    result: no runtime source path authorized or written
+
+review_evidence:
+  status: pending
+  reviewer_session_id: null
+  artifact: docs/artifacts/bb-nos/nos-001/agent-self-critique/18-independent-review.md
+
+limitations:
+  - terminal and Git commands unavailable because Zed launcher cannot load libasound.so.2
+  - head SHA, branch and Git diff could not be independently recomputed
+  - no hash is claimed where no hash operation ran
+
+final_gate:
+  dor: pass
+  dod: pending
+  verdict: remediation_in_progress
+  phrase_permitted: false

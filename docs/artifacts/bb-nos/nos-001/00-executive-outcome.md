@@ -3,25 +3,25 @@
 - **Command:** NOS-001 Strategy Capacity Domain — BB-NOS program
 - **Date:** 2026-08-07
 - **Scope:** Strategy responsibilities for the BB-NOS epic (#12) and its root work item (#13)
-- **Sibling artifacts:** [`07-dependency-dag.md`](./07-dependency-dag.md), [`08-wsjf-5bu.md`](./08-wsjf-5bu.md)
+- **Operational artifacts:** [`12-issue-ownership-matrix.md`](./12-issue-ownership-matrix.md), [`13-dependency-dag.md`](./13-dependency-dag.md), [`16-agent-skill-evidence.yaml`](./16-agent-skill-evidence.yaml)
 
 ## 1. Measurable end-to-end outcome
 
 Translated from #12 (EPIC) and #13 (NOS-001 root):
 
-> **The storefront first fold is a faithful, production-grade transplant of the canonical `nos-gallery` experience, adapted (not redesigned) onto Medusa commerce, and released only after every child gate (#13–#27) is complete and the visual baseline receives explicit human approval (#28).**
+> **The storefront first fold is a faithful, production-grade transplant of the canonical `nos-gallery` experience, adapted (not redesigned) onto Medusa commerce, and released only after every mandatory child gate (#13–#32) is complete and the visual baseline receives explicit human approval (#28).**
 
 Measurable acceptance criteria:
 
 | # | Outcome criterion | Measure / evidence |
 |---|---|---|
-| O1 | Canonical source frozen | Pinned SHA `2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e` verified on the canonical remote and local mirror; transplant manifest `.agents/contracts/nos-gallery-transplant-manifest.yaml` frozen (gate #13) |
+| O1 | Canonical source pinned; manifest remediated | Pinned SHA `2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e` remains immutable; the transplant manifest is under T18–T23 remediation and cannot be frozen before independent review |
 | O2 | Visual DNA transplanted | Copper/umber/linen system (#14), grain/vignette/dynamic ambient (#15) render in `packages/gallery-experience` with zero Tailwind v4 syntax |
 | O3 | Behavioral parity | ArtworkCard scene state (#16), active-index navigation (#17), wheel+drag engine (#18), parallax + reduced motion (#19), progress/dwell lifecycle (#20) behave per the canonical source, verified against the baseline |
 | O4 | Commerce hardened | Medusa adapter hardened and fail-closed for the `fio-vivo` collection (#21); zero fabricated price/currency/stock/metadata fallbacks (#22); localized CTA + gallery analytics active (#23) |
 | O5 | Quality gates passed | Responsiveness, keyboard UX, accessibility (#24); visual regression parity vs baseline (#25); first-fold performance budgets enforced (#26) |
-| O6 | Operational safety | Rollout / feature-flag / fallback / rollback contract defined (#27) |
-| O7 | Release authorization | Release verdict `BB-NOS RELEASE CANDIDATE VALIDATED` recorded only after explicit human visual approval (#28) |
+| O6 | Operational safety | Runtime resilience (#29), functional E2E (#30), observability (#31), security/privacy (#32), and rollout/fallback/rollback (#27) all pass their own gates |
+| O7 | Release authorization | Release verdict is recorded only after explicit human visual approval (#28); merge and release remain separate grants |
 
 ## 2. Strategic invariants (non-negotiable)
 
@@ -44,7 +44,7 @@ Carried verbatim from #12; binding on every child item:
 - Backfilling features the canonical source does not contain (new scenes, new commerce features).
 - Modifying the pinned baseline after freeze; upstream changes past `2b6eb78` are out of scope for BB-NOS.
 
-## 4. Canonical source decision — FROZEN
+## 4. Canonical source decision — PINNED; manifest freeze pending
 
 | Field | Value |
 |---|---|
@@ -59,8 +59,8 @@ Carried verbatim from #12; binding on every child item:
 
 | Decision | Right holder | Notes |
 |---|---|---|
-| Freeze / re-freeze canonical source | Program lead (human), with preflight evidence | Already exercised; frozen |
-| Scope changes to the transplant manifest | Program lead (human) | Triggers ledger gate update |
+| Freeze / re-freeze canonical source | Program lead (human), with preflight evidence | Source SHA is pinned and unchanged |
+| Freeze the transplant manifest | #13 DoD gate after T18–T23 | Independent review and final evidence reconciliation required |
 | Waiver of any strategic invariant (Section 2) | Program lead (human) only | Agents may not self-waive |
 | Execution sequencing within dependency-feasible order | Executing agent / orchestrator | Must respect the DAG (07-dependency-dag.md) |
 | Gate completion sign-off per child issue | Executing agent, with recorded evidence | Logged in Session State Ledger |
@@ -85,4 +85,4 @@ Execution halts and escalates to the human program lead on any of:
 | D1 | Canonical source frozen to `Fernadoteixeira/nos-gallery @ 2b6eb78` | Preflight evidence PASS; issues #12/#13 |
 | D2 | `boldfernando/nos-gallery` treated as lineage alias, non-blocking | Identical SHA on both remotes (content-addressed identity) |
 | D3 | RAW WSJF ≠ execution order; #13 executes first despite rank 2 | #28's dependencies (#25/#26/#27) are not satisfiable yet; see 08-wsjf-5bu.md |
-| D4 | Commercial lane (#21→#22→#23) runs in parallel with the visual port lane after #13 | Both depend only on #13; see 07-dependency-dag.md |
+| D4 | Current scheduling is derived only from literal `Depends on:` fields in #14–#32 | See remediated `13-dependency-dag.md`; no old role assignment is reused |
