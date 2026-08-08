@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-review-validation-evidence",
+  "type": "VALIDATION-E",
+  "receipt_id": "7b952f44-8d48-4cb8-9b16-419b33aefc04",
+  "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+  "timestamp": "2026-08-08T05:38:05.042Z",
+  "status": "VALIDATED",
+  "task_id": "NOS-001-EF-04",
+  "review_verdict": "PASS",
+  "blocking_findings": 0,
+  "trust_level": "host_provenance_verified",
+  "structural_integrity": "verified",
+  "hash_integrity": "verified",
+  "host_provenance": "verified",
+  "platform_attestation_verified": true,
+  "validated_artifacts": [
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/worker-history-manifest.json",
+      "sha256": "b394e2dcc6b5ad70eba940e20fa7b05be7f601e9ef226ae0d85de07b2abd21b0"
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/review-route.json",
+      "sha256": "62ddcd09a4a5b077076271cd97c67ac5a8a77b080fe1b25ab45948a1676a79a9"
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/review-loads.json",
+      "sha256": "3592a73aa19c683a3092077431989c04feff21fa22338bd36f9014be59652519"
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/review-load-validation.json",
+      "sha256": "586e622b3ba8d6d42dc93f36a2e8bffcd5198ab3ba2abc9c805846bb0cd30851"
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/reviewer-isolation-matrix.json",
+      "sha256": "c4f8d02be1d82b0cebb0cd08ea8cddf53e1765abb94b64f5e625b0f88a1728fc"
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/reviewer-provenance.json",
+      "sha256": "7281e5fc9a338417908a3bb5184040874a11d639a9f3bc52fef311253bf90bd4"
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/reviewed-artifact-manifest.json",
+      "sha256": "33a717c2acae3725c31a996a5fe441b1f84611571a4749aac0f9dd72e71f68dc"
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/review-e.json",
+      "sha256": "f34fa366060aaaa71f72f808105a3a33de8d0b4619f22d9d43d41cc625419a21"
+    }
+  ]
+}

@@ -2,8 +2,8 @@
   "schema_version": 1,
   "kind": "canonical-agent-route",
   "status": "LOADED",
-  "invocation_id": "eb8b1958-b7ee-4e04-bfc2-304ea19ea590",
-  "task_id": "NOS-001-EF-04",
+  "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+  "task_id": "NOS-001-EF-04:review",
   "shortcut": "review:canonical",
   "canonical_agent": "code-reviewer",
   "core_skills": [
@@ -24,22 +24,22 @@
   "receipts": [
     {
       "type": "ROUTE-E",
-      "receipt_id": "6b77345e-c488-4252-bf09-c7e7a77970cf",
-      "invocation_id": "eb8b1958-b7ee-4e04-bfc2-304ea19ea590",
-      "timestamp": "2026-08-08T05:33:11.959Z",
+      "receipt_id": "0c661662-e03d-40e1-941c-6fdea6243bec",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+      "timestamp": "2026-08-08T05:37:24.344Z",
       "status": "LOADED",
-      "task_id": "NOS-001-EF-04",
+      "task_id": "NOS-001-EF-04:review",
       "shortcut": "review:canonical",
       "path": ".agents/canonical-agent-shortcuts.yaml",
       "sha256": "88662fff8e28cd71a838e21050bfe6008cae7026de82ad00813b0b8ab70abc73"
     },
     {
       "type": "AGENT-LOAD-E",
-      "receipt_id": "78df0d4d-e060-4877-99c9-09bd8bb7779c",
-      "invocation_id": "eb8b1958-b7ee-4e04-bfc2-304ea19ea590",
-      "timestamp": "2026-08-08T05:33:11.959Z",
+      "receipt_id": "3f13545b-2d7b-4c40-a20e-9bda93d2621d",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+      "timestamp": "2026-08-08T05:37:24.345Z",
       "status": "LOADED",
-      "task_id": "NOS-001-EF-04",
+      "task_id": "NOS-001-EF-04:review",
       "agent_id": "code-reviewer",
       "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
       "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
