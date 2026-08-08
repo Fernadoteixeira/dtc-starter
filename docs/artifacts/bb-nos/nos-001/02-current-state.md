@@ -122,15 +122,17 @@ The `medusa-adapter.ts` maps `HttpTypes.StoreProduct` to `GalleryItem`:
 
 | Dependency | Present | Version | Used by upstream |
 |---|---|---|---|
-| `framer-motion` | YES | `12.42.2` | YES — motion, AnimatePresence, useMotionValue, useSpring, useTransform |
-| `lucide-react` | UNKNOWN | — | YES — icons (ArrowUpRight, BookOpenText, Bookmark, Check, Share2) |
-| `sonner` | UNKNOWN | — | YES — toast notifications |
-| `@vercel/analytics` | UNKNOWN | — | YES — Analytics.track() |
+| `framer-motion` | NO (storefront) / YES (gallery-experience) | `12.42.2` (gallery-exp pkg) | YES — motion, AnimatePresence, useMotionValue, useSpring, useTransform |
+| `lucide-react` | NO | — | YES — icons (ArrowUpRight, BookOpenText, Bookmark, Check, Share2) |
+| `sonner` | NO | — | YES — toast notifications |
+| `@vercel/analytics` | NO | — | YES — Analytics.track() |
 | `clsx` | YES | `^2.1.1` | YES (via utils.ts cn()) |
-| `tailwind-merge` | YES | `^3.3.1` | YES (via utils.ts cn()) |
-| `next` | YES | `15.5` | YES — next/dynamic, next/image |
+| `tailwind-merge` | NO (storefront) / YES (gallery-experience) | `^3.3.1` (gallery-exp pkg) | YES (via utils.ts cn()) |
+| `next` | YES | `16.3.1-canary.4` | YES — next/dynamic, next/image |
+| `react` | YES | `19.0.5` | YES |
+| `react-dom` | YES | `19.0.5` | YES |
 
-> **NOTE:** `lucide-react`, `sonner`, and `@vercel/analytics` presence must be verified before PORT classification. If missing, they must be added (in `apps/storefront`, not root) or the behavior must be ADAPTED with an equivalent.
+> **CRITICAL:** `lucide-react`, `sonner`, and `@vercel/analytics` are NOT available anywhere in the workspace. `framer-motion` and `tailwind-merge` are available ONLY in the `@dtc/gallery-experience` package. The transplant manifest must resolve these: PORT (add to appropriate package.json), ADAPT (replace with equivalent), or DEFER (later child issue). AGENTS.md non-goal: "Introducing new dependencies (Framer Motion, shadcn/ui)" — however, framer-motion is ALREADY a dependency of gallery-experience, so using it within that package does not introduce a new workspace-level dependency. Adding `lucide-react`, `sonner`, or `@vercel/analytics` WOULD introduce new dependencies and requires explicit authorization.
 
 ## 7. Summary
 
