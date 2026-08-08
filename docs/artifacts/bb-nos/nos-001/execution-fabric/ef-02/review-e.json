@@ -1,0 +1,51 @@
+{
+  "type": "REVIEW-E",
+  "receipt_id": "8bad81af-ce64-424e-aa7f-190cbe84be99",
+  "invocation_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+  "timestamp": "2026-08-08T05:17:51.572Z",
+  "status": "COMPLETED",
+  "task_id": "NOS-001-EF-02:review",
+  "adapter": "canonical-reviewer",
+  "canonical_identity": "code-reviewer",
+  "review_target": "aa065a10-43e0-4dfa-b51b-3dc40fad266d",
+  "route_receipt_ref": "2bd51214-1c9a-4eeb-8293-f0f4ff35d06f",
+  "agent_load_receipt_ref": "ef6cce5d-9f78-4ccb-8251-112f162c02e4",
+  "protocol_receipt_ref": "8a939a2d-8a27-488c-b926-096d29b1eebf",
+  "dispatcher_receipt_ref": "8feb7b2d-cf19-4e42-9da5-8c98f5a4ca45",
+  "adapter_receipt_ref": "59ed9c1d-8f35-4feb-bde5-cb32f5e94cd7",
+  "skill_receipt_refs": [
+    "dc61f1dd-df3a-4066-a29a-c46f9ef88c96",
+    "29a62bac-87c7-47cd-9e9c-2e2618eb7cff",
+    "8623215a-3652-45bc-8b1a-f94722f452a8"
+  ],
+  "orchestration_receipt_refs": [
+    "16b73b24-c612-4155-9ffe-991ed91ffeaf"
+  ],
+  "contract_receipt_refs": [],
+  "instructions_acknowledged": true,
+  "reviewed_artifacts": [
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-02/ef-02-repo-guard-report.md",
+      "sha256": "95d7225951046d54583754f3d45ece09095527144cf7091d18d1951502e1c643"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "info",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-02/ef-02-repo-guard-report.md",
+      "summary": "Verified repo:guard execution with 0 P0/P1 findings and distinct host-authenticated provenance",
+      "blocking": false
+    }
+  ],
+  "verdict": "PASS",
+  "pass_justification": "Independent review by code-reviewer verified distinct host session 3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439 and zero blocking findings.",
+  "provenance": {
+    "authority": "antigravity-host",
+    "host_session_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+    "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+    "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+    "invocation_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+    "execution_kind": "reviewer",
+    "issued_at": "2026-08-08T05:17:51.570Z"
+  }
+}

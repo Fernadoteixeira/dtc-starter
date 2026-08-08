@@ -326,8 +326,8 @@ ARCH-EF-01                         PASS
 ARCH-EF-02                         PASS
 ARCH-EF-03                         PASS (ARCH-EF-03-R1 HOST PROVENANCE VERIFIED)
 ARCH-EF                            PASS
-EF-02                              GO (UNLOCKED)
-EF-03                              PENDING
+EF-02                              PASS (@repo:guard VERIFIED)
+EF-03                              GO (UNLOCKED)
 EF-04                              PENDING
 EF-05                              PENDING
 PLATFORM ATTESTATION               VERIFIED (host_provenance_verified)
@@ -336,13 +336,10 @@ EXECUTION-FABRIC-001               RESOLVED
 
 ## Next executable action
 
-`EF-02 — Second Canonical Profile Resolution`
+`EF-03 — Canonical Adversarial Matrix & Host Defense Suite`
 
-Execute second canonical shortcut profile resolution (`@repo:guard` or `@qa:nos`) on the proven host-authenticated execution fabric.
+Execute the 15 canonical adversarial test vectors to prove fault-tolerant integrity across synthetic, corrupted, or forged execution attempts.
 
 `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
 
 Until all fabric gates close and #13 independently reaches DoD PASS, #14/#21, PR green, merge, rollout and release remain governed by contract gates.
-
-
-

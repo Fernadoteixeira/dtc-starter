@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-validation-evidence",
+  "type": "VALIDATION-E",
+  "receipt_id": "b04f905f-ab1d-4813-9306-a2360c1c1084",
+  "invocation_id": "cf5817d0-82d7-4e4b-a219-a4bb002d182a",
+  "timestamp": "2026-08-08T05:17:55.375Z",
+  "status": "VALIDATED",
+  "task_id": "NOS-001-EF-02",
+  "evidence_path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-02/execution-evidence.json",
+  "evidence_sha256": "c3948eb136d039c72531efc7059e7e127cd3c62ea046892cb7280cbd2ce5fdae",
+  "validator_path": ".agents/scripts/validate-execution-evidence.mjs",
+  "validator_sha256": "ad8e993268ccd99808684833ec806bd2f868ec6eccce81990e1a2c054febd785",
+  "worker_identity": "repo-cartographer",
+  "reviewer_identity": "code-reviewer",
+  "agent_run_receipt_id": "aa065a10-43e0-4dfa-b51b-3dc40fad266d",
+  "review_receipt_id": "8bad81af-ce64-424e-aa7f-190cbe84be99",
+  "verdict": "PASS",
+  "blocking_findings": 0,
+  "validated_receipt_count": 18,
+  "trust_level": "host_provenance_verified",
+  "platform_attestation_verified": true
+}
