@@ -1,5 +1,6 @@
 reference:
-  source: boldfernando/nos-gallery
+  source: Fernadoteixeira/nos-gallery
+  sha: 2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e
   viewport:
     width: 1600
     height: 960
