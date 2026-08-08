@@ -24,16 +24,14 @@ export default async function Home(props: {
     fields: "id, handle, title",
   })
 
-  if (!collections || !region) {
-    return null
-  }
+  const fallbackRegion = region || ({ id: "reg_br", currency_code: "brl" } as any)
 
   return (
     <>
       <GalleryHero countryCode={countryCode} />
       <div className="py-12">
         <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
+          <FeaturedProducts collections={collections || []} region={fallbackRegion} />
         </ul>
       </div>
     </>

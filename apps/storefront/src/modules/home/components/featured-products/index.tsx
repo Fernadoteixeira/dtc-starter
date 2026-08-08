@@ -8,7 +8,18 @@ export default async function FeaturedProducts({
   collections: HttpTypes.StoreCollection[]
   region: HttpTypes.StoreRegion
 }) {
-  return collections.map((collection) => (
+  const activeCollections =
+    collections && collections.length > 0
+      ? collections
+      : [
+          {
+            id: "fv-fallback-collection",
+            title: "Bolsas Autorais — Coleção Fio Vivo",
+            handle: "bolsas-autorais",
+          } as HttpTypes.StoreCollection,
+        ]
+
+  return activeCollections.map((collection) => (
     <li key={collection.id}>
       <ProductRail collection={collection} region={region} />
     </li>

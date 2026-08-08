@@ -494,11 +494,11 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Círculo Solar",
+          title: "Trama Solar",
           category_ids: [primaryCategory.id],
           description:
             "Composição circular radiante que celebra a luz solar e a energia das fibras naturais.",
-          handle: "circulo-solar",
+          handle: "trama-solar",
           weight: 580,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
@@ -516,14 +516,23 @@ export default async function initial_data_seed({
           },
           images: [
             {
-              url: "/images/fio-vivo/fv-003-circulo-solar/01-frente.png",
+              url: "/images/fio-vivo/fv-003-trama-solar/01-frente.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-003-trama-solar/02-perfil.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-003-trama-solar/03-gesto.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-003-trama-solar/04-detalhe.png",
             },
           ],
           options: [{ id: editionOption.id }],
           variants: [
             {
               title: "Peça Única / 2026",
-              sku: "FV-003-SOLAR",
+              sku: "FV-003-TRAMA",
               options: {
                 Edição: "Peça Única",
               },
@@ -550,21 +559,21 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Mandala Verde",
+          title: "Fio Ancestral",
           category_ids: [primaryCategory.id],
           description:
-            "Geometria sagrada tecida em tons de verde oliva e musgo, extraídos de folhas nativas.",
-          handle: "mandala-verde",
+            "Bolsa tote de formato marcante tecida em nó ancestral com algodão orgânico e pigmentos minerais.",
+          handle: "fio-ancestral",
           weight: 800,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
           metadata: {
             gallery: {
-              contextualName: "Tapeçaria Botânica de Parede",
+              contextualName: "Tapeçaria Botânica e Nó Ancestral",
               artist: "Artesã Fio Vivo",
-              material: "Algodão Orgânico e Folhas de Erva-Mate",
+              material: "Algodão Orgânico e Pigmentos Minerais",
               year: 2026,
-              story: "Conexão profunda com a floresta e os tons terrosos da mata.",
+              story: "Conexão profunda com a ancestralidade e os tons terrosos da mata.",
               ambientColors: ["#eef2ea", "#7c8d6d", "#3a4a32"],
               displayOrder: 4,
               featured: true,
@@ -572,14 +581,23 @@ export default async function initial_data_seed({
           },
           images: [
             {
-              url: "/images/fio-vivo/fv-004-mandala-verde/01-frente.png",
+              url: "/images/fio-vivo/fv-004-fio-ancestral/01-frente.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-004-fio-ancestral/02-perfil.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-004-fio-ancestral/03-gesto.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-004-fio-ancestral/04-detalhe.png",
             },
           ],
           options: [{ id: editionOption.id }],
           variants: [
             {
               title: "Peça Única / 2026",
-              sku: "FV-004-MANDALA",
+              sku: "FV-004-ANCESTRAL",
               options: {
                 Edição: "Peça Única",
               },
@@ -606,21 +624,21 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Gota Azul",
+          title: "Trança Âmbar",
           category_ids: [primaryCategory.id],
           description:
-            "Fluidez e serenidade representadas pelo tingimento natural em índigo sobre fios selecionados.",
-          handle: "gota-azul",
+            "Bolsa de mão delicada estilo clutch drapeada com tranças manuais fluidas em fio torcido.",
+          handle: "tranca-ambar",
           weight: 520,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
           metadata: {
             gallery: {
-              contextualName: "Tapeçaria Contemporânea Índigo",
+              contextualName: "Clutch Drapeada Trançada",
               artist: "Artesã Fio Vivo",
-              material: "Fio de Algodão e Índigo Natural",
+              material: "Fio de Algodão e Fecho em Metal Bronze",
               year: 2026,
-              story: "A calmaria das águas doces traduzida em fios fluidos e nós precisos.",
+              story: "Tranças fluidas e elegantes em tons de âmbar natural.",
               ambientColors: ["#edf4f7", "#6b8ea8", "#244257"],
               displayOrder: 5,
               featured: true,
@@ -628,14 +646,23 @@ export default async function initial_data_seed({
           },
           images: [
             {
-              url: "/images/fio-vivo/fv-005-gota-azul/01-frente.png",
+              url: "/images/fio-vivo/fv-005-tranca-ambar/01-frente.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-005-tranca-ambar/02-perfil.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-005-tranca-ambar/03-gesto.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-005-tranca-ambar/04-detalhe.png",
             },
           ],
           options: [{ id: editionOption.id }],
           variants: [
             {
               title: "Peça Única / 2026",
-              sku: "FV-005-GOTA",
+              sku: "FV-005-TRANCA",
               options: {
                 Edição: "Peça Única",
               },
@@ -662,21 +689,21 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Floresta Densa",
+          title: "Duna Terracota",
           category_ids: [primaryCategory.id],
           description:
-            "Tapeçaria de grande porte evocando a densidade botânica e o relevo da Mata Atlântica.",
-          handle: "floresta-densa",
+            "Bolsa ampla e sofisticada com relevos orgânicos inspirados no movimento das dunas e tingimento terracota.",
+          handle: "duna-terracota",
           weight: 950,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
           metadata: {
             gallery: {
-              contextualName: "Painel Monumental de Parede",
+              contextualName: "Bolsa Grande de Ombro Terracota",
               artist: "Artesã Fio Vivo",
-              material: "Fios Mistos Naturais e Pigmentos de Cascas",
+              material: "Fios Mistos Naturais e Pigmento Terracota",
               year: 2026,
-              story: "Uma homenagem à imponência da vegetação nativa brasileira.",
+              story: "Relevos orgânicos evocando o movimento e aconchego das dunas.",
               ambientColors: ["#f2efe9", "#9b8d78", "#4e3d2c"],
               displayOrder: 6,
               featured: true,
@@ -686,12 +713,21 @@ export default async function initial_data_seed({
             {
               url: "/images/fio-vivo/fv-006-duna-terracota/01-frente.png",
             },
+            {
+              url: "/images/fio-vivo/fv-006-duna-terracota/02-perfil.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-006-duna-terracota/03-gesto.png",
+            },
+            {
+              url: "/images/fio-vivo/fv-006-duna-terracota/04-detalhe.png",
+            },
           ],
           options: [{ id: editionOption.id }],
           variants: [
             {
               title: "Peça Única / 2026",
-              sku: "FV-006-FLORESTA",
+              sku: "FV-006-DUNA",
               options: {
                 Edição: "Peça Única",
               },
@@ -722,20 +758,20 @@ export default async function initial_data_seed({
   });
   logger.info("Finished seeding product data.");
 
-  logger.info("Seeding fio-vivo collection...");
+  logger.info("Seeding Bolsas Autorais collection...");
   try {
     await createCollectionsWorkflow(container).run({
       input: {
         collections: [
           {
-            title: "Fio Vivo",
-            handle: "fio-vivo",
+            title: "Bolsas Autorais — Coleção Fio Vivo",
+            handle: "bolsas-autorais",
             product_ids: createdProducts.map((product) => product.id),
           },
         ],
       },
     });
-    logger.info("Finished seeding fio-vivo collection.");
+    logger.info("Finished seeding Bolsas Autorais collection.");
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logger.warn(

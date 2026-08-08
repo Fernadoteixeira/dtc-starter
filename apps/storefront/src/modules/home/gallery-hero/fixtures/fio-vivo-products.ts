@@ -38,14 +38,14 @@ export const fioVivoProducts: FioVivoProductFixture[] = [
     code: "fv-001-espiral-dourada",
     handle: "espiral-dourada",
     title: "Espiral dourada",
-    contextualName: "a informar",
-    description: "a informar",
-    artist: "a informar",
-    material: "a informar",
-    category: "a informar",
-    year: "a informar",
-    price: "a informar",
-    availability: "a informar",
+    contextualName: "Bolsa ombro de crochê espiralado em fio âmbar natural",
+    description: "Bolsa autoral tecida manualmente com fios de algodão puro e pigmentos naturais dourados. Design espiralado com acabamento nobre.",
+    artist: "Artesã Fio Vivo",
+    material: "100% Algodão Cru e Pigmentos Botânicos Âmbar",
+    category: "Bolsas Autorais",
+    year: "2026",
+    price: "R$ 380,00",
+    availability: "Sob encomenda (7-10 dias úteis)",
     primaryImage: {
       src: "/images/fio-vivo/fv-001-espiral-dourada/01-frente.png",
       alt: "Espiral dourada - frente",
@@ -82,21 +82,21 @@ export const fioVivoProducts: FioVivoProductFixture[] = [
         aspectRatio: 1
       }
     ],
-    ambientColors: "a informar"
+    ambientColors: ["#f5efe6", "#d9c3b0", "#8c6d53"]
   },
   {
     id: "fv-002",
     code: "fv-002-orbita-negra",
     handle: "orbita-negra",
     title: "Órbita negra",
-    contextualName: "a informar",
-    description: "a informar",
-    artist: "a informar",
-    material: "a informar",
-    category: "a informar",
-    year: "a informar",
-    price: "a informar",
-    availability: "a informar",
+    contextualName: "Bolsa de mão em crochê estruturado com relevos e tingimento negro",
+    description: "Peça autoral de forte presença visual, combinando fios escuros profundos, relevos geométricos e texturas táteis marcantes.",
+    artist: "Artesã Fio Vivo",
+    material: "Fios Nobres de Algodão e Tingimento Natural Negro",
+    category: "Bolsas Autorais",
+    year: "2026",
+    price: "R$ 420,00",
+    availability: "Sob encomenda (7-10 dias úteis)",
     primaryImage: {
       src: "/images/fio-vivo/fv-002-orbita-negra/01-frente.png",
       alt: "Órbita negra - frente",
@@ -133,21 +133,21 @@ export const fioVivoProducts: FioVivoProductFixture[] = [
         aspectRatio: 1
       }
     ],
-    ambientColors: "a informar"
+    ambientColors: ["#1a1a1a", "#333333", "#e0d7ce"]
   },
   {
     id: "fv-003",
     code: "fv-003-trama-solar",
     handle: "trama-solar",
     title: "Trama solar",
-    contextualName: "a informar",
-    description: "a informar",
-    artist: "a informar",
-    material: "a informar",
-    category: "a informar",
-    year: "a informar",
-    price: "a informar",
-    availability: "a informar",
+    contextualName: "Bolsa tiracolo em composição circular radiante com fibras naturais",
+    description: "Composição circular radiante que celebra a luz solar e a energia das fibras naturais com pigmentos botânicos de urucum.",
+    artist: "Artesã Fio Vivo",
+    material: "Fibras Naturais de Algodão e Tingimento em Urucum",
+    category: "Bolsas Autorais",
+    year: "2026",
+    price: "R$ 350,00",
+    availability: "Sob encomenda (7-10 dias úteis)",
     primaryImage: {
       src: "/images/fio-vivo/fv-003-trama-solar/01-frente.png",
       alt: "Trama solar - frente",
@@ -184,21 +184,21 @@ export const fioVivoProducts: FioVivoProductFixture[] = [
         aspectRatio: 1
       }
     ],
-    ambientColors: "a informar"
+    ambientColors: ["#fef8ea", "#e8bb6b", "#9c572a"]
   },
   {
     id: "fv-004",
     code: "fv-004-fio-ancestral",
     handle: "fio-ancestral",
     title: "Fio ancestral",
-    contextualName: "a informar",
-    description: "a informar",
-    artist: "a informar",
-    material: "a informar",
-    category: "a informar",
-    year: "a informar",
-    price: "a informar",
-    availability: "a informar",
+    contextualName: "Bolsa tote estruturada em nó ancestral com algodão orgânico",
+    description: "Bolsa tote de formato marcante tecida em nó ancestral com algodão orgânico e pigmentos minerais de tons terrosos.",
+    artist: "Artesã Fio Vivo",
+    material: "Algodão Orgânico e Pigmentos Minerais Terrosos",
+    category: "Bolsas Autorais",
+    year: "2026",
+    price: "R$ 450,00",
+    availability: "Sob encomenda (7-10 dias úteis)",
     primaryImage: {
       src: "/images/fio-vivo/fv-004-fio-ancestral/01-frente.png",
       alt: "Fio ancestral - frente",
@@ -235,21 +235,21 @@ export const fioVivoProducts: FioVivoProductFixture[] = [
         aspectRatio: 1
       }
     ],
-    ambientColors: "a informar"
+    ambientColors: ["#eef2ea", "#7c8d6d", "#3a4a32"]
   },
   {
     id: "fv-005",
     code: "fv-005-tranca-ambar",
     handle: "tranca-ambar",
     title: "Trança âmbar",
-    contextualName: "a informar",
-    description: "a informar",
-    artist: "a informar",
-    material: "a informar",
-    category: "a informar",
-    year: "a informar",
-    price: "a informar",
-    availability: "a informar",
+    contextualName: "Bolsa clutch drapeada com alça trançada manual em tom âmbar",
+    description: "Bolsa de mão delicada estilo clutch drapeada com tranças manuais fluidas em fio torcido e tom âmbar elegante.",
+    artist: "Artesã Fio Vivo",
+    material: "Fio de Algodão Torcido e Fecho em Metal Bronze",
+    category: "Bolsas Autorais",
+    year: "2026",
+    price: "R$ 320,00",
+    availability: "Sob encomenda (7-10 dias úteis)",
     primaryImage: {
       src: "/images/fio-vivo/fv-005-tranca-ambar/01-frente.png",
       alt: "Trança âmbar - frente",
@@ -286,21 +286,21 @@ export const fioVivoProducts: FioVivoProductFixture[] = [
         aspectRatio: 0.666015625
       }
     ],
-    ambientColors: "a informar"
+    ambientColors: ["#edf4f7", "#6b8ea8", "#244257"]
   },
   {
     id: "fv-006",
     code: "fv-006-duna-terracota",
     handle: "duna-terracota",
     title: "Duna terracota",
-    contextualName: "a informar",
-    description: "a informar",
-    artist: "a informar",
-    material: "a informar",
-    category: "a informar",
-    year: "a informar",
-    price: "a informar",
-    availability: "a informar",
+    contextualName: "Bolsa grande de ombro com relevos de crochê inspirado em dunas",
+    description: "Bolsa ampla e sofisticada com relevos orgânicos inspirados no movimento das dunas e tingimento em tom terracota.",
+    artist: "Artesã Fio Vivo",
+    material: "Fios Mistos Naturais e Pigmento Terracota",
+    category: "Bolsas Autorais",
+    year: "2026",
+    price: "R$ 480,00",
+    availability: "Sob encomenda (7-10 dias úteis)",
     primaryImage: {
       src: "/images/fio-vivo/fv-006-duna-terracota/01-frente.png",
       alt: "Duna terracota - frente",
@@ -337,6 +337,6 @@ export const fioVivoProducts: FioVivoProductFixture[] = [
         aspectRatio: 0.666015625
       }
     ],
-    ambientColors: "a informar"
+    ambientColors: ["#f2efe9", "#9b8d78", "#4e3d2c"]
   }
 ]
