@@ -40,7 +40,7 @@ export function GalleryHeroClient({
       label: s.label,
     })),
     availability: "available",
-    productUrl: `/products/${p.handle}`,
+    productUrl: `/${countryCode}/products/${p.handle}`,
     ambientColors:
       typeof p.ambientColors === "string" ? undefined : p.ambientColors,
   }));

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "nos-gallery-provenance-manifest",
+  "version": "1.0.0",
+  "description": "Provenance manifest and capability matrix tracking the transplantation of canonical nos-gallery into @dtc/gallery-experience",
+  "canonical_source": {
+    "repository": "Fernadoteixeira/nos-gallery",
+    "pinned_commit": "7b4f340",
+    "historical_ref": "97a7adf",
+    "architecture_pattern": "Transplant Adapter / Workspace Package",
+    "package_name": "@dtc/gallery-experience",
+    "package_location": "packages/gallery-experience"
+  },
+  "runtime_integration": {
+    "host_app": "@dtc/storefront",
+    "host_location": "apps/storefront/src/modules/home/gallery-hero",
+    "anti_corruption_layer": "mapStoreProductToGalleryItem",
+    "catalog_safety_policy": "fail-closed",
+    "css_isolation_scope": ".dtc-gallery"
+  },
+  "capabilities_matrix": {
+    "visual_parity": {
+      "first_fold_shell": true,
+      "color_tokens": ["#BFA38A", "#26221F", "#F4EFEB"],
+      "scene_rail": true,
+      "ambient_gradients": true,
+      "editorial_typography": true
+    },
+    "behavioral_parity": {
+      "keyboard_navigation": true,
+      "tab_focus_management": true,
+      "reduced_motion": true,
+      "item_view_analytics": true,
+      "scene_switch_callback": true,
+      "share_callback": true,
+      "pointer_parallax": false,
+      "drag_swipe_gesture": false,
+      "wheel_navigation": false,
+      "dwell_tracking": false,
+      "persistent_discovery_map": false,
+      "achievements_dialog": false,
+      "inquiry_workflow": false
+    }
+  },
+  "gates": {
+    "incorporation_architecture": "GO",
+    "submodule_gitlink": "REMOVED",
+    "catalog_safety_nos009_nos010": "GO (FAIL-CLOSED)",
+    "visual_parity": "GO",
+    "canonical_behavioral_parity": "NO-GO (PARTIAL)",
+    "release_gate_28": "NO-GO"
+  }
+}

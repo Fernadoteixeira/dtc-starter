@@ -199,9 +199,11 @@ export function GalleryExperience({
   collectionNarrative,
   initialItemHandle,
   locale: localeInput,
+  reducedMotion,
   onItemView,
   onSceneView,
   onProductIntent,
+  onShare,
   onProgressChange,
 }: GalleryExperienceProps) {
   const locale = resolveGalleryLocale(localeInput);
@@ -289,6 +291,7 @@ export function GalleryExperience({
   return (
     <div
       data-gallery-experience="true"
+      data-reduced-motion={reducedMotion ? "true" : undefined}
       className="dtc-gallery"
       lang={locale}
       role="region"
@@ -356,19 +359,32 @@ export function GalleryExperience({
         onNext={goToNext}
       />
 
-      <button
-        type="button"
-        className="dtc-gallery__cta cursor-pointer bg-transparent border-0 font-mono uppercase tracking-[0.16em] text-xs hover:text-white transition-colors"
-        onClick={() => {
-          if (onProductIntent && activeItem) {
-            onProductIntent(activeItem);
-          } else if (activeItem?.productUrl) {
-            window.location.href = activeItem.productUrl;
-          }
-        }}
-      >
-        {translateGallery(locale, "gallery.cta")}
-      </button>
+      <div className="dtc-gallery__actions flex items-center gap-4">
+        {onShare && activeItem && (
+          <button
+            type="button"
+            className="dtc-gallery__share cursor-pointer bg-transparent border-0 font-mono uppercase tracking-[0.16em] text-xs text-white/60 hover:text-white transition-colors"
+            onClick={() => onShare(activeItem)}
+            aria-label="Share artwork"
+          >
+            Share
+          </button>
+        )}
+
+        <button
+          type="button"
+          className="dtc-gallery__cta cursor-pointer bg-transparent border-0 font-mono uppercase tracking-[0.16em] text-xs hover:text-white transition-colors"
+          onClick={() => {
+            if (onProductIntent && activeItem) {
+              onProductIntent(activeItem);
+            } else if (activeItem?.productUrl) {
+              window.location.href = activeItem.productUrl;
+            }
+          }}
+        >
+          {translateGallery(locale, "gallery.cta")}
+        </button>
+      </div>
     </div>
   );
 }

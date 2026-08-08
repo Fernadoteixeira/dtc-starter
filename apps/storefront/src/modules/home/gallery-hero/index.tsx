@@ -15,16 +15,10 @@ export default async function GalleryHero({
   }
 
   const products = await fetchGalleryHeroProducts(countryCode);
-
-  if (!products || products.length === 0) {
-    return <GalleryHeroFallback />;
-  }
-
-  const galleryItems = mapStoreProductsToGalleryItems(products, countryCode);
-
-  if (!galleryItems || galleryItems.length === 0) {
-    return <GalleryHeroFallback />;
-  }
+  const galleryItems =
+    products.length > 0
+      ? mapStoreProductsToGalleryItems(products, countryCode)
+      : undefined;
 
   return <GalleryHeroClient items={galleryItems} countryCode={countryCode} />;
 }

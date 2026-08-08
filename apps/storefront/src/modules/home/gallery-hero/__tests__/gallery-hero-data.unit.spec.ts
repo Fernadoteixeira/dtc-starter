@@ -29,59 +29,46 @@ describe("buildGalleryHeroQueryParams", () => {
     })
   })
 
-  describe("when collection does not exist", () => {
-    it("omits collection_id when collection is null", () => {
+  describe("when collection does not exist (fail-closed policy)", () => {
+    it("returns null when collection is null", () => {
       const params = buildGalleryHeroQueryParams(null)
 
-      expect(params.collection_id).toBeUndefined()
+      expect(params).toBeNull()
     })
 
-    it("omits collection_id when collection is undefined", () => {
+    it("returns null when collection is undefined", () => {
       const params = buildGalleryHeroQueryParams(undefined)
 
-      expect(params.collection_id).toBeUndefined()
+      expect(params).toBeNull()
     })
 
-    it("still sets limit and fields", () => {
-      const params = buildGalleryHeroQueryParams(null)
+    it("returns null when collection object has no id", () => {
+      const params = buildGalleryHeroQueryParams({} as { id: string })
 
-      expect(params.limit).toBe(8)
-      expect(params.fields).toContain("*variants")
+      expect(params).toBeNull()
     })
   })
 
   describe("custom limit", () => {
-    it("uses the provided limit value", () => {
-      const params = buildGalleryHeroQueryParams(null, 20)
-
-      expect(params.limit).toBe(20)
-    })
-
     it("uses custom limit together with collection_id", () => {
       const params = buildGalleryHeroQueryParams({ id: "col_99" }, 4)
 
-      expect(params.limit).toBe(4)
-      expect(params.collection_id).toBe("col_99")
+      expect(params).not.toBeNull()
+      expect(params?.limit).toBe(4)
+      expect(params?.collection_id).toBe("col_99")
     })
   })
 
   describe("return type", () => {
-    it("returns an object with limit, fields, and optional collection_id", () => {
-      const params: GalleryHeroQueryParams = buildGalleryHeroQueryParams({
+    it("returns an object with limit, fields, and collection_id when collection exists", () => {
+      const params: GalleryHeroQueryParams | null = buildGalleryHeroQueryParams({
         id: "col_x",
       })
 
-      expect(typeof params.limit).toBe("number")
-      expect(typeof params.fields).toBe("string")
-      expect(typeof params.collection_id).toBe("string")
-    })
-
-    it("returns a plain object (not null/undefined)", () => {
-      const params = buildGalleryHeroQueryParams(null)
-
       expect(params).not.toBeNull()
-      expect(params).not.toBeUndefined()
-      expect(typeof params).toBe("object")
+      expect(typeof params?.limit).toBe("number")
+      expect(typeof params?.fields).toBe("string")
+      expect(typeof params?.collection_id).toBe("string")
     })
   })
 
