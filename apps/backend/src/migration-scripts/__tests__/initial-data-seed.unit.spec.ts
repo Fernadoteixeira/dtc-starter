@@ -37,8 +37,9 @@ jest.mock("@medusajs/framework/utils", () => ({
 // Capture the workflow run calls so we can assert on them.
 const workflowRunMocks = new Map<string, jest.Mock>()
 
-function makeWorkflowMock(name: string) {
-  const run = jest.fn().mockResolvedValue({ result: [{ id: `${name}_id` }] })
+function makeWorkflowMock(name: string, defaultResult?: unknown[]) {
+  const result = defaultResult || [{ id: `${name}_id` }]
+  const run = jest.fn().mockResolvedValue({ result })
   workflowRunMocks.set(name, run)
   return jest.fn(() => ({ run }))
 }
@@ -47,9 +48,20 @@ jest.mock("@medusajs/medusa/core-flows", () => ({
   createApiKeysWorkflow: makeWorkflowMock("apiKey"),
   createCollectionsWorkflow: makeWorkflowMock("collection"),
   createInventoryLevelsWorkflow: makeWorkflowMock("inventoryLevel"),
-  createProductCategoriesWorkflow: makeWorkflowMock("productCategory"),
-  createProductOptionsWorkflow: makeWorkflowMock("productOption"),
-  createProductsWorkflow: makeWorkflowMock("product"),
+  createProductCategoriesWorkflow: makeWorkflowMock("productCategory", [
+    { id: "cat_shirts", name: "Shirts" },
+    { id: "cat_sweatshirts", name: "Sweatshirts" },
+    { id: "cat_pants", name: "Pants" },
+    { id: "cat_merch", name: "Merch" },
+  ]),
+  createProductOptionsWorkflow: makeWorkflowMock("productOption", [
+    { id: "opt_size", title: "Size" },
+    { id: "opt_color", title: "Color" },
+  ]),
+  createProductsWorkflow: makeWorkflowMock("product", [
+    { id: "prod_1" },
+    { id: "prod_2" },
+  ]),
   createRegionsWorkflow: makeWorkflowMock("region"),
   createSalesChannelsWorkflow: makeWorkflowMock("salesChannel"),
   createShippingOptionsWorkflow: makeWorkflowMock("shippingOption"),
@@ -88,6 +100,7 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
     const logger = {
       info: jest.fn(),
       error: jest.fn(),
+      warn: jest.fn(),
     }
     const link = {
       create: jest.fn().mockResolvedValue(undefined),
@@ -131,16 +144,38 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
 
   beforeEach(() => {
     jest.resetModules()
-    // Clear all workflow mock call history.
-    workflowRunMocks.forEach((fn) => fn.mockClear())
+    workflowRunMocks.forEach((fn, name) => {
+      fn.mockReset()
+      if (name === "productCategory") {
+        fn.mockResolvedValue({
+          result: [
+            { id: "cat_shirts", name: "Shirts" },
+            { id: "cat_sweatshirts", name: "Sweatshirts" },
+            { id: "cat_pants", name: "Pants" },
+            { id: "cat_merch", name: "Merch" },
+          ],
+        })
+      } else if (name === "productOption") {
+        fn.mockResolvedValue({
+          result: [
+            { id: "opt_size", title: "Size" },
+            { id: "opt_color", title: "Color" },
+          ],
+        })
+      } else if (name === "product") {
+        fn.mockResolvedValue({
+          result: [{ id: "prod_1" }, { id: "prod_2" }],
+        })
+      } else {
+        fn.mockResolvedValue({ result: [{ id: `${name}_id` }] })
+      }
+    })
   })
 
   it("catches errors from createCollectionsWorkflow without throwing", async () => {
-    // Make createCollectionsWorkflow reject to simulate a duplicate collection.
+    seedFunction = (await import("../initial-data-seed.js")).default
     const collectionRun = workflowRunMocks.get("collection")!
     collectionRun.mockRejectedValueOnce(new Error("Collection already exists"))
-
-    seedFunction = (await import("../initial-data-seed.js")).default
 
     const container = buildFakeContainer()
 
@@ -150,37 +185,33 @@ describe("initial-data-seed fio-vivo collection idempotency", () => {
     ).resolves.not.toThrow()
   })
 
-  it("logs an error when the collection workflow fails", async () => {
+  it("logs a warning when the collection workflow fails", async () => {
+    seedFunction = (await import("../initial-data-seed.js")).default
     const collectionRun = workflowRunMocks.get("collection")!
     collectionRun.mockRejectedValueOnce(new Error("Duplicate collection"))
 
-    seedFunction = (await import("../initial-data-seed.js")).default
-
     const container = buildFakeContainer()
     await seedFunction({ container })
 
-    const logger = container.resolve("logger")
-    // The seed logs "Failed to seed fio-vivo collection:" on error.
-    expect(logger.error).toHaveBeenCalled()
-    const errorMsg = logger.error.mock.calls.find(
+    const logger = container.resolve("logger") as { warn: jest.Mock; info: jest.Mock; error: jest.Mock }
+    expect(logger.warn).toHaveBeenCalled()
+    const warnMsg = logger.warn.mock.calls.find(
       (call: unknown[]) =>
         typeof call[0] === "string" &&
-        call[0].includes("Failed to seed fio-vivo collection")
+        call[0].includes("Could not seed fio-vivo collection")
     )
-    expect(errorMsg).toBeDefined()
+    expect(warnMsg).toBeDefined()
   })
 
   it("proceeds past the collection block when it succeeds", async () => {
-    // Reset collection mock to succeed.
+    seedFunction = (await import("../initial-data-seed.js")).default
     const collectionRun = workflowRunMocks.get("collection")!
     collectionRun.mockResolvedValueOnce({ result: [{ id: "col_fv" }] })
-
-    seedFunction = (await import("../initial-data-seed.js")).default
 
     const container = buildFakeContainer()
     await seedFunction({ container })
 
-    const logger = container.resolve("logger")
+    const logger = container.resolve("logger") as { warn: jest.Mock; info: jest.Mock; error: jest.Mock }
     // On success, the seed logs "Finished seeding fio-vivo collection."
     const infoMsg = logger.info.mock.calls.find(
       (call: unknown[]) =>

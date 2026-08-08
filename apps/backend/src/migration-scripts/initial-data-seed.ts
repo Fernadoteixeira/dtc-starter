@@ -36,6 +36,7 @@ export default async function initial_data_seed({
   );
 
   const countries = ["gb", "de", "dk", "se", "fr", "es", "it"];
+  const allCountries = ["br", ...countries];
 
   logger.info("Seeding store data...");
   const {
@@ -45,7 +46,7 @@ export default async function initial_data_seed({
       salesChannelsData: [
         {
           name: "Default Sales Channel",
-          description: "Created by Medusa",
+          description: "Created by Medusa for Fio Vivo",
         },
       ],
     },
@@ -78,11 +79,15 @@ export default async function initial_data_seed({
     input: {
       stores: [
         {
-          name: "Default Store",
+          name: "Fio Vivo Store",
           supported_currencies: [
             {
-              currency_code: "eur",
+              currency_code: "brl",
               is_default: true,
+            },
+            {
+              currency_code: "eur",
+              is_default: false,
             },
             {
               currency_code: "usd",
@@ -100,6 +105,12 @@ export default async function initial_data_seed({
     input: {
       regions: [
         {
+          name: "Brasil",
+          currency_code: "brl",
+          countries: ["br"],
+          payment_providers: ["pp_system_default"],
+        },
+        {
           name: "Europe",
           currency_code: "eur",
           countries,
@@ -108,12 +119,14 @@ export default async function initial_data_seed({
       ],
     },
   });
-  const region = regionResult[0];
+  const brazilRegion = regionResult.find((r) => r.currency_code === "brl") || regionResult[0];
+  const europeRegion = regionResult.find((r) => r.currency_code === "eur") || regionResult[1] || regionResult[0];
+  const region = brazilRegion;
   logger.info("Finished seeding regions.");
 
   logger.info("Seeding tax regions...");
   await createTaxRegionsWorkflow(container).run({
-    input: countries.map((country_code) => ({
+    input: allCountries.map((country_code) => ({
       country_code,
       provider_id: "tp_system",
     })),
@@ -126,6 +139,14 @@ export default async function initial_data_seed({
   ).run({
     input: {
       locations: [
+        {
+          name: "Atelier Fio Vivo São Paulo",
+          address: {
+            city: "São Paulo",
+            country_code: "BR",
+            address_1: "Rua Harmonia, Vila Madalena",
+          },
+        },
         {
           name: "European Warehouse",
           address: {
@@ -208,17 +229,21 @@ export default async function initial_data_seed({
   await createShippingOptionsWorkflow(container).run({
     input: [
       {
-        name: "Standard Shipping",
+        name: "Envio Padrão Brasil",
         price_type: "flat",
         provider_id: "manual_manual",
         service_zone_id: fulfillmentSet.service_zones[0].id,
         shipping_profile_id: shippingProfile.id,
         type: {
-          label: "Standard",
-          description: "Ship in 2-3 days.",
-          code: "standard",
+          label: "Padrão",
+          description: "Entrega em 3 a 5 dias úteis.",
+          code: "standard_br",
         },
         prices: [
+          {
+            currency_code: "brl",
+            amount: 25,
+          },
           {
             currency_code: "usd",
             amount: 10,
@@ -229,7 +254,7 @@ export default async function initial_data_seed({
           },
           {
             region_id: region.id,
-            amount: 10,
+            amount: 25,
           },
         ],
         rules: [
@@ -246,28 +271,32 @@ export default async function initial_data_seed({
         ],
       },
       {
-        name: "Express Shipping",
+        name: "Envio Expresso Brasil",
         price_type: "flat",
         provider_id: "manual_manual",
         service_zone_id: fulfillmentSet.service_zones[0].id,
         shipping_profile_id: shippingProfile.id,
         type: {
-          label: "Express",
-          description: "Ship in 24 hours.",
-          code: "express",
+          label: "Expresso",
+          description: "Entrega em 24 a 48 horas.",
+          code: "express_br",
         },
         prices: [
           {
+            currency_code: "brl",
+            amount: 45,
+          },
+          {
             currency_code: "usd",
-            amount: 10,
+            amount: 15,
           },
           {
             currency_code: "eur",
-            amount: 10,
+            amount: 15,
           },
           {
             region_id: region.id,
-            amount: 10,
+            amount: 45,
           },
         ],
         rules: [
@@ -303,19 +332,19 @@ export default async function initial_data_seed({
     input: {
       product_categories: [
         {
-          name: "Shirts",
+          name: "Tapeçarias",
           is_active: true,
         },
         {
-          name: "Sweatshirts",
+          name: "Esculturas Têxteis",
           is_active: true,
         },
         {
-          name: "Pants",
+          name: "Arte Botânica",
           is_active: true,
         },
         {
-          name: "Merch",
+          name: "Edições Especiais",
           is_active: true,
         },
       ],
@@ -328,33 +357,39 @@ export default async function initial_data_seed({
     input: {
       product_options: [
         {
-          title: "Size",
-          values: ["S", "M", "L", "XL"],
-        },
-        {
-          title: "Color",
-          values: ["Black", "White"],
+          title: "Edição",
+          values: ["Peça Única", "Tiragem Limitada"],
         },
       ],
     },
   });
-  const sizeOption = productOptionsResult.find((o) => o.title === "Size")!;
-  const colorOption = productOptionsResult.find((o) => o.title === "Color")!;
+  const editionOption = productOptionsResult[0];
+  const primaryCategory = categoryResult[0];
 
   const { result: createdProducts } = await createProductsWorkflow(container).run({
     input: {
       products: [
         {
-          title: "Medusa T-Shirt",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Shirts")!.id,
-          ],
+          title: "Espiral Dourada",
+          category_ids: [primaryCategory.id],
           description:
-            "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
-          handle: "t-shirt",
-          weight: 400,
+            "Tapeçaria contemporânea tecida manualmente com fios de algodão puro e pigmentos naturais dourados.",
+          handle: "espiral-dourada",
+          weight: 650,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
+          metadata: {
+            gallery: {
+              contextualName: "Tapeçaria e Arte Têxtil Contemporânea",
+              artist: "Artesã Fio Vivo",
+              material: "100% Algodão Cru e Pigmentos Botânicos",
+              year: 2026,
+              story: "Inspirada nos movimentos orgânicos da natureza e nas espirais ancestrais.",
+              ambientColors: ["#f5efe6", "#d9c3b0", "#8c6d53"],
+              displayOrder: 1,
+              featured: true,
+            },
+          },
           images: [
             {
               url: "/images/fio-vivo/fv-001-espiral-dourada/01-frente.png",
@@ -369,151 +404,25 @@ export default async function initial_data_seed({
               url: "/images/fio-vivo/fv-001-espiral-dourada/04-detalhe.png",
             },
           ],
-          options: [
-            { id: sizeOption.id },
-            { id: colorOption.id },
-          ],
+          options: [{ id: editionOption.id }],
           variants: [
             {
-              title: "S / Black",
-              sku: "SHIRT-S-BLACK",
+              title: "Peça Única / 2026",
+              sku: "FV-001-ESPIRAL",
               options: {
-                Size: "S",
-                Color: "Black",
+                Edição: "Peça Única",
               },
               prices: [
                 {
-                  amount: 10,
+                  amount: 380,
+                  currency_code: "brl",
+                },
+                {
+                  amount: 68,
                   currency_code: "eur",
                 },
                 {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "S / White",
-              sku: "SHIRT-S-WHITE",
-              options: {
-                Size: "S",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M / Black",
-              sku: "SHIRT-M-BLACK",
-              options: {
-                Size: "M",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M / White",
-              sku: "SHIRT-M-WHITE",
-              options: {
-                Size: "M",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L / Black",
-              sku: "SHIRT-L-BLACK",
-              options: {
-                Size: "L",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L / White",
-              sku: "SHIRT-L-WHITE",
-              options: {
-                Size: "L",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL / Black",
-              sku: "SHIRT-XL-BLACK",
-              options: {
-                Size: "XL",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL / White",
-              sku: "SHIRT-XL-WHITE",
-              options: {
-                Size: "XL",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
+                  amount: 75,
                   currency_code: "usd",
                 },
               ],
@@ -526,16 +435,26 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Sweatshirt",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Sweatshirts")!.id,
-          ],
+          title: "Órbita Negra",
+          category_ids: [primaryCategory.id],
           description:
-            "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
-          handle: "sweatshirt",
-          weight: 400,
+            "Peça têxtil de forte presença visual, combinando fios escuros profundos e texturas táteis marcantes.",
+          handle: "orbita-negra",
+          weight: 720,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
+          metadata: {
+            gallery: {
+              contextualName: "Escultura Têxtil de Parede",
+              artist: "Artesã Fio Vivo",
+              material: "Fios Nobres e Tingimento Natural Negro",
+              year: 2026,
+              story: "Exploração de sombras, relevos e contrastes na tapeçaria moderna.",
+              ambientColors: ["#1a1a1a", "#333333", "#e0d7ce"],
+              displayOrder: 2,
+              featured: true,
+            },
+          },
           images: [
             {
               url: "/images/fio-vivo/fv-002-orbita-negra/01-frente.png",
@@ -544,72 +463,25 @@ export default async function initial_data_seed({
               url: "/images/fio-vivo/fv-002-orbita-negra/02-perfil.png",
             },
           ],
-          options: [{ id: sizeOption.id }],
+          options: [{ id: editionOption.id }],
           variants: [
             {
-              title: "S",
-              sku: "SWEATSHIRT-S",
+              title: "Peça Única / 2026",
+              sku: "FV-002-ORBITA",
               options: {
-                Size: "S",
+                Edição: "Peça Única",
               },
               prices: [
                 {
-                  amount: 10,
+                  amount: 420,
+                  currency_code: "brl",
+                },
+                {
+                  amount: 75,
                   currency_code: "eur",
                 },
                 {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M",
-              sku: "SWEATSHIRT-M",
-              options: {
-                Size: "M",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L",
-              sku: "SWEATSHIRT-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL",
-              sku: "SWEATSHIRT-XL",
-              options: {
-                Size: "XL",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
+                  amount: 82,
                   currency_code: "usd",
                 },
               ],
@@ -622,90 +494,50 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Sweatpants",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Pants")!.id,
-          ],
+          title: "Círculo Solar",
+          category_ids: [primaryCategory.id],
           description:
-            "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
-          handle: "sweatpants",
-          weight: 400,
+            "Composição circular radiante que celebra a luz solar e a energia das fibras naturais.",
+          handle: "circulo-solar",
+          weight: 580,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
+          metadata: {
+            gallery: {
+              contextualName: "Mandala e Tapeçaria Solar",
+              artist: "Artesã Fio Vivo",
+              material: "Fibras Naturais e Urucum",
+              year: 2026,
+              story: "A celebração do sol nascente através de nós e texturas vibrantes.",
+              ambientColors: ["#fef8ea", "#e8bb6b", "#9c572a"],
+              displayOrder: 3,
+              featured: true,
+            },
+          },
           images: [
             {
-              url: "/images/fio-vivo/fv-003-trama-solar/01-frente.png",
-            },
-            {
-              url: "/images/fio-vivo/fv-003-trama-solar/02-perfil.png",
+              url: "/images/fio-vivo/fv-003-circulo-solar/01-frente.png",
             },
           ],
-          options: [{ id: sizeOption.id }],
+          options: [{ id: editionOption.id }],
           variants: [
             {
-              title: "S",
-              sku: "SWEATPANTS-S",
+              title: "Peça Única / 2026",
+              sku: "FV-003-SOLAR",
               options: {
-                Size: "S",
+                Edição: "Peça Única",
               },
               prices: [
                 {
-                  amount: 10,
+                  amount: 350,
+                  currency_code: "brl",
+                },
+                {
+                  amount: 62,
                   currency_code: "eur",
                 },
                 {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M",
-              sku: "SWEATPANTS-M",
-              options: {
-                Size: "M",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L",
-              sku: "SWEATPANTS-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL",
-              sku: "SWEATPANTS-XL",
-              options: {
-                Size: "XL",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
+                  amount: 68,
                   currency_code: "usd",
                 },
               ],
@@ -718,90 +550,162 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Shorts",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Merch")!.id,
-          ],
+          title: "Mandala Verde",
+          category_ids: [primaryCategory.id],
           description:
-            "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
-          handle: "shorts",
-          weight: 400,
+            "Geometria sagrada tecida em tons de verde oliva e musgo, extraídos de folhas nativas.",
+          handle: "mandala-verde",
+          weight: 800,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
+          metadata: {
+            gallery: {
+              contextualName: "Tapeçaria Botânica de Parede",
+              artist: "Artesã Fio Vivo",
+              material: "Algodão Orgânico e Folhas de Erva-Mate",
+              year: 2026,
+              story: "Conexão profunda com a floresta e os tons terrosos da mata.",
+              ambientColors: ["#eef2ea", "#7c8d6d", "#3a4a32"],
+              displayOrder: 4,
+              featured: true,
+            },
+          },
           images: [
             {
-              url: "/images/fio-vivo/fv-004-fio-ancestral/01-frente.png",
-            },
-            {
-              url: "/images/fio-vivo/fv-004-fio-ancestral/02-perfil.png",
+              url: "/images/fio-vivo/fv-004-mandala-verde/01-frente.png",
             },
           ],
-          options: [{ id: sizeOption.id }],
+          options: [{ id: editionOption.id }],
           variants: [
             {
-              title: "S",
-              sku: "SHORTS-S",
+              title: "Peça Única / 2026",
+              sku: "FV-004-MANDALA",
               options: {
-                Size: "S",
+                Edição: "Peça Única",
               },
               prices: [
                 {
-                  amount: 10,
+                  amount: 450,
+                  currency_code: "brl",
+                },
+                {
+                  amount: 80,
                   currency_code: "eur",
                 },
                 {
-                  amount: 15,
+                  amount: 88,
                   currency_code: "usd",
                 },
               ],
             },
+          ],
+          sales_channels: [
             {
-              title: "M",
-              sku: "SHORTS-M",
+              id: defaultSalesChannel.id,
+            },
+          ],
+        },
+        {
+          title: "Gota Azul",
+          category_ids: [primaryCategory.id],
+          description:
+            "Fluidez e serenidade representadas pelo tingimento natural em índigo sobre fios selecionados.",
+          handle: "gota-azul",
+          weight: 520,
+          status: ProductStatus.PUBLISHED,
+          shipping_profile_id: shippingProfile.id,
+          metadata: {
+            gallery: {
+              contextualName: "Tapeçaria Contemporânea Índigo",
+              artist: "Artesã Fio Vivo",
+              material: "Fio de Algodão e Índigo Natural",
+              year: 2026,
+              story: "A calmaria das águas doces traduzida em fios fluidos e nós precisos.",
+              ambientColors: ["#edf4f7", "#6b8ea8", "#244257"],
+              displayOrder: 5,
+              featured: true,
+            },
+          },
+          images: [
+            {
+              url: "/images/fio-vivo/fv-005-gota-azul/01-frente.png",
+            },
+          ],
+          options: [{ id: editionOption.id }],
+          variants: [
+            {
+              title: "Peça Única / 2026",
+              sku: "FV-005-GOTA",
               options: {
-                Size: "M",
+                Edição: "Peça Única",
               },
               prices: [
                 {
-                  amount: 10,
+                  amount: 320,
+                  currency_code: "brl",
+                },
+                {
+                  amount: 58,
                   currency_code: "eur",
                 },
                 {
-                  amount: 15,
+                  amount: 64,
                   currency_code: "usd",
                 },
               ],
             },
+          ],
+          sales_channels: [
             {
-              title: "L",
-              sku: "SHORTS-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
+              id: defaultSalesChannel.id,
             },
+          ],
+        },
+        {
+          title: "Floresta Densa",
+          category_ids: [primaryCategory.id],
+          description:
+            "Tapeçaria de grande porte evocando a densidade botânica e o relevo da Mata Atlântica.",
+          handle: "floresta-densa",
+          weight: 950,
+          status: ProductStatus.PUBLISHED,
+          shipping_profile_id: shippingProfile.id,
+          metadata: {
+            gallery: {
+              contextualName: "Painel Monumental de Parede",
+              artist: "Artesã Fio Vivo",
+              material: "Fios Mistos Naturais e Pigmentos de Cascas",
+              year: 2026,
+              story: "Uma homenagem à imponência da vegetação nativa brasileira.",
+              ambientColors: ["#f2efe9", "#9b8d78", "#4e3d2c"],
+              displayOrder: 6,
+              featured: true,
+            },
+          },
+          images: [
             {
-              title: "XL",
-              sku: "SHORTS-XL",
+              url: "/images/fio-vivo/fv-006-duna-terracota/01-frente.png",
+            },
+          ],
+          options: [{ id: editionOption.id }],
+          variants: [
+            {
+              title: "Peça Única / 2026",
+              sku: "FV-006-FLORESTA",
               options: {
-                Size: "XL",
+                Edição: "Peça Única",
               },
               prices: [
                 {
-                  amount: 10,
+                  amount: 480,
+                  currency_code: "brl",
+                },
+                {
+                  amount: 85,
                   currency_code: "eur",
                 },
                 {
-                  amount: 15,
+                  amount: 95,
                   currency_code: "usd",
                 },
               ],

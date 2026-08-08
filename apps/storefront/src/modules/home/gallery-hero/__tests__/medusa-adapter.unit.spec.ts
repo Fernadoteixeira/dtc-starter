@@ -47,7 +47,7 @@ describe("mapStoreProductToGalleryItem", () => {
       expect(item.price).toBeDefined()
       expect(item.price!.amount).toBe(1290)
       expect(item.price!.currencyCode).toBe("EUR")
-      expect(item.price!.formatted).toContain("12")
+      expect(item.price!.formatted).toMatch(/1[.,\s]?290/)
     })
 
     it("maps a product without calculated_price to a GalleryItem with no price", () => {
