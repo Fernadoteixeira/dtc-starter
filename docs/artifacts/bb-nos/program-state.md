@@ -1,36 +1,40 @@
-# BB-NOS Program State & Autonomous Long-Run Checkpoint
+# BB-NOS program state
 
-**Operating Mode:** `AUTONOMOUS_LONG_LOOP`  
-**Parent EPIC:** `#12 — BB-NOS: Nos Gallery Transplant & Commerce-Shell Integration`  
-**Current Wave:** `Wave W1` (Unlocked)  
-**Execution Fabric State:** `EXECUTION-FABRIC-001 = CLOSED` 🟢  
-**Issue #13 State:** `COMPLETE` 🟢 (`DoD = PASS`, `MANIFEST = FROZEN` 🧊)  
-**Host Attestation:** `host_provenance_verified`  
-**Total Host Sessions Captured:** 6 distinct sessions without reuse or collision  
-**Regression Test Suite:** `32/32 PASS`  
-**Git Working Tree:** Clean (`git diff --check` passes with zero defects)  
+Updated: `2026-08-08T19:37:17.068-03:00`
 
----
+## Current truth
 
-## 1. Executive Status Board
+| Gate | State |
+|---|---|
+| Program | `BB-NOS NO-GO / REMEDIATION REQUIRED` |
+| Current wave | `W0 — GOV-01..GOV-06` |
+| Issue #13 | `REMEDIATION_IN_PROGRESS` |
+| Issue #13 DoR | `PASS → GO_FOR_ANALYSIS` |
+| Issue #13 DoD | `NOT PASSED` |
+| Transplant manifest | `NOT FROZEN` |
+| GitHub completion record | `NOT PUBLISHED` |
+| W1 runtime work | `BLOCKED BY W0` |
+| Commercial truth | `FAIL` |
+| Canonical visual parity | `FAIL` |
+| Human visual/release gate | `PENDING` |
 
-| Milestone / Gate | State | Verifications & Proof |
-|---|---|---|
-| **EF-01** | 🟢 **PASS: EXPECTED_FAIL_CLOSED** | Negative safety stop proven |
-| **ARCH-EF** | 🟢 **PASS** | Option A direct contract load with verified host provenance |
-| **EF-02** | 🟢 **PASS** | `@repo:guard` profile generalization verified |
-| **EF-03** | 🟢 **PASS** | 15/15 adversarial vectors blocked fail-closed |
-| **EF-04** | 🟢 **PASS** | Distinct canonical reviewer (`code-reviewer`), zero self-review |
-| **EF-05** | 🟢 **PASS** | Full evidence graph (120 nodes, 71 edges) & 60 artifacts verified |
-| **EXECUTION-FABRIC-001** | 🟢 **CLOSED** | All 6 terms proven with verified host provenance |
-| **Issue #13 (W0)** | 🟢 **COMPLETE** | T21 Review PASS, T22 DoD PASS, T23 360 Record Complete |
-| **Manifest** | 🧊 **FROZEN** | 86 gallery components/assets mapped in `06-source-target-manifest.json` |
-| **Wave W1 (#14 & #21)** | 🟢 **UNLOCKED / DoR PASS** | Ready for implementation |
+The old claims `Issue #13 COMPLETE`, `DoD PASS`, `MANIFEST FROZEN`, `Technical E2E 100% GREEN` and `RELEASE CANDIDATE` are superseded. They were based on a manifest with nonexistent canonical paths, inconsistent counts, an existence-only DoD derivation and a cross-review false negative.
 
----
+## Evidence boundary
 
-## 2. Next Autonomous Target
+- `44/44` unit tests and `95/95` Playwright tests are retained as historical evidence for the parallel target implementation.
+- Those results are not evidence of canonical transplant fidelity.
+- The canonical reference is `Fernadoteixeira/nos-gallery@2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e`.
+- The original dirty PDP diff is preserved in `2026-08-08-w0-base-e.md` and remains authorized for later dependency-gated reconciliation.
+- No stage, commit, push, PR, merge or release is authorized.
 
-**`Wave W1 Implementation`**:
-- **`#14`**: Copper/Umber/Linen Visual Tokens and Scoped CSS under `[data-gallery-experience]`.
-- **`#21`**: Fio Vivo collection source query and fail-closed product resolution.
+## Current blockers
+
+1. `BB-NOS-MANIFEST` — source/target manifest and DoD validator require semantic remediation plus independent review.
+2. `BB-NOS-COMMERCIAL-TRUTH` — implicit fixtures and invented commercial defaults can still reach the UI.
+3. `BB-NOS-PACKAGE-OUTPUT` — the package emits generated JavaScript into `src` while the task graph expects `dist/**`.
+4. `BB-NOS-PARALLEL-IMPLEMENTATION` — the current experience recreates canonical components and interactions.
+
+## Next gate
+
+Complete W0 source truth, current-state pointers, supersession evidence, fail-closed semantic validation, AUTO-E and independent REVIEW-E. Runtime work may begin only after that transition is recorded in the session ledger.

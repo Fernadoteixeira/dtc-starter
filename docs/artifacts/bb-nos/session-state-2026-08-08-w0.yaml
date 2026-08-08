@@ -1,0 +1,124 @@
+project:
+  repository: Fernadoteixeira/dtc-starter
+  branch: main
+  head_sha: 45ef2606512a5a26f0fee2a377ffda823423fce9
+
+execution:
+  current_program: BB-NOS 360
+  current_bb: BB-NOS
+  current_task: GOV-01..06 then DAT-01..06
+  current_round: W0-W1 remediation
+  current_gate: W0_REMEDIATION_IN_PROGRESS
+  status: in_progress
+
+human_decisions:
+  visual_approval:
+    status: pending
+    approved_at: null
+    approved_scope: []
+    evidence: ""
+  architecture_approval:
+    status: approved
+  normalized_assets_replacement:
+    status: not_requested
+
+git_authorization:
+  stage: forbidden
+  commit: forbidden
+  push: forbidden
+  pull_request: forbidden
+  merge: forbidden
+  auto_merge: forbidden
+
+mutation_policy:
+  allowed_paths:
+    - .agents/contracts/nos-gallery-transplant-manifest.yaml
+    - .agents/contracts/nos-gallery-first-fold.yaml
+    - .agents/scripts/derive-issue-13-dod.mjs
+    - .agents/scripts/validate-nos-gallery-manifest.mjs
+    - .agents/scripts/__tests__/derive-issue-13-dod.test.mjs
+    - .agents/scripts/__tests__/validate-nos-gallery-manifest.test.mjs
+    - docs/artifacts/bb-nos/**
+    - docs/artifacts/nos-gallery-provenance-manifest.json
+    - apps/storefront/src/modules/home/gallery-hero/**
+    - apps/storefront/src/modules/home/components/featured-products/**
+    - apps/storefront/src/app/[countryCode]/(main)/page.tsx
+    - apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx
+    - apps/storefront/src/app/layout.tsx
+    - apps/storefront/jest.config.js
+    - apps/storefront/package.json
+    - packages/gallery-experience/**
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - turbo.json
+  forbidden_paths:
+    - apps/backend/.medusa/**
+    - apps/storefront/.next/**
+    - .turbo/**
+    - dist/**
+    - out/**
+    - .env
+    - .env.local
+  allowed_operations:
+    - inspect
+    - edit
+    - create
+    - test
+    - build
+    - browser_verify
+  forbidden_operations:
+    - stage
+    - commit
+    - push
+    - pull_request
+    - merge
+    - release
+    - force_push
+    - history_rewrite
+    - discard_existing_user_diff
+
+quality_gates:
+  build: not_run
+  typecheck: not_run
+  tests: not_run
+  runtime: not_run
+  visual: fail
+  localization: not_run
+  evidence: not_run
+
+blockers:
+  open:
+    - id: BB-NOS-MANIFEST
+      severity: P0
+      summary: Issue #13 manifest remains DRAFT-0 / remediation required.
+    - id: BB-NOS-COMMERCIAL-TRUTH
+      severity: P0
+      summary: Silent fixture fallbacks and fabricated adapter defaults can reach commercial UI.
+  resolved:
+    - id: DAT-06-AUTHORIZATION
+      severity: P0
+      summary: Dirty PDP edit authorization was previously ambiguous.
+      resolution: Human explicitly authorized surgical reconciliation while preserving the original diff semantically.
+
+evidence:
+  canonical_report: docs/artifacts/bb-nos/2026-08-08-w0-base-e.md
+  screenshots:
+    - C:/Users/fjuni/AppData/Local/Temp/codex-clipboard-11414ad2-0ab9-4c17-948d-a81b166c8cd6.png
+    - C:/Users/fjuni/AppData/Local/Temp/codex-clipboard-b39ee9e4-96ab-4ece-b874-c3a4494c7dc4.png
+  measurements: canonical localhost:3422 at 1680x934; see 2026-08-08-w0-base-e.md
+  hashes: docs/artifacts/bb-nos/2026-08-08-w0-base-e.md
+  pull_request: null
+
+transition:
+  previous_state: HUMAN_APPROVED
+  current_state: W0_REMEDIATION_IN_PROGRESS
+  trigger: Independent W0 audit invalidated the historical freeze and exposed semantic manifest and DoD derivation defects.
+  authorized_by: human authorization plus evidence-backed gate transition
+  timestamp: 2026-08-08T19:37:17.068-03:00
+  irreversible_actions_allowed: false
+
+next_action:
+  authorized: true
+  description: Repair W0 source truth, semantic validation, supersession records, current program pointers, AUTO-E and independent REVIEW-E before any runtime work.
+  stop_condition: Stop if the manifest cannot be truthfully frozen or COMMERCIAL TRUTH is not PASS.

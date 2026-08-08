@@ -4,6 +4,8 @@ import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
+import { fioVivoProducts } from "@modules/home/gallery-hero/fixtures/fio-vivo-products"
+import { mapFioVivoFixtureToProduct } from "@modules/home/components/featured-products/product-rail"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -53,20 +55,24 @@ export async function generateStaticParams() {
 }
 
 function getImagesForVariant(
-  product: HttpTypes.StoreProduct,
+  product?: HttpTypes.StoreProduct,
   selectedVariantId?: string
 ) {
+  if (!product || !product.images) {
+    return []
+  }
+
   if (!selectedVariantId || !product.variants) {
     return product.images
   }
 
-  const variant = product.variants!.find((v) => v.id === selectedVariantId)
+  const variant = product.variants.find((v) => v.id === selectedVariantId)
   if (!variant || !variant.images?.length) {
     return product.images
   }
 
-  const imageIdsMap = new Map(variant.images!.map((i) => [i.id, true]))
-  return product.images?.filter((i) => imageIdsMap.has(i.id)) ?? null
+  const imageIdsMap = new Map(variant.images.map((i) => [i.id, true]))
+  return product.images.filter((i) => imageIdsMap.has(i.id))
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -78,10 +84,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const product = await listProducts({
+  let product = await listProducts({
     countryCode: params.countryCode,
     queryParams: { handle },
-  }).then(({ response }) => response.products[0])
+  })
+    .then(({ response }) => response?.products?.[0])
+    .catch(() => undefined)
+
+  if (!product) {
+    const fixtureMatch = fioVivoProducts.find((p) => p.handle === handle)
+    if (fixtureMatch) {
+      product = mapFioVivoFixtureToProduct(fixtureMatch)
+    }
+  }
 
   if (!product) {
     notFound()
@@ -109,16 +124,25 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
-  const pricedProduct = await listProducts({
+  let pricedProduct = await listProducts({
     countryCode: params.countryCode,
     queryParams: { handle: params.handle },
-  }).then(({ response }) => response.products[0])
+  })
+    .then(({ response }) => response?.products?.[0])
+    .catch(() => undefined)
 
-  const images = getImagesForVariant(pricedProduct, selectedVariantId)
+  if (!pricedProduct) {
+    const fixtureMatch = fioVivoProducts.find((p) => p.handle === params.handle)
+    if (fixtureMatch) {
+      pricedProduct = mapFioVivoFixtureToProduct(fixtureMatch)
+    }
+  }
 
   if (!pricedProduct) {
     notFound()
   }
+
+  const images = getImagesForVariant(pricedProduct, selectedVariantId)
 
   return (
     <ProductTemplate
