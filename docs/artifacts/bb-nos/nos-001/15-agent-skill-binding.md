@@ -80,6 +80,21 @@ When a later execution consumes one, it must resolve an exact atomic path such a
 
 Git diff/hash claims are not emitted because the terminal integration is blocked by a Zed launcher error. This limitation is explicit rather than replaced by fabricated PASS evidence.
 
+## Canonical Agent Execution Fabric
+
+The registry is now paired with an executable structural fabric:
+
+- `.agents/canonical-execution-protocol.yaml`
+- `.agents/scripts/resolve-agent-shortcut.mjs`
+- `.agents/scripts/resolve-agent-skills.mjs`
+- `.agents/scripts/validate-execution-evidence.mjs`
+- `.agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md`
+- `.agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md`
+
+The fabric resolves and hashes canonical identities and exact skills, separates protocol/dispatcher/adapter/contract loads from skills, requires completed worker and reviewer receipts, and validates a fail-closed evidence envelope. Its validator intentionally declares `trust_level: structural_integrity_only`; host-session authenticity requires a platform invocation record and cannot be inferred from UUID syntax.
+
 ## Independent review
 
-`REVIEW-E` remains pending until a fresh delegated reviewer inspects the remediated artifacts. Its session, findings and verdict will be recorded in `agent-self-critique/18-independent-review.md` and `16-agent-skill-evidence.yaml`.
+A real independent audit ran in session `19e837af-9631-45d9-b6d0-5f90bedcf7ba` and returned `FAIL` against the first fabric cut. Addressable local findings were remediated. It is retained as an audit execution record, not promoted to protocol-compliant `REVIEW-E`, because no reviewer route/load bundle was generated and no fabric validation ran.
+
+Final `REVIEW-E` remains pending until the fabric can execute end to end.

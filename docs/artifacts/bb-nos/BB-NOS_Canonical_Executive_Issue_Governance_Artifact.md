@@ -111,7 +111,13 @@ Recommended future parent: `[EPIC][BB-ADMIN-GALLERY] Fio Vivo Gallery Curation &
 
 ## Canonical agent architecture
 
-SSOT candidate: `.agents/canonical-agent-shortcuts.yaml`
+Execution control plane:
+
+- registry: `.agents/canonical-agent-shortcuts.yaml`
+- protocol: `.agents/canonical-execution-protocol.yaml`
+- dispatcher: `fio-vivo-rug`
+- adapters: `canonical-worker` + `canonical-reviewer`
+- resolvers/validator: `.agents/scripts/*canonical*` and `.agents/scripts/resolve-agent-*`
 
 ```text
 18 canonical Ollama Superpowers agents
@@ -145,7 +151,7 @@ AUTOMATION ≠ HUMAN VISUAL APPROVAL
 
 ## Root next step
 
-`#13 REMEDIATION + AUTO-IMPROVE ITERATION 1`
+`UNBLOCK TERMINAL → RUN CANONICAL AGENT EXECUTION FABRIC → VALIDATION-E → #13 INDEPENDENT REVIEW`
 
 Required terminal outcome before W1:
 

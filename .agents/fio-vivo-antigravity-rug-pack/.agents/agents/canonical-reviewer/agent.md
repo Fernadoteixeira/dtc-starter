@@ -48,6 +48,9 @@ canonical_identity: <resolved reviewer identity>
 review_target: <worker AGENT-RUN receipt id>
 route_receipt_ref: <review ROUTE-E receipt id>
 agent_load_receipt_ref: <review AGENT-LOAD-E receipt id>
+protocol_receipt_ref: <review PROTOCOL-LOAD-E receipt id>
+dispatcher_receipt_ref: <review DISPATCHER-LOAD-E receipt id>
+adapter_receipt_ref: <review ADAPTER-LOAD-E receipt id>
 skill_receipt_refs: [<all review SKILL-LOAD-E receipt ids>]
 orchestration_receipt_refs: [<all review ORCHESTRATION-LOAD-E receipt ids>]
 contract_receipt_refs: [<all review CONTRACT-LOAD-E receipt ids>]
