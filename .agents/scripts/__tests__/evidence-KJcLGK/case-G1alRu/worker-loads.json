@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+  "task_id": "TEST-REV-REUSE",
+  "route_path": ".agents/scripts/__tests__/evidence-KJcLGK/case-G1alRu/worker-route.json",
+  "route_sha256": "3f408efb8cdca0b069ecd006e6d2750c0e1c1dec6cbe8fe604851b91f1e0d0c7",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "a3e407a1-8862-4a1d-9778-026107a54425",
+    "task_id": "TEST-REV-REUSE",
+    "shortcut": "impl",
+    "canonical_agent": "implementation-engineer",
+    "core_skills": [
+      "plan-to-patch",
+      "test-generation",
+      "debugging",
+      "documentation"
+    ],
+    "external_skills": [],
+    "orchestrations": [],
+    "contracts": [],
+    "contract_paths": {},
+    "specialist_agents": [],
+    "nos_domains": [],
+    "mode": null,
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "83ff271c-50bc-42d6-9e8a-722e4b3f8b70",
+        "invocation_id": "a3e407a1-8862-4a1d-9778-026107a54425",
+        "timestamp": "2026-08-08T16:26:43.880Z",
+        "status": "LOADED",
+        "task_id": "TEST-REV-REUSE",
+        "shortcut": "impl",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "9eb465a3-e23c-4899-aad2-b283474d5c6b",
+        "invocation_id": "a3e407a1-8862-4a1d-9778-026107a54425",
+        "timestamp": "2026-08-08T16:26:43.880Z",
+        "status": "LOADED",
+        "task_id": "TEST-REV-REUSE",
+        "agent_id": "implementation-engineer",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/implementation-engineer/agent.json",
+        "sha256": "f4e96ec7d1c8cfb75d6d6ac367ed12f3711656f4d2141bfef6c46fe97c05acf9"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "94bf58df-b0ee-4498-9925-092faff37b6d",
+      "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+      "timestamp": "2026-08-08T16:26:43.883Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "7a91a216-bbe9-4c05-a939-bbf25a3f1d2e",
+      "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+      "timestamp": "2026-08-08T16:26:43.884Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "68adf134-ad3c-469a-baf0-53b184332ca1",
+      "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+      "timestamp": "2026-08-08T16:26:43.884Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-worker",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md",
+      "sha256": "e73ba72c0b0ecb60560067662aa88db5ef23f5639824225a844228b22dcbd647"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "7115ec25-9fe7-48a4-a820-16e2db8abc77",
+      "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+      "timestamp": "2026-08-08T16:26:43.886Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "plan-to-patch",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/plan-to-patch/skill.json",
+      "sha256": "1966f71d1e660292c43ff0776a8ef5a77fa41c9f30497a29c9e5bad156832e13"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "8c3b60f7-5506-4224-addc-11a4d1082285",
+      "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+      "timestamp": "2026-08-08T16:26:43.887Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "test-generation",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/test-generation/skill.json",
+      "sha256": "079398d3a65ba55f052370b6193964a12192d74d67e0f0e74cebe948053d2840"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "7d2c7684-9766-449e-92a2-25ad6f2c91b1",
+      "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+      "timestamp": "2026-08-08T16:26:43.889Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "debugging",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/debugging/skill.json",
+      "sha256": "eec93afa7cad68e6dd59028c59315d97286d8787b782bbcb09d5104d0204c507"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "b3a16b8f-da4f-4f17-8667-b8504028749f",
+      "invocation_id": "3dc2c5de-7a9a-4771-8df0-cd850b235844",
+      "timestamp": "2026-08-08T16:26:43.890Z",
+      "status": "LOADED",
+      "task_id": "TEST-REV-REUSE",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "documentation",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/documentation/skill.json",
+      "sha256": "c0618954eeda3d3cce696ad0e769b1eef573721297c19981a4a39ce52688159e"
+    }
+  ]
+}

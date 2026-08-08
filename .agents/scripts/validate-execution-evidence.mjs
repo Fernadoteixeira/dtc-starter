@@ -164,6 +164,80 @@ export function validateContractReceipt(receipt, contractMap, bundle) {
   validateReceiptFileHash(receipt, `Contract ${name}`)
 }
 
+export function validateLoadBundle(loadBundle, route, context = {}) {
+  const bundle = assertObject(loadBundle, "load bundle")
+  if (bundle.kind !== LOAD_KIND || bundle.status !== "LOADED" || bundle.schema_version !== 1) {
+    throw new Error("Load bundle must be schema version 1, canonical-execution-loads, and LOADED")
+  }
+  assertNonEmptyString(bundle.task_id, "load.task_id")
+  assertUuid(bundle.invocation_id, "load.invocation_id")
+  if (bundle.task_id !== route.task_id) throw new Error("Load bundle task_id must match route task_id")
+  if (bundle.invocation_id !== route.invocation_id) throw new Error("Load bundle invocation_id must match route invocation_id")
+  if (!Array.isArray(bundle.receipts)) throw new Error("load bundle receipts must be an array")
+
+  const protocolReceipt = bundle.receipts.find((r) => r.type === "PROTOCOL-LOAD-E")
+  const dispatcherReceipt = bundle.receipts.find((r) => r.type === "DISPATCHER-LOAD-E")
+  const adapterReceipt = bundle.receipts.find((r) => r.type === "ADAPTER-LOAD-E")
+  const skillReceipts = bundle.receipts.filter((r) => r.type === "SKILL-LOAD-E")
+  const orchestrationReceipts = bundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E")
+  const contractReceipts = bundle.receipts.filter((r) => r.type === "CONTRACT-LOAD-E")
+
+  if (!protocolReceipt || !dispatcherReceipt || !adapterReceipt) {
+    throw new Error("Load bundle must contain PROTOCOL-LOAD-E, DISPATCHER-LOAD-E, and ADAPTER-LOAD-E")
+  }
+
+  assertReceiptEnvelope(protocolReceipt, "PROTOCOL-LOAD-E", "LOADED")
+  assertReceiptEnvelope(dispatcherReceipt, "DISPATCHER-LOAD-E", "LOADED")
+  assertReceiptEnvelope(adapterReceipt, "ADAPTER-LOAD-E", "LOADED")
+
+  if (protocolReceipt.path !== PROTOCOL_PATH || dispatcherReceipt.path !== DISPATCHER_PATH) {
+    throw new Error("Protocol or dispatcher path invalid")
+  }
+  validateReceiptFileHash(protocolReceipt, "PROTOCOL-LOAD-E")
+  validateReceiptFileHash(dispatcherReceipt, "DISPATCHER-LOAD-E")
+
+  const expectedAdapterPath = route.shortcut === "review:canonical" ? REVIEWER_ADAPTER_PATH : WORKER_ADAPTER_PATH
+  if (adapterReceipt.path !== expectedAdapterPath) {
+    throw new Error(`Adapter receipt path mismatch: expected ${expectedAdapterPath}`)
+  }
+  validateReceiptFileHash(adapterReceipt, "ADAPTER-LOAD-E")
+
+  const coreIndex = indexManifest(PROTOCOL_PATH, "id", "core skills manifest")
+  const nosIndex = indexManifest(NOS_MANIFEST_PATH, "id", "nos skills manifest")
+  const orchestrationIndex = indexManifest(ORCHESTRATION_MANIFEST_PATH, "id", "orchestration manifest")
+  const externalMap = new Map(Object.entries(route.external_skills || {}))
+  const contractMap = new Map(Object.entries(route.contract_paths || {}))
+
+  for (const r of skillReceipts) {
+    if (coreIndex.has(r.skill_id)) {
+      validateCoreSkillReceipt(r, coreIndex, hashFile(PROTOCOL_PATH), bundle)
+    } else if (nosIndex.has(r.skill_id)) {
+      validateNosSkillReceipt(r, nosIndex, hashFile(NOS_MANIFEST_PATH), bundle)
+    } else if (externalMap.has(r.skill_id)) {
+      validateExternalSkillReceipt(r, externalMap, bundle)
+    } else {
+      throw new Error(`Unknown skill receipt id: ${r.skill_id}`)
+    }
+  }
+
+  for (const r of orchestrationReceipts) {
+    validateOrchestrationReceipt(r, orchestrationIndex, hashFile(ORCHESTRATION_MANIFEST_PATH), bundle)
+  }
+
+  for (const r of contractReceipts) {
+    validateContractReceipt(r, contractMap, bundle)
+  }
+
+  return {
+    protocolReceipt,
+    dispatcherReceipt,
+    adapterReceipt,
+    skillReceipts,
+    orchestrationReceipts,
+    contractReceipts
+  }
+}
+
 export function validateAgentRunSchema(agentRun) {
   const allowedKeys = [...AGENT_RUN_BASE_KEYS]
   if (agentRun?.provenance !== undefined) allowedKeys.push("provenance")

@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+  "task_id": "TEST-PROV:review",
+  "route_path": ".agents/scripts/__tests__/evidence-KJcLGK/case-CTQWVP/review-route.json",
+  "route_sha256": "b4f303fa37560f730e21a3186b72a019b34296e0ba5f89383c1429b5ab54be38",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "e04d4485-af78-480e-9410-78a9a076dab2",
+    "task_id": "TEST-PROV:review",
+    "shortcut": "review:canonical",
+    "canonical_agent": "code-reviewer",
+    "core_skills": [
+      "code-review",
+      "regression-attribution",
+      "structured-output"
+    ],
+    "external_skills": [],
+    "orchestrations": [
+      "ORCH-12"
+    ],
+    "contracts": [],
+    "contract_paths": {},
+    "specialist_agents": [],
+    "nos_domains": [],
+    "mode": "read_only",
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "cf1bc1b6-408e-48dd-b444-3045bc031e1c",
+        "invocation_id": "e04d4485-af78-480e-9410-78a9a076dab2",
+        "timestamp": "2026-08-08T16:26:43.690Z",
+        "status": "LOADED",
+        "task_id": "TEST-PROV:review",
+        "shortcut": "review:canonical",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "b5e9dbcd-77de-4264-a598-6704d64e596f",
+        "invocation_id": "e04d4485-af78-480e-9410-78a9a076dab2",
+        "timestamp": "2026-08-08T16:26:43.690Z",
+        "status": "LOADED",
+        "task_id": "TEST-PROV:review",
+        "agent_id": "code-reviewer",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
+        "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "cb9fcae7-f362-4b0f-9c2c-837329962136",
+      "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+      "timestamp": "2026-08-08T16:26:43.693Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "06d90526-67dd-4baa-ad3a-053ccd4a299e",
+      "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+      "timestamp": "2026-08-08T16:26:43.693Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "c19981b6-2694-400c-8643-d12f791feeb0",
+      "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+      "timestamp": "2026-08-08T16:26:43.694Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-reviewer",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md",
+      "sha256": "4c8b69310a18c1217700e3e08e50242ff4f2b3a30dab6eba0a403b291004bf49"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "598c307e-7445-4d8a-926f-3fcb39d706f7",
+      "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+      "timestamp": "2026-08-08T16:26:43.695Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "code-review",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/code-review/skill.json",
+      "sha256": "001d6ab6fe102372bf97cef5cbe08ea845e2897c9d9a5ac91c9eab3587e2018f"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "67f39c31-fa98-41d7-97e0-0b2fd2930b4b",
+      "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+      "timestamp": "2026-08-08T16:26:43.696Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "regression-attribution",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/regression-attribution/skill.json",
+      "sha256": "288ddcfa18966e94f2726fc5410b674cf0178e54b7fa9278a7d684f811eabfcc"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "8d884813-69fa-4d1f-a56a-e2aa4b379a97",
+      "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+      "timestamp": "2026-08-08T16:26:43.698Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "structured-output",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/structured-output/skill.json",
+      "sha256": "ead16e89b9e87a72a6f2e7234dbe177ddc5f4c8018d03c952f0b87a0ef3a63a4"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "b5e011a1-6a34-4748-a3d9-637ffab94e13",
+      "invocation_id": "a86cc8a9-723d-45ec-9b56-92ca3dbe06ee",
+      "timestamp": "2026-08-08T16:26:43.700Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-12",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/release-readiness/SKILL.md",
+      "sha256": "b33dc44575cee95d42bb384c87ea2e3aecc1e91c7897161b3d3481cef2f6574d",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    }
+  ]
+}

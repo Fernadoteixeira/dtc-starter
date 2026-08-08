@@ -257,8 +257,12 @@ function createEvidenceBundleWithProvenance(options = {}) {
   const reviewerLoadBundle = buildLoadBundle({ routePath: reviewerRoutePath })
   writeJsonExclusive(reviewerLoadPath, reviewerLoadBundle)
 
-  const workerInvocationId = options.workerInvocationId || randomUUID()
-  const reviewerInvocationId = options.reviewerInvocationId || randomUUID()
+  const workerInvocationId = options.workerInvocationId || phase.route.invocation_id
+  const reviewerInvocationId = options.reviewerInvocationId || reviewerRoute.invocation_id
+  phase.route.invocation_id = workerInvocationId
+  phase.loadBundle.invocation_id = workerInvocationId
+  reviewerRoute.invocation_id = reviewerInvocationId
+  reviewerLoadBundle.invocation_id = reviewerInvocationId
   const artifactPath = REGISTRY_PATH
   const artifacts = [{ path: artifactPath, sha256: hashFile(artifactPath) }]
 

@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+  "task_id": "TEST-BAD-RUN",
+  "route_path": ".agents/scripts/__tests__/evidence-c090Gp/case-ewghTw/worker-route.json",
+  "route_sha256": "dd9376413fca5e1768d7dfca9363b5c254e206a82d10bd03e2b583d438d68dba",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "76c75ccf-ad54-4c71-9fc8-2bc995a32672",
+    "task_id": "TEST-BAD-RUN",
+    "shortcut": "impl",
+    "canonical_agent": "implementation-engineer",
+    "core_skills": [
+      "plan-to-patch",
+      "test-generation",
+      "debugging",
+      "documentation"
+    ],
+    "external_skills": [],
+    "orchestrations": [],
+    "contracts": [],
+    "contract_paths": {},
+    "specialist_agents": [],
+    "nos_domains": [],
+    "mode": null,
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "df275597-5983-4b57-831c-30a1ba94193c",
+        "invocation_id": "76c75ccf-ad54-4c71-9fc8-2bc995a32672",
+        "timestamp": "2026-08-08T16:26:02.713Z",
+        "status": "LOADED",
+        "task_id": "TEST-BAD-RUN",
+        "shortcut": "impl",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "f7c35f7a-b531-41d0-a9c2-bc6140ff7756",
+        "invocation_id": "76c75ccf-ad54-4c71-9fc8-2bc995a32672",
+        "timestamp": "2026-08-08T16:26:02.713Z",
+        "status": "LOADED",
+        "task_id": "TEST-BAD-RUN",
+        "agent_id": "implementation-engineer",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/implementation-engineer/agent.json",
+        "sha256": "f4e96ec7d1c8cfb75d6d6ac367ed12f3711656f4d2141bfef6c46fe97c05acf9"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "66ac129e-dea1-4603-9fab-f694187daf33",
+      "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+      "timestamp": "2026-08-08T16:26:02.716Z",
+      "status": "LOADED",
+      "task_id": "TEST-BAD-RUN",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "91b51870-384b-4c5a-be7d-2b7e5a19a5bc",
+      "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+      "timestamp": "2026-08-08T16:26:02.716Z",
+      "status": "LOADED",
+      "task_id": "TEST-BAD-RUN",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "b4e10676-3dda-4c45-89af-e43996f320e4",
+      "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+      "timestamp": "2026-08-08T16:26:02.717Z",
+      "status": "LOADED",
+      "task_id": "TEST-BAD-RUN",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-worker",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md",
+      "sha256": "e73ba72c0b0ecb60560067662aa88db5ef23f5639824225a844228b22dcbd647"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "48832fed-97bc-4024-8d42-91625f782285",
+      "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+      "timestamp": "2026-08-08T16:26:02.719Z",
+      "status": "LOADED",
+      "task_id": "TEST-BAD-RUN",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "plan-to-patch",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/plan-to-patch/skill.json",
+      "sha256": "1966f71d1e660292c43ff0776a8ef5a77fa41c9f30497a29c9e5bad156832e13"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "39d444e2-3039-4927-9333-a569a232cc1c",
+      "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+      "timestamp": "2026-08-08T16:26:02.720Z",
+      "status": "LOADED",
+      "task_id": "TEST-BAD-RUN",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "test-generation",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/test-generation/skill.json",
+      "sha256": "079398d3a65ba55f052370b6193964a12192d74d67e0f0e74cebe948053d2840"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "59579904-6b0d-4400-8a6e-1f2cc1a20864",
+      "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+      "timestamp": "2026-08-08T16:26:02.721Z",
+      "status": "LOADED",
+      "task_id": "TEST-BAD-RUN",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "debugging",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/debugging/skill.json",
+      "sha256": "eec93afa7cad68e6dd59028c59315d97286d8787b782bbcb09d5104d0204c507"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "7408e30e-b42a-44b3-9a9e-10a45bf10a1b",
+      "invocation_id": "f4e76bee-e866-46e4-ba16-67c8b7623463",
+      "timestamp": "2026-08-08T16:26:02.723Z",
+      "status": "LOADED",
+      "task_id": "TEST-BAD-RUN",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "documentation",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/documentation/skill.json",
+      "sha256": "c0618954eeda3d3cce696ad0e769b1eef573721297c19981a4a39ce52688159e"
+    }
+  ]
+}

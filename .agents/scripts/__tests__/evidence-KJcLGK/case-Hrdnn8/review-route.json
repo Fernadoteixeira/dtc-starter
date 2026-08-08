@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-agent-route",
+  "status": "LOADED",
+  "invocation_id": "b6ad23ce-c66a-4154-a0b8-271e1565fa1e",
+  "task_id": "TEST-PROV:review",
+  "shortcut": "review:canonical",
+  "canonical_agent": "code-reviewer",
+  "core_skills": [
+    "code-review",
+    "regression-attribution",
+    "structured-output"
+  ],
+  "external_skills": [],
+  "orchestrations": [
+    "ORCH-12"
+  ],
+  "contracts": [],
+  "contract_paths": {},
+  "specialist_agents": [],
+  "nos_domains": [],
+  "mode": "read_only",
+  "writer": false,
+  "receipts": [
+    {
+      "type": "ROUTE-E",
+      "receipt_id": "3177e37c-4045-4402-b580-05c951240628",
+      "invocation_id": "b6ad23ce-c66a-4154-a0b8-271e1565fa1e",
+      "timestamp": "2026-08-08T16:26:43.844Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "shortcut": "review:canonical",
+      "path": ".agents/canonical-agent-shortcuts.yaml",
+      "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+    },
+    {
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "3cf52a7e-b0de-4fa1-aff9-7c1b7e85cde4",
+      "invocation_id": "b6ad23ce-c66a-4154-a0b8-271e1565fa1e",
+      "timestamp": "2026-08-08T16:26:43.844Z",
+      "status": "LOADED",
+      "task_id": "TEST-PROV:review",
+      "agent_id": "code-reviewer",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
+      "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
+    }
+  ]
+}
