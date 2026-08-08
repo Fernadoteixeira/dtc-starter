@@ -1,0 +1,1595 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-evidence-graph",
+  "task_id": "NOS-001-EF-05",
+  "total_nodes": 154,
+  "total_edges": 111,
+  "nodes": [
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\ef-01-requirements.json",
+      "type": "artifact",
+      "gate": "ef-01",
+      "sha256": "fb164e5f8d4d37f1aedf09f05cb5bbb8534715b6d38116c8f792578ad42efbe9"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\ef-01-verdict.md",
+      "type": "artifact",
+      "gate": "ef-01",
+      "sha256": "b8287f12fcfda7ca8830d436fb6e653b5aae97005f0330d81963d7af73ac7d8d"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\load-validation-failure.json",
+      "type": "artifact",
+      "gate": "ef-01",
+      "sha256": "4f41d9aa5b4333c344fbb35759580c45013fa177c446bb46671316c92822edd3"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "type": "artifact",
+      "gate": "ef-01",
+      "sha256": "8e1fc80ab5372c85891f2ad2ec702c3dae787929c71478e1ef21ee5a91ef1f66"
+    },
+    {
+      "id": "0d0bb434-9e9d-4207-855d-9827ccebe3f4",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "8f02788d-8d91-4665-a855-c8d6d8c3e2df",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "2e2ae958-e566-47dc-8164-a81caa80ce8b",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "f0630c60-d52d-4086-addd-189ecfcc0587",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "1a1e2a43-66ea-4c29-b0f3-e8feb5c39e1c",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "a5739990-3275-4f64-9338-4af5ff3447f4",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "57f49443-419a-49a2-ae53-1ba7d537dea2",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "49d65071-73b9-4ebc-96ce-5bdb7e80d0da",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "35500fbd-471e-487d-a732-03244a37bdb5",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "4630cb2a-bd13-4f50-9116-3765ae8407a3",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "f8dd23a8-7858-4077-b641-f998654bcf2b",
+      "type": "CONTRACT-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-route.json",
+      "type": "artifact",
+      "gate": "ef-01",
+      "sha256": "f88ce4f470bd00c0f48df34105b595752f4219065a8273b58f17af39d23e0aee"
+    },
+    {
+      "id": "b2919523-bae5-4c98-b279-00bc1e86e58f",
+      "type": "ROUTE-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29"
+    },
+    {
+      "id": "ce39beba-642e-4ba7-ae3f-cb7ec908c61d",
+      "type": "AGENT-LOAD-E",
+      "gate": "ef-01",
+      "status": "LOADED",
+      "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\arch-ef-verdict.md",
+      "type": "artifact",
+      "gate": "arch-ef",
+      "sha256": "32a655b5cce121be3efe51880496c2373e83d0f738b6ad204b94377b7e7b05a1"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\execution-evidence.json",
+      "type": "artifact",
+      "gate": "arch-ef",
+      "sha256": "b0e5eb1f99460d4d995e4ed527ab37e7792e92f79c991327e10f8a70c1919129"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "type": "artifact",
+      "gate": "arch-ef",
+      "sha256": "cafc926e989b2797f148e7bf0ba56d55efe00cd58eced9a1ca1167be6b05cad9"
+    },
+    {
+      "id": "1bcd0ed5-4e7f-4fe7-baad-c5533ad432c8",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99"
+    },
+    {
+      "id": "db8267a3-66f3-4313-b524-b2e35fc40212",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99"
+    },
+    {
+      "id": "3c30b7b1-1c20-488f-9b6f-531711089dc6",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99"
+    },
+    {
+      "id": "0f76af7a-4fa5-4638-a7e1-a0526428d69c",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99"
+    },
+    {
+      "id": "2164b2b2-7271-496a-8d16-239530716ac6",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99"
+    },
+    {
+      "id": "867cb26c-e5f7-4785-9730-0e565f391b27",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99"
+    },
+    {
+      "id": "cc28adf0-b9da-440e-8358-427d6b9eee55",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-route.json",
+      "type": "artifact",
+      "gate": "arch-ef",
+      "sha256": "17b01e1f89dc8cbcc0429c2d46305f82ef8fb84eab122bd1e9d50d68b98a9471"
+    },
+    {
+      "id": "9fdf72db-c7b5-4349-920c-2bd947518f7d",
+      "type": "ROUTE-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "3ea87564-350f-4496-9a3d-52d9bd62e2c4"
+    },
+    {
+      "id": "3fde7e41-2c73-41c8-b540-e2a70612a2dc",
+      "type": "AGENT-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "3ea87564-350f-4496-9a3d-52d9bd62e2c4"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\validation-evidence.json",
+      "type": "artifact",
+      "gate": "arch-ef",
+      "sha256": "7ca8734024b2f203bc5b300455ef3b5e1a6c733ff69a6a33858efcba7c96e199"
+    },
+    {
+      "id": "d78c0523-09d8-4b51-808f-dce1ee5ceaf3",
+      "type": "VALIDATION-E",
+      "gate": "arch-ef",
+      "status": "VALIDATED",
+      "invocation_id": "1cf9c5a9-b521-4685-80c7-98bde97c694f"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "type": "artifact",
+      "gate": "arch-ef",
+      "sha256": "c59916c04aac5f8a21d6c155b3f700db1e1c5bd2d5c96ba81014822cebae6648"
+    },
+    {
+      "id": "7f3b6c15-b0df-4c19-a627-bd762db5bce2",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "c906d3fb-088b-4ff0-a2eb-a8fe99ed6dcc",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "1c79753b-7b55-4086-a5a0-83c265baee32",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "31257253-8d70-4248-8aad-048d122f54a4",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "6c4de415-4eb9-4e0d-945c-55bf23f4193e",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "808b8d02-bbab-46e8-9be1-e532b59dcba1",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "b5b500f7-2c77-47d1-b191-4569b73cb6f5",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "862f72b9-608d-46da-86eb-fa7f125410a6",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "4f3f287d-42ad-427a-9c98-b5a0e61ddffc",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "9b8adacb-3810-4cf3-8f07-84cbabacaf98",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "4a7faa92-02a5-414f-a815-8d789a517b21",
+      "type": "CONTRACT-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "3cc7a0bc-fb34-4c22-adc6-9fdaac3988c6",
+      "type": "CONTRACT-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-route.json",
+      "type": "artifact",
+      "gate": "arch-ef",
+      "sha256": "e6cbfaf939e1c3c541237c0bd7725ef7470d17b3dfc5112e94e3209495b03e34"
+    },
+    {
+      "id": "0a7a0bd7-f234-4c00-84c3-b4f1de71f6e4",
+      "type": "ROUTE-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce"
+    },
+    {
+      "id": "a817fa54-26eb-4aa7-8445-bea80f6693f0",
+      "type": "AGENT-LOAD-E",
+      "gate": "arch-ef",
+      "status": "LOADED",
+      "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\agent-run.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "2c1587bb8d91960579307031c008d7b7ac553e093e05f2170be968e3fa56c966"
+    },
+    {
+      "id": "a45a6462-d10c-4074-9548-254bb80ae197",
+      "type": "AGENT-RUN",
+      "gate": "arch-ef-r1",
+      "status": "COMPLETED",
+      "invocation_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\arch-ef-r1-verdict.md",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "a089b093b62c48cac757afa52b763e8cb99608a3dc5d4c3c16f96430773a38bf"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\execution-evidence.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "82f52f796ec918fbab99bef320cf6c42e3b9ad496f48f67dd44af4a3b5a9ce8d"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\git-diff-summary.md",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "0d197c1b7467c4fe0f4ce73a2180905cb75afae71c6b3c2eacc15c7c7f0a6a5c"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\provenance-discovery.md",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "08633a14f2ffb0a8fb9062c4f45e6f830d7c14ee77e446a4676ca6671641cde7"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\provenance-source-matrix.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "752a13080d350d232e6086f4ab9935a669bc2fced2a96721d7a451ac3341aa58"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-e.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "41d7eb02e48a936c2d7537ed803cb77a1eb45a60814a5e96d3a7cae5b204d4f1"
+    },
+    {
+      "id": "e0737d0b-b86e-40a2-bba3-33bc7f49bd0d",
+      "type": "REVIEW-E",
+      "gate": "arch-ef-r1",
+      "status": "COMPLETED",
+      "invocation_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "70a1d61291c80aaaf02fbca5dee0c89a4a4dd864a653be5c0ad64ec57479c0c5"
+    },
+    {
+      "id": "c1f890c5-d8af-4edc-880c-4e0b17040daa",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7"
+    },
+    {
+      "id": "a079c334-3477-4257-bec2-c0d4762d3c5e",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7"
+    },
+    {
+      "id": "d40f97f2-3207-44a4-9ead-9242d285ce71",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7"
+    },
+    {
+      "id": "0b245097-7c46-42ee-b97d-8dcf9550eebc",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7"
+    },
+    {
+      "id": "0503b514-9a26-43a0-9723-e27b0cf81231",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7"
+    },
+    {
+      "id": "f2740086-9db2-45cc-995c-68770ae944e4",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7"
+    },
+    {
+      "id": "1bc4b238-74ea-4793-8f82-c15976c41361",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-route.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "5e82a7e84d80bb97590ea92450ec9538cc78721b1f2106bbceefc715698cd19e"
+    },
+    {
+      "id": "39491359-f8f5-4d9c-9cb1-3df3c980d682",
+      "type": "ROUTE-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "c3d2ae41-817a-44f4-9f6e-a458d53e42ce"
+    },
+    {
+      "id": "39ada161-2dc6-4069-ad11-bebd2e2a2034",
+      "type": "AGENT-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "c3d2ae41-817a-44f4-9f6e-a458d53e42ce"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\reviewer-provenance.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "ace39ec70f64a13fa4c9efec70758b8ca2e4055d1708409fa13f55fed5d44421"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\test-results.md",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "b96b0940af444cc1414164a8c191908c01fb9cccda2d919f4f81ab1378e829e1"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\validation-evidence.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "a9dedd8f641d31fce3013c836bd5deb952b92162e1691c8e224534fbb3aaf8f4"
+    },
+    {
+      "id": "11f4214d-97d5-4efd-aea5-84ba2376b1dd",
+      "type": "VALIDATION-E",
+      "gate": "arch-ef-r1",
+      "status": "VALIDATED",
+      "invocation_id": "859f1511-b2ca-48d2-a707-041ea1406274"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "3c678d0b4b22cf60f40d091efda711d77d353dbe9f3fc482466452814abe7e54"
+    },
+    {
+      "id": "b078c168-5288-41af-b0a5-8a656d97592e",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "7f2c06c4-1bec-4112-8cf1-b3d94efba691",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "10ff594e-13f3-4560-a159-e3b211267b07",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "594eb907-2d6b-41c8-a61e-05e9cbd89b62",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "029a1192-09f4-4971-b49a-e3de9d6cdef9",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "3b16dfb2-596d-42b8-8e2b-4505045f797e",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "8db9bc2d-a4a3-4be7-adfa-bb399f8d4635",
+      "type": "SKILL-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "ea65e511-92e0-4c2f-8828-97f6378e5b8b",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "d313fa6b-7458-4c86-bf69-844e90375f28",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "d5acd7df-c016-44cc-86d9-332aa9c0e889",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "f45f2583-ddaf-4741-a26a-a7c9c7361a24",
+      "type": "CONTRACT-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "a0887c38-7244-4828-bab2-bb98e655e70e",
+      "type": "CONTRACT-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-provenance.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "0d46f9b306b477aaa0f317c0b3207134b948e260945937583c17ad9d8244ab8c"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-route.json",
+      "type": "artifact",
+      "gate": "arch-ef-r1",
+      "sha256": "e2052daa5b72eb6cccf91c335bb6d406b551fbc7d5025e039d873fa6a8d227cd"
+    },
+    {
+      "id": "860ddbb6-b746-4c5e-8841-9c49f3f142e3",
+      "type": "ROUTE-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "19450d26-d4fb-4d06-92d0-978755f821a6"
+    },
+    {
+      "id": "8c6afa4d-7fe5-4fa7-8da8-ec23aa150db3",
+      "type": "AGENT-LOAD-E",
+      "gate": "arch-ef-r1",
+      "status": "LOADED",
+      "invocation_id": "19450d26-d4fb-4d06-92d0-978755f821a6"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\agent-run.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "d7b20e4d82c3ba2d355132a58ef9774bc5033a7fd82efcf7307b7cdbf4aa7c2f"
+    },
+    {
+      "id": "aa065a10-43e0-4dfa-b51b-3dc40fad266d",
+      "type": "AGENT-RUN",
+      "gate": "ef-02",
+      "status": "COMPLETED",
+      "invocation_id": "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\ef-02-repo-guard-report.md",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "95d7225951046d54583754f3d45ece09095527144cf7091d18d1951502e1c643"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\ef-02-verdict.md",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "5071eb324326fb735f61138fe1cb23741dc6122c8a4a6f4c394aa3471ca7f3f5"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\execution-evidence.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "c3948eb136d039c72531efc7059e7e127cd3c62ea046892cb7280cbd2ce5fdae"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\git-diff-summary.md",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "7397d177ab181c5137c786185f8177c7ddd087660e9ec9ed8d1158d128b429dd"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-e.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "0eefceacacf8d46d56e0f1a14e7738663a0eea845668be68b251d1f293da3a01"
+    },
+    {
+      "id": "8bad81af-ce64-424e-aa7f-190cbe84be99",
+      "type": "REVIEW-E",
+      "gate": "ef-02",
+      "status": "COMPLETED",
+      "invocation_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "8dcd58b3a94deb6eaad95bd8b1521e7690904880b9422dfc4905d8d98d5851f1"
+    },
+    {
+      "id": "8a939a2d-8a27-488c-b926-096d29b1eebf",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760"
+    },
+    {
+      "id": "8feb7b2d-cf19-4e42-9da5-8c98f5a4ca45",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760"
+    },
+    {
+      "id": "59ed9c1d-8f35-4feb-bde5-cb32f5e94cd7",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760"
+    },
+    {
+      "id": "dc61f1dd-df3a-4066-a29a-c46f9ef88c96",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760"
+    },
+    {
+      "id": "29a62bac-87c7-47cd-9e9c-2e2618eb7cff",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760"
+    },
+    {
+      "id": "8623215a-3652-45bc-8b1a-f94722f452a8",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760"
+    },
+    {
+      "id": "16b73b24-c612-4155-9ffe-991ed91ffeaf",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-route.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "e52553053d2849b4aa3a22c7399def41c9ed6b6d7ebba4bb65ef9d64d8f63ead"
+    },
+    {
+      "id": "2bd51214-1c9a-4eeb-8293-f0f4ff35d06f",
+      "type": "ROUTE-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "32e00584-bd4c-49f9-b6c6-0e91b2e0884b"
+    },
+    {
+      "id": "ef6cce5d-9f78-4ccb-8251-112f162c02e4",
+      "type": "AGENT-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "32e00584-bd4c-49f9-b6c6-0e91b2e0884b"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\reviewer-provenance.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "9bd4198f89ec4c44296f9c9901d8ffd0081f63737119367bfd7136fcd740694f"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\test-results.md",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "e8ff788a02ddd996edad42064f06e777191707cc81ff39019cd5f415aa7a9ee7"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\validation-evidence.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "96875b79a98cd3531ffd9735a9eb6155620e705ad204678b00012975639345d5"
+    },
+    {
+      "id": "b04f905f-ab1d-4813-9306-a2360c1c1084",
+      "type": "VALIDATION-E",
+      "gate": "ef-02",
+      "status": "VALIDATED",
+      "invocation_id": "cf5817d0-82d7-4e4b-a219-a4bb002d182a"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "a37ca1435e52ac1075b84bb6c00ad4f7f68158aeb669b5df028d4ff1206f678c"
+    },
+    {
+      "id": "de8e0920-1144-4f43-9a60-70b479bc1f1c",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650"
+    },
+    {
+      "id": "55220501-24db-484c-9421-c836d74cc539",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650"
+    },
+    {
+      "id": "130b5af0-7322-4cb9-b222-8ac4d363d578",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650"
+    },
+    {
+      "id": "998f76f4-d230-41ea-b34c-509d378cd467",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650"
+    },
+    {
+      "id": "e4363237-0785-417d-a9fb-811097fd80e1",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-provenance.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "3e58949bfb1ddd7e2989dbc6910373cf49f84534e31ab6857c769428a2999735"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-route.json",
+      "type": "artifact",
+      "gate": "ef-02",
+      "sha256": "b1831d47841aacc689be674b2263c13e3d604a34a0f701f6f168facc534fc082"
+    },
+    {
+      "id": "83a8c74b-103e-4fb6-99f3-0a121a9666fa",
+      "type": "ROUTE-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "2767c616-1f77-4db8-89e1-2f3d7ef1ef51"
+    },
+    {
+      "id": "a3a7778e-23ea-48c4-aaf7-604a95fd7101",
+      "type": "AGENT-LOAD-E",
+      "gate": "ef-02",
+      "status": "LOADED",
+      "invocation_id": "2767c616-1f77-4db8-89e1-2f3d7ef1ef51"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\adversarial-attack-matrix.json",
+      "type": "artifact",
+      "gate": "ef-03",
+      "sha256": "9eee32dda7ca1fc4cadf99f5cad5fb8f29c07d6eeb1a74c53b489836f5d0b9a4"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\adversarial-attack-report.md",
+      "type": "artifact",
+      "gate": "ef-03",
+      "sha256": "4360d86a26a26ae3e6d10e99c4cd55ca2ad9361e2bcf056f8f1f503b09d12de8"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\ef-03-verdict.md",
+      "type": "artifact",
+      "gate": "ef-03",
+      "sha256": "ceb9bd97255550aed2e3f6ff71a6be534a3d9d22586959cf02d7bf8f2a297f86"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\git-diff-summary.md",
+      "type": "artifact",
+      "gate": "ef-03",
+      "sha256": "a3b1ba1bdf702f2215b195fce73e964e2ff12395e4c2521682d0912412d634b7"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\test-results.md",
+      "type": "artifact",
+      "gate": "ef-03",
+      "sha256": "a5aca30de9af8076b798698bcaca09e167c8248ee3c2c9c871fd6982aadbb00f"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-independent-review.md",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "269b0e5d98d1b4a4399b8096958bbcfa4f98c8eb07b9d297fc510dfa57f092ef"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-validation-evidence.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "e12fc2d9d6e5a91ab665d6754a7de41f44e44b7128bb42f27ab112deff198fa2"
+    },
+    {
+      "id": "7b952f44-8d48-4cb8-9b16-419b33aefc04",
+      "type": "VALIDATION-E",
+      "gate": "ef-04",
+      "status": "VALIDATED",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-verdict.md",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "bea94ec943fabe8977442a052886243370a7f8a3c97fb7c3017510621cfa94f4"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\execution-evidence.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "d0ef437ffde9a63a04cd6dac01c9b8a0daa01afc552527db01cc5e541c828fab"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\git-diff-summary.md",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "2e93d48821de44c5b36f1667261da68aa513190c7684345ecb361e0bff8b7ff3"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-e.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "f34fa366060aaaa71f72f808105a3a33de8d0b4619f22d9d43d41cc625419a21"
+    },
+    {
+      "id": "8b072c41-9457-418a-928d-195932ced701",
+      "type": "REVIEW-E",
+      "gate": "ef-04",
+      "status": "COMPLETED",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-load-validation.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "586e622b3ba8d6d42dc93f36a2e8bffcd5198ab3ba2abc9c805846bb0cd30851"
+    },
+    {
+      "id": "34bdca10-49a1-4304-9210-2ab7600503f3",
+      "type": "LOAD-VALIDATION-E",
+      "gate": "ef-04",
+      "status": "VALIDATED",
+      "invocation_id": "749efcf7-1c32-4f71-a0b1-db74bca5874c"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "3592a73aa19c683a3092077431989c04feff21fa22338bd36f9014be59652519"
+    },
+    {
+      "id": "cdbb8dd5-5091-47da-bb47-a6ce1f6b8bb9",
+      "type": "PROTOCOL-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9"
+    },
+    {
+      "id": "92ef1cd7-902b-4e04-99b8-7b37baf8987f",
+      "type": "DISPATCHER-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9"
+    },
+    {
+      "id": "10f92d03-e66e-4c4d-b921-d393cd1a702c",
+      "type": "ADAPTER-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9"
+    },
+    {
+      "id": "8b386a0d-382f-4b22-bd4b-73ac373ec4b0",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9"
+    },
+    {
+      "id": "ac4e7acb-ddb9-45e9-8709-a3f24f080cfe",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9"
+    },
+    {
+      "id": "56858b11-e5a0-4b79-af12-6d81fd4a4b09",
+      "type": "SKILL-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9"
+    },
+    {
+      "id": "2612e671-fd4b-475d-b072-e4dfcf552e9d",
+      "type": "ORCHESTRATION-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-route.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "62ddcd09a4a5b077076271cd97c67ac5a8a77b080fe1b25ab45948a1676a79a9"
+    },
+    {
+      "id": "0c661662-e03d-40e1-941c-6fdea6243bec",
+      "type": "ROUTE-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595"
+    },
+    {
+      "id": "3f13545b-2d7b-4c40-a20e-9bda93d2621d",
+      "type": "AGENT-LOAD-E",
+      "gate": "ef-04",
+      "status": "LOADED",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\reviewed-artifact-manifest.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "33a717c2acae3725c31a996a5fe441b1f84611571a4749aac0f9dd72e71f68dc"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\reviewer-isolation-matrix.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "c4f8d02be1d82b0cebb0cd08ea8cddf53e1765abb94b64f5e625b0f88a1728fc"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\reviewer-provenance.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "7281e5fc9a338417908a3bb5184040874a11d639a9f3bc52fef311253bf90bd4"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\test-results.md",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "bd4a6cd34dcbba0ed0bd14387a1e5cb341dab513e7c66f13ae12bb96b8bb8bb6"
+    },
+    {
+      "id": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\worker-history-manifest.json",
+      "type": "artifact",
+      "gate": "ef-04",
+      "sha256": "b394e2dcc6b5ad70eba940e20fa7b05be7f601e9ef226ae0d85de07b2abd21b0"
+    }
+  ],
+  "edges": [
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "0d0bb434-9e9d-4207-855d-9827ccebe3f4",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "8f02788d-8d91-4665-a855-c8d6d8c3e2df",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "2e2ae958-e566-47dc-8164-a81caa80ce8b",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "f0630c60-d52d-4086-addd-189ecfcc0587",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "1a1e2a43-66ea-4c29-b0f3-e8feb5c39e1c",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "a5739990-3275-4f64-9338-4af5ff3447f4",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "57f49443-419a-49a2-ae53-1ba7d537dea2",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "49d65071-73b9-4ebc-96ce-5bdb7e80d0da",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "35500fbd-471e-487d-a732-03244a37bdb5",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "4630cb2a-bd13-4f50-9116-3765ae8407a3",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "to": "f8dd23a8-7858-4077-b641-f998654bcf2b",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-route.json",
+      "to": "b2919523-bae5-4c98-b279-00bc1e86e58f",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-route.json",
+      "to": "ce39beba-642e-4ba7-ae3f-cb7ec908c61d",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "to": "1bcd0ed5-4e7f-4fe7-baad-c5533ad432c8",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "to": "db8267a3-66f3-4313-b524-b2e35fc40212",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "to": "3c30b7b1-1c20-488f-9b6f-531711089dc6",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "to": "0f76af7a-4fa5-4638-a7e1-a0526428d69c",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "to": "2164b2b2-7271-496a-8d16-239530716ac6",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "to": "867cb26c-e5f7-4785-9730-0e565f391b27",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "to": "cc28adf0-b9da-440e-8358-427d6b9eee55",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-route.json",
+      "to": "9fdf72db-c7b5-4349-920c-2bd947518f7d",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-route.json",
+      "to": "3fde7e41-2c73-41c8-b540-e2a70612a2dc",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\validation-evidence.json",
+      "to": "d78c0523-09d8-4b51-808f-dce1ee5ceaf3",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "7f3b6c15-b0df-4c19-a627-bd762db5bce2",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "c906d3fb-088b-4ff0-a2eb-a8fe99ed6dcc",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "1c79753b-7b55-4086-a5a0-83c265baee32",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "31257253-8d70-4248-8aad-048d122f54a4",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "6c4de415-4eb9-4e0d-945c-55bf23f4193e",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "808b8d02-bbab-46e8-9be1-e532b59dcba1",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "b5b500f7-2c77-47d1-b191-4569b73cb6f5",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "862f72b9-608d-46da-86eb-fa7f125410a6",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "4f3f287d-42ad-427a-9c98-b5a0e61ddffc",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "9b8adacb-3810-4cf3-8f07-84cbabacaf98",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "4a7faa92-02a5-414f-a815-8d789a517b21",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "to": "3cc7a0bc-fb34-4c22-adc6-9fdaac3988c6",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-route.json",
+      "to": "0a7a0bd7-f234-4c00-84c3-b4f1de71f6e4",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-route.json",
+      "to": "a817fa54-26eb-4aa7-8445-bea80f6693f0",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\agent-run.json",
+      "to": "a45a6462-d10c-4074-9548-254bb80ae197",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\agent-run.json",
+      "to": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+      "relationship": "attested_by_session"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-e.json",
+      "to": "e0737d0b-b86e-40a2-bba3-33bc7f49bd0d",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-e.json",
+      "to": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+      "relationship": "attested_by_session"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "to": "c1f890c5-d8af-4edc-880c-4e0b17040daa",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "to": "a079c334-3477-4257-bec2-c0d4762d3c5e",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "to": "d40f97f2-3207-44a4-9ead-9242d285ce71",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "to": "0b245097-7c46-42ee-b97d-8dcf9550eebc",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "to": "0503b514-9a26-43a0-9723-e27b0cf81231",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "to": "f2740086-9db2-45cc-995c-68770ae944e4",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "to": "1bc4b238-74ea-4793-8f82-c15976c41361",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-route.json",
+      "to": "39491359-f8f5-4d9c-9cb1-3df3c980d682",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-route.json",
+      "to": "39ada161-2dc6-4069-ad11-bebd2e2a2034",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\validation-evidence.json",
+      "to": "11f4214d-97d5-4efd-aea5-84ba2376b1dd",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "b078c168-5288-41af-b0a5-8a656d97592e",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "7f2c06c4-1bec-4112-8cf1-b3d94efba691",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "10ff594e-13f3-4560-a159-e3b211267b07",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "594eb907-2d6b-41c8-a61e-05e9cbd89b62",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "029a1192-09f4-4971-b49a-e3de9d6cdef9",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "3b16dfb2-596d-42b8-8e2b-4505045f797e",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "8db9bc2d-a4a3-4be7-adfa-bb399f8d4635",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "ea65e511-92e0-4c2f-8828-97f6378e5b8b",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "d313fa6b-7458-4c86-bf69-844e90375f28",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "d5acd7df-c016-44cc-86d9-332aa9c0e889",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "f45f2583-ddaf-4741-a26a-a7c9c7361a24",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "to": "a0887c38-7244-4828-bab2-bb98e655e70e",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-route.json",
+      "to": "860ddbb6-b746-4c5e-8841-9c49f3f142e3",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-route.json",
+      "to": "8c6afa4d-7fe5-4fa7-8da8-ec23aa150db3",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\agent-run.json",
+      "to": "aa065a10-43e0-4dfa-b51b-3dc40fad266d",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\agent-run.json",
+      "to": "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+      "relationship": "attested_by_session"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-e.json",
+      "to": "8bad81af-ce64-424e-aa7f-190cbe84be99",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-e.json",
+      "to": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+      "relationship": "attested_by_session"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "to": "8a939a2d-8a27-488c-b926-096d29b1eebf",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "to": "8feb7b2d-cf19-4e42-9da5-8c98f5a4ca45",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "to": "59ed9c1d-8f35-4feb-bde5-cb32f5e94cd7",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "to": "dc61f1dd-df3a-4066-a29a-c46f9ef88c96",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "to": "29a62bac-87c7-47cd-9e9c-2e2618eb7cff",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "to": "8623215a-3652-45bc-8b1a-f94722f452a8",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "to": "16b73b24-c612-4155-9ffe-991ed91ffeaf",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-route.json",
+      "to": "2bd51214-1c9a-4eeb-8293-f0f4ff35d06f",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-route.json",
+      "to": "ef6cce5d-9f78-4ccb-8251-112f162c02e4",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\validation-evidence.json",
+      "to": "b04f905f-ab1d-4813-9306-a2360c1c1084",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json",
+      "to": "de8e0920-1144-4f43-9a60-70b479bc1f1c",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json",
+      "to": "55220501-24db-484c-9421-c836d74cc539",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json",
+      "to": "130b5af0-7322-4cb9-b222-8ac4d363d578",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json",
+      "to": "998f76f4-d230-41ea-b34c-509d378cd467",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json",
+      "to": "e4363237-0785-417d-a9fb-811097fd80e1",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-route.json",
+      "to": "83a8c74b-103e-4fb6-99f3-0a121a9666fa",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-route.json",
+      "to": "a3a7778e-23ea-48c4-aaf7-604a95fd7101",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-validation-evidence.json",
+      "to": "7b952f44-8d48-4cb8-9b16-419b33aefc04",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\execution-evidence.json",
+      "to": "fa624d2a-ab82-4e18-85fd-6fc8aaf28f65",
+      "relationship": "attested_by_session"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-e.json",
+      "to": "8b072c41-9457-418a-928d-195932ced701",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-e.json",
+      "to": "287bee96-2a05-4b69-8f4e-147ec0b289a1",
+      "relationship": "attested_by_session"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-load-validation.json",
+      "to": "34bdca10-49a1-4304-9210-2ab7600503f3",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "to": "cdbb8dd5-5091-47da-bb47-a6ce1f6b8bb9",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "to": "92ef1cd7-902b-4e04-99b8-7b37baf8987f",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "to": "10f92d03-e66e-4c4d-b921-d393cd1a702c",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "to": "8b386a0d-382f-4b22-bd4b-73ac373ec4b0",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "to": "ac4e7acb-ddb9-45e9-8709-a3f24f080cfe",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "to": "56858b11-e5a0-4b79-af12-6d81fd4a4b09",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "to": "2612e671-fd4b-475d-b072-e4dfcf552e9d",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-route.json",
+      "to": "0c661662-e03d-40e1-941c-6fdea6243bec",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-route.json",
+      "to": "3f13545b-2d7b-4c40-a20e-9bda93d2621d",
+      "relationship": "declares_receipt"
+    },
+    {
+      "from": "EF-01",
+      "to": "HOST-BASELINE",
+      "relationship": "requires_predecessor",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ADR-EF-02",
+      "to": "EF-01",
+      "relationship": "authorizes_option_a",
+      "status": "APPROVED"
+    },
+    {
+      "from": "ARCH-EF-01",
+      "to": "ADR-EF-02",
+      "relationship": "patches_architect_registry",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ARCH-EF-02",
+      "to": "ARCH-EF-01",
+      "relationship": "validates_architect_loads",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ARCH-EF-03-R1",
+      "to": "ARCH-EF-02",
+      "relationship": "captures_host_provenance",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ARCH-EF",
+      "to": "ARCH-EF-03-R1",
+      "relationship": "promotes_profile_pass",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-02",
+      "to": "ARCH-EF",
+      "relationship": "generalizes_to_repo_guard",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-03",
+      "to": "EF-02",
+      "relationship": "executes_adversarial_matrix",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-04-PRE",
+      "to": "EF-03",
+      "relationship": "reconciles_scope_and_taxonomy",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-04",
+      "to": "EF-04-PRE",
+      "relationship": "executes_distinct_reviewer",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-05",
+      "to": "EF-04",
+      "relationship": "validates_full_evidence_graph",
+      "status": "IN_PROGRESS"
+    }
+  ]
+}

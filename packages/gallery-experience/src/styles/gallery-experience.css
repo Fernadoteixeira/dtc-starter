@@ -2,15 +2,38 @@
 
 .dtc-gallery,
 [data-gallery-experience] {
-  --dtc-gallery-bg-primary: #090a0f;
-  --dtc-gallery-bg-surface: rgba(15, 23, 42, 0.65);
-  --dtc-gallery-text-primary: #f8fafc;
-  --dtc-gallery-text-muted: #94a3b8;
-  --dtc-gallery-accent: #38bdf8;
-  --dtc-gallery-accent-glow: rgba(56, 189, 248, 0.25);
-  --dtc-gallery-border: rgba(255, 255, 255, 0.12);
-  --dtc-gallery-radius: 1.25rem;
-  --dtc-gallery-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Canonical Copper / Umber / Linen Visual System Tokens */
+  --ge-color-copper: #B87333;
+  --ge-color-copper-light: #D48C46;
+  --ge-color-copper-dark: #8C5320;
+  --ge-color-copper-glow: rgba(184, 115, 51, 0.28);
+  --ge-color-umber: #635147;
+  --ge-color-umber-dark: #3B2F2F;
+  --ge-color-linen: #FAF0E6;
+  --ge-color-linen-muted: rgba(250, 240, 230, 0.72);
+  --ge-color-linen-dim: rgba(250, 240, 230, 0.35);
+  --ge-color-charcoal: #1A1A1A;
+  --ge-color-charcoal-deep: #111111;
+  --ge-color-warm-white: #FFFDF9;
+  --ge-color-gold: #D4AF37;
+  --ge-color-gold-glow: rgba(212, 175, 55, 0.22);
+  --ge-border-linen: rgba(250, 240, 230, 0.14);
+  --ge-border-copper: rgba(184, 115, 51, 0.35);
+  --ge-radius: 1.25rem;
+  --ge-font-serif: "Playfair Display", "Cinzel", "Georgia", serif;
+  --ge-font-sans: "Inter", "Outfit", system-ui, -apple-system, sans-serif;
+  --ge-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Component Scoped Aliases */
+  --dtc-gallery-bg-primary: var(--ge-color-charcoal-deep);
+  --dtc-gallery-bg-surface: rgba(35, 29, 26, 0.75);
+  --dtc-gallery-text-primary: var(--ge-color-linen);
+  --dtc-gallery-text-muted: var(--ge-color-linen-muted);
+  --dtc-gallery-accent: var(--ge-color-copper);
+  --dtc-gallery-accent-glow: var(--ge-color-copper-glow);
+  --dtc-gallery-border: var(--ge-border-linen);
+  --dtc-gallery-radius: var(--ge-radius);
+  --dtc-gallery-font: var(--ge-font-sans);
 
   position: relative;
   width: 100%;
@@ -39,8 +62,9 @@
 .dtc-gallery__ambient-layer {
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15), transparent 70%),
-              radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.12), transparent 60%);
+  background: radial-gradient(circle at 50% 30%, rgba(184, 115, 51, 0.18), transparent 70%),
+              radial-gradient(circle at 80% 70%, rgba(99, 81, 71, 0.22), transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.12), transparent 65%);
   transition: background 1s ease-in-out;
 }
 

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-issue-13-completion-record",
+  "task_id": "NOS-001-T23",
+  "issue_id": "#13",
+  "status": "COMPLETE",
+  "dod_verdict": "PASS",
+  "manifest_status": "FROZEN",
+  "trust_level": "host_provenance_verified",
+  "unlocked_issues": [
+    "#14",
+    "#21"
+  ],
+  "wave_status": {
+    "w0": "COMPLETE",
+    "w1": "UNLOCKED"
+  }
+}

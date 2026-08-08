@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-fabric-closure",
+  "task_id": "EXECUTION-FABRIC-001",
+  "status": "CLOSED",
+  "closure_equation": "EF-01 PASS: EXPECTED_FAIL_CLOSED + ARCH-EF PASS + EF-02 PASS + EF-03 PASS + EF-04 PASS + EF-05 PASS = EXECUTION-FABRIC-001 CLOSED",
+  "terms": [
+    {
+      "gate": "EF-01",
+      "verdict": "PASS: EXPECTED_FAIL_CLOSED",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-01/ef-01-verdict.md",
+      "sha256": "b8287f12fcfda7ca8830d436fb6e653b5aae97005f0330d81963d7af73ac7d8d",
+      "trust_level": "structural_integrity_only"
+    },
+    {
+      "gate": "ARCH-EF",
+      "verdict": "PASS",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef-r1/arch-ef-r1-verdict.md",
+      "sha256": "a089b093b62c48cac757afa52b763e8cb99608a3dc5d4c3c16f96430773a38bf",
+      "trust_level": "host_provenance_verified"
+    },
+    {
+      "gate": "EF-02",
+      "verdict": "PASS",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-02/ef-02-verdict.md",
+      "sha256": "5071eb324326fb735f61138fe1cb23741dc6122c8a4a6f4c394aa3471ca7f3f5",
+      "trust_level": "host_provenance_verified"
+    },
+    {
+      "gate": "EF-03",
+      "verdict": "PASS",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-03/ef-03-verdict.md",
+      "sha256": "ceb9bd97255550aed2e3f6ff71a6be534a3d9d22586959cf02d7bf8f2a297f86",
+      "trust_level": "host_provenance_verified"
+    },
+    {
+      "gate": "EF-04",
+      "verdict": "PASS",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/ef-04-verdict.md",
+      "sha256": "bea94ec943fabe8977442a052886243370a7f8a3c97fb7c3017510621cfa94f4",
+      "trust_level": "host_provenance_verified"
+    },
+    {
+      "gate": "EF-05",
+      "verdict": "PASS",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-05/ef-05-verdict.md",
+      "sha256": "9b0eea45158c46b4dce71a8a57f98a924d4691c268a7a830b83c6c7b33c7208e",
+      "trust_level": "host_provenance_verified"
+    }
+  ],
+  "host_attestation": {
+    "authority": "antigravity-host",
+    "total_distinct_sessions": 5,
+    "cryptographic_host_signature": "NOT_IMPLEMENTED / NOT_REQUIRED",
+    "structural_integrity": "verified",
+    "hash_integrity": "verified",
+    "host_provenance": "verified"
+  },
+  "unlocked_gates": [
+    "#13 T21",
+    "#13 T22",
+    "#13 T23"
+  ],
+  "post_fabric_gates": [
+    "EF-06 (Multi-Turn Session Continuation & Recovery)"
+  ]
+}

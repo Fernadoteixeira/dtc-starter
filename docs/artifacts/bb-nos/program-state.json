@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-program-state",
+  "program": "BB-NOS",
+  "epic_id": "#12",
+  "operating_mode": "AUTONOMOUS_LONG_LOOP",
+  "current_wave": "W1",
+  "unlocked_issues": [
+    "#14",
+    "#21"
+  ],
+  "completed_gates": [
+    "EF-01",
+    "ARCH-EF",
+    "EF-02",
+    "EF-03",
+    "EF-04-R1",
+    "EF-04",
+    "EF-05",
+    "EXECUTION-FABRIC-001",
+    "#13 T21",
+    "#13 T22",
+    "#13 T23",
+    "#13 DoD",
+    "#13"
+  ],
+  "blocked_gates": [
+    "#15",
+    "#16",
+    "#22",
+    "#17",
+    "#18",
+    "#19",
+    "#20",
+    "#23",
+    "#24",
+    "#25",
+    "#26",
+    "#27",
+    "#28",
+    "#29",
+    "#30",
+    "#31",
+    "#32"
+  ],
+  "next_action": "READY_FOR_NEXT_WAVE",
+  "last_verdict": "PASS",
+  "risk_register": {
+    "p0_count": 0,
+    "p1_count": 0,
+    "p2_count": 0,
+    "p3_count": 0,
+    "p4_count": 0
+  },
+  "agents_executed": [
+    "software-architect",
+    "repo-cartographer",
+    "code-reviewer",
+    "nos-orchestrator"
+  ],
+  "host_sessions_recorded": [
+    "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+    "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+    "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+    "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+    "287bee96-2a05-4b69-8f4e-147ec0b289a1",
+    "138c7faa-bb57-45d6-9d45-e200a38b1ae9"
+  ],
+  "test_summary": {
+    "execution_fabric_suite": "32/32 PASS",
+    "adversarial_matrix": "15/15 BLOCKED",
+    "git_diff_clean": true
+  },
+  "git_state": {
+    "branch": "main",
+    "working_tree_clean": true,
+    "no_auto_merge": true,
+    "no_auto_release": true
+  },
+  "manifest_status": "FROZEN",
+  "resume_instruction": "Resume at Wave W1: Execute #14 (Visual System) and #21 (Collection Source)"
+}

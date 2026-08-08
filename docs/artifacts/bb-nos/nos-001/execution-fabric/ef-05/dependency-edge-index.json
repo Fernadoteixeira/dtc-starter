@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-dependency-edge-index",
+  "task_id": "NOS-001-EF-05",
+  "total_edges": 11,
+  "edges": [
+    {
+      "from": "EF-01",
+      "to": "HOST-BASELINE",
+      "relationship": "requires_predecessor",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ADR-EF-02",
+      "to": "EF-01",
+      "relationship": "authorizes_option_a",
+      "status": "APPROVED"
+    },
+    {
+      "from": "ARCH-EF-01",
+      "to": "ADR-EF-02",
+      "relationship": "patches_architect_registry",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ARCH-EF-02",
+      "to": "ARCH-EF-01",
+      "relationship": "validates_architect_loads",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ARCH-EF-03-R1",
+      "to": "ARCH-EF-02",
+      "relationship": "captures_host_provenance",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "ARCH-EF",
+      "to": "ARCH-EF-03-R1",
+      "relationship": "promotes_profile_pass",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-02",
+      "to": "ARCH-EF",
+      "relationship": "generalizes_to_repo_guard",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-03",
+      "to": "EF-02",
+      "relationship": "executes_adversarial_matrix",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-04-PRE",
+      "to": "EF-03",
+      "relationship": "reconciles_scope_and_taxonomy",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-04",
+      "to": "EF-04-PRE",
+      "relationship": "executes_distinct_reviewer",
+      "status": "VERIFIED"
+    },
+    {
+      "from": "EF-05",
+      "to": "EF-04",
+      "relationship": "validates_full_evidence_graph",
+      "status": "IN_PROGRESS"
+    }
+  ]
+}

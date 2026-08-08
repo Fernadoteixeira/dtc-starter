@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-hash-verification",
+  "task_id": "NOS-001-EF-05",
+  "total_verified": 60,
+  "all_matched": true,
+  "verifications": [
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\ef-01-requirements.json",
+      "recorded_sha256": "fb164e5f8d4d37f1aedf09f05cb5bbb8534715b6d38116c8f792578ad42efbe9",
+      "current_sha256": "fb164e5f8d4d37f1aedf09f05cb5bbb8534715b6d38116c8f792578ad42efbe9",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\ef-01-verdict.md",
+      "recorded_sha256": "b8287f12fcfda7ca8830d436fb6e653b5aae97005f0330d81963d7af73ac7d8d",
+      "current_sha256": "b8287f12fcfda7ca8830d436fb6e653b5aae97005f0330d81963d7af73ac7d8d",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\load-validation-failure.json",
+      "recorded_sha256": "4f41d9aa5b4333c344fbb35759580c45013fa177c446bb46671316c92822edd3",
+      "current_sha256": "4f41d9aa5b4333c344fbb35759580c45013fa177c446bb46671316c92822edd3",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json",
+      "recorded_sha256": "8e1fc80ab5372c85891f2ad2ec702c3dae787929c71478e1ef21ee5a91ef1f66",
+      "current_sha256": "8e1fc80ab5372c85891f2ad2ec702c3dae787929c71478e1ef21ee5a91ef1f66",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-route.json",
+      "recorded_sha256": "f88ce4f470bd00c0f48df34105b595752f4219065a8273b58f17af39d23e0aee",
+      "current_sha256": "f88ce4f470bd00c0f48df34105b595752f4219065a8273b58f17af39d23e0aee",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\arch-ef-verdict.md",
+      "recorded_sha256": "32a655b5cce121be3efe51880496c2373e83d0f738b6ad204b94377b7e7b05a1",
+      "current_sha256": "32a655b5cce121be3efe51880496c2373e83d0f738b6ad204b94377b7e7b05a1",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\execution-evidence.json",
+      "recorded_sha256": "b0e5eb1f99460d4d995e4ed527ab37e7792e92f79c991327e10f8a70c1919129",
+      "current_sha256": "b0e5eb1f99460d4d995e4ed527ab37e7792e92f79c991327e10f8a70c1919129",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json",
+      "recorded_sha256": "cafc926e989b2797f148e7bf0ba56d55efe00cd58eced9a1ca1167be6b05cad9",
+      "current_sha256": "cafc926e989b2797f148e7bf0ba56d55efe00cd58eced9a1ca1167be6b05cad9",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-route.json",
+      "recorded_sha256": "17b01e1f89dc8cbcc0429c2d46305f82ef8fb84eab122bd1e9d50d68b98a9471",
+      "current_sha256": "17b01e1f89dc8cbcc0429c2d46305f82ef8fb84eab122bd1e9d50d68b98a9471",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\validation-evidence.json",
+      "recorded_sha256": "7ca8734024b2f203bc5b300455ef3b5e1a6c733ff69a6a33858efcba7c96e199",
+      "current_sha256": "7ca8734024b2f203bc5b300455ef3b5e1a6c733ff69a6a33858efcba7c96e199",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json",
+      "recorded_sha256": "c59916c04aac5f8a21d6c155b3f700db1e1c5bd2d5c96ba81014822cebae6648",
+      "current_sha256": "c59916c04aac5f8a21d6c155b3f700db1e1c5bd2d5c96ba81014822cebae6648",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-route.json",
+      "recorded_sha256": "e6cbfaf939e1c3c541237c0bd7725ef7470d17b3dfc5112e94e3209495b03e34",
+      "current_sha256": "e6cbfaf939e1c3c541237c0bd7725ef7470d17b3dfc5112e94e3209495b03e34",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\agent-run.json",
+      "recorded_sha256": "2c1587bb8d91960579307031c008d7b7ac553e093e05f2170be968e3fa56c966",
+      "current_sha256": "2c1587bb8d91960579307031c008d7b7ac553e093e05f2170be968e3fa56c966",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\arch-ef-r1-verdict.md",
+      "recorded_sha256": "a089b093b62c48cac757afa52b763e8cb99608a3dc5d4c3c16f96430773a38bf",
+      "current_sha256": "a089b093b62c48cac757afa52b763e8cb99608a3dc5d4c3c16f96430773a38bf",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\execution-evidence.json",
+      "recorded_sha256": "82f52f796ec918fbab99bef320cf6c42e3b9ad496f48f67dd44af4a3b5a9ce8d",
+      "current_sha256": "82f52f796ec918fbab99bef320cf6c42e3b9ad496f48f67dd44af4a3b5a9ce8d",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\git-diff-summary.md",
+      "recorded_sha256": "0d197c1b7467c4fe0f4ce73a2180905cb75afae71c6b3c2eacc15c7c7f0a6a5c",
+      "current_sha256": "0d197c1b7467c4fe0f4ce73a2180905cb75afae71c6b3c2eacc15c7c7f0a6a5c",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\provenance-discovery.md",
+      "recorded_sha256": "08633a14f2ffb0a8fb9062c4f45e6f830d7c14ee77e446a4676ca6671641cde7",
+      "current_sha256": "08633a14f2ffb0a8fb9062c4f45e6f830d7c14ee77e446a4676ca6671641cde7",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\provenance-source-matrix.json",
+      "recorded_sha256": "752a13080d350d232e6086f4ab9935a669bc2fced2a96721d7a451ac3341aa58",
+      "current_sha256": "752a13080d350d232e6086f4ab9935a669bc2fced2a96721d7a451ac3341aa58",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-e.json",
+      "recorded_sha256": "41d7eb02e48a936c2d7537ed803cb77a1eb45a60814a5e96d3a7cae5b204d4f1",
+      "current_sha256": "41d7eb02e48a936c2d7537ed803cb77a1eb45a60814a5e96d3a7cae5b204d4f1",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json",
+      "recorded_sha256": "70a1d61291c80aaaf02fbca5dee0c89a4a4dd864a653be5c0ad64ec57479c0c5",
+      "current_sha256": "70a1d61291c80aaaf02fbca5dee0c89a4a4dd864a653be5c0ad64ec57479c0c5",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-route.json",
+      "recorded_sha256": "5e82a7e84d80bb97590ea92450ec9538cc78721b1f2106bbceefc715698cd19e",
+      "current_sha256": "5e82a7e84d80bb97590ea92450ec9538cc78721b1f2106bbceefc715698cd19e",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\reviewer-provenance.json",
+      "recorded_sha256": "ace39ec70f64a13fa4c9efec70758b8ca2e4055d1708409fa13f55fed5d44421",
+      "current_sha256": "ace39ec70f64a13fa4c9efec70758b8ca2e4055d1708409fa13f55fed5d44421",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\test-results.md",
+      "recorded_sha256": "b96b0940af444cc1414164a8c191908c01fb9cccda2d919f4f81ab1378e829e1",
+      "current_sha256": "b96b0940af444cc1414164a8c191908c01fb9cccda2d919f4f81ab1378e829e1",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\validation-evidence.json",
+      "recorded_sha256": "a9dedd8f641d31fce3013c836bd5deb952b92162e1691c8e224534fbb3aaf8f4",
+      "current_sha256": "a9dedd8f641d31fce3013c836bd5deb952b92162e1691c8e224534fbb3aaf8f4",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json",
+      "recorded_sha256": "3c678d0b4b22cf60f40d091efda711d77d353dbe9f3fc482466452814abe7e54",
+      "current_sha256": "3c678d0b4b22cf60f40d091efda711d77d353dbe9f3fc482466452814abe7e54",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-provenance.json",
+      "recorded_sha256": "0d46f9b306b477aaa0f317c0b3207134b948e260945937583c17ad9d8244ab8c",
+      "current_sha256": "0d46f9b306b477aaa0f317c0b3207134b948e260945937583c17ad9d8244ab8c",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-route.json",
+      "recorded_sha256": "e2052daa5b72eb6cccf91c335bb6d406b551fbc7d5025e039d873fa6a8d227cd",
+      "current_sha256": "e2052daa5b72eb6cccf91c335bb6d406b551fbc7d5025e039d873fa6a8d227cd",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\agent-run.json",
+      "recorded_sha256": "d7b20e4d82c3ba2d355132a58ef9774bc5033a7fd82efcf7307b7cdbf4aa7c2f",
+      "current_sha256": "d7b20e4d82c3ba2d355132a58ef9774bc5033a7fd82efcf7307b7cdbf4aa7c2f",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\ef-02-repo-guard-report.md",
+      "recorded_sha256": "95d7225951046d54583754f3d45ece09095527144cf7091d18d1951502e1c643",
+      "current_sha256": "95d7225951046d54583754f3d45ece09095527144cf7091d18d1951502e1c643",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\ef-02-verdict.md",
+      "recorded_sha256": "5071eb324326fb735f61138fe1cb23741dc6122c8a4a6f4c394aa3471ca7f3f5",
+      "current_sha256": "5071eb324326fb735f61138fe1cb23741dc6122c8a4a6f4c394aa3471ca7f3f5",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\execution-evidence.json",
+      "recorded_sha256": "c3948eb136d039c72531efc7059e7e127cd3c62ea046892cb7280cbd2ce5fdae",
+      "current_sha256": "c3948eb136d039c72531efc7059e7e127cd3c62ea046892cb7280cbd2ce5fdae",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\git-diff-summary.md",
+      "recorded_sha256": "7397d177ab181c5137c786185f8177c7ddd087660e9ec9ed8d1158d128b429dd",
+      "current_sha256": "7397d177ab181c5137c786185f8177c7ddd087660e9ec9ed8d1158d128b429dd",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-e.json",
+      "recorded_sha256": "0eefceacacf8d46d56e0f1a14e7738663a0eea845668be68b251d1f293da3a01",
+      "current_sha256": "0eefceacacf8d46d56e0f1a14e7738663a0eea845668be68b251d1f293da3a01",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json",
+      "recorded_sha256": "8dcd58b3a94deb6eaad95bd8b1521e7690904880b9422dfc4905d8d98d5851f1",
+      "current_sha256": "8dcd58b3a94deb6eaad95bd8b1521e7690904880b9422dfc4905d8d98d5851f1",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-route.json",
+      "recorded_sha256": "e52553053d2849b4aa3a22c7399def41c9ed6b6d7ebba4bb65ef9d64d8f63ead",
+      "current_sha256": "e52553053d2849b4aa3a22c7399def41c9ed6b6d7ebba4bb65ef9d64d8f63ead",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\reviewer-provenance.json",
+      "recorded_sha256": "9bd4198f89ec4c44296f9c9901d8ffd0081f63737119367bfd7136fcd740694f",
+      "current_sha256": "9bd4198f89ec4c44296f9c9901d8ffd0081f63737119367bfd7136fcd740694f",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\test-results.md",
+      "recorded_sha256": "e8ff788a02ddd996edad42064f06e777191707cc81ff39019cd5f415aa7a9ee7",
+      "current_sha256": "e8ff788a02ddd996edad42064f06e777191707cc81ff39019cd5f415aa7a9ee7",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\validation-evidence.json",
+      "recorded_sha256": "96875b79a98cd3531ffd9735a9eb6155620e705ad204678b00012975639345d5",
+      "current_sha256": "96875b79a98cd3531ffd9735a9eb6155620e705ad204678b00012975639345d5",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json",
+      "recorded_sha256": "a37ca1435e52ac1075b84bb6c00ad4f7f68158aeb669b5df028d4ff1206f678c",
+      "current_sha256": "a37ca1435e52ac1075b84bb6c00ad4f7f68158aeb669b5df028d4ff1206f678c",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-provenance.json",
+      "recorded_sha256": "3e58949bfb1ddd7e2989dbc6910373cf49f84534e31ab6857c769428a2999735",
+      "current_sha256": "3e58949bfb1ddd7e2989dbc6910373cf49f84534e31ab6857c769428a2999735",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-route.json",
+      "recorded_sha256": "b1831d47841aacc689be674b2263c13e3d604a34a0f701f6f168facc534fc082",
+      "current_sha256": "b1831d47841aacc689be674b2263c13e3d604a34a0f701f6f168facc534fc082",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\adversarial-attack-matrix.json",
+      "recorded_sha256": "9eee32dda7ca1fc4cadf99f5cad5fb8f29c07d6eeb1a74c53b489836f5d0b9a4",
+      "current_sha256": "9eee32dda7ca1fc4cadf99f5cad5fb8f29c07d6eeb1a74c53b489836f5d0b9a4",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\adversarial-attack-report.md",
+      "recorded_sha256": "4360d86a26a26ae3e6d10e99c4cd55ca2ad9361e2bcf056f8f1f503b09d12de8",
+      "current_sha256": "4360d86a26a26ae3e6d10e99c4cd55ca2ad9361e2bcf056f8f1f503b09d12de8",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\ef-03-verdict.md",
+      "recorded_sha256": "ceb9bd97255550aed2e3f6ff71a6be534a3d9d22586959cf02d7bf8f2a297f86",
+      "current_sha256": "ceb9bd97255550aed2e3f6ff71a6be534a3d9d22586959cf02d7bf8f2a297f86",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\git-diff-summary.md",
+      "recorded_sha256": "a3b1ba1bdf702f2215b195fce73e964e2ff12395e4c2521682d0912412d634b7",
+      "current_sha256": "a3b1ba1bdf702f2215b195fce73e964e2ff12395e4c2521682d0912412d634b7",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-03\\test-results.md",
+      "recorded_sha256": "a5aca30de9af8076b798698bcaca09e167c8248ee3c2c9c871fd6982aadbb00f",
+      "current_sha256": "a5aca30de9af8076b798698bcaca09e167c8248ee3c2c9c871fd6982aadbb00f",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-independent-review.md",
+      "recorded_sha256": "269b0e5d98d1b4a4399b8096958bbcfa4f98c8eb07b9d297fc510dfa57f092ef",
+      "current_sha256": "269b0e5d98d1b4a4399b8096958bbcfa4f98c8eb07b9d297fc510dfa57f092ef",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-validation-evidence.json",
+      "recorded_sha256": "e12fc2d9d6e5a91ab665d6754a7de41f44e44b7128bb42f27ab112deff198fa2",
+      "current_sha256": "e12fc2d9d6e5a91ab665d6754a7de41f44e44b7128bb42f27ab112deff198fa2",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-verdict.md",
+      "recorded_sha256": "bea94ec943fabe8977442a052886243370a7f8a3c97fb7c3017510621cfa94f4",
+      "current_sha256": "bea94ec943fabe8977442a052886243370a7f8a3c97fb7c3017510621cfa94f4",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\execution-evidence.json",
+      "recorded_sha256": "d0ef437ffde9a63a04cd6dac01c9b8a0daa01afc552527db01cc5e541c828fab",
+      "current_sha256": "d0ef437ffde9a63a04cd6dac01c9b8a0daa01afc552527db01cc5e541c828fab",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\git-diff-summary.md",
+      "recorded_sha256": "2e93d48821de44c5b36f1667261da68aa513190c7684345ecb361e0bff8b7ff3",
+      "current_sha256": "2e93d48821de44c5b36f1667261da68aa513190c7684345ecb361e0bff8b7ff3",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-e.json",
+      "recorded_sha256": "f34fa366060aaaa71f72f808105a3a33de8d0b4619f22d9d43d41cc625419a21",
+      "current_sha256": "f34fa366060aaaa71f72f808105a3a33de8d0b4619f22d9d43d41cc625419a21",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-load-validation.json",
+      "recorded_sha256": "586e622b3ba8d6d42dc93f36a2e8bffcd5198ab3ba2abc9c805846bb0cd30851",
+      "current_sha256": "586e622b3ba8d6d42dc93f36a2e8bffcd5198ab3ba2abc9c805846bb0cd30851",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json",
+      "recorded_sha256": "3592a73aa19c683a3092077431989c04feff21fa22338bd36f9014be59652519",
+      "current_sha256": "3592a73aa19c683a3092077431989c04feff21fa22338bd36f9014be59652519",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-route.json",
+      "recorded_sha256": "62ddcd09a4a5b077076271cd97c67ac5a8a77b080fe1b25ab45948a1676a79a9",
+      "current_sha256": "62ddcd09a4a5b077076271cd97c67ac5a8a77b080fe1b25ab45948a1676a79a9",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\reviewed-artifact-manifest.json",
+      "recorded_sha256": "33a717c2acae3725c31a996a5fe441b1f84611571a4749aac0f9dd72e71f68dc",
+      "current_sha256": "33a717c2acae3725c31a996a5fe441b1f84611571a4749aac0f9dd72e71f68dc",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\reviewer-isolation-matrix.json",
+      "recorded_sha256": "c4f8d02be1d82b0cebb0cd08ea8cddf53e1765abb94b64f5e625b0f88a1728fc",
+      "current_sha256": "c4f8d02be1d82b0cebb0cd08ea8cddf53e1765abb94b64f5e625b0f88a1728fc",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\reviewer-provenance.json",
+      "recorded_sha256": "7281e5fc9a338417908a3bb5184040874a11d639a9f3bc52fef311253bf90bd4",
+      "current_sha256": "7281e5fc9a338417908a3bb5184040874a11d639a9f3bc52fef311253bf90bd4",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\test-results.md",
+      "recorded_sha256": "bd4a6cd34dcbba0ed0bd14387a1e5cb341dab513e7c66f13ae12bb96b8bb8bb6",
+      "current_sha256": "bd4a6cd34dcbba0ed0bd14387a1e5cb341dab513e7c66f13ae12bb96b8bb8bb6",
+      "match": true
+    },
+    {
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\worker-history-manifest.json",
+      "recorded_sha256": "b394e2dcc6b5ad70eba940e20fa7b05be7f601e9ef226ae0d85de07b2abd21b0",
+      "current_sha256": "b394e2dcc6b5ad70eba940e20fa7b05be7f601e9ef226ae0d85de07b2abd21b0",
+      "match": true
+    }
+  ]
+}

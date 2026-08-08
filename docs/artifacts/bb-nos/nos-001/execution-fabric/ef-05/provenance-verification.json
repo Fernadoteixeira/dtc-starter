@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-provenance-verification",
+  "task_id": "NOS-001-EF-05",
+  "structural_integrity": "verified",
+  "hash_integrity": "verified",
+  "host_provenance": "verified",
+  "cryptographic_host_signature": "NOT_IMPLEMENTED / NOT_REQUIRED",
+  "sessions_verified": [
+    {
+      "gate": "ARCH-EF Worker",
+      "session_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+      "authority": "antigravity-host"
+    },
+    {
+      "gate": "ARCH-EF Reviewer",
+      "session_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+      "authority": "antigravity-host"
+    },
+    {
+      "gate": "EF-02 Worker",
+      "session_id": "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+      "authority": "antigravity-host"
+    },
+    {
+      "gate": "EF-02 Reviewer",
+      "session_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+      "authority": "antigravity-host"
+    },
+    {
+      "gate": "EF-04 Reviewer",
+      "session_id": "287bee96-2a05-4b69-8f4e-147ec0b289a1",
+      "authority": "antigravity-host"
+    }
+  ],
+  "isolation_verified": true,
+  "zero_session_collisions": true
+}

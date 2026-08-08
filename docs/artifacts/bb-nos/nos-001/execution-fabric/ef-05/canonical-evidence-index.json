@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-evidence-index",
+  "task_id": "NOS-001-EF-05",
+  "total_gates": 6,
+  "gates": [
+    {
+      "gate": "ef-01",
+      "artifacts_count": 5,
+      "receipts_count": 13
+    },
+    {
+      "gate": "arch-ef",
+      "artifacts_count": 7,
+      "receipts_count": 24
+    },
+    {
+      "gate": "arch-ef-r1",
+      "artifacts_count": 15,
+      "receipts_count": 26
+    },
+    {
+      "gate": "ef-02",
+      "artifacts_count": 14,
+      "receipts_count": 19
+    },
+    {
+      "gate": "ef-03",
+      "artifacts_count": 5,
+      "receipts_count": 0
+    },
+    {
+      "gate": "ef-04",
+      "artifacts_count": 14,
+      "receipts_count": 12
+    }
+  ]
+}

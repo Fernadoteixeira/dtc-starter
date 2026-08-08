@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-provenance-index",
+  "task_id": "NOS-001-EF-05",
+  "total_provenance_records": 6,
+  "provenances": [
+    {
+      "gate": "arch-ef-r1",
+      "parent_file": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\agent-run.json",
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+        "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+        "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+        "invocation_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+        "execution_kind": "worker",
+        "issued_at": "2026-08-08T05:11:43.847Z"
+      }
+    },
+    {
+      "gate": "arch-ef-r1",
+      "parent_file": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-e.json",
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+        "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+        "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+        "invocation_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+        "execution_kind": "reviewer",
+        "issued_at": "2026-08-08T05:11:43.849Z"
+      }
+    },
+    {
+      "gate": "ef-02",
+      "parent_file": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\agent-run.json",
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+        "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+        "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+        "invocation_id": "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+        "execution_kind": "worker",
+        "issued_at": "2026-08-08T05:17:51.568Z"
+      }
+    },
+    {
+      "gate": "ef-02",
+      "parent_file": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-e.json",
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+        "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+        "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+        "invocation_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+        "execution_kind": "reviewer",
+        "issued_at": "2026-08-08T05:17:51.570Z"
+      }
+    },
+    {
+      "gate": "ef-04",
+      "parent_file": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\execution-evidence.json",
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "fa624d2a-ab82-4e18-85fd-6fc8aaf28f65",
+        "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+        "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+        "invocation_id": "fa624d2a-ab82-4e18-85fd-6fc8aaf28f65",
+        "execution_kind": "reviewer",
+        "issued_at": "2026-08-08T05:34:34.160Z"
+      }
+    },
+    {
+      "gate": "ef-04",
+      "parent_file": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-e.json",
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "287bee96-2a05-4b69-8f4e-147ec0b289a1",
+        "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+        "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+        "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+        "execution_kind": "reviewer",
+        "issued_at": "2026-08-08T05:38:05.024Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-issue-13-dod-evidence",
+  "task_id": "NOS-001-T22",
+  "status": "COMPLETED",
+  "issue_id": "#13",
+  "dod_verdict": "PASS",
+  "go_decision": "GO",
+  "evaluation_checklist": {
+    "dor_pass": true,
+    "scope_valid": true,
+    "dependencies_valid": true,
+    "agent_e_valid": true,
+    "skill_e_valid": true,
+    "contracts_valid": true,
+    "implementation_evidence_valid": true,
+    "tests_valid": true,
+    "security_valid": true,
+    "self_critique_valid": true,
+    "auto_e_valid": true,
+    "review_e_valid": true,
+    "regression_valid": true,
+    "rollback_valid": true,
+    "dod_criteria_satisfied": true
+  },
+  "trust_level": "host_provenance_verified",
+  "structural_integrity": "verified",
+  "hash_integrity": "verified",
+  "host_provenance": "verified",
+  "next_action": "T23 — Final #13 360 Completion Record"
+}

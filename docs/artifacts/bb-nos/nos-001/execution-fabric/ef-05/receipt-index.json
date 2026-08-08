@@ -1,0 +1,854 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-receipt-index",
+  "task_id": "NOS-001-EF-05",
+  "total_receipts": 94,
+  "receipts": [
+    {
+      "gate": "ef-01",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "0d0bb434-9e9d-4207-855d-9827ccebe3f4",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "8f02788d-8d91-4665-a855-c8d6d8c3e2df",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "2e2ae958-e566-47dc-8164-a81caa80ce8b",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "f0630c60-d52d-4086-addd-189ecfcc0587",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "1a1e2a43-66ea-4c29-b0f3-e8feb5c39e1c",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "a5739990-3275-4f64-9338-4af5ff3447f4",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "57f49443-419a-49a2-ae53-1ba7d537dea2",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "49d65071-73b9-4ebc-96ce-5bdb7e80d0da",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "35500fbd-471e-487d-a732-03244a37bdb5",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "4630cb2a-bd13-4f50-9116-3765ae8407a3",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "f8dd23a8-7858-4077-b641-f998654bcf2b",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-loads.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "ROUTE-E",
+      "receipt_id": "b2919523-bae5-4c98-b279-00bc1e86e58f",
+      "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-route.json"
+    },
+    {
+      "gate": "ef-01",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "ce39beba-642e-4ba7-ae3f-cb7ec908c61d",
+      "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+      "task_id": "NOS-001-EF-01",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-01\\worker-route.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "1bcd0ed5-4e7f-4fe7-baad-c5533ad432c8",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "db8267a3-66f3-4313-b524-b2e35fc40212",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "3c30b7b1-1c20-488f-9b6f-531711089dc6",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "0f76af7a-4fa5-4638-a7e1-a0526428d69c",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "2164b2b2-7271-496a-8d16-239530716ac6",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "867cb26c-e5f7-4785-9730-0e565f391b27",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "cc28adf0-b9da-440e-8358-427d6b9eee55",
+      "invocation_id": "7196bc75-f7ab-43fb-9abf-ecdc19a8fd99",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ROUTE-E",
+      "receipt_id": "9fdf72db-c7b5-4349-920c-2bd947518f7d",
+      "invocation_id": "3ea87564-350f-4496-9a3d-52d9bd62e2c4",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-route.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "3fde7e41-2c73-41c8-b540-e2a70612a2dc",
+      "invocation_id": "3ea87564-350f-4496-9a3d-52d9bd62e2c4",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\review-route.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "VALIDATION-E",
+      "receipt_id": "d78c0523-09d8-4b51-808f-dce1ee5ceaf3",
+      "invocation_id": "1cf9c5a9-b521-4685-80c7-98bde97c694f",
+      "task_id": "NOS-001-ARCH",
+      "status": "VALIDATED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\validation-evidence.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "7f3b6c15-b0df-4c19-a627-bd762db5bce2",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "c906d3fb-088b-4ff0-a2eb-a8fe99ed6dcc",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "1c79753b-7b55-4086-a5a0-83c265baee32",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "31257253-8d70-4248-8aad-048d122f54a4",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "6c4de415-4eb9-4e0d-945c-55bf23f4193e",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "808b8d02-bbab-46e8-9be1-e532b59dcba1",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "b5b500f7-2c77-47d1-b191-4569b73cb6f5",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "862f72b9-608d-46da-86eb-fa7f125410a6",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "4f3f287d-42ad-427a-9c98-b5a0e61ddffc",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "9b8adacb-3810-4cf3-8f07-84cbabacaf98",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "4a7faa92-02a5-414f-a815-8d789a517b21",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "3cc7a0bc-fb34-4c22-adc6-9fdaac3988c6",
+      "invocation_id": "727bbb09-29a6-4943-9424-ff55235b80bd",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "ROUTE-E",
+      "receipt_id": "0a7a0bd7-f234-4c00-84c3-b4f1de71f6e4",
+      "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-route.json"
+    },
+    {
+      "gate": "arch-ef",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "a817fa54-26eb-4aa7-8445-bea80f6693f0",
+      "invocation_id": "2982dadf-59cf-4c92-8048-8924f6fde1ce",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef\\worker-route.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "AGENT-RUN",
+      "receipt_id": "a45a6462-d10c-4074-9548-254bb80ae197",
+      "invocation_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+      "task_id": "NOS-001-ARCH",
+      "status": "COMPLETED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\agent-run.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "REVIEW-E",
+      "receipt_id": "e0737d0b-b86e-40a2-bba3-33bc7f49bd0d",
+      "invocation_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "COMPLETED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-e.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "c1f890c5-d8af-4edc-880c-4e0b17040daa",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "a079c334-3477-4257-bec2-c0d4762d3c5e",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "d40f97f2-3207-44a4-9ead-9242d285ce71",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "0b245097-7c46-42ee-b97d-8dcf9550eebc",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "0503b514-9a26-43a0-9723-e27b0cf81231",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "f2740086-9db2-45cc-995c-68770ae944e4",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "1bc4b238-74ea-4793-8f82-c15976c41361",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ROUTE-E",
+      "receipt_id": "39491359-f8f5-4d9c-9cb1-3df3c980d682",
+      "invocation_id": "c3d2ae41-817a-44f4-9f6e-a458d53e42ce",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-route.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "39ada161-2dc6-4069-ad11-bebd2e2a2034",
+      "invocation_id": "c3d2ae41-817a-44f4-9f6e-a458d53e42ce",
+      "task_id": "NOS-001-ARCH:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\review-route.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "VALIDATION-E",
+      "receipt_id": "11f4214d-97d5-4efd-aea5-84ba2376b1dd",
+      "invocation_id": "859f1511-b2ca-48d2-a707-041ea1406274",
+      "task_id": "NOS-001-ARCH",
+      "status": "VALIDATED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\validation-evidence.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "b078c168-5288-41af-b0a5-8a656d97592e",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "7f2c06c4-1bec-4112-8cf1-b3d94efba691",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "10ff594e-13f3-4560-a159-e3b211267b07",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "594eb907-2d6b-41c8-a61e-05e9cbd89b62",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "029a1192-09f4-4971-b49a-e3de9d6cdef9",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "3b16dfb2-596d-42b8-8e2b-4505045f797e",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "8db9bc2d-a4a3-4be7-adfa-bb399f8d4635",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "ea65e511-92e0-4c2f-8828-97f6378e5b8b",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "d313fa6b-7458-4c86-bf69-844e90375f28",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "d5acd7df-c016-44cc-86d9-332aa9c0e889",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "f45f2583-ddaf-4741-a26a-a7c9c7361a24",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "a0887c38-7244-4828-bab2-bb98e655e70e",
+      "invocation_id": "f9cd5fa7-e09d-4803-8b41-71ec6f7f00bb",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-loads.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "ROUTE-E",
+      "receipt_id": "860ddbb6-b746-4c5e-8841-9c49f3f142e3",
+      "invocation_id": "19450d26-d4fb-4d06-92d0-978755f821a6",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-route.json"
+    },
+    {
+      "gate": "arch-ef-r1",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "8c6afa4d-7fe5-4fa7-8da8-ec23aa150db3",
+      "invocation_id": "19450d26-d4fb-4d06-92d0-978755f821a6",
+      "task_id": "NOS-001-ARCH",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\arch-ef-r1\\worker-route.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "AGENT-RUN",
+      "receipt_id": "aa065a10-43e0-4dfa-b51b-3dc40fad266d",
+      "invocation_id": "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+      "task_id": "NOS-001-EF-02",
+      "status": "COMPLETED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\agent-run.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "REVIEW-E",
+      "receipt_id": "8bad81af-ce64-424e-aa7f-190cbe84be99",
+      "invocation_id": "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "COMPLETED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-e.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "8a939a2d-8a27-488c-b926-096d29b1eebf",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "8feb7b2d-cf19-4e42-9da5-8c98f5a4ca45",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "59ed9c1d-8f35-4feb-bde5-cb32f5e94cd7",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "dc61f1dd-df3a-4066-a29a-c46f9ef88c96",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "29a62bac-87c7-47cd-9e9c-2e2618eb7cff",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "8623215a-3652-45bc-8b1a-f94722f452a8",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "16b73b24-c612-4155-9ffe-991ed91ffeaf",
+      "invocation_id": "3dcce803-1954-4089-b436-0f35e7467760",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "ROUTE-E",
+      "receipt_id": "2bd51214-1c9a-4eeb-8293-f0f4ff35d06f",
+      "invocation_id": "32e00584-bd4c-49f9-b6c6-0e91b2e0884b",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-route.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "ef6cce5d-9f78-4ccb-8251-112f162c02e4",
+      "invocation_id": "32e00584-bd4c-49f9-b6c6-0e91b2e0884b",
+      "task_id": "NOS-001-EF-02:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\review-route.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "VALIDATION-E",
+      "receipt_id": "b04f905f-ab1d-4813-9306-a2360c1c1084",
+      "invocation_id": "cf5817d0-82d7-4e4b-a219-a4bb002d182a",
+      "task_id": "NOS-001-EF-02",
+      "status": "VALIDATED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\validation-evidence.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "de8e0920-1144-4f43-9a60-70b479bc1f1c",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650",
+      "task_id": "NOS-001-EF-02",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "55220501-24db-484c-9421-c836d74cc539",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650",
+      "task_id": "NOS-001-EF-02",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "130b5af0-7322-4cb9-b222-8ac4d363d578",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650",
+      "task_id": "NOS-001-EF-02",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "998f76f4-d230-41ea-b34c-509d378cd467",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650",
+      "task_id": "NOS-001-EF-02",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "e4363237-0785-417d-a9fb-811097fd80e1",
+      "invocation_id": "6071631a-0bdd-4cea-81ef-8652f2c8b650",
+      "task_id": "NOS-001-EF-02",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-loads.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "ROUTE-E",
+      "receipt_id": "83a8c74b-103e-4fb6-99f3-0a121a9666fa",
+      "invocation_id": "2767c616-1f77-4db8-89e1-2f3d7ef1ef51",
+      "task_id": "NOS-001-EF-02",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-route.json"
+    },
+    {
+      "gate": "ef-02",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "a3a7778e-23ea-48c4-aaf7-604a95fd7101",
+      "invocation_id": "2767c616-1f77-4db8-89e1-2f3d7ef1ef51",
+      "task_id": "NOS-001-EF-02",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-02\\worker-route.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "VALIDATION-E",
+      "receipt_id": "7b952f44-8d48-4cb8-9b16-419b33aefc04",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+      "task_id": "NOS-001-EF-04",
+      "status": "VALIDATED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\ef-04-validation-evidence.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "REVIEW-E",
+      "receipt_id": "8b072c41-9457-418a-928d-195932ced701",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "COMPLETED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-e.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "LOAD-VALIDATION-E",
+      "receipt_id": "34bdca10-49a1-4304-9210-2ab7600503f3",
+      "invocation_id": "749efcf7-1c32-4f71-a0b1-db74bca5874c",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "VALIDATED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-load-validation.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "cdbb8dd5-5091-47da-bb47-a6ce1f6b8bb9",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "92ef1cd7-902b-4e04-99b8-7b37baf8987f",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "10f92d03-e66e-4c4d-b921-d393cd1a702c",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "8b386a0d-382f-4b22-bd4b-73ac373ec4b0",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "ac4e7acb-ddb9-45e9-8709-a3f24f080cfe",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "56858b11-e5a0-4b79-af12-6d81fd4a4b09",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "2612e671-fd4b-475d-b072-e4dfcf552e9d",
+      "invocation_id": "249213e6-8967-4cbe-bd90-aa02540ce0a9",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-loads.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "ROUTE-E",
+      "receipt_id": "0c661662-e03d-40e1-941c-6fdea6243bec",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-route.json"
+    },
+    {
+      "gate": "ef-04",
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "3f13545b-2d7b-4c40-a20e-9bda93d2621d",
+      "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+      "task_id": "NOS-001-EF-04:review",
+      "status": "LOADED",
+      "path": "docs\\artifacts\\bb-nos\\nos-001\\execution-fabric\\ef-04\\review-route.json"
+    }
+  ]
+}

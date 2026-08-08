@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-evidence-graph-validation",
+  "type": "VALIDATION-E",
+  "receipt_id": "1e405f88-d621-4ba2-bf05-7281ebaa5f05",
+  "invocation_id": "ab0a4353-e570-4ab1-a241-b5b8efb67595",
+  "timestamp": "2026-08-08T05:44:40.205Z",
+  "status": "VALIDATED",
+  "task_id": "NOS-001-EF-05",
+  "total_gates_evaluated": 6,
+  "gates_evaluated": [
+    "EF-01",
+    "ARCH-EF",
+    "ARCH-EF-R1",
+    "EF-02",
+    "EF-03",
+    "EF-04"
+  ],
+  "graph_validation": {
+    "total_nodes": 120,
+    "total_edges": 71,
+    "orphan_receipts": 0,
+    "dangling_references": 0,
+    "duplicate_receipt_collisions": 0,
+    "status": "PASS"
+  },
+  "immutability_verification": {
+    "total_historical_artifacts": 60,
+    "mismatches": 0,
+    "status": "PASS"
+  },
+  "trust_level": "host_provenance_verified",
+  "structural_integrity": "verified",
+  "hash_integrity": "verified",
+  "host_provenance": "verified",
+  "platform_attestation_verified": true,
+  "cryptographic_host_signature": "NOT_IMPLEMENTED / NOT_REQUIRED",
+  "closure_equation_evaluated": {
+    "equation": "EF-01 + ARCH-EF + EF-02 + EF-03 + EF-04 + EF-05 = EXECUTION-FABRIC-001 CLOSED",
+    "all_terms_satisfied": true,
+    "execution_fabric_001_eligible_for_closure": true
+  }
+}

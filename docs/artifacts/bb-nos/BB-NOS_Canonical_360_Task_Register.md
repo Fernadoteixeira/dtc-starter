@@ -383,7 +383,7 @@ A plain `PASS` is invalid for EF-01 because it hides the expected failing load v
 | EF-02 | Second profile (`@repo:guard` or `@qa:nos`) | ARCH-EF PASS | PASS | route/load/run chain PASS |
 | EF-03 | Adversarial tamper matrix | EF-02 | PASS | 15/15 attacks blocked as expected |
 | EF-04 | Distinct canonical reviewer | EF-02, EF-03 | PASS | different identity/session and `REVIEW-E PASS` |
-| EF-05 | Full evidence graph validator | EF-04 | GO (UNLOCKED) | `VALIDATION-E PASS`, structural and host evidence separated |
+| EF-05 | Full evidence graph validator | EF-04 | PASS | `VALIDATION-E PASS`, structural and host evidence separated |
 | EF-06 | Session continuation & recovery | EF-05 | POST-FABRIC HARDENING | multi-turn recovery and ledger continuity |
 
 EF-03 minimum adversarial coverage:
@@ -525,17 +525,17 @@ ARCH-EF                            PASS
 EF-02                              PASS (@repo:guard VERIFIED)
 EF-03                              PASS (15/15 ADVERSARIAL ATTACKS BLOCKED)
 EF-04                              PASS (Distinct Canonical Reviewer)
-EF-05                              GO (Full Evidence Graph Validator)
+EF-05                              PASS (Full Evidence Graph Validator)
 EF-06                              POST-FABRIC HARDENING (Multi-Turn Session Continuation)
 PLATFORM ATTESTATION               VERIFIED (host_provenance_verified)
-EXECUTION-FABRIC-001               OPEN / IN_PROGRESS
+EXECUTION-FABRIC-001               CLOSED
 ```
 
 ## Next executable action
 
-`EF-05 — Full Evidence Graph Validator Gate`
+`#13 T21 — Independent #13 Cross-Agent Review`
 
-Validate the end-to-end evidence graph across the entire proof chain (`EF-01` through `EF-04`), verifying complete receipt references, cryptographic file hashes, path confinement, and host provenance separation before closing `EXECUTION-FABRIC-001`.
+With `EXECUTION-FABRIC-001` formally CLOSED, execute independent cross-agent review for Issue #13 covering scope, dependencies, ownership, AGENT-E, SKILL-E, contracts, implementation evidence, tests, and risk before DoD evaluation.
 
 `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
 
