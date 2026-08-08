@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import path from "path";
 
-const targetDir = "C:\\Users\\fjuni\\.gemini\\antigravity-ide\\brain\\94a4d943-0f46-4dc7-9f6e-05559bcb84be";
+const targetDir = "C:\\Users\\fjuni\\.gemini\\antigravity-ide\\brain\\3ebccf05-94c5-4af6-9a3f-b5c1a634bce1";
 
 test.describe("Visual Evidence Generator Gate", () => {
   test("01-gallery-desktop-enabled.png", async ({ page }) => {

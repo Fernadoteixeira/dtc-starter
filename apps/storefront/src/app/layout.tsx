@@ -1,6 +1,7 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata } from "next"
 import "styles/globals.css"
+import "@dtc/gallery-experience/src/styles/gallery-experience.css"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),

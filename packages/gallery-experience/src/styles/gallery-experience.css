@@ -205,13 +205,13 @@
 /* Scene rail with thumbnails inside active card's media area */
 .dtc-gallery__scene-rail {
   position: absolute;
-  bottom: 1rem;
-  left: 1rem;
+  top: 1rem;
+  right: 1rem;
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   z-index: 2;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .dtc-gallery__scene {
