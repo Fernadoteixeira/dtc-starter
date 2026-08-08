@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-evidence-graph-validation-r1",
+  "type": "VALIDATION-E",
+  "receipt_id": "5002069e-e478-43d9-959c-64d8a57e3f05",
+  "execution_mode": "deterministic_repository_local_validator",
+  "validator_script": ".agents/scripts/validate-full-evidence-graph.mjs",
+  "validator_script_sha256": "b3bbcbdde5eb81c4909c86ac5a05c685f67844da36bc28bd35c65d30519c01c0",
+  "timestamp": "2026-08-08T05:57:45.937Z",
+  "task_id": "NOS-001-EF-05-R1",
+  "computed_status": "PASS",
+  "total_nodes": 105,
+  "total_edges": 51,
+  "total_artifacts_indexed": 48,
+  "total_receipts_indexed": 57,
+  "metrics": {
+    "dangling_references_count": 0,
+    "orphan_receipts_count": 0,
+    "duplicate_receipt_collisions_count": 0,
+    "hash_mismatches_count": 0,
+    "session_collisions_count": 0,
+    "invocation_collisions_count": 0,
+    "broken_artifact_references_count": 0,
+    "reviewed_artifact_mismatches_count": 0,
+    "predecessor_failures_count": 0,
+    "provenance_errors_count": 0,
+    "total_errors": 0
+  },
+  "errors": {
+    "dangling_references": [],
+    "orphan_receipts": [],
+    "duplicate_receipt_collisions": [],
+    "hash_mismatches": [],
+    "session_collisions": [],
+    "invocation_collisions": [],
+    "broken_artifact_references": [],
+    "reviewed_artifact_mismatches": [],
+    "predecessor_failures": [],
+    "provenance_errors": []
+  },
+  "verified_terms": [
+    {
+      "gate": "EF-01",
+      "verified_verdict_pass": true,
+      "verdict_file": "ef-01/ef-01-verdict.md",
+      "sha256": "b8287f12fcfda7ca8830d436fb6e653b5aae97005f0330d81963d7af73ac7d8d"
+    },
+    {
+      "gate": "ARCH-EF",
+      "verified_verdict_pass": true,
+      "verdict_file": "arch-ef-r1/arch-ef-r1-verdict.md",
+      "sha256": "a089b093b62c48cac757afa52b763e8cb99608a3dc5d4c3c16f96430773a38bf"
+    },
+    {
+      "gate": "EF-02",
+      "verified_verdict_pass": true,
+      "verdict_file": "ef-02/ef-02-verdict.md",
+      "sha256": "5071eb324326fb735f61138fe1cb23741dc6122c8a4a6f4c394aa3471ca7f3f5"
+    },
+    {
+      "gate": "EF-03",
+      "verified_verdict_pass": true,
+      "verdict_file": "ef-03/ef-03-verdict.md",
+      "sha256": "ceb9bd97255550aed2e3f6ff71a6be534a3d9d22586959cf02d7bf8f2a297f86"
+    },
+    {
+      "gate": "EF-04",
+      "verified_verdict_pass": true,
+      "verdict_file": "ef-04/ef-04-verdict.md",
+      "sha256": "bea94ec943fabe8977442a052886243370a7f8a3c97fb7c3017510621cfa94f4"
+    }
+  ],
+  "all_terms_satisfied": true,
+  "execution_fabric_001_eligible_for_closure": true,
+  "trust_profile": {
+    "validator_execution": "repository_local",
+    "historical_host_provenance": "verified",
+    "structural_integrity": "verified",
+    "hash_integrity": "verified",
+    "provenance_isolation": "verified",
+    "cryptographic_host_signature": "NOT_IMPLEMENTED / NOT_REQUIRED"
+  }
+}

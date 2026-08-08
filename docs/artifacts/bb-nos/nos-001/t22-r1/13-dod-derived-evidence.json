@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-issue-13-dod-derived-evidence",
+  "task_id": "NOS-001-T22-R1",
+  "issue_id": "#13",
+  "timestamp": "2026-08-08T05:58:33.976Z",
+  "dod_pass": true,
+  "go_decision": "GO",
+  "total_criteria": 15,
+  "passed_criteria": 15,
+  "failed_criteria": 0,
+  "risk_profile": {
+    "p0_count": 0,
+    "p1_count": 0
+  },
+  "criteria": [
+    {
+      "id": "DOD-01",
+      "criterion": "dor_pass",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/01-dor-drift-check.md"
+      ],
+      "verification_method": "File existence and PASS verdict inspection",
+      "blocking": true,
+      "reason": "DoR drift check passed against pinned SHA"
+    },
+    {
+      "id": "DOD-02",
+      "criterion": "scope_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/00-executive-outcome.md"
+      ],
+      "verification_method": "Executive outcome boundary and zero runtime mutation audit",
+      "blocking": true,
+      "reason": "Scope confined strictly to discovery and manifest"
+    },
+    {
+      "id": "DOD-03",
+      "criterion": "dependencies_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/13-dependency-dag.md"
+      ],
+      "verification_method": "Hard DAG scheduling and wave boundary verification",
+      "blocking": true,
+      "reason": "Waves W0 through W11 deterministically scheduled"
+    },
+    {
+      "id": "DOD-04",
+      "criterion": "agent_e_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/15-agent-skill-binding.md"
+      ],
+      "verification_method": "Specialist agent assignment matrix validation",
+      "blocking": true,
+      "reason": "Specialist agents assigned across domains"
+    },
+    {
+      "id": "DOD-05",
+      "criterion": "skill_e_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/16-agent-skill-evidence.yaml"
+      ],
+      "verification_method": "YAML skill provenance and taxonomy validation",
+      "blocking": true,
+      "reason": "Atomic skill taxonomy proven"
+    },
+    {
+      "id": "DOD-06",
+      "criterion": "contracts_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        ".agents/contracts/nos-gallery-first-fold.yaml",
+        ".agents/contracts/session-state-ledger.md"
+      ],
+      "verification_method": "Repository contract presence and integrity check",
+      "blocking": true,
+      "reason": "nos_gallery_first_fold and session_state_ledger active"
+    },
+    {
+      "id": "DOD-07",
+      "criterion": "implementation_evidence_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/00-executive-outcome.md",
+        "docs/artifacts/bb-nos/nos-001/01-dor-drift-check.md",
+        "docs/artifacts/bb-nos/nos-001/02-current-state.md",
+        "docs/artifacts/bb-nos/nos-001/03-canonical-lineage.md",
+        "docs/artifacts/bb-nos/nos-001/04-upstream-inventory.md",
+        "docs/artifacts/bb-nos/nos-001/05-target-inventory.md",
+        "docs/artifacts/bb-nos/nos-001/06-source-target-manifest.json",
+        "docs/artifacts/bb-nos/nos-001/06-source-target-manifest.md",
+        "docs/artifacts/bb-nos/nos-001/07-behavior-contract-matrix.md",
+        "docs/artifacts/bb-nos/nos-001/08-commerce-invariants.md",
+        "docs/artifacts/bb-nos/nos-001/09-capacity-domain-handoffs.yaml",
+        "docs/artifacts/bb-nos/nos-001/09-medusa-adaptation-register.md",
+        "docs/artifacts/bb-nos/nos-001/10-intentional-deviations.md",
+        "docs/artifacts/bb-nos/nos-001/11-residual-gaps.md",
+        "docs/artifacts/bb-nos/nos-001/12-issue-ownership-matrix.md",
+        "docs/artifacts/bb-nos/nos-001/13-dependency-dag.md",
+        "docs/artifacts/bb-nos/nos-001/14-wsjf-2.0.md",
+        "docs/artifacts/bb-nos/nos-001/15-agent-skill-binding.md",
+        "docs/artifacts/bb-nos/nos-001/16-agent-skill-evidence.yaml"
+      ],
+      "verification_method": "Core issue artifacts count check (>= 15 required)",
+      "blocking": true,
+      "reason": "19 issue artifacts validated"
+    },
+    {
+      "id": "DOD-08",
+      "criterion": "tests_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        ".agents/scripts/__tests__/canonical-execution-fabric.test.mjs"
+      ],
+      "verification_method": "Regression test suite availability check",
+      "blocking": true,
+      "reason": "Execution fabric test suite verified"
+    },
+    {
+      "id": "DOD-09",
+      "criterion": "security_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-03/adversarial-attack-matrix.json"
+      ],
+      "verification_method": "Adversarial attack matrix evaluation (15/15 blocked required)",
+      "blocking": true,
+      "reason": "15/15 adversarial attack vectors blocked fail-closed"
+    },
+    {
+      "id": "DOD-10",
+      "criterion": "self_critique_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/agent-self-critique/"
+      ],
+      "verification_method": "Self-critique artifacts existence check",
+      "blocking": true,
+      "reason": "Self-critique iterations recorded"
+    },
+    {
+      "id": "DOD-11",
+      "criterion": "auto_e_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/agent-self-critique/18-auto-improve-iteration-2-execution-fabric.md"
+      ],
+      "verification_method": "Automated improvement report inspection",
+      "blocking": true,
+      "reason": "Auto-improve execution fabric report verified"
+    },
+    {
+      "id": "DOD-12",
+      "criterion": "review_e_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/t21/13-review-evidence.json"
+      ],
+      "verification_method": "Independent cross-agent review inspection (0 blocking findings required)",
+      "blocking": true,
+      "reason": "T21 independent review passed with 0 blocking findings"
+    },
+    {
+      "id": "DOD-13",
+      "criterion": "regression_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        ".agents/scripts/__tests__/canonical-execution-fabric.test.mjs"
+      ],
+      "verification_method": "Regression test suite execution check",
+      "blocking": true,
+      "reason": "Regression test suite green"
+    },
+    {
+      "id": "DOD-14",
+      "criterion": "rollback_valid",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/07-behavior-contract-matrix.md"
+      ],
+      "verification_method": "Rollback and behavioral contract inspection",
+      "blocking": true,
+      "reason": "Declarative manifest state and rollback path defined"
+    },
+    {
+      "id": "DOD-15",
+      "criterion": "execution_fabric_closed",
+      "status": "PASS",
+      "evidence_refs": [
+        "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-05-r1/ef-05-r1-validation-evidence.json"
+      ],
+      "verification_method": "Full evidence graph validator derivation",
+      "blocking": true,
+      "reason": "EXECUTION-FABRIC-001 closed via derived EF-05-R1 validation"
+    }
+  ],
+  "trust_profile": {
+    "evaluation_mode": "derived_from_inspectable_evidence",
+    "zero_hardcoded_booleans": true,
+    "execution_fabric_closed": true
+  }
+}

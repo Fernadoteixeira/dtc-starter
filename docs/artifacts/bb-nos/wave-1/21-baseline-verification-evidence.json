@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-issue-21-baseline-verification-evidence",
+  "issue_id": "#21",
+  "domain": "Backend / Commerce / Storefront",
+  "classification": "ALREADY_SATISFIED_BY_BASELINE",
+  "target_file": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-data.ts",
+  "target_file_sha256": "b17d36d43ec1199b704698f9d869bf9a92d6d8d5d1e9f7139ceb116c394c486f",
+  "test_file": "apps/storefront/src/modules/home/gallery-hero/__tests__/gallery-hero-data.unit.spec.ts",
+  "test_file_sha256": "091e03b72480a3444646ae141523914d5c58a03b21478e9173269efa1bf62ccd",
+  "collection_handle": "fio-vivo",
+  "fail_closed_pipeline": {
+    "handles_empty_collection": true,
+    "handles_missing_collection": true,
+    "handles_fetch_error": true,
+    "zero_crash_on_empty": true,
+    "fallback_component": "GalleryHeroFallback"
+  },
+  "status": "BASELINE_PROVEN_BY_TESTS",
+  "dod_verdict": "PASS",
+  "go_decision": "GO"
+}

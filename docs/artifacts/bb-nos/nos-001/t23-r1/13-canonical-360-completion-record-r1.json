@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-issue-13-completion-record-r1",
+  "task_id": "NOS-001-T23-R1",
+  "issue_id": "#13",
+  "status": "COMPLETE",
+  "derived_dod_status": "PASS",
+  "manifest_status": "FROZEN",
+  "evidence_references": {
+    "dod_evidence": "docs/artifacts/bb-nos/nos-001/t22-r1/13-dod-derived-evidence.json",
+    "dod_evidence_sha256": "79ebecaed8d8141236adef207062a8d1957bb7a78ebd14f0b5044f097a16330c",
+    "review_evidence": "docs/artifacts/bb-nos/nos-001/t21/13-review-evidence.json",
+    "review_evidence_sha256": "8ee30cbdc3f336ab3aba03e9e1593981c433cc8ab7f99517f2246313dbb702c3",
+    "fabric_validation": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-05-r1/ef-05-r1-validation-evidence.json",
+    "fabric_validation_sha256": "828dccd0b627ccd81ed2a551d0abdb06bf7501b2d1a7798c23f8de79741ff6d6"
+  },
+  "unlocked_issues": [
+    "#14",
+    "#21"
+  ],
+  "wave_status": {
+    "w0": "COMPLETE",
+    "w1": "UNLOCKED"
+  },
+  "trust_level": "derived_evidence_verified"
+}

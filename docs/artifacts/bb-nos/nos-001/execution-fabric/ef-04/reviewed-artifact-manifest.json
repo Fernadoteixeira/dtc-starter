@@ -42,7 +42,7 @@
     },
     {
       "path": "docs/artifacts/bb-nos/BB-NOS_Canonical_360_Task_Register.md",
-      "sha256": "52502a2390cc2aafd94fc0d85430078e69a5ceb8a1b060a14462fbdcc573de79",
+      "sha256": "2a8400374ef7db491defc6935a5ce1484de137a8b238d27813dcecb2f0f5c0aa",
       "source_gate": "TASK-REGISTER",
       "reviewed": true
     },

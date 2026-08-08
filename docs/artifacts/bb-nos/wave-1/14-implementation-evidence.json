@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-issue-14-implementation-evidence",
+  "issue_id": "#14",
+  "domain": "Storefront / Design / Styles",
+  "classification": "IMPLEMENTATION_CHANGED",
+  "target_file": "packages/gallery-experience/src/styles/gallery-experience.css",
+  "target_file_sha256": "60a4ddb591c3796753fecb9a8bf9494f165ee163ba37c4602248e55637e10e54",
+  "tokens_materialized": [
+    {
+      "token": "--ge-color-copper",
+      "value": "#B87333",
+      "role": "Primary copper metallic warmth"
+    },
+    {
+      "token": "--ge-color-umber",
+      "value": "#635147",
+      "role": "Deep rich umber earth"
+    },
+    {
+      "token": "--ge-color-linen",
+      "value": "#FAF0E6",
+      "role": "Refined organic linen ground"
+    },
+    {
+      "token": "--ge-color-charcoal",
+      "value": "#1A1A1A",
+      "role": "Deep ground contrast"
+    },
+    {
+      "token": "--ge-color-warm-white",
+      "value": "#FFFDF9",
+      "role": "Luminescent highlights"
+    },
+    {
+      "token": "--ge-color-gold",
+      "value": "#D4AF37",
+      "role": "Editorial gold accent"
+    }
+  ],
+  "selector_scoping": "[data-gallery-experience], .dtc-gallery",
+  "global_css_leak": false,
+  "tailwind_v3_compliant": true,
+  "status": "IMPLEMENTED_AND_VERIFIED",
+  "dod_verdict": "PASS",
+  "go_decision": "GO"
+}

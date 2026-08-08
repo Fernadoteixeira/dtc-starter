@@ -1,0 +1,13 @@
+{
+  "dangling_references_count": 0,
+  "orphan_receipts_count": 0,
+  "duplicate_receipt_collisions_count": 0,
+  "hash_mismatches_count": 0,
+  "session_collisions_count": 0,
+  "invocation_collisions_count": 0,
+  "broken_artifact_references_count": 0,
+  "reviewed_artifact_mismatches_count": 0,
+  "predecessor_failures_count": 0,
+  "provenance_errors_count": 0,
+  "total_errors": 0
+}
