@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+  "task_id": "ATTACK-15:review",
+  "route_path": ".agents/scripts/__tests__/adversarial-FZet86/base-zZRjES/review-route.json",
+  "route_sha256": "22daa0b9a359a7debea69d0c45d721d2be7a884c0087f0fed804f23febef970c",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "98d00a6e-a7a9-432e-956d-aadeef4ad5eb",
+    "task_id": "ATTACK-15:review",
+    "shortcut": "review:canonical",
+    "canonical_agent": "code-reviewer",
+    "core_skills": [
+      "code-review",
+      "regression-attribution",
+      "structured-output"
+    ],
+    "external_skills": [],
+    "orchestrations": [
+      "ORCH-12"
+    ],
+    "contracts": [],
+    "contract_paths": {},
+    "specialist_agents": [],
+    "nos_domains": [],
+    "mode": "read_only",
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "199361ab-e10e-4625-855d-59d49519641b",
+        "invocation_id": "98d00a6e-a7a9-432e-956d-aadeef4ad5eb",
+        "timestamp": "2026-08-08T05:21:45.048Z",
+        "status": "LOADED",
+        "task_id": "ATTACK-15:review",
+        "shortcut": "review:canonical",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "88662fff8e28cd71a838e21050bfe6008cae7026de82ad00813b0b8ab70abc73"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "34003b82-d7ec-4e6c-af1b-947d68ac9a1b",
+        "invocation_id": "98d00a6e-a7a9-432e-956d-aadeef4ad5eb",
+        "timestamp": "2026-08-08T05:21:45.048Z",
+        "status": "LOADED",
+        "task_id": "ATTACK-15:review",
+        "agent_id": "code-reviewer",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
+        "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "2595a41a-f947-4db3-9195-05f5f5809015",
+      "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+      "timestamp": "2026-08-08T05:21:45.050Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-15:review",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "3da0e43b-190f-4345-853a-1c37ff2f897e",
+      "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+      "timestamp": "2026-08-08T05:21:45.050Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-15:review",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "fcbc3897-5587-45e5-9d72-1a5c393c0d78",
+      "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+      "timestamp": "2026-08-08T05:21:45.051Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-15:review",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-reviewer",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md",
+      "sha256": "4c8b69310a18c1217700e3e08e50242ff4f2b3a30dab6eba0a403b291004bf49"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "10c6f38b-b591-42ad-9dc2-98f83d713722",
+      "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+      "timestamp": "2026-08-08T05:21:45.052Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-15:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "code-review",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/code-review/skill.json",
+      "sha256": "001d6ab6fe102372bf97cef5cbe08ea845e2897c9d9a5ac91c9eab3587e2018f"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "127d42f1-be55-4c4c-be01-a1328bfe27a7",
+      "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+      "timestamp": "2026-08-08T05:21:45.053Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-15:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "regression-attribution",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/regression-attribution/skill.json",
+      "sha256": "288ddcfa18966e94f2726fc5410b674cf0178e54b7fa9278a7d684f811eabfcc"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "90b1ec3f-7bb1-460a-8d04-bf12744bf44c",
+      "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+      "timestamp": "2026-08-08T05:21:45.054Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-15:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "structured-output",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/structured-output/skill.json",
+      "sha256": "ead16e89b9e87a72a6f2e7234dbe177ddc5f4c8018d03c952f0b87a0ef3a63a4"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "05992210-9ca3-4dea-8d5c-54bec0e22319",
+      "invocation_id": "e76af52c-d874-43b5-8240-6195f00c1ef4",
+      "timestamp": "2026-08-08T05:21:45.055Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-15:review",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-12",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/release-readiness/SKILL.md",
+      "sha256": "b33dc44575cee95d42bb384c87ea2e3aecc1e91c7897161b3d3481cef2f6574d",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    }
+  ]
+}

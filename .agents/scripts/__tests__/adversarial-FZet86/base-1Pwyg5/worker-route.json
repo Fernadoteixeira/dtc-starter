@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-agent-route",
+  "status": "LOADED",
+  "invocation_id": "5c41bfeb-49e0-4303-9f81-008e6c07e585",
+  "task_id": "ATTACK-12",
+  "shortcut": "repo:guard",
+  "canonical_agent": "repo-cartographer",
+  "core_skills": [
+    "repo-map",
+    "dependency-audit"
+  ],
+  "external_skills": [],
+  "orchestrations": [],
+  "contracts": [],
+  "contract_paths": {},
+  "specialist_agents": [
+    ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/repo-guardian/agent.md"
+  ],
+  "nos_domains": [],
+  "mode": "read_only",
+  "writer": false,
+  "receipts": [
+    {
+      "type": "ROUTE-E",
+      "receipt_id": "6d8ddc20-188c-481d-9af6-a8389843c549",
+      "invocation_id": "5c41bfeb-49e0-4303-9f81-008e6c07e585",
+      "timestamp": "2026-08-08T05:21:44.996Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-12",
+      "shortcut": "repo:guard",
+      "path": ".agents/canonical-agent-shortcuts.yaml",
+      "sha256": "88662fff8e28cd71a838e21050bfe6008cae7026de82ad00813b0b8ab70abc73"
+    },
+    {
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "20dbe935-57e1-4442-8d41-a34eca4779dd",
+      "invocation_id": "5c41bfeb-49e0-4303-9f81-008e6c07e585",
+      "timestamp": "2026-08-08T05:21:44.996Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-12",
+      "agent_id": "repo-cartographer",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/repo-cartographer/agent.json",
+      "sha256": "2bb723bd643492a785e4edd8d9c0fbfc52cda22d44f82dd46bb1354908cb8cb8"
+    }
+  ]
+}

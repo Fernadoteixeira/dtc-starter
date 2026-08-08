@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-reviewer-isolation-matrix",
+  "task_id": "NOS-001-EF-04",
+  "reviewer_identity": "code-reviewer",
+  "reviewer_session": "287bee96-2a05-4b69-8f4e-147ec0b289a1",
+  "reviewer_invocation": "eb8b1958-b7ee-4e04-bfc2-304ea19ea590",
+  "prior_sessions_checked": [
+    "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+    "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+    "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+    "3d65ed4e-709d-4c3f-80fa-f4b4ac4b6439"
+  ],
+  "prior_invocations_checked": [
+    "19450d26-d4fb-4d06-92d0-978755f821a6",
+    "c3d2ae41-817a-44f4-9f6e-a458d53e42ce",
+    "2767c616-1f77-4db8-89e1-2f3d7ef1ef51",
+    "32e00584-bd4c-49f9-b6c6-0e91b2e0884b"
+  ],
+  "reviewed_worker_identities": [
+    "software-architect",
+    "repo-cartographer"
+  ],
+  "identity_collision": false,
+  "session_collision": false,
+  "invocation_collision": false,
+  "self_review_detected": false,
+  "verdict": "PASS"
+}

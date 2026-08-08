@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-validation",
+  "type": "LOAD-VALIDATION-E",
+  "receipt_id": "3fe05145-c7cc-49b7-a829-01dd2ee09123",
+  "invocation_id": "138541cf-2d28-4db8-b73e-4c913e39918b",
+  "timestamp": "2026-08-08T05:35:09.826Z",
+  "status": "VALIDATED",
+  "task_id": "NOS-001-EF-04",
+  "shortcut": "review:canonical",
+  "route_path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/review-route.json",
+  "route_sha256": "66f710abf5290ad4edbb4d4507dc98524bba066095019a5f20c643fc45c90b1c",
+  "load_bundle_path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04/review-loads.json",
+  "load_bundle_sha256": "a2776f8fb71cb9d08a460e1e2298e98f7c407d3d67edf06e8aef66d625c2f489",
+  "trust_level": "structural_integrity_only",
+  "platform_attestation_verified": false
+}

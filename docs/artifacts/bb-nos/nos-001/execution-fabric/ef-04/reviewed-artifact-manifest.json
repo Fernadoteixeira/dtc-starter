@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-reviewed-artifact-manifest",
+  "task_id": "NOS-001-EF-04",
+  "total_artifacts": 8,
+  "reviewed_artifacts": [
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-01/ef-01-verdict.md",
+      "sha256": "b8287f12fcfda7ca8830d436fb6e653b5aae97005f0330d81963d7af73ac7d8d",
+      "source_gate": "EF-01",
+      "reviewed": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef-r1/arch-ef-r1-verdict.md",
+      "sha256": "a089b093b62c48cac757afa52b763e8cb99608a3dc5d4c3c16f96430773a38bf",
+      "source_gate": "ARCH-EF",
+      "reviewed": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-02/ef-02-verdict.md",
+      "sha256": "5071eb324326fb735f61138fe1cb23741dc6122c8a4a6f4c394aa3471ca7f3f5",
+      "source_gate": "EF-02",
+      "reviewed": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-03/adversarial-attack-report.md",
+      "sha256": "4360d86a26a26ae3e6d10e99c4cd55ca2ad9361e2bcf056f8f1f503b09d12de8",
+      "source_gate": "EF-03",
+      "reviewed": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-03/adversarial-attack-matrix.json",
+      "sha256": "9eee32dda7ca1fc4cadf99f5cad5fb8f29c07d6eeb1a74c53b489836f5d0b9a4",
+      "source_gate": "EF-03",
+      "reviewed": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-04-scope-reconciliation.md",
+      "sha256": "ec14ed79617e5a1ac46a3a74f73da51b46108f35cf430d42159d3537932a7ee2",
+      "source_gate": "EF-04-PRE",
+      "reviewed": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/BB-NOS_Canonical_360_Task_Register.md",
+      "sha256": "52502a2390cc2aafd94fc0d85430078e69a5ceb8a1b060a14462fbdcc573de79",
+      "source_gate": "TASK-REGISTER",
+      "reviewed": true
+    },
+    {
+      "path": ".agents/canonical-agent-shortcuts.yaml",
+      "sha256": "88662fff8e28cd71a838e21050bfe6008cae7026de82ad00813b0b8ab70abc73",
+      "source_gate": "CANONICAL-REGISTRY",
+      "reviewed": true
+    }
+  ]
+}
