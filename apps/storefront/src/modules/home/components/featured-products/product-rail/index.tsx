@@ -28,7 +28,7 @@ export function mapFioVivoFixtureToProduct(
           calculated_amount: numericPrice,
           currency_code: "brl",
         },
-      } as any,
+      } as unknown as HttpTypes.StoreProductVariant,
     ],
   } as HttpTypes.StoreProduct
 }

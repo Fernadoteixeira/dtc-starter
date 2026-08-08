@@ -24,7 +24,7 @@ export default async function Home(props: {
     fields: "id, handle, title",
   })
 
-  const fallbackRegion = region || ({ id: "reg_br", currency_code: "brl" } as any)
+  const fallbackRegion = (region || { id: "reg_br", currency_code: "brl" }) as HttpTypes.StoreRegion
 
   return (
     <>
