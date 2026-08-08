@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-agent-route",
+  "status": "LOADED",
+  "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+  "task_id": "NOS-001-EF-01",
+  "shortcut": "architect:nos",
+  "canonical_agent": "software-architect",
+  "core_skills": [
+    "issue-to-plan",
+    "research-synthesis",
+    "dependency-audit",
+    "structured-output"
+  ],
+  "external_skills": [],
+  "orchestrations": [
+    "ORCH-02",
+    "ORCH-04",
+    "ORCH-13"
+  ],
+  "contracts": [
+    "nos_gallery_first_fold"
+  ],
+  "contract_paths": {
+    "nos_gallery_first_fold": ".agents/contracts/nos-gallery-first-fold.yaml"
+  },
+  "specialist_agents": [],
+  "nos_domains": [
+    "01-web-runtime",
+    "03-data-contracts-forms",
+    "06-interaction-visualization-ux",
+    "08-quality-engineering"
+  ],
+  "mode": null,
+  "writer": false,
+  "receipts": [
+    {
+      "type": "ROUTE-E",
+      "receipt_id": "b2919523-bae5-4c98-b279-00bc1e86e58f",
+      "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+      "timestamp": "2026-08-08T02:53:51.431Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "shortcut": "architect:nos",
+      "path": ".agents/canonical-agent-shortcuts.yaml",
+      "sha256": "5f0098b746f54882d6508938a68653228bb34126c60bc24a59e7a77b7d7e050c"
+    },
+    {
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "ce39beba-642e-4ba7-ae3f-cb7ec908c61d",
+      "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+      "timestamp": "2026-08-08T02:53:51.431Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "agent_id": "software-architect",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/software-architect/agent.json",
+      "sha256": "3ec4bcccdb4dc0f8b4162533e06ed9d4a7549ff2aa8cfab56018b9abbcc3a5ac"
+    }
+  ]
+}

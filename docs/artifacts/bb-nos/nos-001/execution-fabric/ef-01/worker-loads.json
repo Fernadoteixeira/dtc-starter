@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+  "task_id": "NOS-001-EF-01",
+  "route_path": "docs/artifacts/bb-nos/nos-001/execution-fabric/ef-01/worker-route.json",
+  "route_sha256": "f88ce4f470bd00c0f48df34105b595752f4219065a8273b58f17af39d23e0aee",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+    "task_id": "NOS-001-EF-01",
+    "shortcut": "architect:nos",
+    "canonical_agent": "software-architect",
+    "core_skills": [
+      "issue-to-plan",
+      "research-synthesis",
+      "dependency-audit",
+      "structured-output"
+    ],
+    "external_skills": [],
+    "orchestrations": [
+      "ORCH-02",
+      "ORCH-04",
+      "ORCH-13"
+    ],
+    "contracts": [
+      "nos_gallery_first_fold"
+    ],
+    "contract_paths": {
+      "nos_gallery_first_fold": ".agents/contracts/nos-gallery-first-fold.yaml"
+    },
+    "specialist_agents": [],
+    "nos_domains": [
+      "01-web-runtime",
+      "03-data-contracts-forms",
+      "06-interaction-visualization-ux",
+      "08-quality-engineering"
+    ],
+    "mode": null,
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "b2919523-bae5-4c98-b279-00bc1e86e58f",
+        "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+        "timestamp": "2026-08-08T02:53:51.431Z",
+        "status": "LOADED",
+        "task_id": "NOS-001-EF-01",
+        "shortcut": "architect:nos",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "5f0098b746f54882d6508938a68653228bb34126c60bc24a59e7a77b7d7e050c"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "ce39beba-642e-4ba7-ae3f-cb7ec908c61d",
+        "invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+        "timestamp": "2026-08-08T02:53:51.431Z",
+        "status": "LOADED",
+        "task_id": "NOS-001-EF-01",
+        "agent_id": "software-architect",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/software-architect/agent.json",
+        "sha256": "3ec4bcccdb4dc0f8b4162533e06ed9d4a7549ff2aa8cfab56018b9abbcc3a5ac"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "0d0bb434-9e9d-4207-855d-9827ccebe3f4",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.978Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "8f02788d-8d91-4665-a855-c8d6d8c3e2df",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.979Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "2e2ae958-e566-47dc-8164-a81caa80ce8b",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.979Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-worker",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md",
+      "sha256": "e73ba72c0b0ecb60560067662aa88db5ef23f5639824225a844228b22dcbd647"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "f0630c60-d52d-4086-addd-189ecfcc0587",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.981Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "issue-to-plan",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/issue-to-plan/skill.json",
+      "sha256": "22008ad1cbe9039001e590ddde2a15cd3ad81d3c88624e474db9967b4dce2239"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "1a1e2a43-66ea-4c29-b0f3-e8feb5c39e1c",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.982Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "research-synthesis",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/research-synthesis/skill.json",
+      "sha256": "1ee80e82b31950cf86cfb26f114962c985971e2154baf065101c56d5436a93c1"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "a5739990-3275-4f64-9338-4af5ff3447f4",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.984Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "dependency-audit",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/dependency-audit/skill.json",
+      "sha256": "d6d1718cd5620686cfbedc9682d0d61d7915b1d3d8c0aacecf1841180a9ed0b4"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "57f49443-419a-49a2-ae53-1ba7d537dea2",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.985Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "structured-output",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/structured-output/skill.json",
+      "sha256": "ead16e89b9e87a72a6f2e7234dbe177ddc5f4c8018d03c952f0b87a0ef3a63a4"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "49d65071-73b9-4ebc-96ce-5bdb7e80d0da",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.987Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-02",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/full-stack-product-review/SKILL.md",
+      "sha256": "cad9969c6a1d11c45c835b56e57253d21dd6523af80da34fc46e7b1ade60d0c5",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "35500fbd-471e-487d-a732-03244a37bdb5",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.988Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-04",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/requirements-to-architecture/SKILL.md",
+      "sha256": "f963f10aee7a33729c0c2013d6d59106e3a0983a2ba2945ee51f69e08fe7aa2a",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "4630cb2a-bd13-4f50-9116-3765ae8407a3",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.989Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-13",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/third-party-integration-lifecycle/SKILL.md",
+      "sha256": "8b57a558e23b48e5c316794ac5bcfc236cbdbb78e52aea379be1dd51448ebefd",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    },
+    {
+      "type": "CONTRACT-LOAD-E",
+      "receipt_id": "f8dd23a8-7858-4077-b641-f998654bcf2b",
+      "invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+      "timestamp": "2026-08-08T02:53:58.989Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-EF-01",
+      "instructions_acknowledged": false,
+      "contract_id": "nos_gallery_first_fold",
+      "path": ".agents/contracts/nos-gallery-first-fold.yaml",
+      "sha256": "c513f7f8672d01d2df49ab4218f44cba59e57792076d6eee3fe7aa6b121a4fef"
+    }
+  ]
+}

@@ -1,5 +1,8 @@
-# BB-NOS Canonical 360° Task Register
+# BB-NOS Canonical 360° Task Register v6
 
+**Version:** 6  
+**Status:** canonical / execution blocked  
+**Promoted:** 2026-08-07  
 Repository: `Fernadoteixeira/dtc-starter`  
 Parent EPIC: #12  
 Canonical upstream: `Fernadoteixeira/nos-gallery@2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e`  
@@ -8,10 +11,17 @@ Tracking reconciliation branch: `chore/bb-nos-360-tracking-reconciliation`
 ## Executive state
 
 ```text
+BB-NOS / CONTROL PLANE               VALIDATED
+TRACKING #13–#32                     RECONCILED
+EXECUTION FABRIC DESIGN              FROZEN
+EXECUTION FABRIC IMPLEMENTATION      MATERIALIZED / HOST PROOF PENDING
+STATIC AUDIT                         PASS
+HOST RUNTIME                         BLOCKED
 BB-NOS                               NO-GO / NOT RELEASE READY
 CANONICAL REFERENCE                  VALIDATED
 #13 DoR                              PASS → GO_FOR_ANALYSIS
-#13 MANIFEST                         DRAFT-0 / REMEDIATION REQUIRED
+#13 DoD                              BLOCKED BY EXECUTION-FABRIC-001
+#13 MANIFEST                         REMEDIATION REVIEW / FREEZE FORBIDDEN
 RUNTIME TRANSPLANT                   INCOMPLETE
 COMMERCE HARDENING                   PENDING
 RUNTIME RESILIENCE                   TRACKED AS #29
@@ -97,6 +107,132 @@ The 18 Ollama Superpowers agents remain canonical identities. RUG agents are spe
 | T34 | Execute final human visual/release gate | #28 | BLOCKED BY all mandatory gates | human merge decision |
 | T35 | Separate Admin curation product into future EPIC if approved | `BB-ADMIN-GALLERY` | BACKLOG | Admin control plane |
 
+## v6 — Executable host recovery lane
+
+Host recovery is diagnostic-first. Git restoration is a separate lane and is not a predecessor of EF-01–EF-05.
+
+| ID | Task | Hard predecessors | Status | Required evidence |
+|---|---|---|---|---|
+| HOST-00 | Diagnose executable-host failure | none | DONE | broken Zed/WSL wrapper isolated; Windows host healthy |
+| HOST-01A | Probe direct Node binary execution without Zed launcher indirection | HOST-00 | PASS | `C:\Program Files\nodejs\node.exe`, v24.18.0 |
+| HOST-01B | Isolate Zed launcher, fsmonitor and editor-helper interception | HOST-00 | PASS | direct PowerShell works; sandbox wrapper fails before command execution |
+| HOST-01C | Remediate or bypass missing `libasound.so.2` dependency when confirmed causal | HOST-00, HOST-01B | PASS BY SAFE BYPASS | Windows PowerShell bypass; no host package mutation required |
+| HOST-01 | Verify executable Node host | HOST-01A plus applicable HOST-01B/01C findings | PASS | Node v24.18.0, exit code 0 |
+| HOST-02 | Verify real subagent primitive and host-issued invocation/session ID | HOST-01 | PASS | session `d42cccd8-b46c-4b5b-9715-95690b5c9b14` |
+| HOST-03 | Verify confined evidence directory and no-replace writes | HOST-01 | PASS | traversal and overwrite tests passed |
+| HOST-04 | Run Canonical Agent Execution Fabric test suite | HOST-01, HOST-03 | PASS | 17 passed, 0 failed |
+| HOST-05 | Record host baseline | HOST-02, HOST-04 | DONE | `execution-fabric/00-host-baseline.md` |
+
+Canonical host flow:
+
+```text
+HOST-00 Diagnose
+  ├─ HOST-01A Direct Node probe
+  ├─ HOST-01B Zed/fsmonitor isolation
+  └─ HOST-01C libasound remediation if causal
+          ↓
+      HOST-01 VERIFIED
+          ↓
+      HOST-02 || HOST-03
+          ↓
+      HOST-04 Fabric tests
+          ↓
+      HOST-05 Baseline
+```
+
+## v6 — Execution Fabric proof lane
+
+### EF-01 — Architect Chain negative safety test
+
+EF-01 is successful only when the expected load failure is observed and the worker is not invoked.
+
+```text
+route: @architect:nos
+required contracts:
+  - nos_gallery_first_fold
+  - session_state_ledger
+resolved contracts:
+  - nos_gallery_first_fold
+missing:
+  - session_state_ledger
+expected LOAD-VALIDATION-E: FAIL
+expected worker AGENT-RUN: ABSENT
+qualified verdict: PASS: EXPECTED_FAIL_CLOSED
+```
+
+| ID | Task | Hard predecessors | Status | Gate |
+|---|---|---|---|---|
+| EF-01A | Generate architect route and exact load receipts | HOST-05 | DONE | real ROUTE-E, AGENT-LOAD-E, four SKILL, three ORCH, one CONTRACT loads |
+| EF-01B | Require both visual and ledger contracts without modifying registry | EF-01A | DONE | ledger contract absent exactly as expected |
+| EF-01C | Run load preflight | EF-01B | DONE / EXPECTED FAIL | exit code 1; `LOAD-VALIDATION-E = FAIL` |
+| EF-01D | Prove worker invocation was prevented | EF-01C | DONE | worker invocation absent |
+| EF-01 | Record negative safety verdict | EF-01A–D | `PASS: EXPECTED_FAIL_CLOSED` | `execution-fabric/ef-01/ef-01-verdict.md` |
+
+A plain `PASS` is invalid for EF-01 because it hides the expected failing load validation.
+
+### Post-EF-01 decision and corrected Architect Chain
+
+| ID | Task | Hard predecessors | Status | Gate |
+|---|---|---|---|---|
+| ADR-EF-01 | Compare Option A direct ledger load with Option B validated delegated context | EF-01 `PASS: EXPECTED_FAIL_CLOSED` | DONE | `execution-fabric/adr-ef-01-option-analysis.md` |
+| ADR-EF-02 | Human selects Option A or Option B | ADR-EF-01 | NEXT / HUMAN GATE | explicit human decision |
+| ARCH-EF-01 | Implement only the selected correction | ADR-EF-02 | PENDING | minimal authorized patch |
+| ARCH-EF-02 | Re-run architect route/load preflight | ARCH-EF-01 | PENDING | all required loads validated |
+| ARCH-EF-03 | Run real canonical architect worker | ARCH-EF-02 | PENDING | completed host-issued AGENT-RUN |
+| ARCH-EF | Record corrected Architect Chain PASS | ARCH-EF-03 | PENDING | artifacts and validated receipts |
+
+### EF-02–EF-05
+
+| Gate | Scope | Hard predecessors | Status | Required terminal result |
+|---|---|---|---|---|
+| EF-02 | Second profile (`@repo:guard` or `@qa:nos`) | ARCH-EF PASS | PENDING | route/load/run chain PASS |
+| EF-03 | Adversarial tamper matrix | EF-02 | PENDING | every attack blocked as expected |
+| EF-04 | Distinct canonical reviewer | EF-02, EF-03 | PENDING | different identity/session and `REVIEW-E PASS` |
+| EF-05 | Full evidence graph validator | EF-04 | PENDING | `VALIDATION-E PASS`, structural and host evidence separated |
+
+EF-03 minimum adversarial coverage:
+
+1. stale skill hash;
+2. contract or manifest disguised as `SKILL-E`;
+3. lexical path traversal;
+4. physical/symlink escape;
+5. receipt overwrite;
+6. missing mandatory load receipt;
+7. unknown/extra receipt;
+8. wrong worker adapter;
+9. non-canonical reviewer shortcut;
+10. reused invocation ID;
+11. artifact mutation after worker completion;
+12. worker validation `FAIL`;
+13. worker validation `BLOCKED`;
+14. reviewer PASS with blocking finding;
+15. mismatched reviewed-artifact set.
+
+Qualified closure:
+
+```text
+EF-01 PASS: EXPECTED_FAIL_CLOSED
++ ARCH-EF PASS
++ EF-02 PASS
++ EF-03 PASS
++ EF-04 PASS
++ EF-05 PASS
+= EXECUTION-FABRIC-001 CLOSED
+```
+
+## v6 — Independent Git lane
+
+Git availability is required for repository diff/PR operations, but it does not block EF host proof when Node and subagent primitives work independently.
+
+| ID | Task | Hard predecessors | Status |
+|---|---|---|---|
+| GIT-01 | Diagnose and restore Git CLI independently | none / environment | PASS — Git 2.55.0 |
+| GIT-02 | Capture branch, HEAD and worktree status | GIT-01 | PASS — `main` at `f037bff8...` |
+| GIT-03 | Prove runtime immutability with real diff | GIT-02 | BLOCKED — nested mirror dirty (`AGENTS.md`, `.turbo`) |
+| GIT-04 | Update Draft PR #33 | GIT-03 plus explicit Git/PR authorization | FORBIDDEN |
+| GIT-05 | Mark PR ready/green | all required technical gates plus explicit authorization | FORBIDDEN |
+| GIT-06 | Merge | explicit separate `MERGE_AUTHORIZED` | FORBIDDEN |
+
 ## Current hard DAG
 
 ```text
@@ -179,22 +315,28 @@ ADMIN CURATION EXPERIENCE           OUTSIDE BB-NOS / FUTURE EPIC
 ## Canonical Agent Execution Fabric gate
 
 ```text
+DESIGN                             FROZEN
 REGISTRY / ROUTING                 MATERIALIZED
 PROTOCOL / ADAPTERS                MATERIALIZED
 RESOLVERS / VALIDATOR              MATERIALIZED
 STATIC DIAGNOSTICS                 PASS
-NODE SECURITY TESTS                NOT RUN
-WORKER LOAD + RUN RECEIPTS         NOT RUN
-REVIEWER LOAD + REVIEW-E           NOT RUN
-VALIDATION-E                       NOT RUN
+HOST PROOF                         PASS
+EF-01                              PASS: EXPECTED_FAIL_CLOSED
+ARCH-EF                            NOT RUN
+EF-02                              NOT RUN
+EF-03                              NOT RUN
+EF-04                              NOT RUN
+EF-05                              NOT RUN
 PLATFORM ATTESTATION               UNVERIFIED
 EXECUTION-FABRIC-001               OPEN
 ```
 
 ## Next executable action
 
-Restore executable Node/PowerShell integration, then run the Canonical Agent Execution Fabric end to end for #13. Required outcome before W1 remains:
+`ADR-EF-02 — Human selects Option A or Option B`
+
+EF-01 evidence is complete and the trade-off analysis is published. Do not begin `ARCH-EF-01` without the explicit human selection. Required outcome before W1 remains:
 
 `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
 
-Until validated worker/reviewer receipts exist, #13 remains NO-GO and #14/#21 remain blocked.
+Until the fabric closes and #13 independently reaches DoD PASS, #14/#21, PR green, merge, rollout and release remain forbidden.
