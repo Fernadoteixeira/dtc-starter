@@ -100,21 +100,28 @@ function assertManifestBackedReceipt(receipt, manifestPath, manifestHash, root, 
   }
   assertSha256(receipt.manifest_sha256, `${receipt.type} ${id}.manifest_sha256`)
   if (hashFile(receipt.manifest_path) !== receipt.manifest_sha256) throw new Error(`${receipt.type} ${id} manifest hash mismatch`)
-  const expectedPath = `${root}/${entry.file}`
+  const expectedRelative = entry.path || entry.file
+  const expectedPath = `${root}/${expectedRelative}`
   if (receipt.path !== expectedPath) throw new Error(`${receipt.type} ${id} path does not match manifest`)
   validateReceiptFileHash(receipt, `${receipt.type} ${id}`)
   pathValidator(receipt.path)
 }
 
-export function validateCoreSkillReceipt(receipt, coreIndex, manifestHash, bundle) {
+export function validateCoreSkillReceipt(receipt, route, bundle) {
   assertReceiptEnvelope(receipt, "SKILL-LOAD-E", "LOADED")
   if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) {
     throw new Error(`SKILL-LOAD-E has an invalid invocation_id or task_id`)
   }
   const id = assertNonEmptyString(receipt.skill_id, "SKILL-LOAD-E.skill_id")
-  const entry = coreIndex.get(id)
-  if (!entry) throw new Error(`Unknown core skill id ${id}`)
-  assertManifestBackedReceipt(receipt, PROTOCOL_PATH, manifestHash, SKILL_ROOT, entry, id, assertCoreSkillPath)
+  if (!Array.isArray(route.core_skills) || !route.core_skills.includes(id)) {
+    throw new Error(`Unknown core skill id ${id}`)
+  }
+  const expectedPath = `${SKILL_ROOT}/${id}/skill.json`
+  if (receipt.path !== expectedPath) {
+    throw new Error(`Core skill path does not match expected: ${receipt.path}`)
+  }
+  validateReceiptFileHash(receipt, `Core skill ${id}`)
+  assertCoreSkillPath(receipt.path, id)
 }
 
 export function validateExternalSkillReceipt(receipt, externalMap, bundle) {
@@ -202,15 +209,15 @@ export function validateLoadBundle(loadBundle, route, context = {}) {
   }
   validateReceiptFileHash(adapterReceipt, "ADAPTER-LOAD-E")
 
-  const coreIndex = indexManifest(PROTOCOL_PATH, "id", "core skills manifest")
-  const nosIndex = indexManifest(NOS_MANIFEST_PATH, "id", "nos skills manifest")
+  const nosIndex = indexManifest(NOS_MANIFEST_PATH, "capability_id", "nos skills manifest")
   const orchestrationIndex = indexManifest(ORCHESTRATION_MANIFEST_PATH, "id", "orchestration manifest")
   const externalMap = new Map(Object.entries(route.external_skills || {}))
   const contractMap = new Map(Object.entries(route.contract_paths || {}))
+  const coreSkillSet = new Set(route.core_skills || [])
 
   for (const r of skillReceipts) {
-    if (coreIndex.has(r.skill_id)) {
-      validateCoreSkillReceipt(r, coreIndex, hashFile(PROTOCOL_PATH), bundle)
+    if (coreSkillSet.has(r.skill_id)) {
+      validateCoreSkillReceipt(r, route, bundle)
     } else if (nosIndex.has(r.skill_id)) {
       validateNosSkillReceipt(r, nosIndex, hashFile(NOS_MANIFEST_PATH), bundle)
     } else if (externalMap.has(r.skill_id)) {
@@ -245,6 +252,7 @@ export function validateAgentRunSchema(agentRun) {
   if (agentRun?.host_correlation !== undefined) allowedKeys.push("host_correlation")
   const value = assertExactObjectKeys(agentRun, allowedKeys, "AGENT-RUN")
   assertReceiptEnvelope(value, "AGENT-RUN", "COMPLETED")
+  validateCompletedValidationRecords(value.validation)
   return value
 }
 
@@ -280,7 +288,7 @@ export function validateCompletedValidationRecords(validation) {
 export function validateTaskValue(task) {
   if (typeof task === "string") {
     const trimmed = task.trim()
-    if (!trimmed) throw new Error("task string must not be empty")
+    if (!trimmed || task !== trimmed) throw new Error("task string must not be empty or untrimmed")
     return trimmed
   }
   if (task && typeof task === "object" && !Array.isArray(task) && Object.keys(task).length > 0) {
@@ -441,21 +449,20 @@ export function validateExecutionEvidence(evidence, context = {}) {
   if (review.review_target !== agentRun.receipt_id) throw new Error("REVIEW-E.review_target must equal the worker AGENT-RUN receipt_id")
   validateReviewedArtifacts(review.reviewed_artifacts, workerArtifacts)
   const blockingFindings = validateReviewDecision(review.findings, review.verdict, review.pass_justification)
-
   assertDistinctInvocations([
-    ["worker route", workerRoute.invocation_id],
-    ["worker load", execution.load_bundle.invocation_id],
+    ["worker phase", workerRoute.invocation_id],
     ["AGENT-RUN", agentRun.invocation_id],
-    ["reviewer route", reviewerRoute.invocation_id],
-    ["reviewer load", reviewExecution.load_bundle.invocation_id],
+    ["reviewer phase", reviewerRoute.invocation_id],
     ["REVIEW-E", review.invocation_id]
   ])
   const validatedReceiptCount = validateGlobalReceiptIds([
-    workerRoute.receipts,
-    workerLoadReceipts,
+    [workerRouteValidation.routeReceipt, workerRouteValidation.agentReceipt],
+    [workerLoadReceipts.protocolReceipt, workerLoadReceipts.dispatcherReceipt, workerLoadReceipts.adapterReceipt, ...workerLoadReceipts.skillReceipts, ...workerLoadReceipts.orchestrationReceipts, ...workerLoadReceipts.contractReceipts],
+    agentRun.skill_consume_receipts || [],
     [agentRun],
-    reviewerRoute.receipts,
-    reviewerLoadReceipts,
+    [reviewerRouteValidation.routeReceipt, reviewerRouteValidation.agentReceipt],
+    [reviewerLoadReceipts.protocolReceipt, reviewerLoadReceipts.dispatcherReceipt, reviewerLoadReceipts.adapterReceipt, ...reviewerLoadReceipts.skillReceipts, ...reviewerLoadReceipts.orchestrationReceipts, ...reviewerLoadReceipts.contractReceipts],
+    review.skill_consume_receipts || [],
     [review]
   ])
   const evidencePath = assertNonEmptyString(context.evidencePath, "validation context.evidencePath")

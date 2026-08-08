@@ -58,3 +58,6 @@ Thumbs.db
 
 # Obsidian workspace state (machine-local)
 .obsidian/
+
+# Canonical execution tests — ephemeral evidence
+.agents/scripts/__tests__/evidence-*/

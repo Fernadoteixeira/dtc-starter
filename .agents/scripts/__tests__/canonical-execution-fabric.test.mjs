@@ -9,6 +9,7 @@ import {
   PROTOCOL_PATH,
   REGISTRY_PATH,
   REPO_ROOT,
+  VALIDATOR_PATH,
   assertExternalSkillPath,
   hashCanonicalValue,
   hashFile,
@@ -181,12 +182,12 @@ test("strict AGENT-RUN schema rejects a fake receipt with missing fields", () =>
 test("completed AGENT-RUN rejects FAIL and BLOCKED validation records", () => {
   for (const status of ["FAIL", "BLOCKED"]) {
     assert.throws(
-      () => validateCompletedValidationRecords([{ command: "check", status, output: "not passed" }]),
-      /must be PASS/
+      () => validateCompletedValidationRecords([{ validator: "check", status, evidence_path: VALIDATOR_PATH, evidence_sha256: hashFile(VALIDATOR_PATH) }]),
+      /status must be PASS/
     )
     assert.throws(
-      () => validateAgentRunSchema(validAgentRun({ validation: [{ command: "check", status, output: "not passed" }] })),
-      /must be PASS/
+      () => validateAgentRunSchema(validAgentRun({ validation: [{ validator: "check", status, evidence_path: VALIDATOR_PATH, evidence_sha256: hashFile(VALIDATOR_PATH) }] })),
+      /status must be PASS/
     )
   }
 })
@@ -198,24 +199,24 @@ test("task accepts trimmed strings and non-empty plain objects", () => {
 
 test("task rejects null, arrays, booleans, numbers, empty objects, and untrimmed strings", () => {
   for (const task of [null, [], true, 42, {}, " untrimmed", ""]) {
-    assert.throws(() => validateTaskValue(task), /AGENT-RUN\.task/)
+    assert.throws(() => validateTaskValue(task), /task string must not be empty or untrimmed|task must be a non-empty string or a non-empty object/)
   }
 })
 
 test("reviewed artifacts must exactly match worker artifacts", () => {
   const workerArtifacts = [{ path: REGISTRY_PATH, sha256: hashFile(REGISTRY_PATH) }]
   const reviewedArtifacts = [{ path: PROTOCOL_PATH, sha256: hashFile(PROTOCOL_PATH) }]
-  assert.throws(() => validateReviewedArtifacts(reviewedArtifacts, workerArtifacts), /does not exactly match/)
+  assert.throws(() => validateReviewedArtifacts(reviewedArtifacts, workerArtifacts), /does not match worker artifact|does not exactly match/)
 })
 
 test("review PASS rejects a blocking finding", () => {
   const findings = [{
-    severity: "high",
-    path: REGISTRY_PATH,
-    summary: "Blocking structural issue",
+    id: "F-01",
+    severity: "P0",
+    description: "Blocking structural issue",
     blocking: true
   }]
-  assert.throws(() => validateReviewDecision(findings, "PASS", "Reviewed"), /cannot PASS with blocking findings/)
+  assert.throws(() => validateReviewDecision(findings, "PASS", "Reviewed"), /verdict cannot be PASS with blocking findings/)
 })
 
 test("load validation rejects a stale infrastructure receipt", () => {
@@ -257,8 +258,8 @@ function createEvidenceBundleWithProvenance(options = {}) {
   const reviewerLoadBundle = buildLoadBundle({ routePath: reviewerRoutePath })
   writeJsonExclusive(reviewerLoadPath, reviewerLoadBundle)
 
-  const workerInvocationId = options.workerInvocationId || phase.route.invocation_id
-  const reviewerInvocationId = options.reviewerInvocationId || reviewerRoute.invocation_id
+  const workerInvocationId = options.workerInvocationId || randomUUID()
+  const reviewerInvocationId = options.reviewerInvocationId || randomUUID()
   const artifactPath = REGISTRY_PATH
   const artifacts = [{ path: artifactPath, sha256: hashFile(artifactPath) }]
 
@@ -304,7 +305,7 @@ function createEvidenceBundleWithProvenance(options = {}) {
     artifact_refs: [artifactPath],
     self_critique: "Self critique checked",
     auto_improve_iterations: 0,
-    validation: [{ command: "node --test", status: "PASS", output: "passed" }],
+    validation: [{ validator: "node --test", status: "PASS", evidence_path: VALIDATOR_PATH, evidence_sha256: hashFile(VALIDATOR_PATH) }],
     stop_condition_satisfied: true,
     ...(options.workerProv !== undefined ? { provenance: options.workerProv } : {})
   }
@@ -454,7 +455,7 @@ test("validateExecutionEvidence rejects worker and reviewer sharing host invocat
   const bundle = createEvidenceBundleWithProvenance({ workerInvocationId: sharedInvocationId, reviewerInvocationId: sharedInvocationId, workerProv, reviewerProv })
   assert.throws(
     () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
-    /Worker and reviewer must not reuse the same host session id|Worker and reviewer must not reuse the same host invocation id|invocation_id must differ/
+    /Worker and reviewer must not reuse the same host session id|Worker and reviewer must not reuse the same host invocation id|invocation_id must differ|Invocation id collision/
   )
 })
 
@@ -578,7 +579,7 @@ test("validateExecutionEvidence preserves structural_integrity_only when provena
   assert.equal(result.status, "VALIDATED")
 })
 
-test("validateExecutionEvidence sets host_provenance_verified when real distinct host provenance is provided", () => {
+test("validateExecutionEvidence sets host_provenance_claimed when real distinct host provenance is provided", () => {
   const workerInvocationId = randomUUID()
   const reviewerInvocationId = randomUUID()
   const workerProv = {
@@ -601,8 +602,8 @@ test("validateExecutionEvidence sets host_provenance_verified when real distinct
   }
   const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, reviewerInvocationId, workerProv, reviewerProv })
   const result = validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath })
-  assert.equal(result.trust_level, "host_provenance_verified")
-  assert.equal(result.platform_attestation_verified, true)
+  assert.equal(result.trust_level, "host_provenance_claimed")
+  assert.equal(result.platform_attestation_verified, false)
   assert.equal(result.status, "VALIDATED")
 })
 
