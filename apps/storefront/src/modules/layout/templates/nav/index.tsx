@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Suspense } from "react"
 
 import { listLocales } from "@lib/data/locales"
@@ -28,10 +29,17 @@ export default async function Nav() {
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              <Image
+                src="/brand/fio-vivo-logo.svg"
+                alt="Fio Vivo"
+                width={140}
+                height={35}
+                className="h-8 w-auto"
+                priority
+              />
             </LocalizedClientLink>
           </div>
 

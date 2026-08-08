@@ -9,7 +9,7 @@ export function GalleryHeroFallback() {
             level="h1"
             className="text-3xl leading-10 text-ui-fg-base font-normal"
           >
-            Medusa DTC Starter
+            Fio Vivo DTC Starter
           </Heading>
           <Heading
             level="h2"
