@@ -22,13 +22,24 @@ import { buildLoadBundle } from "../resolve-agent-skills.mjs"
 import {
   validateAgentRunSchema,
   validateCompletedValidationRecords,
+  validateExecutionEvidence,
   validateLoadBundle,
   validateReviewDecision,
   validateReviewedArtifacts,
   validateReviewerRoutePolicy,
-  validateTaskValue
+  validateTaskValue,
+  hashExecutionInputBundle
 } from "../validate-execution-evidence.mjs"
 import { validateExecutionLoads } from "../validate-execution-loads.mjs"
+import {
+  HOST_AUTHORITY,
+  captureHostProvenance,
+  validateHostProvenance
+} from "../host-provenance-adapter.mjs"
+import {
+  emitReviewerReview,
+  emitWorkerAgentRun
+} from "../canonical-invocation-wrapper.mjs"
 
 const temporaryDirectory = mkdtempSync(path.join(REPO_ROOT, ".agents", "scripts", "__tests__", "evidence-"))
 
@@ -232,5 +243,415 @@ test("preflight rejects worker route paired with reviewer load filename", () => 
   assert.throws(
     () => validateExecutionLoads({ routePath: phase.routePath, loadBundlePath: wrongLoadPath, evidenceDir: phase.evidenceDir }),
     /filename is not allowed/
+  )
+})
+
+function createEvidenceBundleWithProvenance(options = {}) {
+  const phase = createWorkerPhase(options.taskId || "TEST-PROV")
+  const reviewerRoutePath = `${phase.evidenceDir}/${PHASE_FILENAMES.reviewerRoute}`
+  const reviewerLoadPath = `${phase.evidenceDir}/${PHASE_FILENAMES.reviewerLoads}`
+  const reviewerRoute = buildRouteBundle({ shortcut: "review:canonical", taskId: `${options.taskId || "TEST-PROV"}:review` })
+  writeJsonExclusive(reviewerRoutePath, reviewerRoute)
+  const reviewerLoadBundle = buildLoadBundle({ routePath: reviewerRoutePath })
+  writeJsonExclusive(reviewerLoadPath, reviewerLoadBundle)
+
+  const workerInvocationId = options.workerInvocationId || randomUUID()
+  const reviewerInvocationId = options.reviewerInvocationId || randomUUID()
+  const artifactPath = REGISTRY_PATH
+  const artifacts = [{ path: artifactPath, sha256: hashFile(artifactPath) }]
+
+  const workerReceipt = phase.route.receipts.find((r) => r.type === "ROUTE-E")
+  const workerAgentReceipt = phase.route.receipts.find((r) => r.type === "AGENT-LOAD-E")
+  const workerProto = phase.loadBundle.receipts.find((r) => r.type === "PROTOCOL-LOAD-E")
+  const workerDisp = phase.loadBundle.receipts.find((r) => r.type === "DISPATCHER-LOAD-E")
+  const workerAdap = phase.loadBundle.receipts.find((r) => r.type === "ADAPTER-LOAD-E")
+  const workerSkills = phase.loadBundle.receipts.filter((r) => r.type === "SKILL-LOAD-E").map((r) => r.receipt_id)
+
+  const revReceipt = reviewerRoute.receipts.find((r) => r.type === "ROUTE-E")
+  const revAgentReceipt = reviewerRoute.receipts.find((r) => r.type === "AGENT-LOAD-E")
+  const revProto = reviewerLoadBundle.receipts.find((r) => r.type === "PROTOCOL-LOAD-E")
+  const revDisp = reviewerLoadBundle.receipts.find((r) => r.type === "DISPATCHER-LOAD-E")
+  const revAdap = reviewerLoadBundle.receipts.find((r) => r.type === "ADAPTER-LOAD-E")
+  const revSkills = reviewerLoadBundle.receipts.filter((r) => r.type === "SKILL-LOAD-E").map((r) => r.receipt_id)
+  const revOrchs = reviewerLoadBundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E").map((r) => r.receipt_id)
+
+  const agentRunReceiptId = randomUUID()
+  const task = "Perform bounded worker task"
+
+  const agentRun = {
+    type: "AGENT-RUN",
+    receipt_id: agentRunReceiptId,
+    invocation_id: workerInvocationId,
+    timestamp: new Date().toISOString(),
+    status: "COMPLETED",
+    task_id: options.taskId || "TEST-PROV",
+    adapter: "canonical-worker",
+    canonical_identity: "implementation-engineer",
+    route_receipt_ref: workerReceipt.receipt_id,
+    agent_load_receipt_ref: workerAgentReceipt.receipt_id,
+    protocol_receipt_ref: workerProto.receipt_id,
+    dispatcher_receipt_ref: workerDisp.receipt_id,
+    adapter_receipt_ref: workerAdap.receipt_id,
+    skill_receipt_refs: workerSkills,
+    orchestration_receipt_refs: [],
+    contract_receipt_refs: [],
+    instructions_acknowledged: true,
+    task,
+    task_sha256: hashCanonicalValue(task),
+    input_bundle_sha256: hashExecutionInputBundle(phase.route, phase.loadBundle),
+    artifact_refs: [artifactPath],
+    self_critique: "Self critique checked",
+    auto_improve_iterations: 0,
+    validation: [{ command: "node --test", status: "PASS", output: "passed" }],
+    stop_condition_satisfied: true,
+    ...(options.workerProv !== undefined ? { provenance: options.workerProv } : {})
+  }
+
+  const review = {
+    type: "REVIEW-E",
+    receipt_id: randomUUID(),
+    invocation_id: reviewerInvocationId,
+    timestamp: new Date().toISOString(),
+    status: "COMPLETED",
+    task_id: `${options.taskId || "TEST-PROV"}:review`,
+    adapter: "canonical-reviewer",
+    canonical_identity: "code-reviewer",
+    review_target: agentRunReceiptId,
+    route_receipt_ref: revReceipt.receipt_id,
+    agent_load_receipt_ref: revAgentReceipt.receipt_id,
+    protocol_receipt_ref: revProto.receipt_id,
+    dispatcher_receipt_ref: revDisp.receipt_id,
+    adapter_receipt_ref: revAdap.receipt_id,
+    skill_receipt_refs: revSkills,
+    orchestration_receipt_refs: revOrchs,
+    contract_receipt_refs: [],
+    instructions_acknowledged: true,
+    reviewed_artifacts: artifacts,
+    findings: [],
+    verdict: "PASS",
+    pass_justification: "All receipts verified",
+    ...(options.reviewerProv !== undefined ? { provenance: options.reviewerProv } : {})
+  }
+
+  const evidence = {
+    schema_version: 1,
+    kind: "canonical-execution-evidence",
+    task_id: options.taskId || "TEST-PROV",
+    execution: {
+      route: phase.route,
+      load_bundle: phase.loadBundle,
+      agent_run: agentRun,
+      artifacts
+    },
+    review_execution: {
+      route: reviewerRoute,
+      load_bundle: reviewerLoadBundle,
+      review
+    }
+  }
+  const evidencePath = `${phase.evidenceDir}/${PHASE_FILENAMES.evidence}`
+  writeJsonExclusive(evidencePath, evidence)
+  return { phase, reviewerRoute, reviewerLoadBundle, evidence, evidencePath, agentRun, review }
+}
+
+test("validateHostProvenance rejects non-antigravity-host authority", () => {
+  assert.throws(
+    () => validateHostProvenance({ authority: "fake-host", host_session_id: randomUUID(), host_trajectory_id: randomUUID(), invocation_id: randomUUID(), execution_kind: "worker" }),
+    /must be antigravity-host|Invalid provenance authority/
+  )
+})
+
+test("validateHostProvenance rejects empty or invalid host_session_id", () => {
+  assert.throws(
+    () => validateHostProvenance({ authority: HOST_AUTHORITY, host_session_id: "not-a-uuid", host_trajectory_id: randomUUID(), invocation_id: randomUUID(), execution_kind: "worker" }),
+    /must be a UUID/
+  )
+})
+
+test("validateHostProvenance rejects invalid execution_kind", () => {
+  assert.throws(
+    () => validateHostProvenance({ authority: HOST_AUTHORITY, host_session_id: randomUUID(), host_trajectory_id: randomUUID(), invocation_id: randomUUID(), execution_kind: "invalid-kind" }),
+    /must be worker or reviewer/
+  )
+})
+
+test("captureHostProvenance requires valid host session id", () => {
+  assert.throws(
+    () => captureHostProvenance({ executionKind: "worker", subagentSessionId: "not-a-uuid" }),
+    /must be a UUID/
+  )
+})
+
+test("validateExecutionEvidence rejects partial host provenance where only worker has provenance", () => {
+  const workerInvocationId = randomUUID()
+  const workerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: workerInvocationId,
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, workerProv })
+  assert.throws(
+    () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
+    /Partial host provenance is invalid/
+  )
+})
+
+test("validateExecutionEvidence rejects worker and reviewer sharing host session id", () => {
+  const sharedSessionId = randomUUID()
+  const workerInvocationId = randomUUID()
+  const reviewerInvocationId = randomUUID()
+  const workerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: sharedSessionId,
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: workerInvocationId,
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const reviewerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: sharedSessionId,
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: reviewerInvocationId,
+    execution_kind: "reviewer",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, reviewerInvocationId, workerProv, reviewerProv })
+  assert.throws(
+    () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
+    /Worker and reviewer must not reuse the same host session id/
+  )
+})
+
+test("validateExecutionEvidence rejects worker and reviewer sharing host invocation id", () => {
+  const sharedInvocationId = randomUUID()
+  const workerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: sharedInvocationId,
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const reviewerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: sharedInvocationId,
+    execution_kind: "reviewer",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId: sharedInvocationId, reviewerInvocationId: sharedInvocationId, workerProv, reviewerProv })
+  assert.throws(
+    () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
+    /Worker and reviewer must not reuse the same host session id|Worker and reviewer must not reuse the same host invocation id|invocation_id must differ/
+  )
+})
+
+test("validateExecutionEvidence rejects worker invocation id mismatching host provenance", () => {
+  const workerInvocationId = randomUUID()
+  const reviewerInvocationId = randomUUID()
+  const workerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: randomUUID(),
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const reviewerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: reviewerInvocationId,
+    execution_kind: "reviewer",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, reviewerInvocationId, workerProv, reviewerProv })
+  assert.throws(
+    () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
+    /Worker invocation id does not match host provenance invocation id/
+  )
+})
+
+test("validateExecutionEvidence rejects reviewer invocation id mismatching host provenance", () => {
+  const workerInvocationId = randomUUID()
+  const reviewerInvocationId = randomUUID()
+  const workerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: workerInvocationId,
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const reviewerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: randomUUID(),
+    execution_kind: "reviewer",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, reviewerInvocationId, workerProv, reviewerProv })
+  assert.throws(
+    () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
+    /Reviewer invocation id does not match host provenance invocation id/
+  )
+})
+
+test("validateExecutionEvidence rejects invalid authority name in provenance", () => {
+  const workerInvocationId = randomUUID()
+  const reviewerInvocationId = randomUUID()
+  const workerProv = {
+    authority: "fake-host",
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: workerInvocationId,
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const reviewerProv = {
+    authority: "fake-host",
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: reviewerInvocationId,
+    execution_kind: "reviewer",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, reviewerInvocationId, workerProv, reviewerProv })
+  assert.throws(
+    () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
+    /Invalid provenance authority/
+  )
+})
+
+test("validateExecutionEvidence rejects forged execution_kind in provenance", () => {
+  const workerInvocationId = randomUUID()
+  const reviewerInvocationId = randomUUID()
+  const workerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: workerInvocationId,
+    execution_kind: "reviewer",
+    issued_at: new Date().toISOString()
+  }
+  const reviewerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: reviewerInvocationId,
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, reviewerInvocationId, workerProv, reviewerProv })
+  assert.throws(
+    () => validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath }),
+    /Provenance execution_kind mismatch/
+  )
+})
+
+test("validateExecutionEvidence preserves structural_integrity_only when provenance is omitted", () => {
+  const bundle = createEvidenceBundleWithProvenance()
+  const result = validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath })
+  assert.equal(result.trust_level, "structural_integrity_only")
+  assert.equal(result.platform_attestation_verified, false)
+  assert.equal(result.status, "VALIDATED")
+})
+
+test("validateExecutionEvidence sets host_provenance_verified when real distinct host provenance is provided", () => {
+  const workerInvocationId = randomUUID()
+  const reviewerInvocationId = randomUUID()
+  const workerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: workerInvocationId,
+    execution_kind: "worker",
+    issued_at: new Date().toISOString()
+  }
+  const reviewerProv = {
+    authority: HOST_AUTHORITY,
+    host_session_id: randomUUID(),
+    host_trajectory_id: randomUUID(),
+    host_project_id: randomUUID(),
+    invocation_id: reviewerInvocationId,
+    execution_kind: "reviewer",
+    issued_at: new Date().toISOString()
+  }
+  const bundle = createEvidenceBundleWithProvenance({ workerInvocationId, reviewerInvocationId, workerProv, reviewerProv })
+  const result = validateExecutionEvidence(bundle.evidence, { evidenceDir: bundle.phase.evidenceDir, evidencePath: bundle.evidencePath })
+  assert.equal(result.trust_level, "host_provenance_verified")
+  assert.equal(result.platform_attestation_verified, true)
+  assert.equal(result.status, "VALIDATED")
+})
+
+test("emitWorkerAgentRun rejects execution without passing load validation", () => {
+  const phase = createWorkerPhase("TEST-BAD-RUN")
+  const wrongLoad = structuredClone(phase.loadBundle)
+  wrongLoad.status = "FAILED"
+  writeJsonExclusive(`${phase.evidenceDir}/corrupted-loads.json`, wrongLoad)
+  assert.throws(
+    () => emitWorkerAgentRun({
+      routePath: phase.routePath,
+      loadBundlePath: `${phase.evidenceDir}/corrupted-loads.json`,
+      evidenceDir: phase.evidenceDir,
+      subagentSessionId: randomUUID(),
+      task: "Task",
+      selfCritique: "Checked",
+      validationRecords: [{ command: "test", status: "PASS", output: "ok" }]
+    }),
+    /must be schema version 1, canonical-execution-load-bundle, and LOADED|filename is not allowed/
+  )
+})
+
+test("emitReviewerReview rejects worker and reviewer session reuse", () => {
+  const sharedSessionId = randomUUID()
+  const workerAgentRun = {
+    receipt_id: randomUUID(),
+    provenance: {
+      authority: HOST_AUTHORITY,
+      host_session_id: sharedSessionId,
+      invocation_id: randomUUID()
+    }
+  }
+  const phase = createWorkerPhase("TEST-REV-REUSE")
+  const reviewerRoutePath = `${phase.evidenceDir}/${PHASE_FILENAMES.reviewerRoute}`
+  const reviewerLoadPath = `${phase.evidenceDir}/${PHASE_FILENAMES.reviewerLoads}`
+  const reviewerRoute = buildRouteBundle({ shortcut: "review:canonical", taskId: "TEST-REV-REUSE:review" })
+  writeJsonExclusive(reviewerRoutePath, reviewerRoute)
+  const reviewerLoadBundle = buildLoadBundle({ routePath: reviewerRoutePath })
+  writeJsonExclusive(reviewerLoadPath, reviewerLoadBundle)
+
+  assert.throws(
+    () => emitReviewerReview({
+      routePath: reviewerRoutePath,
+      loadBundlePath: reviewerLoadPath,
+      evidenceDir: phase.evidenceDir,
+      subagentSessionId: sharedSessionId,
+      subagentInvocationId: workerAgentRun.provenance.invocation_id,
+      workerAgentRun,
+      workerArtifacts: [{ path: REGISTRY_PATH, sha256: hashFile(REGISTRY_PATH) }],
+      passJustification: "Checked"
+    }),
+    /Reviewer must not reuse the worker host session and invocation identity/
   )
 })

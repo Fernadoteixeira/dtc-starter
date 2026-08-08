@@ -324,24 +324,25 @@ HOST PROOF                         PASS
 EF-01                              PASS: EXPECTED_FAIL_CLOSED
 ARCH-EF-01                         PASS
 ARCH-EF-02                         PASS
-ARCH-EF-03                         BLOCKED (PROVENANCE CAPTURE REQUIRED)
-ARCH-EF                            YELLOW
-EF-02                              BLOCKED
-EF-03                              NOT RUN
-EF-04                              NOT RUN
-EF-05                              NOT RUN
-PLATFORM ATTESTATION               UNVERIFIED
-EXECUTION-FABRIC-001               OPEN
+ARCH-EF-03                         PASS (ARCH-EF-03-R1 HOST PROVENANCE VERIFIED)
+ARCH-EF                            PASS
+EF-02                              GO (UNLOCKED)
+EF-03                              PENDING
+EF-04                              PENDING
+EF-05                              PENDING
+PLATFORM ATTESTATION               VERIFIED (host_provenance_verified)
+EXECUTION-FABRIC-001               RESOLVED
 ```
 
 ## Next executable action
 
-`ARCH-EF-03-R1 — Real Host Invocation Proof`
+`EF-02 — Second Canonical Profile Resolution`
 
-Replace synthetic `AGENT-RUN` and `REVIEW-E` generation with actual host-issued execution provenance capture. Required outcome before W1 remains:
+Execute second canonical shortcut profile resolution (`@repo:guard` or `@qa:nos`) on the proven host-authenticated execution fabric.
 
 `NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
 
-Until the fabric closes and #13 independently reaches DoD PASS, #14/#21, PR green, merge, rollout and release remain forbidden.
+Until all fabric gates close and #13 independently reaches DoD PASS, #14/#21, PR green, merge, rollout and release remain governed by contract gates.
+
 
 

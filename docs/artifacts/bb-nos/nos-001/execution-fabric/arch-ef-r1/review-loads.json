@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+  "task_id": "NOS-001-ARCH:review",
+  "route_path": "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef-r1/review-route.json",
+  "route_sha256": "5e82a7e84d80bb97590ea92450ec9538cc78721b1f2106bbceefc715698cd19e",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "c3d2ae41-817a-44f4-9f6e-a458d53e42ce",
+    "task_id": "NOS-001-ARCH:review",
+    "shortcut": "review:canonical",
+    "canonical_agent": "code-reviewer",
+    "core_skills": [
+      "code-review",
+      "regression-attribution",
+      "structured-output"
+    ],
+    "external_skills": [],
+    "orchestrations": [
+      "ORCH-12"
+    ],
+    "contracts": [],
+    "contract_paths": {},
+    "specialist_agents": [],
+    "nos_domains": [],
+    "mode": "read_only",
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "39491359-f8f5-4d9c-9cb1-3df3c980d682",
+        "invocation_id": "c3d2ae41-817a-44f4-9f6e-a458d53e42ce",
+        "timestamp": "2026-08-08T05:11:18.992Z",
+        "status": "LOADED",
+        "task_id": "NOS-001-ARCH:review",
+        "shortcut": "review:canonical",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "88662fff8e28cd71a838e21050bfe6008cae7026de82ad00813b0b8ab70abc73"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "39ada161-2dc6-4069-ad11-bebd2e2a2034",
+        "invocation_id": "c3d2ae41-817a-44f4-9f6e-a458d53e42ce",
+        "timestamp": "2026-08-08T05:11:18.993Z",
+        "status": "LOADED",
+        "task_id": "NOS-001-ARCH:review",
+        "agent_id": "code-reviewer",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
+        "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "c1f890c5-d8af-4edc-880c-4e0b17040daa",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "timestamp": "2026-08-08T05:11:23.805Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH:review",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "a079c334-3477-4257-bec2-c0d4762d3c5e",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "timestamp": "2026-08-08T05:11:23.806Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH:review",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "d40f97f2-3207-44a4-9ead-9242d285ce71",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "timestamp": "2026-08-08T05:11:23.807Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH:review",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-reviewer",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md",
+      "sha256": "4c8b69310a18c1217700e3e08e50242ff4f2b3a30dab6eba0a403b291004bf49"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "0b245097-7c46-42ee-b97d-8dcf9550eebc",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "timestamp": "2026-08-08T05:11:23.808Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "code-review",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/code-review/skill.json",
+      "sha256": "001d6ab6fe102372bf97cef5cbe08ea845e2897c9d9a5ac91c9eab3587e2018f"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "0503b514-9a26-43a0-9723-e27b0cf81231",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "timestamp": "2026-08-08T05:11:23.810Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "regression-attribution",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/regression-attribution/skill.json",
+      "sha256": "288ddcfa18966e94f2726fc5410b674cf0178e54b7fa9278a7d684f811eabfcc"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "f2740086-9db2-45cc-995c-68770ae944e4",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "timestamp": "2026-08-08T05:11:23.811Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH:review",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "structured-output",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/structured-output/skill.json",
+      "sha256": "ead16e89b9e87a72a6f2e7234dbe177ddc5f4c8018d03c952f0b87a0ef3a63a4"
+    },
+    {
+      "type": "ORCHESTRATION-LOAD-E",
+      "receipt_id": "1bc4b238-74ea-4793-8f82-c15976c41361",
+      "invocation_id": "5135e498-08bc-454b-a583-ef31be581ea7",
+      "timestamp": "2026-08-08T05:11:23.812Z",
+      "status": "LOADED",
+      "task_id": "NOS-001-ARCH:review",
+      "instructions_acknowledged": false,
+      "orchestration_id": "ORCH-12",
+      "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/release-readiness/SKILL.md",
+      "sha256": "b33dc44575cee95d42bb384c87ea2e3aecc1e91c7897161b3d3481cef2f6574d",
+      "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+      "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+    }
+  ]
+}

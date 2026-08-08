@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-validation-evidence",
+  "type": "VALIDATION-E",
+  "receipt_id": "11f4214d-97d5-4efd-aea5-84ba2376b1dd",
+  "invocation_id": "859f1511-b2ca-48d2-a707-041ea1406274",
+  "timestamp": "2026-08-08T05:11:48.779Z",
+  "status": "VALIDATED",
+  "task_id": "NOS-001-ARCH",
+  "evidence_path": "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef-r1/execution-evidence.json",
+  "evidence_sha256": "82f52f796ec918fbab99bef320cf6c42e3b9ad496f48f67dd44af4a3b5a9ce8d",
+  "validator_path": ".agents/scripts/validate-execution-evidence.mjs",
+  "validator_sha256": "ad8e993268ccd99808684833ec806bd2f868ec6eccce81990e1a2c054febd785",
+  "worker_identity": "software-architect",
+  "reviewer_identity": "code-reviewer",
+  "agent_run_receipt_id": "a45a6462-d10c-4074-9548-254bb80ae197",
+  "review_receipt_id": "e0737d0b-b86e-40a2-bba3-33bc7f49bd0d",
+  "verdict": "PASS",
+  "blocking_findings": 0,
+  "validated_receipt_count": 25,
+  "trust_level": "host_provenance_verified",
+  "platform_attestation_verified": true
+}

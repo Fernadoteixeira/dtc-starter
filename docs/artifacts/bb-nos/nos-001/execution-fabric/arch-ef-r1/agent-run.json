@@ -1,0 +1,56 @@
+{
+  "type": "AGENT-RUN",
+  "receipt_id": "a45a6462-d10c-4074-9548-254bb80ae197",
+  "invocation_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+  "timestamp": "2026-08-08T05:11:43.850Z",
+  "status": "COMPLETED",
+  "task_id": "NOS-001-ARCH",
+  "adapter": "canonical-worker",
+  "canonical_identity": "software-architect",
+  "route_receipt_ref": "860ddbb6-b746-4c5e-8841-9c49f3f142e3",
+  "agent_load_receipt_ref": "8c6afa4d-7fe5-4fa7-8da8-ec23aa150db3",
+  "protocol_receipt_ref": "b078c168-5288-41af-b0a5-8a656d97592e",
+  "dispatcher_receipt_ref": "7f2c06c4-1bec-4112-8cf1-b3d94efba691",
+  "adapter_receipt_ref": "10ff594e-13f3-4560-a159-e3b211267b07",
+  "skill_receipt_refs": [
+    "594eb907-2d6b-41c8-a61e-05e9cbd89b62",
+    "029a1192-09f4-4971-b49a-e3de9d6cdef9",
+    "3b16dfb2-596d-42b8-8e2b-4505045f797e",
+    "8db9bc2d-a4a3-4be7-adfa-bb399f8d4635"
+  ],
+  "orchestration_receipt_refs": [
+    "ea65e511-92e0-4c2f-8828-97f6378e5b8b",
+    "d313fa6b-7458-4c86-bf69-844e90375f28",
+    "d5acd7df-c016-44cc-86d9-332aa9c0e889"
+  ],
+  "contract_receipt_refs": [
+    "f45f2583-ddaf-4741-a26a-a7c9c7361a24",
+    "a0887c38-7244-4828-bab2-bb98e655e70e"
+  ],
+  "instructions_acknowledged": true,
+  "task": "Execute software-architect mission for NOS-001 under ADR-EF-02 Option A direct contract load with verified host provenance",
+  "task_sha256": "f31d166b93de05ae4e3e343835a987a06a8bfc05aec77e6aa01f1e3ebbaf8f2f",
+  "input_bundle_sha256": "a2294227c40e18fecb01445af2da89b191b9625ed105502297620a8d05c4010a",
+  "artifact_refs": [
+    "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef-r1/arch-ef-r1-verdict.md"
+  ],
+  "self_critique": "Software architect route and execution verified with host provenance from session 940ad311-eca5-4fbe-bc7f-85a324d58a62.",
+  "auto_improve_iterations": 0,
+  "validation": [
+    {
+      "command": "node --test .agents/scripts/__tests__/canonical-execution-fabric.test.mjs",
+      "status": "PASS",
+      "output": "32 tests passed, 0 failed"
+    }
+  ],
+  "stop_condition_satisfied": true,
+  "provenance": {
+    "authority": "antigravity-host",
+    "host_session_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+    "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+    "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+    "invocation_id": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+    "execution_kind": "worker",
+    "issued_at": "2026-08-08T05:11:43.847Z"
+  }
+}

@@ -319,7 +319,8 @@ function validateGlobalReceiptIds(receiptGroups) {
 }
 
 export function validateAgentRunSchema(receipt) {
-  const agentRun = assertExactObjectKeys(receipt, AGENT_RUN_KEYS, "AGENT-RUN")
+  const allowedKeys = receipt?.provenance !== undefined ? [...AGENT_RUN_BASE_KEYS, "provenance"] : AGENT_RUN_BASE_KEYS
+  const agentRun = assertExactObjectKeys(receipt, allowedKeys, "AGENT-RUN")
   assertReceiptEnvelope(agentRun, "AGENT-RUN", "COMPLETED")
   validateTaskValue(agentRun.task)
   validateCompletedValidationRecords(agentRun.validation)
@@ -376,7 +377,8 @@ export function validateExecutionEvidence(evidence, context = {}) {
   const reviewerRoute = reviewerRouteValidation.bundle
   const reviewerTaskId = validateReviewerRoutePolicy(reviewerRouteValidation, taskId)
   const reviewerLoadReceipts = validateLoadBundle(reviewExecution.load_bundle, reviewerRoute, context)
-  const review = assertExactObjectKeys(reviewExecution.review, REVIEW_KEYS, "REVIEW-E")
+  const allowedReviewKeys = reviewExecution.review?.provenance !== undefined ? [...REVIEW_BASE_KEYS, "provenance"] : REVIEW_BASE_KEYS
+  const review = assertExactObjectKeys(reviewExecution.review, allowedReviewKeys, "REVIEW-E")
   assertReceiptEnvelope(review, "REVIEW-E", "COMPLETED")
   if (review.type !== "REVIEW-E" || review.adapter !== "canonical-reviewer") throw new Error("REVIEW-E type or adapter is invalid")
   if (review.canonical_identity !== reviewerRoute.canonical_agent || review.task_id !== reviewerTaskId) throw new Error("REVIEW-E canonical identity or task_id is invalid")
@@ -442,6 +444,8 @@ export function validateExecutionEvidence(evidence, context = {}) {
     trustLevel = "host_provenance_verified"
     platformAttestationVerified = true
   }
+
+  const status = review.verdict === "PASS" ? "VALIDATED" : "REMEDIATION_REQUIRED"
 
   return {
     schema_version: 1,

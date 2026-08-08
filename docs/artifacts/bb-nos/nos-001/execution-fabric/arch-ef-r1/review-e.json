@@ -1,0 +1,51 @@
+{
+  "type": "REVIEW-E",
+  "receipt_id": "e0737d0b-b86e-40a2-bba3-33bc7f49bd0d",
+  "invocation_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+  "timestamp": "2026-08-08T05:11:43.851Z",
+  "status": "COMPLETED",
+  "task_id": "NOS-001-ARCH:review",
+  "adapter": "canonical-reviewer",
+  "canonical_identity": "code-reviewer",
+  "review_target": "a45a6462-d10c-4074-9548-254bb80ae197",
+  "route_receipt_ref": "39491359-f8f5-4d9c-9cb1-3df3c980d682",
+  "agent_load_receipt_ref": "39ada161-2dc6-4069-ad11-bebd2e2a2034",
+  "protocol_receipt_ref": "c1f890c5-d8af-4edc-880c-4e0b17040daa",
+  "dispatcher_receipt_ref": "a079c334-3477-4257-bec2-c0d4762d3c5e",
+  "adapter_receipt_ref": "d40f97f2-3207-44a4-9ead-9242d285ce71",
+  "skill_receipt_refs": [
+    "0b245097-7c46-42ee-b97d-8dcf9550eebc",
+    "0503b514-9a26-43a0-9723-e27b0cf81231",
+    "f2740086-9db2-45cc-995c-68770ae944e4"
+  ],
+  "orchestration_receipt_refs": [
+    "1bc4b238-74ea-4793-8f82-c15976c41361"
+  ],
+  "contract_receipt_refs": [],
+  "instructions_acknowledged": true,
+  "reviewed_artifacts": [
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef-r1/arch-ef-r1-verdict.md",
+      "sha256": "a089b093b62c48cac757afa52b763e8cb99608a3dc5d4c3c16f96430773a38bf"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "info",
+      "path": "docs/artifacts/bb-nos/nos-001/execution-fabric/arch-ef-r1/arch-ef-r1-verdict.md",
+      "summary": "Verified Option A direct contract load with host-issued worker and reviewer provenance",
+      "blocking": false
+    }
+  ],
+  "verdict": "PASS",
+  "pass_justification": "Independent review by code-reviewer verified distinct host session 16222bd8-c9f1-4e50-88c1-504932ced6fd and zero blocking findings.",
+  "provenance": {
+    "authority": "antigravity-host",
+    "host_session_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+    "host_trajectory_id": "e01b51fe-bd23-4b36-9f94-31def3ae5fff",
+    "host_project_id": "02cba1c9-f079-4ebe-922e-e51c9bc43563",
+    "invocation_id": "16222bd8-c9f1-4e50-88c1-504932ced6fd",
+    "execution_kind": "reviewer",
+    "issued_at": "2026-08-08T05:11:43.849Z"
+  }
+}
