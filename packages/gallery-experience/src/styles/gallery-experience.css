@@ -427,17 +427,19 @@
      title/caption zone (there isn't enough vertical room to stack CTA +
      dots below the caption on a narrow phone screen). */
   .dtc-gallery__navigation {
-    bottom: 1.5rem;
-    left: 1.25rem;
+    bottom: 1rem;
+    left: 1rem;
     transform: none;
+    z-index: 10;
   }
 
   .dtc-gallery__cta {
-    bottom: 1rem;
+    bottom: 4.25rem;
     right: 1rem;
-    min-height: 44px;
-    padding: 0.625rem 1.25rem;
-    font-size: 0.875rem;
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    z-index: 10;
   }
 }
 

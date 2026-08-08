@@ -140,7 +140,7 @@ function InteractiveArtworkCard({
 
             <div className="flex items-center justify-between text-[10px] font-mono text-white/50 mt-1 pt-1 border-t border-white/10">
               <span>01 / {String(sceneCount).padStart(2, "0")}</span>
-              <span className="text-[#d48c46]">FRENTE &check;</span>
+              <span className="text-[#d48c46]">FRENTE &#x2713;</span>
             </div>
           </div>
         </>
@@ -463,7 +463,7 @@ export function GalleryExperience({
         >
           <span>&equiv;</span>
           <span>CONHECER A PEÇA</span>
-          <span>&nearr;</span>
+          <span>&#x2197;</span>
         </button>
       </div>
     </div>
