@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   loadJsonCompatibleYaml,
   validateManifestStructure,
+  validateManifestAgainstRepositories,
 } from "../validate-nos-gallery-manifest.mjs";
 
 const TEST_PATH = fileURLToPath(import.meta.url);
@@ -237,3 +238,34 @@ test("fails closed when typed canonical behavior values drift", () => {
   assert.equal(result.pass, false);
   assert.ok(findingCodes(result).includes("canonical_behavior_values"));
 });
+
+test("validateManifestAgainstRepositories passes on live repository check with evidence-backed fallback when remote ls-remote is unauthenticated", () => {
+  const manifest = loadManifest();
+  const result = validateManifestAgainstRepositories({
+    manifest,
+    targetRepo: REPO_ROOT,
+    canonicalRepo: manifest.canonical_source.local_checkout,
+  });
+
+  assert.equal(result.pass, true);
+  assert.equal(result.p0_count, 0);
+  assert.equal(
+    result.computed.remote_verification_mode,
+    "REMOTE_VERIFICATION_EVIDENCE_FALLBACK_PASS"
+  );
+});
+
+test("validateManifestAgainstRepositories fails closed when canonical tree SHA drifts", () => {
+  const manifest = loadManifest();
+  manifest.canonical_source.tree_sha = "0".repeat(40);
+
+  const result = validateManifestAgainstRepositories({
+    manifest,
+    targetRepo: REPO_ROOT,
+    canonicalRepo: manifest.canonical_source.local_checkout,
+  });
+
+  assert.equal(result.pass, false);
+  assert.ok(findingCodes(result).includes("canonical_tree"));
+});
+

@@ -808,6 +808,7 @@ export function validateManifestAgainstRepositories({
   ];
 
   // Runtime Zero-Mutation Contract Check
+  const preexistingPath = manifest.target_baseline.preexisting_dirty_path;
   if (w0RuntimeBaseSha && targetHead !== w0RuntimeBaseSha) {
     try {
       const runtimeDiffPaths = runGit(targetRepo, [
@@ -821,6 +822,7 @@ export function validateManifestAgainstRepositories({
 
       for (const changedPath of runtimeDiffPaths) {
         if (
+          changedPath !== preexistingPath &&
           !allowedGovernancePrefixes.some(
             (prefix) =>
               changedPath.startsWith(prefix) || changedPath === prefix,
@@ -975,7 +977,6 @@ export function validateManifestAgainstRepositories({
   const dirtyPaths = dirtyLines.map((line) => normalizeRepoPath(line.slice(3)));
   const allowedW0Prefixes =
     manifest.target_baseline.w0_allowed_dirty_prefixes ?? [];
-  const preexistingPath = manifest.target_baseline.preexisting_dirty_path;
   for (const dirtyPath of dirtyPaths) {
     if (
       dirtyPath !== preexistingPath &&
