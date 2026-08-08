@@ -72,22 +72,22 @@ describe("mapStoreProductToGalleryItem", () => {
       expect(item.price).toBeUndefined()
     })
 
-    it("uses 'EUR' as fallback when currency_code is missing", () => {
+    it("uses 'BRL' as fallback when currency_code is missing", () => {
       const product = makeProduct({
         variants: [
           {
-            id: "var_003",
-            title: "Missing currency",
+            id: "var_1",
             calculated_price: {
-              calculated_amount: 500,
+              calculated_amount: 100,
+              currency_code: undefined,
             },
-          } as HttpTypes.StoreProductVariant,
-        ],
+          },
+        ] as unknown as HttpTypes.StoreProduct["variants"],
       })
 
       const item = mapStoreProductToGalleryItem(product, "dk")
 
-      expect(item.price!.currencyCode).toBe("EUR")
+      expect(item.price!.currencyCode).toBe("BRL")
     })
   })
 
