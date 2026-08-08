@@ -7,8 +7,8 @@ test.describe("Storefront - Customer Checkout & Cart Journey", () => {
   })
 
   test("should display home page elements and navigation bar", async ({ page }) => {
-    // Check navigation bar presence
-    const nav = page.locator("nav")
+    // Check navigation bar presence in header
+    const nav = page.locator("header nav").first()
     await expect(nav).toBeVisible()
 
     // Check header text or logo
@@ -16,12 +16,12 @@ test.describe("Storefront - Customer Checkout & Cart Journey", () => {
   })
 
   test("should navigate to store page and browse products", async ({ page }) => {
-    // Click on store link in navigation
-    const storeLink = page.getByRole("link", { name: /store/i }).first()
+    // Click on store link in navigation bar
+    const storeLink = page.locator("a[href*='/store']").first()
     if (await storeLink.isVisible()) {
       await storeLink.click()
     } else {
-      await page.goto("/us/store")
+      await page.goto("/dk/store")
     }
 
     // Verify products grid is loaded

@@ -78,7 +78,7 @@ function InteractiveArtworkCard({
   return (
     <article
       className={cardClass}
-      role={isActive ? "region" : "button"}
+      role={isActive ? "group" : "button"}
       aria-label={item.title}
       aria-current={isActive ? "true" : undefined}
       tabIndex={0}
