@@ -1,4 +1,3 @@
-export * from "./types/index";
-export * from "./components/gallery-experience";
-export * from "./i18n/dictionary";
-import "./styles/gallery-experience.css";
+export * from "./types/index.js";
+export * from "./components/gallery-experience.js";
+export * from "./i18n/dictionary.js";

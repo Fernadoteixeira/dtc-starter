@@ -1,16 +1,17 @@
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
 export function GalleryAmbient({ colors }) {
-    if (!colors || colors.length < 3)
-        return null;
-    return (<AnimatePresence mode="wait">
-      <motion.div key={colors.join(",")} initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} className="absolute inset-0 pointer-events-none" style={{
+    const c1 = colors?.[0] || "rgba(184, 115, 51, 0.25)";
+    const c2 = colors?.[1] || "rgba(99, 81, 71, 0.3)";
+    const c3 = colors?.[2] || "rgba(212, 175, 55, 0.15)";
+    return (<div className="dtc-gallery__ambient" aria-hidden="true" style={{
             background: `
-            radial-gradient(ellipse at 18% 42%, ${colors[0]}42 0%, transparent 42%),
-            radial-gradient(ellipse at 83% 78%, ${colors[1]}35 0%, transparent 45%),
-            radial-gradient(ellipse at 50% 5%, ${colors[2]}24 0%, transparent 45%),
-            linear-gradient(120deg, #1f1d1b 0%, #0d0c0b 48%, #050404 100%)
-          `,
-        }}/>
-    </AnimatePresence>);
+          radial-gradient(ellipse at 20% 40%, ${c1} 0%, transparent 55%),
+          radial-gradient(ellipse at 80% 70%, ${c2} 0%, transparent 60%),
+          radial-gradient(ellipse at 50% 10%, ${c3} 0%, transparent 50%),
+          linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #0d0d0d 100%)
+        `,
+            transition: "background 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}>
+      <div className="dtc-gallery__ambient-layer"/>
+    </div>);
 }
