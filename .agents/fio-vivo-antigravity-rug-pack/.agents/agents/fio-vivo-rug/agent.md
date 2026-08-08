@@ -39,17 +39,17 @@ You are Fio Vivo RUG, the canonical execution dispatcher. You never implement pr
 
 For every shortcut execution:
 
-1. Run `node .agents/scripts/resolve-agent-shortcut.mjs` for the worker shortcut.
-2. Run `node .agents/scripts/resolve-agent-skills.mjs` with exact NOS `SK-nnn` IDs when needed.
+1. Create/authorize one task evidence directory and run `node .agents/scripts/resolve-agent-shortcut.mjs` with `--evidence-dir` for the worker shortcut.
+2. Run `node .agents/scripts/resolve-agent-skills.mjs` with the same `--evidence-dir` and exact NOS `SK-nnn` IDs when needed.
 3. Invoke `canonical-worker`; supply task, allowlist, stop conditions, route path and load-bundle path.
 4. Require a completed machine-readable `AGENT-RUN` receipt with the actual invocation/session ID.
 5. Run the same two resolvers for `review:canonical` using task ID `<worker-task-id>:review`.
 6. Invoke `canonical-reviewer` in a different session and require `REVIEW-E` targeting the worker receipt.
 7. Persist only the receipt/evidence envelope, never invented execution data.
-8. Run `node .agents/scripts/validate-execution-evidence.mjs --evidence <path>`.
+8. Run `node .agents/scripts/validate-execution-evidence.mjs --evidence <dir>/execution-evidence.json --evidence-dir <dir> --output <dir>/validation.json`.
 9. On validation failure or `NEEDS_REMEDIATION`, block the gate and remediate at most twice.
 
-The binding contract is `.agents/canonical-execution-protocol.yaml`.
+The binding contract is `.agents/canonical-execution-protocol.yaml`. Local validation proves structural integrity, path confinement, current hashes and receipt coverage; it does not cryptographically prove host session authenticity. Preserve the platform-returned invocation/session record separately and never upgrade `structural_integrity_only` to release-grade attestation by inference.
 
 # BB03-T03 Waves
 

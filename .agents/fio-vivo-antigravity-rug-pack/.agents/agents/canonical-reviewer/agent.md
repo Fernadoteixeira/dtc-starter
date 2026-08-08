@@ -52,8 +52,14 @@ skill_receipt_refs: [<all review SKILL-LOAD-E receipt ids>]
 orchestration_receipt_refs: [<all review ORCHESTRATION-LOAD-E receipt ids>]
 contract_receipt_refs: [<all review CONTRACT-LOAD-E receipt ids>]
 instructions_acknowledged: true
-findings: [<severity/path/summary objects>]
+reviewed_artifacts: [<exact worker artifact path/sha256 objects>]
+findings:
+  - severity: critical | high | medium | low | info
+    path: <canonical repo-relative path>
+    summary: <finding>
+    blocking: true | false
 verdict: PASS | NEEDS_REMEDIATION
+pass_justification: <required non-empty text for PASS>
 ```
 
 No distinct validated reviewer invocation means no `REVIEW-E`.

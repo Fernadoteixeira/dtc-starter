@@ -55,15 +55,24 @@ adapter: canonical-worker
 canonical_identity: <resolved canonical agent id>
 route_receipt_ref: <ROUTE-E receipt id>
 agent_load_receipt_ref: <AGENT-LOAD-E receipt id>
+protocol_receipt_ref: <PROTOCOL-LOAD-E receipt id>
+dispatcher_receipt_ref: <DISPATCHER-LOAD-E receipt id>
+adapter_receipt_ref: <ADAPTER-LOAD-E receipt id>
 skill_receipt_refs: [<all SKILL-LOAD-E receipt ids>]
 orchestration_receipt_refs: [<all ORCHESTRATION-LOAD-E receipt ids>]
 contract_receipt_refs: [<all CONTRACT-LOAD-E receipt ids>]
 instructions_acknowledged: true
 task: <exact task>
+task_sha256: <canonical task hash supplied and verified by dispatcher>
+input_bundle_sha256: <canonical route plus load-bundle hash>
 artifact_refs: [<repo-relative paths>]
-self_critique: <summary>
+self_critique: <non-empty summary>
 auto_improve_iterations: <0..2>
-validation: <raw commands/results or blocker>
+validation:
+  - command: <exact command or static diagnostic operation>
+    status: PASS | FAIL | BLOCKED
+    output: <non-empty raw result>
+stop_condition_satisfied: true
 ```
 
 No completed receipt means no `AGENT-E`. Missing skill receipt references mean no `SKILL-E` for those skills.

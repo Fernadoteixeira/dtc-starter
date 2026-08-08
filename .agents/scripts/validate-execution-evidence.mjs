@@ -306,6 +306,21 @@ function validateGlobalReceiptIds(receiptGroups) {
   return count
 }
 
+export function validateAgentRunSchema(receipt) {
+  const agentRun = assertExactObjectKeys(receipt, AGENT_RUN_KEYS, "AGENT-RUN")
+  assertReceiptEnvelope(agentRun, "AGENT-RUN", "COMPLETED")
+  return agentRun
+}
+
+export function validateReviewerRoutePolicy(routeValidation, parentTaskId) {
+  const reviewerRoute = routeValidation.bundle
+  const reviewerTaskId = `${parentTaskId}:review`
+  if (reviewerRoute.task_id !== reviewerTaskId || reviewerRoute.shortcut !== "review:canonical") throw new Error("Reviewer route must use exactly review:canonical and <task_id>:review")
+  if (reviewerRoute.canonical_agent !== "code-reviewer" || reviewerRoute.mode !== "read_only" || reviewerRoute.writer !== false) throw new Error("Reviewer route must be read-only code-reviewer with writer false")
+  if (routeValidation.agentDefinition.write_role !== false) throw new Error("Reviewer agent definition write_role must be false")
+  return reviewerTaskId
+}
+
 export function validateExecutionEvidence(evidence, context = {}) {
   assertNode20()
   const value = assertExactObjectKeys(evidence, ["schema_version", "kind", "task_id", "execution", "review_execution"], "execution evidence")
@@ -317,8 +332,7 @@ export function validateExecutionEvidence(evidence, context = {}) {
   const workerRoute = workerRouteValidation.bundle
   if (workerRoute.task_id !== taskId || workerRoute.shortcut === "review:canonical") throw new Error("Worker route must use the parent task and a non-review shortcut")
   const workerLoadReceipts = validateLoadBundle(execution.load_bundle, workerRoute, context)
-  const agentRun = assertExactObjectKeys(execution.agent_run, AGENT_RUN_KEYS, "AGENT-RUN")
-  assertReceiptEnvelope(agentRun, "AGENT-RUN", "COMPLETED")
+  const agentRun = validateAgentRunSchema(execution.agent_run)
   if (agentRun.type !== "AGENT-RUN" || agentRun.adapter !== "canonical-worker") throw new Error("AGENT-RUN type or adapter is invalid")
   if (agentRun.canonical_identity !== workerRoute.canonical_agent || agentRun.task_id !== taskId) throw new Error("AGENT-RUN canonical identity or task_id is invalid")
   if (agentRun.instructions_acknowledged !== true || agentRun.stop_condition_satisfied !== true) throw new Error("AGENT-RUN must acknowledge instructions and satisfy its stop condition")
@@ -335,10 +349,7 @@ export function validateExecutionEvidence(evidence, context = {}) {
   const reviewExecution = assertExactObjectKeys(value.review_execution, ["route", "load_bundle", "review"], "review_execution")
   const reviewerRouteValidation = validateRouteBundle(reviewExecution.route)
   const reviewerRoute = reviewerRouteValidation.bundle
-  const reviewerTaskId = `${taskId}:review`
-  if (reviewerRoute.task_id !== reviewerTaskId || reviewerRoute.shortcut !== "review:canonical") throw new Error("Reviewer route must use exactly review:canonical and <task_id>:review")
-  if (reviewerRoute.canonical_agent !== "code-reviewer" || reviewerRoute.mode !== "read_only" || reviewerRoute.writer !== false) throw new Error("Reviewer route must be read-only code-reviewer with writer false")
-  if (reviewerRouteValidation.agentDefinition.write_role !== false) throw new Error("Reviewer agent definition write_role must be false")
+  const reviewerTaskId = validateReviewerRoutePolicy(reviewerRouteValidation, taskId)
   const reviewerLoadReceipts = validateLoadBundle(reviewExecution.load_bundle, reviewerRoute, context)
   const review = assertExactObjectKeys(reviewExecution.review, REVIEW_KEYS, "REVIEW-E")
   assertReceiptEnvelope(review, "REVIEW-E", "COMPLETED")
