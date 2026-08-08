@@ -16,7 +16,7 @@ test.describe("Gallery Experience Commerce Journey", () => {
     await expect(galleryRegion).toBeVisible();
 
     // 4. Verify gallery card title & nav controls
-    const cardTitle = galleryRegion.locator(".dtc-gallery-card-title").first();
+    const cardTitle = galleryRegion.locator(".dtc-gallery__artwork-title").first();
     await expect(cardTitle).toBeVisible();
 
     const nextButton = galleryRegion.getByLabel("Next artwork");
@@ -24,7 +24,7 @@ test.describe("Gallery Experience Commerce Journey", () => {
     await nextButton.click();
 
     // 5. Click CTA to explore piece
-    const exploreCta = galleryRegion.locator("a.dtc-gallery-cta-button").first();
+    const exploreCta = galleryRegion.locator(".dtc-gallery__cta").first();
     await expect(exploreCta).toBeVisible();
     await exploreCta.click();
 
