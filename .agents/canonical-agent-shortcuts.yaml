@@ -7,6 +7,11 @@ canonical_skill_root: .agents/ollama-superpowers-pack-v1.0.0/skills
 nos_skill_resolver: .agents/nos-gallery-canonical-skills-205/manifest/skills.json
 product_lifecycle_orchestration_resolver: .agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json
 medusa_skill_root: .agents/skills/medusa
+execution_protocol: .agents/canonical-execution-protocol.yaml
+execution_adapters:
+  dispatcher: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md
+  worker: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md
+  reviewer: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md
 contracts:
   session_state_ledger: .agents/contracts/session-state-ledger.md
   nos_gallery_first_fold: .agents/contracts/nos-gallery-first-fold.yaml
@@ -20,6 +25,10 @@ rules:
   - only one writer may own overlapping workspace surfaces
   - product approval, git authorization, PR authorization, merge authorization and release authorization are independent
   - human visual approval can never be inferred by automation
+  - no SKILL-LOAD-E receipt means no SKILL-E
+  - no completed AGENT-RUN receipt means no AGENT-E
+  - no distinct reviewer route and invocation means no REVIEW-E
+  - every execution claim must pass canonical execution evidence validation
 shortcuts:
   orchestrate:
     canonical_agent: orchestrator
@@ -90,6 +99,11 @@ shortcuts:
     external_skills: [.agents/skills/web-design-guidelines/SKILL.md]
     orchestrations: [ORCH-05]
     writer: true
+  review:canonical:
+    canonical_agent: code-reviewer
+    core_skills: [code-review, regression-attribution, structured-output]
+    orchestrations: [ORCH-12]
+    mode: read_only
   css:validate:
     canonical_agent: code-reviewer
     specialist_agents:

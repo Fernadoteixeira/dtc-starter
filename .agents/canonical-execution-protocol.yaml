@@ -1,0 +1,130 @@
+version: 1
+kind: canonical-agent-execution-protocol
+status: active
+registry: .agents/canonical-agent-shortcuts.yaml
+runtime: node>=20
+
+invariants:
+  - NO_ROUTE_RECEIPT_NO_ROUTE_E
+  - NO_AGENT_LOAD_RECEIPT_NO_AGENT_E
+  - NO_SKILL_LOAD_RECEIPT_NO_SKILL_E
+  - NO_INSTRUCTIONS_ACKNOWLEDGEMENT_NO_EXECUTION
+  - NO_COMPLETED_AGENT_RUN_RECEIPT_NO_AGENT_E
+  - NO_DISTINCT_REVIEW_ROUTE_AND_INVOCATION_NO_REVIEW_E
+  - CONTRACT_AND_MANIFEST_RECEIPTS_NEVER_COUNT_AS_SKILL_E
+  - AVAILABLE_AGENT_NEVER_COUNTS_AS_EXECUTED_AGENT
+  - INSTALLED_SKILL_NEVER_COUNTS_AS_CONSUMED_SKILL
+  - REVIEWER_MUST_NOT_SHARE_THE_WRITER_INVOCATION_ID
+  - VALIDATION_FAILURE_BLOCKS_DOD_AND_GO
+
+states:
+  - RESOLVED
+  - LOADED
+  - ACKNOWLEDGED
+  - RUNNING
+  - COMPLETED
+  - REVIEWED
+  - VALIDATED
+  - BLOCKED
+
+adapters:
+  dispatcher: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md
+  worker: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md
+  reviewer: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md
+
+scripts:
+  resolve_route: .agents/scripts/resolve-agent-shortcut.mjs
+  resolve_loads: .agents/scripts/resolve-agent-skills.mjs
+  validate_evidence: .agents/scripts/validate-execution-evidence.mjs
+
+execution_flow:
+  - step: resolve_worker_route
+    command: node .agents/scripts/resolve-agent-shortcut.mjs --shortcut <shortcut> --task-id <task-id> --output <worker-route.json>
+    emits: [ROUTE-E, AGENT-LOAD-E]
+  - step: resolve_worker_loads
+    command: node .agents/scripts/resolve-agent-skills.mjs --route <worker-route.json> --output <worker-loads.json> --nos-skill <SK-nnn>
+    emits: [SKILL-LOAD-E, ORCHESTRATION-LOAD-E, CONTRACT-LOAD-E]
+  - step: invoke_worker
+    dispatcher_action: invoke_subagent
+    adapter: canonical-worker
+    requires: [worker-route.json, worker-loads.json, task, allowlist, stop-conditions]
+    emits: [AGENT-RUN]
+  - step: self_critique
+    requires: [AGENT-RUN, artifact-hashes]
+    emits: [SELF-CRITIQUE-E]
+  - step: auto_improve
+    maximum_iterations: 2
+    emits: [AUTO-E]
+  - step: resolve_reviewer_route
+    command: node .agents/scripts/resolve-agent-shortcut.mjs --shortcut review:canonical --task-id <task-id>:review --output <review-route.json>
+    emits: [ROUTE-E, AGENT-LOAD-E]
+  - step: resolve_reviewer_loads
+    command: node .agents/scripts/resolve-agent-skills.mjs --route <review-route.json> --output <review-loads.json>
+    emits: [SKILL-LOAD-E, ORCHESTRATION-LOAD-E, CONTRACT-LOAD-E]
+  - step: invoke_reviewer
+    dispatcher_action: invoke_subagent
+    adapter: canonical-reviewer
+    requires: [review-route.json, review-loads.json, AGENT-RUN, artifacts]
+    emits: [REVIEW-E]
+  - step: validate
+    command: node .agents/scripts/validate-execution-evidence.mjs --evidence <execution-evidence.json>
+    emits: [VALIDATION-E]
+
+receipt_requirements:
+  common:
+    - type
+    - receipt_id
+    - invocation_id
+    - timestamp
+    - status
+    - task_id
+  file_load:
+    - path
+    - sha256
+  agent_run:
+    - adapter
+    - canonical_identity
+    - route_receipt_ref
+    - agent_load_receipt_ref
+    - skill_receipt_refs
+    - orchestration_receipt_refs
+    - contract_receipt_refs
+    - instructions_acknowledged
+    - task
+    - artifact_refs
+  review:
+    - adapter
+    - canonical_identity
+    - review_target
+    - route_receipt_ref
+    - agent_load_receipt_ref
+    - skill_receipt_refs
+    - orchestration_receipt_refs
+    - contract_receipt_refs
+    - instructions_acknowledged
+    - findings
+    - verdict
+
+final_evidence_shape:
+  schema_version: 1
+  kind: canonical-execution-evidence
+  task_id: string
+  execution:
+    route: object
+    load_bundle: object
+    agent_run: object
+    artifacts: array
+  review_execution:
+    route: object
+    load_bundle: object
+    review: object
+
+allowed_review_verdicts:
+  - PASS
+  - NEEDS_REMEDIATION
+
+claims:
+  AGENT-E: only_after_validated_completed_agent_run
+  SKILL-E: only_after_validated_load_and_worker_acknowledgement
+  CONTRACT-E: only_after_validated_contract_load_and_acknowledgement
+  REVIEW-E: only_after_distinct_validated_reviewer_execution
