@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "kind": "ef-01-load-validation-result",
+  "type": "LOAD-VALIDATION-E",
+  "status": "FAIL",
+  "task_id": "NOS-001-EF-01",
+  "required_contracts": [
+    "nos_gallery_first_fold",
+    "session_state_ledger"
+  ],
+  "resolved_contracts": [
+    "nos_gallery_first_fold"
+  ],
+  "missing_contracts": [
+    "session_state_ledger"
+  ],
+  "worker_invocation": "ABSENT",
+  "command_exit_code": 1,
+  "qualified_verdict": "PASS: EXPECTED_FAIL_CLOSED",
+  "route_receipt_id": "b2919523-bae5-4c98-b279-00bc1e86e58f",
+  "agent_load_receipt_id": "ce39beba-642e-4ba7-ae3f-cb7ec908c61d",
+  "route_invocation_id": "f2a40934-5061-4d9c-b84b-88f2c04efd29",
+  "load_invocation_id": "53403cdd-7f55-4e70-b47d-85be1ea0f71d",
+  "worker_invocation_id": null
+}

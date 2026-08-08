@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "kind": "ef-01-negative-safety-requirements",
+  "task_id": "NOS-001-EF-01",
+  "shortcut": "architect:nos",
+  "expected_canonical_agent": "software-architect",
+  "required_core_skills": [
+    "issue-to-plan",
+    "research-synthesis",
+    "dependency-audit",
+    "structured-output"
+  ],
+  "required_orchestrations": [
+    "ORCH-02",
+    "ORCH-04",
+    "ORCH-13"
+  ],
+  "required_contracts": [
+    "nos_gallery_first_fold",
+    "session_state_ledger"
+  ],
+  "expected_missing_contract": "session_state_ledger",
+  "expected_load_validation": "FAIL",
+  "expected_worker_invocation": "ABSENT",
+  "qualified_verdict": "PASS: EXPECTED_FAIL_CLOSED"
+}
