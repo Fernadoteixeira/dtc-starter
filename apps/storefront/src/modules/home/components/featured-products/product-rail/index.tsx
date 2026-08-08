@@ -26,7 +26,11 @@ export function mapFioVivoFixtureToProduct(
         sku: fixture.code.toUpperCase(),
         calculated_price: {
           calculated_amount: numericPrice,
+          original_amount: numericPrice,
           currency_code: "brl",
+          calculated_price: {
+            price_list_type: "default",
+          },
         },
       } as unknown as HttpTypes.StoreProductVariant,
     ],
