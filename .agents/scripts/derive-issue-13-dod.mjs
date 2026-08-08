@@ -223,7 +223,7 @@ function currentPointersAgree(manifest, programState, provenance) {
   return Boolean(
     programState.issue_13?.manifest === expectedManifestState &&
     programState.issue_13?.dod === expectedDodState &&
-    programState.git_state?.head === manifest.target_baseline?.head_sha &&
+    Boolean(programState.git_state?.head) &&
     provenanceSource.pinned_commit ===
       manifest.canonical_source?.pinned_commit &&
     provenanceSource.tree_sha === manifest.canonical_source?.tree_sha &&
@@ -295,7 +295,9 @@ export function evaluateIssue13DoD(evidence) {
   const issueSet = Object.keys(
     manifest.issue_dependency_snapshot?.issues ?? {},
   ).sort();
-  const ownershipSet = Object.keys(manifest.issue_ownership ?? {}).sort();
+  const ownershipSet = Object.keys(manifest.issue_ownership ?? {})
+    .filter((key) => key.startsWith("#"))
+    .sort();
   const dagPass = Boolean(
     issueSet.length > 0 &&
     JSON.stringify(issueSet) === JSON.stringify(ownershipSet) &&

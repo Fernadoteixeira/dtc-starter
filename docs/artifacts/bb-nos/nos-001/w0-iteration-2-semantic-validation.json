@@ -10,12 +10,12 @@
   "p1_count": 0,
   "manifest_sha256": "f927d9bb906cc606107e7ab58a47609f86232e7fd62c55a7cd7e36e3cd5aac87",
   "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
-  "validator_sha256": "96a0516f3fcc120086f09864bf958721e366108ce6947e4b105289eadffba77d",
-  "validator_tests_sha256": "9e63d379f4886f256227f4b05dc213cb496e3a0b4efd8f74a382baf6fe33d8ff",
+  "validator_sha256": "5a1e0fbd1f7b6e360e8d8941cd4f132d1e5a540dd2f0773ccbad5c1c33c6a513",
+  "validator_tests_sha256": "7d85c281e969dff3be80d9a9eb518a92f8acfd8546be9cf87d01c522a92b475f",
   "dod_deriver_sha256": "08450a547b325a1520228a1acccc989bcf48d6882b4e2717076e029e920fc613",
   "dod_tests_sha256": "2e9d5a2d39ad6c8164568cb5e33c036cb1022bf229b8b8bb5cc61f735f3880ab",
   "tests": {
-    "passed": 17,
+    "passed": 19,
     "failed": 0,
     "negative_cases": [
       "ghost source outside pinned closure",
@@ -66,9 +66,9 @@
     "canonical_origin_main": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
     "canonical_remote_main": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
     "canonical_tree": "ab05069f81f3763a108b55e1e49ff3845cc15267",
-    "target_head": "38246f64e82b37670edf84d386b55b866fb425bf",
-    "target_origin_main": "38246f64e82b37670edf84d386b55b866fb425bf",
-    "target_remote_main": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "target_head": "b417c8cf024c978d70e24cf07bda3585918ff856",
+    "target_origin_main": "b417c8cf024c978d70e24cf07bda3585918ff856",
+    "target_remote_main": "b417c8cf024c978d70e24cf07bda3585918ff856",
     "target_branch": "main",
     "pdp_sha256": "2a03a9d4854ca7277e6ae77102ed217bba93cc6bc8df7bd4b1d6a79a5c6e5dbf"
   },

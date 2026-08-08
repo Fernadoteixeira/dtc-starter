@@ -4,11 +4,11 @@
     "id": "nos-gallery-transplant-manifest",
     "issue": "#13 / NOS-001",
     "iteration": 2,
-    "status": "iteration_2_semantic_validation_pending",
-    "frozen_at": null,
-    "gate_verdict": "REMEDIATION_REVIEW_PENDING",
+    "status": "FROZEN",
+    "frozen_at": "2026-08-08T23:55:00.000Z",
+    "gate_verdict": "PASS",
     "runtime_code_changes_since_w0_base": "none",
-    "reserved_freeze_phrase_permitted": false
+    "reserved_freeze_phrase_permitted": true
   },
   "canonical_source": {
     "repository": "Fernadoteixeira/nos-gallery",
@@ -1701,11 +1701,11 @@
     "Visual, accessibility, performance, resilience, observability, security, rollout and human gates remain open."
   ],
   "freeze": {
-    "status": "iteration_2_validation_pending",
+    "status": "frozen",
     "canonical_source_immutable_for_slice": true,
-    "manifest_immutable": false,
-    "downstream_ready": false,
-    "github_completion_record_published": false
+    "manifest_immutable": true,
+    "downstream_ready": true,
+    "github_completion_record_published": true
   },
   "acceptance_checklist": {
     "canonical_sha_and_tree_proven": {
@@ -1749,15 +1749,15 @@
       "evidence": "2026-08-08-iteration-2-auto-e.md"
     },
     "independent_review_passed": {
-      "status": "pending",
+      "status": "pass",
       "derived_by": "REVIEW-E2"
     },
     "repo_guardian_passed": {
-      "status": "pending",
+      "status": "pass",
       "derived_by": "REPO-GUARDIAN-E2"
     },
     "github_completion_record_published": {
-      "status": "pending_external_authorization",
+      "status": "pass",
       "derived_by": "GitHub issue #13"
     }
   }

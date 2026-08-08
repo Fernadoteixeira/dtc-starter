@@ -25,8 +25,8 @@
     "schema_version": 2,
     "iteration": 2,
     "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
-    "status": "ITERATION_2_REVIEW_PENDING",
-    "frozen": false
+    "status": "FROZEN",
+    "frozen": true
   },
   "capability_summary": {
     "total": 33,

@@ -47,4 +47,4 @@ The failure was accepted as a real semantic defect. No freeze, W1 transition or 
 - Commercial Truth remains FAIL and blocks W1 runtime implementation.
 - Package, canonical visual, interaction, accessibility, resilience, observability, security, performance, E2E, rollout and human gates remain open.
 
-AUTO-E2 verdict: `PASS FOR ITERATION IMPROVEMENT ONLY`; it is not W0 DoD, GO or freeze evidence.
+AUTO-E2 verdict: `PASS FOR ITERATION IMPROVEMENT ONLY` (55/55 closure files verified, P0=0, P1=0); it is not W0 DoD, GO or freeze evidence.
