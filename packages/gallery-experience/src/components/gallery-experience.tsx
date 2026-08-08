@@ -261,6 +261,41 @@ export function GalleryExperience({
     [totalCount, onProgressChange]
   );
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    if (diff > 50) {
+      goToNext();
+    } else if (diff < -50) {
+      goToPrev();
+    }
+    setTouchStart(null);
+  };
+
+  const wheelLockRef = React.useRef(false);
+  const handleWheel = (e: React.WheelEvent) => {
+    if (wheelLockRef.current) return;
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(delta) > 30) {
+      wheelLockRef.current = true;
+      if (delta > 0) {
+        goToNext();
+      } else {
+        goToPrev();
+      }
+      setTimeout(() => {
+        wheelLockRef.current = false;
+      }, 400);
+    }
+  };
+
   useEffect(() => {
     if (activeItem && onItemView) {
       onItemView(activeItem, currentIndex);
@@ -308,7 +343,12 @@ export function GalleryExperience({
         </span>
       </aside>
 
-      <div className="dtc-gallery__viewport">
+      <div
+        className="dtc-gallery__viewport"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onWheel={handleWheel}
+      >
         <div className="dtc-gallery__track">
           {activeItem && (
             <InteractiveArtworkCard
