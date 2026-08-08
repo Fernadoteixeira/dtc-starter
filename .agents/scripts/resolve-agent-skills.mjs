@@ -80,7 +80,7 @@ export function buildLoadBundle({ routePath, nosSkills = [] }) {
   const canonicalRoutePath = canonicalRepoPath(routePath)
   const routeBundle = readJson(canonicalRoutePath, canonicalRoutePath)
   const { resolved } = validateRouteBundle(routeBundle)
-  const invocationId = randomUUID()
+  const invocationId = routeBundle.invocation_id
   const adapter = adapterForRoute(routeBundle)
   const receipts = [
     fileLoadReceipt("PROTOCOL-LOAD-E", invocationId, routeBundle.task_id, { protocol_id: "canonical-execution-protocol" }, PROTOCOL_PATH),

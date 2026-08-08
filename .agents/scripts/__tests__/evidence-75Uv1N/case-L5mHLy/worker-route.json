@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-agent-route",
+  "status": "LOADED",
+  "invocation_id": "f3635302-bba7-4b06-a3fd-5d9998078a91",
+  "task_id": "TEST-PAIRING",
+  "shortcut": "impl",
+  "canonical_agent": "implementation-engineer",
+  "core_skills": [
+    "plan-to-patch",
+    "test-generation",
+    "debugging",
+    "documentation"
+  ],
+  "external_skills": [],
+  "orchestrations": [],
+  "contracts": [],
+  "contract_paths": {},
+  "specialist_agents": [],
+  "nos_domains": [],
+  "mode": null,
+  "writer": false,
+  "receipts": [
+    {
+      "type": "ROUTE-E",
+      "receipt_id": "54881a40-1c57-4542-8354-ac618c403402",
+      "invocation_id": "f3635302-bba7-4b06-a3fd-5d9998078a91",
+      "timestamp": "2026-08-08T16:28:15.706Z",
+      "status": "LOADED",
+      "task_id": "TEST-PAIRING",
+      "shortcut": "impl",
+      "path": ".agents/canonical-agent-shortcuts.yaml",
+      "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+    },
+    {
+      "type": "AGENT-LOAD-E",
+      "receipt_id": "4f62cfd9-c06c-4eb9-887d-0694da98e8a8",
+      "invocation_id": "f3635302-bba7-4b06-a3fd-5d9998078a91",
+      "timestamp": "2026-08-08T16:28:15.706Z",
+      "status": "LOADED",
+      "task_id": "TEST-PAIRING",
+      "agent_id": "implementation-engineer",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/implementation-engineer/agent.json",
+      "sha256": "f4e96ec7d1c8cfb75d6d6ac367ed12f3711656f4d2141bfef6c46fe97c05acf9"
+    }
+  ]
+}
