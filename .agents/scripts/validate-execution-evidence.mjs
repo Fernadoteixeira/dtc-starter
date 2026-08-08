@@ -39,7 +39,7 @@ import {
   writeJsonExclusive
 } from "./canonical-execution-lib.mjs"
 
-const AGENT_RUN_KEYS = [
+const AGENT_RUN_BASE_KEYS = [
   "type", "receipt_id", "invocation_id", "timestamp", "status", "task_id",
   "adapter", "canonical_identity", "route_receipt_ref", "agent_load_receipt_ref",
   "protocol_receipt_ref", "dispatcher_receipt_ref", "adapter_receipt_ref",
@@ -48,7 +48,8 @@ const AGENT_RUN_KEYS = [
   "artifact_refs", "self_critique", "auto_improve_iterations", "validation",
   "stop_condition_satisfied"
 ]
-const REVIEW_KEYS = [
+export const AGENT_RUN_KEYS = AGENT_RUN_BASE_KEYS
+const REVIEW_BASE_KEYS = [
   "type", "receipt_id", "invocation_id", "timestamp", "status", "task_id",
   "adapter", "canonical_identity", "review_target", "route_receipt_ref",
   "agent_load_receipt_ref", "protocol_receipt_ref", "dispatcher_receipt_ref",
@@ -56,6 +57,7 @@ const REVIEW_KEYS = [
   "contract_receipt_refs", "instructions_acknowledged", "reviewed_artifacts",
   "findings", "verdict", "pass_justification"
 ]
+export const REVIEW_KEYS = REVIEW_BASE_KEYS
 
 function assertExactSet(actual, expected, label) {
   assertStringArray(actual, label)
