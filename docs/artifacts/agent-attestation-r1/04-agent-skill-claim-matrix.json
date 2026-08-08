@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-agent-skill-claim-matrix",
+  "task_id": "EXECUTION-ATTESTATION-R1",
+  "mappings": [
+    {
+      "agent_shortcut": "architect:nos",
+      "canonical_agent": "software-architect",
+      "agent_file": ".agents/agents/software-architect/agent.json",
+      "agent_file_sha256": "3cb40224d0811e51b6a382ee91bc7df6504a44f944883d6a2f8c5b967e8fe2ff",
+      "loaded_skills": [
+        { "id": "issue-to-plan", "status": "LOADED", "consumed": true },
+        { "id": "research-synthesis", "status": "LOADED", "consumed": true },
+        { "id": "dependency-audit", "status": "LOADED", "consumed": true },
+        { "id": "structured-output", "status": "LOADED", "consumed": true }
+      ],
+      "claimed_host_session": "940ad311-eca5-4fbe-bc7f-85a324d58a62",
+      "correlated_transcript_step": 161,
+      "correlation_status": "CORRELATED"
+    },
+    {
+      "agent_shortcut": "repo:guard",
+      "canonical_agent": "repo-cartographer",
+      "agent_file": ".agents/agents/repo-cartographer/agent.json",
+      "agent_file_sha256": "4b684cb63cbe665e75529f7cf09a25fe38f121d51a66860d5b4105342a78bf96",
+      "loaded_skills": [
+        { "id": "repo-map", "status": "LOADED", "consumed": true },
+        { "id": "dependency-audit", "status": "LOADED", "consumed": true }
+      ],
+      "claimed_host_session": "dae94c16-fc9f-4ccb-9c66-a4ca940df7a2",
+      "correlated_transcript_step": 277,
+      "correlation_status": "CORRELATED"
+    },
+    {
+      "agent_shortcut": "review:canonical",
+      "canonical_agent": "code-reviewer",
+      "agent_file": ".agents/agents/code-reviewer/agent.json",
+      "agent_file_sha256": "49547d2f9ef02b118b6eecf734440620fb74ee480f2d5cfa32e60da3bf2d3856",
+      "loaded_skills": [
+        { "id": "code-review", "status": "LOADED", "consumed": true },
+        { "id": "static-analysis", "status": "LOADED", "consumed": true },
+        { "id": "dependency-audit", "status": "LOADED", "consumed": true },
+        { "id": "structured-output", "status": "LOADED", "consumed": true }
+      ],
+      "claimed_host_session": "287bee96-2a05-4b69-8f4e-147ec0b289a1",
+      "correlated_transcript_step": 417,
+      "correlation_status": "CORRELATED"
+    }
+  ]
+}

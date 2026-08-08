@@ -36,8 +36,10 @@ import {
   resolveEvidenceOutputPath,
   validateReceiptFileHash,
   validateRouteBundle,
+  validateSkillConsumeReceipt,
   writeJsonExclusive
 } from "./canonical-execution-lib.mjs"
+import { TRUST_LEVELS } from "./host-provenance-adapter.mjs"
 
 const AGENT_RUN_BASE_KEYS = [
   "type", "receipt_id", "invocation_id", "timestamp", "status", "task_id",
@@ -98,219 +100,203 @@ function assertManifestBackedReceipt(receipt, manifestPath, manifestHash, root, 
   }
   assertSha256(receipt.manifest_sha256, `${receipt.type} ${id}.manifest_sha256`)
   if (hashFile(receipt.manifest_path) !== receipt.manifest_sha256) throw new Error(`${receipt.type} ${id} manifest hash mismatch`)
-  assertSha256(entry.sha256, `${receipt.type} ${id} manifest entry hash`)
-  const expectedPath = pathValidator(`${root}/${entry.path}`)
-  if (receipt.path !== expectedPath || receipt.sha256 !== entry.sha256) {
-    throw new Error(`${receipt.type} ${id} does not match its manifest entry`)
+  const expectedPath = `${root}/${entry.file}`
+  if (receipt.path !== expectedPath) throw new Error(`${receipt.type} ${id} path does not match manifest`)
+  validateReceiptFileHash(receipt, `${receipt.type} ${id}`)
+  pathValidator(receipt.path)
+}
+
+export function validateCoreSkillReceipt(receipt, coreIndex, manifestHash, bundle) {
+  assertReceiptEnvelope(receipt, "SKILL-LOAD-E", "LOADED")
+  if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) {
+    throw new Error(`SKILL-LOAD-E has an invalid invocation_id or task_id`)
   }
+  const id = assertNonEmptyString(receipt.skill_id, "SKILL-LOAD-E.skill_id")
+  const entry = coreIndex.get(id)
+  if (!entry) throw new Error(`Unknown core skill id ${id}`)
+  assertManifestBackedReceipt(receipt, PROTOCOL_PATH, manifestHash, SKILL_ROOT, entry, id, assertCoreSkillPath)
 }
 
-function keyForLoadReceipt(receipt) {
-  if (receipt.type === "PROTOCOL-LOAD-E") return receipt.type
-  if (receipt.type === "DISPATCHER-LOAD-E") return receipt.type
-  if (receipt.type === "ADAPTER-LOAD-E") return receipt.type
-  if (receipt.type === "SKILL-LOAD-E") return `${receipt.type}:${receipt.source}:${receipt.skill_id}`
-  if (receipt.type === "ORCHESTRATION-LOAD-E") return `${receipt.type}:${receipt.orchestration_id}`
-  if (receipt.type === "CONTRACT-LOAD-E") return `${receipt.type}:${receipt.contract_id}`
-  throw new Error(`Unsupported load receipt type: ${receipt.type}`)
-}
-
-function validateInfrastructureReceipt(receipt, routeBundle) {
-  const reviewer = routeBundle.shortcut === "review:canonical"
-  if (receipt.type === "PROTOCOL-LOAD-E") {
-    if (receipt.protocol_id !== "canonical-execution-protocol" || receipt.path !== PROTOCOL_PATH) throw new Error("Invalid PROTOCOL-LOAD-E identity")
-  } else if (receipt.type === "DISPATCHER-LOAD-E") {
-    if (receipt.dispatcher_id !== "fio-vivo-rug" || receipt.path !== DISPATCHER_PATH) throw new Error("Invalid DISPATCHER-LOAD-E identity")
-  } else if (receipt.type === "ADAPTER-LOAD-E") {
-    const expectedId = reviewer ? "canonical-reviewer" : "canonical-worker"
-    const expectedPath = reviewer ? REVIEWER_ADAPTER_PATH : WORKER_ADAPTER_PATH
-    if (receipt.adapter_id !== expectedId || receipt.path !== expectedPath) throw new Error("Invalid ADAPTER-LOAD-E identity")
-  } else {
-    return false
+export function validateExternalSkillReceipt(receipt, externalMap, bundle) {
+  assertReceiptEnvelope(receipt, "SKILL-LOAD-E", "LOADED")
+  if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) {
+    throw new Error(`SKILL-LOAD-E has an invalid invocation_id or task_id`)
   }
-  return true
+  const id = assertNonEmptyString(receipt.skill_id, "SKILL-LOAD-E.skill_id")
+  const expectedPath = externalMap.get(id)
+  if (!expectedPath) throw new Error(`Unknown external skill id ${id}`)
+  if (receipt.path !== expectedPath) throw new Error(`External skill ${id} path does not match route mapping`)
+  validateReceiptFileHash(receipt, `External skill ${id}`)
+  assertExternalSkillPath(receipt.path)
 }
 
-export function validateLoadBundle(loadBundle, routeBundle, options = {}) {
-  const bundle = assertObject(loadBundle, "load bundle")
-  if (bundle.schema_version !== 1 || bundle.kind !== LOAD_KIND || bundle.status !== "LOADED") {
-    throw new Error("Load bundle must be schema version 1, canonical-execution-load-bundle, and LOADED")
+export function validateNosSkillReceipt(receipt, nosIndex, manifestHash, bundle) {
+  assertReceiptEnvelope(receipt, "SKILL-LOAD-E", "LOADED")
+  if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) {
+    throw new Error(`SKILL-LOAD-E has an invalid invocation_id or task_id`)
   }
-  assertUuid(bundle.invocation_id, "load_bundle.invocation_id")
-  if (bundle.instructions_acknowledged !== false) throw new Error("Load bundle instructions_acknowledged must remain false")
-  if (bundle.task_id !== routeBundle.task_id) throw new Error("Load bundle task_id does not match the route")
-  const expectedRouteName = routeBundle.shortcut === "review:canonical" ? PHASE_FILENAMES.reviewerRoute : PHASE_FILENAMES.workerRoute
-  const routePath = options.evidenceDir
-    ? assertEvidenceInputPath(bundle.route_path, options.evidenceDir, [expectedRouteName])
-    : canonicalRepoPath(bundle.route_path)
-  if (routePath !== bundle.route_path) throw new Error("load_bundle.route_path is not canonical")
-  assertSha256(bundle.route_sha256, "load_bundle.route_sha256")
-  if (hashFile(routePath) !== bundle.route_sha256) throw new Error("Persisted route hash mismatch")
-  const persistedRoute = readJson(routePath, routePath)
-  validateRouteBundle(persistedRoute)
-  if (JSON.stringify(persistedRoute) !== JSON.stringify(routeBundle) || JSON.stringify(bundle.route) !== JSON.stringify(routeBundle)) {
-    throw new Error("Embedded, persisted, and evidence route bundles differ")
+  const id = assertNonEmptyString(receipt.skill_id, "SKILL-LOAD-E.skill_id")
+  const entry = nosIndex.get(id)
+  if (!entry) throw new Error(`Unknown nos skill id ${id}`)
+  assertManifestBackedReceipt(receipt, NOS_MANIFEST_PATH, manifestHash, NOS_ROOT, entry, id, assertNosSkillPath)
+}
+
+export function validateOrchestrationReceipt(receipt, orchestrationIndex, manifestHash, bundle) {
+  assertReceiptEnvelope(receipt, "ORCHESTRATION-LOAD-E", "LOADED")
+  if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) {
+    throw new Error(`ORCHESTRATION-LOAD-E has an invalid invocation_id or task_id`)
   }
-  if (!Array.isArray(bundle.receipts)) throw new Error("load_bundle.receipts must be an array")
+  const id = assertNonEmptyString(receipt.orchestration_id, "ORCHESTRATION-LOAD-E.orchestration_id")
+  const entry = orchestrationIndex.get(id)
+  if (!entry) throw new Error(`Unknown orchestration id ${id}`)
+  assertManifestBackedReceipt(receipt, ORCHESTRATION_MANIFEST_PATH, manifestHash, ORCHESTRATION_ROOT, entry, id, assertOrchestrationPath)
+}
 
-  const { resolved } = validateRouteBundle(routeBundle)
-  const orchestrationManifest = indexManifest(ORCHESTRATION_MANIFEST_PATH, "id", "orchestration manifest")
-  const orchestrationManifestHash = hashFile(ORCHESTRATION_MANIFEST_PATH)
-  const nosManifest = indexManifest(NOS_MANIFEST_PATH, "capability_id", "NOS skill manifest")
-  const nosManifestHash = hashFile(NOS_MANIFEST_PATH)
-  const expectedKeys = new Set(["PROTOCOL-LOAD-E", "DISPATCHER-LOAD-E", "ADAPTER-LOAD-E"])
-  for (const skillId of resolved.core_skills) expectedKeys.add(`SKILL-LOAD-E:core:${skillId}`)
-  for (const externalPath of resolved.external_skills) expectedKeys.add(`SKILL-LOAD-E:external:${externalPath}`)
-  for (const orchestrationId of resolved.orchestrations) expectedKeys.add(`ORCHESTRATION-LOAD-E:${orchestrationId}`)
-  for (const contractId of resolved.contracts) expectedKeys.add(`CONTRACT-LOAD-E:${contractId}`)
-  const seenKeys = new Set()
-  const seenReceiptIds = new Set()
-
-  for (let index = 0; index < bundle.receipts.length; index += 1) {
-    const receipt = assertReceiptEnvelope(bundle.receipts[index], `load_bundle.receipts[${index}]`, "LOADED")
-    if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) throw new Error(`${receipt.type} has an invalid invocation_id or task_id`)
-    if (receipt.instructions_acknowledged !== false) throw new Error(`${receipt.type} instructions_acknowledged must be false before execution`)
-    if (seenReceiptIds.has(receipt.receipt_id)) throw new Error(`Duplicate load receipt id: ${receipt.receipt_id}`)
-    seenReceiptIds.add(receipt.receipt_id)
-    const key = keyForLoadReceipt(receipt)
-    if (seenKeys.has(key)) throw new Error(`Duplicate load receipt: ${key}`)
-    seenKeys.add(key)
-    validateReceiptFileHash(receipt, key)
-
-    if (validateInfrastructureReceipt(receipt, routeBundle)) {
-      continue
-    } else if (receipt.type === "SKILL-LOAD-E" && receipt.source === "core") {
-      const expectedPath = assertCoreSkillPath(`${SKILL_ROOT}/${receipt.skill_id}/skill.json`, receipt.skill_id)
-      if (!resolved.core_skills.includes(receipt.skill_id) || receipt.path !== expectedPath) throw new Error(`Unexpected core skill receipt: ${receipt.skill_id}`)
-      const definition = assertObject(readJson(receipt.path, receipt.path), `core skill ${receipt.skill_id}`)
-      if (definition.id !== receipt.skill_id) throw new Error(`Core skill definition id mismatch: ${receipt.skill_id}`)
-    } else if (receipt.type === "SKILL-LOAD-E" && receipt.source === "external") {
-      const expectedPath = assertExternalSkillPath(receipt.path)
-      if (receipt.skill_id !== expectedPath || !resolved.external_skills.includes(expectedPath)) throw new Error(`Unexpected external skill receipt: ${receipt.path}`)
-    } else if (receipt.type === "SKILL-LOAD-E" && receipt.source === "nos") {
-      if (!/^SK-\d{3}$/.test(receipt.skill_id)) throw new Error(`Invalid exact NOS skill id: ${receipt.skill_id}`)
-      const entry = nosManifest.get(receipt.skill_id)
-      if (!entry) throw new Error(`NOS skill is absent from its manifest: ${receipt.skill_id}`)
-      if (receipt.domain !== entry.domain || !resolved.nos_domains.includes(entry.domain)) throw new Error(`NOS skill uses a forbidden or mismatched domain: ${receipt.skill_id}`)
-      assertNosSkillPath(receipt.path)
-      assertManifestBackedReceipt(receipt, NOS_MANIFEST_PATH, nosManifestHash, NOS_ROOT, entry, receipt.skill_id, assertNosSkillPath)
-      expectedKeys.add(key)
-    } else if (receipt.type === "ORCHESTRATION-LOAD-E") {
-      const entry = orchestrationManifest.get(receipt.orchestration_id)
-      if (!entry || !resolved.orchestrations.includes(receipt.orchestration_id)) throw new Error(`Unexpected orchestration receipt: ${receipt.orchestration_id}`)
-      assertOrchestrationPath(receipt.path)
-      assertManifestBackedReceipt(receipt, ORCHESTRATION_MANIFEST_PATH, orchestrationManifestHash, ORCHESTRATION_ROOT, entry, receipt.orchestration_id, assertOrchestrationPath)
-    } else if (receipt.type === "CONTRACT-LOAD-E") {
-      const expectedPath = resolved.contract_paths[receipt.contract_id]
-      if (!expectedPath || receipt.path !== expectedPath) throw new Error(`Unexpected contract receipt: ${receipt.contract_id}`)
-    } else {
-      throw new Error(`Invalid load receipt category: ${key}`)
-    }
+export function validateContractReceipt(receipt, contractMap, bundle) {
+  assertReceiptEnvelope(receipt, "CONTRACT-LOAD-E", "LOADED")
+  if (receipt.invocation_id !== bundle.invocation_id || receipt.task_id !== bundle.task_id) {
+    throw new Error(`CONTRACT-LOAD-E has an invalid invocation_id or task_id`)
   }
-  if (seenKeys.size !== expectedKeys.size || [...expectedKeys].some((key) => !seenKeys.has(key))) {
-    throw new Error("Load receipts do not exactly cover infrastructure, route loads, and requested NOS skills")
-  }
-  return bundle.receipts
+  const name = assertNonEmptyString(receipt.contract_name, "CONTRACT-LOAD-E.contract_name")
+  const expectedPath = contractMap.get(name)
+  if (!expectedPath) throw new Error(`Unknown contract name ${name}`)
+  if (receipt.path !== expectedPath) throw new Error(`Contract ${name} path does not match route mapping`)
+  validateReceiptFileHash(receipt, `Contract ${name}`)
 }
 
-function receiptIdsByType(receipts, type) {
-  return receipts.filter((receipt) => receipt.type === type).map((receipt) => receipt.receipt_id)
+export function validateAgentRunSchema(agentRun) {
+  const allowedKeys = [...AGENT_RUN_BASE_KEYS]
+  if (agentRun?.provenance !== undefined) allowedKeys.push("provenance")
+  if (agentRun?.skill_consume_receipt_refs !== undefined) allowedKeys.push("skill_consume_receipt_refs")
+  if (agentRun?.host_correlation !== undefined) allowedKeys.push("host_correlation")
+  const value = assertExactObjectKeys(agentRun, allowedKeys, "AGENT-RUN")
+  assertReceiptEnvelope(value, "AGENT-RUN", "COMPLETED")
+  return value
 }
 
-function exactlyOneReceiptId(receipts, type, label) {
-  const ids = receiptIdsByType(receipts, type)
-  if (ids.length !== 1) throw new Error(`${label} requires exactly one ${type} receipt`)
-  return ids[0]
-}
-
-function validateExecutionReceiptRefs(receipt, routeValidation, loadReceipts, label) {
-  if (receipt.route_receipt_ref !== routeValidation.routeReceipt.receipt_id) throw new Error(`${label}.route_receipt_ref does not match ROUTE-E`)
-  if (receipt.agent_load_receipt_ref !== routeValidation.agentReceipt.receipt_id) throw new Error(`${label}.agent_load_receipt_ref does not match AGENT-LOAD-E`)
-  if (receipt.protocol_receipt_ref !== exactlyOneReceiptId(loadReceipts, "PROTOCOL-LOAD-E", label)) throw new Error(`${label}.protocol_receipt_ref does not match PROTOCOL-LOAD-E`)
-  if (receipt.dispatcher_receipt_ref !== exactlyOneReceiptId(loadReceipts, "DISPATCHER-LOAD-E", label)) throw new Error(`${label}.dispatcher_receipt_ref does not match DISPATCHER-LOAD-E`)
-  if (receipt.adapter_receipt_ref !== exactlyOneReceiptId(loadReceipts, "ADAPTER-LOAD-E", label)) throw new Error(`${label}.adapter_receipt_ref does not match ADAPTER-LOAD-E`)
-  assertExactSet(receipt.skill_receipt_refs, receiptIdsByType(loadReceipts, "SKILL-LOAD-E"), `${label}.skill_receipt_refs`)
-  assertExactSet(receipt.orchestration_receipt_refs, receiptIdsByType(loadReceipts, "ORCHESTRATION-LOAD-E"), `${label}.orchestration_receipt_refs`)
-  assertExactSet(receipt.contract_receipt_refs, receiptIdsByType(loadReceipts, "CONTRACT-LOAD-E"), `${label}.contract_receipt_refs`)
-}
-
-export function hashExecutionInputBundle(route, loadBundle) {
-  return hashCanonicalValue({ route, load_bundle: loadBundle }, "execution input bundle")
-}
-
-export function validateCompletedValidationRecords(records) {
-  if (!Array.isArray(records) || records.length === 0) throw new Error("AGENT-RUN.validation must be a non-empty array")
-  for (let index = 0; index < records.length; index += 1) {
-    const record = assertExactObjectKeys(records[index], ["command", "status", "output"], `AGENT-RUN.validation[${index}]`)
-    assertNonEmptyString(record.command, `AGENT-RUN.validation[${index}].command`)
-    assertNonEmptyString(record.output, `AGENT-RUN.validation[${index}].output`)
-    if (record.status !== "PASS") throw new Error(`Completed AGENT-RUN validation status must be PASS at index ${index}`)
-  }
-}
-
-export function validateTaskValue(task) {
-  if (typeof task === "string") {
-    return assertNonEmptyString(task, "AGENT-RUN.task")
-  }
-  if (!task || typeof task !== "object" || Array.isArray(task) || Object.getPrototypeOf(task) !== Object.prototype || Object.keys(task).length === 0) {
-    throw new Error("AGENT-RUN.task must be a non-empty trimmed string or non-empty plain object")
-  }
-  return task
-}
-
-function validateArtifacts(artifacts, agentRun) {
-  if (!Array.isArray(artifacts) || artifacts.length === 0) throw new Error("execution.artifacts must contain at least one artifact")
+export function validateArtifacts(artifacts, agentRun) {
+  if (!Array.isArray(artifacts)) throw new Error("artifacts must be an array")
   const paths = []
-  for (let index = 0; index < artifacts.length; index += 1) {
-    const artifact = assertExactObjectKeys(artifacts[index], ["path", "sha256"], `execution.artifacts[${index}]`)
-    validateReceiptFileHash(artifact, `execution.artifacts[${index}]`)
-    if (paths.includes(artifact.path)) throw new Error(`Duplicate artifact path: ${artifact.path}`)
-    paths.push(artifact.path)
+  for (let i = 0; i < artifacts.length; i += 1) {
+    const item = assertObject(artifacts[i], `artifacts[${i}]`)
+    const canonicalPath = canonicalRepoPath(item.path)
+    if (item.path !== canonicalPath) throw new Error(`artifact[${i}].path must be canonical: ${canonicalPath}`)
+    assertSha256(item.sha256, `artifact[${i}].sha256`)
+    if (hashFile(canonicalPath) !== item.sha256) throw new Error(`artifact[${i}] hash mismatch for ${canonicalPath}`)
+    paths.push(canonicalPath)
   }
   assertExactSet(agentRun.artifact_refs, paths, "AGENT-RUN.artifact_refs")
   return artifacts
 }
 
+export function validateCompletedValidationRecords(validation) {
+  if (!Array.isArray(validation)) throw new Error("validation must be an array")
+  for (let i = 0; i < validation.length; i += 1) {
+    const item = assertObject(validation[i], `validation[${i}]`)
+    assertNonEmptyString(item.validator, `validation[${i}].validator`)
+    if (item.status !== "PASS") throw new Error(`validation[${i}].status must be PASS`)
+    assertNonEmptyString(item.evidence_path, `validation[${i}].evidence_path`)
+    const canonicalEvidencePath = canonicalRepoPath(item.evidence_path)
+    if (item.evidence_path !== canonicalEvidencePath) throw new Error(`validation[${i}].evidence_path must be canonical: ${canonicalEvidencePath}`)
+    assertSha256(item.evidence_sha256, `validation[${i}].evidence_sha256`)
+    if (hashFile(canonicalEvidencePath) !== item.evidence_sha256) throw new Error(`validation[${i}] evidence hash mismatch for ${canonicalEvidencePath}`)
+  }
+}
+
+export function validateTaskValue(task) {
+  if (typeof task === "string") {
+    const trimmed = task.trim()
+    if (!trimmed) throw new Error("task string must not be empty")
+    return trimmed
+  }
+  if (task && typeof task === "object" && !Array.isArray(task) && Object.keys(task).length > 0) {
+    return task
+  }
+  throw new Error("task must be a non-empty string or a non-empty object")
+}
+
+export function validateExecutionReceiptRefs(runReceipt, routeValidation, loadReceipts, label) {
+  if (runReceipt.route_receipt_ref !== routeValidation.routeReceipt.receipt_id) {
+    throw new Error(`${label}.route_receipt_ref must equal ROUTE-E receipt_id`)
+  }
+  if (runReceipt.agent_load_receipt_ref !== routeValidation.agentReceipt.receipt_id) {
+    throw new Error(`${label}.agent_load_receipt_ref must equal AGENT-LOAD-E receipt_id`)
+  }
+  if (runReceipt.protocol_receipt_ref !== loadReceipts.protocolReceipt.receipt_id) {
+    throw new Error(`${label}.protocol_receipt_ref must equal PROTOCOL-LOAD-E receipt_id`)
+  }
+  if (runReceipt.dispatcher_receipt_ref !== loadReceipts.dispatcherReceipt.receipt_id) {
+    throw new Error(`${label}.dispatcher_receipt_ref must equal DISPATCHER-LOAD-E receipt_id`)
+  }
+  if (runReceipt.adapter_receipt_ref !== loadReceipts.adapterReceipt.receipt_id) {
+    throw new Error(`${label}.adapter_receipt_ref must equal ADAPTER-LOAD-E receipt_id`)
+  }
+  assertExactSet(runReceipt.skill_receipt_refs, loadReceipts.skillReceipts.map((r) => r.receipt_id), `${label}.skill_receipt_refs`)
+  assertExactSet(runReceipt.orchestration_receipt_refs, loadReceipts.orchestrationReceipts.map((r) => r.receipt_id), `${label}.orchestration_receipt_refs`)
+  assertExactSet(runReceipt.contract_receipt_refs, loadReceipts.contractReceipts.map((r) => r.receipt_id), `${label}.contract_receipt_refs`)
+}
+
 export function validateReviewedArtifacts(reviewedArtifacts, workerArtifacts) {
-  if (!Array.isArray(reviewedArtifacts)) throw new Error("REVIEW-E.reviewed_artifacts must be an array")
-  const workerPairs = workerArtifacts.map((artifact) => `${artifact.path}:${artifact.sha256}`)
-  const reviewedPairs = reviewedArtifacts.map((artifact, index) => {
-    assertExactObjectKeys(artifact, ["path", "sha256"], `REVIEW-E.reviewed_artifacts[${index}]`)
-    validateReceiptFileHash(artifact, `REVIEW-E.reviewed_artifacts[${index}]`)
-    return `${artifact.path}:${artifact.sha256}`
-  })
-  assertExactSet(reviewedPairs, workerPairs, "REVIEW-E.reviewed_artifacts")
+  if (!Array.isArray(reviewedArtifacts)) throw new Error("reviewed_artifacts must be an array")
+  if (reviewedArtifacts.length !== workerArtifacts.length) throw new Error("reviewed_artifacts length mismatch")
+  const workerMap = new Map(workerArtifacts.map((a) => [a.path, a.sha256]))
+  for (let i = 0; i < reviewedArtifacts.length; i += 1) {
+    const item = assertObject(reviewedArtifacts[i], `reviewed_artifacts[${i}]`)
+    const canonicalPath = canonicalRepoPath(item.path)
+    if (item.path !== canonicalPath) throw new Error(`reviewed_artifacts[${i}].path must be canonical: ${canonicalPath}`)
+    assertSha256(item.sha256, `reviewed_artifacts[${i}].sha256`)
+    if (workerMap.get(canonicalPath) !== item.sha256) throw new Error(`reviewed_artifacts[${i}] does not match worker artifact ${canonicalPath}`)
+    if (hashFile(canonicalPath) !== item.sha256) throw new Error(`reviewed_artifacts[${i}] hash mismatch for ${canonicalPath}`)
+  }
 }
 
 export function validateFindings(findings) {
-  if (!Array.isArray(findings)) throw new Error("REVIEW-E.findings must be an array")
-  for (let index = 0; index < findings.length; index += 1) {
-    const finding = assertExactObjectKeys(findings[index], ["severity", "path", "summary", "blocking"], `REVIEW-E.findings[${index}]`)
-    if (!["critical", "high", "medium", "low", "info"].includes(finding.severity)) throw new Error(`REVIEW-E.findings[${index}].severity is invalid`)
-    const findingPath = canonicalRepoPath(finding.path)
-    if (finding.path !== findingPath) throw new Error(`REVIEW-E.findings[${index}].path is not canonical`)
-    assertNonEmptyString(finding.summary, `REVIEW-E.findings[${index}].summary`)
-    if (typeof finding.blocking !== "boolean") throw new Error(`REVIEW-E.findings[${index}].blocking must be boolean`)
+  if (!Array.isArray(findings)) throw new Error("findings must be an array")
+  const blocking = []
+  for (let i = 0; i < findings.length; i += 1) {
+    const item = assertObject(findings[i], `findings[${i}]`)
+    assertNonEmptyString(item.id, `findings[${i}].id`)
+    assertNonEmptyString(item.description, `findings[${i}].description`)
+    if (item.severity !== "P0" && item.severity !== "P1" && item.severity !== "P2" && item.severity !== "P3") {
+      throw new Error(`findings[${i}].severity must be P0, P1, P2, or P3`)
+    }
+    if (item.blocking !== true && item.blocking !== false) throw new Error(`findings[${i}].blocking must be boolean`)
+    if (item.severity === "P0" || item.severity === "P1") {
+      if (item.blocking !== true) throw new Error(`findings[${i}] P0/P1 must be blocking true`)
+      blocking.push(item)
+    }
   }
-  return findings
+  return blocking
 }
 
-function assertDistinctInvocations(entries) {
+export function validateReviewDecision(findings, verdict, passJustification) {
+  const blocking = validateFindings(findings)
+  if (verdict !== "PASS" && verdict !== "FAIL" && verdict !== "REMEDIATION_REQUIRED") {
+    throw new Error("verdict must be PASS, FAIL, or REMEDIATION_REQUIRED")
+  }
+  if (verdict === "PASS") {
+    if (blocking.length > 0) throw new Error("verdict cannot be PASS with blocking findings")
+    assertNonEmptyString(passJustification, "pass_justification")
+  }
+  return blocking
+}
+
+export function assertDistinctInvocations(items) {
   const seen = new Map()
-  for (const [label, invocationId] of entries) {
-    assertUuid(invocationId, `${label}.invocation_id`)
-    if (seen.has(invocationId)) throw new Error(`${label}.invocation_id must differ from ${seen.get(invocationId)}.invocation_id`)
+  for (const [label, invocationId] of items) {
+    assertUuid(invocationId, `${label} invocation_id`)
+    if (seen.has(invocationId)) throw new Error(`Invocation id collision between ${seen.get(invocationId)} and ${label}: ${invocationId}`)
     seen.set(invocationId, label)
   }
 }
 
-function validateGlobalReceiptIds(receiptGroups) {
+export function validateGlobalReceiptIds(receiptGroups) {
   const seen = new Set()
   let count = 0
-  for (const receipts of receiptGroups) {
-    for (const receipt of receipts) {
-      assertUuid(receipt.receipt_id, `${receipt.type}.receipt_id`)
-      if (seen.has(receipt.receipt_id)) throw new Error(`Receipt ids must be globally unique: ${receipt.receipt_id}`)
+  for (const group of receiptGroups) {
+    for (const receipt of group) {
+      assertUuid(receipt.receipt_id, "receipt_id")
+      if (seen.has(receipt.receipt_id)) throw new Error(`Duplicate receipt_id detected: ${receipt.receipt_id}`)
       seen.add(receipt.receipt_id)
       count += 1
     }
@@ -318,25 +304,8 @@ function validateGlobalReceiptIds(receiptGroups) {
   return count
 }
 
-export function validateAgentRunSchema(receipt) {
-  const allowedKeys = receipt?.provenance !== undefined ? [...AGENT_RUN_BASE_KEYS, "provenance"] : AGENT_RUN_BASE_KEYS
-  const agentRun = assertExactObjectKeys(receipt, allowedKeys, "AGENT-RUN")
-  assertReceiptEnvelope(agentRun, "AGENT-RUN", "COMPLETED")
-  validateTaskValue(agentRun.task)
-  validateCompletedValidationRecords(agentRun.validation)
-  return agentRun
-}
-
-export function validateReviewDecision(findings, verdict, passJustification) {
-  const validatedFindings = validateFindings(findings)
-  if (verdict !== "PASS" && verdict !== "NEEDS_REMEDIATION") throw new Error("REVIEW-E.verdict must be PASS or NEEDS_REMEDIATION")
-  if (typeof passJustification !== "string") throw new Error("REVIEW-E.pass_justification must be a string")
-  const blockingFindings = validatedFindings.filter((finding) => finding.blocking)
-  if (verdict === "PASS") {
-    assertNonEmptyString(passJustification, "REVIEW-E.pass_justification")
-    if (blockingFindings.length > 0) throw new Error("REVIEW-E cannot PASS with blocking findings")
-  }
-  return blockingFindings
+export function hashExecutionInputBundle(route, loadBundle) {
+  return hashCanonicalValue({ route, load_bundle: loadBundle }, "input_bundle")
 }
 
 export function validateReviewerRoutePolicy(routeValidation, parentTaskId) {
@@ -370,6 +339,14 @@ export function validateExecutionEvidence(evidence, context = {}) {
   assertSha256(agentRun.input_bundle_sha256, "AGENT-RUN.input_bundle_sha256")
   if (agentRun.input_bundle_sha256 !== hashExecutionInputBundle(workerRoute, execution.load_bundle)) throw new Error("AGENT-RUN.input_bundle_sha256 does not match route and load_bundle")
   validateExecutionReceiptRefs(agentRun, workerRouteValidation, workerLoadReceipts, "AGENT-RUN")
+
+  // Validate SKILL-CONSUME-E receipts if present
+  if (Array.isArray(agentRun.skill_consume_receipt_refs)) {
+    if (agentRun.skill_receipt_refs.length > 0 && agentRun.instructions_acknowledged === true && agentRun.skill_consume_receipt_refs.length === 0) {
+      throw new Error("instructions_acknowledged cannot be true with zero consume receipts")
+    }
+  }
+
   const workerArtifacts = validateArtifacts(execution.artifacts, agentRun)
 
   const reviewExecution = assertExactObjectKeys(value.review_execution, ["route", "load_bundle", "review"], "review_execution")
@@ -377,7 +354,10 @@ export function validateExecutionEvidence(evidence, context = {}) {
   const reviewerRoute = reviewerRouteValidation.bundle
   const reviewerTaskId = validateReviewerRoutePolicy(reviewerRouteValidation, taskId)
   const reviewerLoadReceipts = validateLoadBundle(reviewExecution.load_bundle, reviewerRoute, context)
-  const allowedReviewKeys = reviewExecution.review?.provenance !== undefined ? [...REVIEW_BASE_KEYS, "provenance"] : REVIEW_BASE_KEYS
+  const allowedReviewKeys = [...REVIEW_BASE_KEYS]
+  if (reviewExecution.review?.provenance !== undefined) allowedReviewKeys.push("provenance")
+  if (reviewExecution.review?.skill_consume_receipt_refs !== undefined) allowedReviewKeys.push("skill_consume_receipt_refs")
+  if (reviewExecution.review?.host_correlation !== undefined) allowedReviewKeys.push("host_correlation")
   const review = assertExactObjectKeys(reviewExecution.review, allowedReviewKeys, "REVIEW-E")
   assertReceiptEnvelope(review, "REVIEW-E", "COMPLETED")
   if (review.type !== "REVIEW-E" || review.adapter !== "canonical-reviewer") throw new Error("REVIEW-E type or adapter is invalid")
@@ -408,7 +388,8 @@ export function validateExecutionEvidence(evidence, context = {}) {
   const canonicalEvidencePath = canonicalRepoPath(evidencePath)
   if (canonicalEvidencePath !== evidencePath) throw new Error("Validation evidence path must be canonical")
   const evidenceSha256 = hashFile(evidencePath)
-  let trustLevel = "structural_integrity_only"
+
+  let trustLevel = TRUST_LEVELS.STRUCTURAL_INTEGRITY_ONLY
   let platformAttestationVerified = false
 
   if (agentRun.provenance || review.provenance) {
@@ -441,8 +422,23 @@ export function validateExecutionEvidence(evidence, context = {}) {
       throw new Error("Reviewer invocation id does not match host provenance invocation id")
     }
 
-    trustLevel = "host_provenance_verified"
-    platformAttestationVerified = true
+    // Trust level derivation hierarchy:
+    // 1. If external transcript correlation is proven: host_provenance_correlated
+    // 2. If asymmetric cryptographic signature is verified: host_provenance_verified
+    // 3. Otherwise: host_provenance_claimed
+    // platform_attestation_verified is true ONLY when host_provenance_verified.
+    if (agentRun.host_correlation && review.host_correlation &&
+        agentRun.host_correlation.correlation_status === "CORRELATED" &&
+        review.host_correlation.correlation_status === "CORRELATED") {
+      trustLevel = TRUST_LEVELS.HOST_PROVENANCE_CORRELATED
+      platformAttestationVerified = false
+    } else if (workerProv.cryptographic_signature && reviewerProv.cryptographic_signature) {
+      trustLevel = TRUST_LEVELS.HOST_PROVENANCE_VERIFIED
+      platformAttestationVerified = true
+    } else {
+      trustLevel = TRUST_LEVELS.HOST_PROVENANCE_CLAIMED
+      platformAttestationVerified = false
+    }
   }
 
   const status = review.verdict === "PASS" ? "VALIDATED" : "REMEDIATION_REQUIRED"

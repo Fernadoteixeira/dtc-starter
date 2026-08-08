@@ -560,6 +560,45 @@ export function validateReceiptFileHash(receipt, label) {
   return value
 }
 
+export function validateSkillConsumeReceipt(receipt, label = "SKILL-CONSUME-E") {
+  const value = assertObject(receipt, label)
+  if (value.type !== "SKILL-CONSUME-E") throw new Error(`${label}.type must be SKILL-CONSUME-E`)
+  assertUuid(value.receipt_id, `${label}.receipt_id`)
+  assertNonEmptyString(value.task_id, `${label}.task_id`)
+  assertUuid(value.agent_run_ref, `${label}.agent_run_ref`)
+  assertUuid(value.skill_load_receipt_ref, `${label}.skill_load_receipt_ref`)
+  assertNonEmptyString(value.skill_id, `${label}.skill_id`)
+  assertNonEmptyString(value.skill_path, `${label}.skill_path`)
+  assertSha256(value.skill_sha256, `${label}.skill_sha256`)
+  if (value.status !== "CONSUMED") throw new Error(`${label}.status must be CONSUMED`)
+  if (!Array.isArray(value.consumption_evidence) || value.consumption_evidence.length === 0) {
+    throw new Error(`${label}.consumption_evidence must be a non-empty array`)
+  }
+  for (let i = 0; i < value.consumption_evidence.length; i += 1) {
+    const item = assertObject(value.consumption_evidence[i], `${label}.consumption_evidence[${i}]`)
+    assertNonEmptyString(item.action, `${label}.consumption_evidence[${i}].action`)
+    assertNonEmptyString(item.artifact_path, `${label}.consumption_evidence[${i}].artifact_path`)
+    assertSha256(item.artifact_sha256, `${label}.consumption_evidence[${i}].artifact_sha256`)
+    assertNonEmptyString(item.rule_or_capability_applied, `${label}.consumption_evidence[${i}].rule_or_capability_applied`)
+    assertNonEmptyString(item.evidence, `${label}.consumption_evidence[${i}].evidence`)
+    const canonicalArt = canonicalRepoPath(item.artifact_path)
+    if (hashFile(canonicalArt) !== item.artifact_sha256) {
+      throw new Error(`${label} artifact hash mismatch for ${item.artifact_path}`)
+    }
+  }
+  return value
+}
+
+export function validateHostCorrelationReceipt(receipt, label = "HOST-EXECUTION-CORRELATION-E") {
+  const value = assertObject(receipt, label)
+  if (value.type !== "HOST-EXECUTION-CORRELATION-E") throw new Error(`${label}.type must be HOST-EXECUTION-CORRELATION-E`)
+  assertUuid(value.receipt_id, `${label}.receipt_id`)
+  assertNonEmptyString(value.task_id, `${label}.task_id`)
+  assertUuid(value.host_session_id, `${label}.host_session_id`)
+  assertUuid(value.invocation_id, `${label}.invocation_id`)
+  return value
+}
+
 export function failCli(error) {
   const message = error instanceof Error ? error.message : String(error)
   process.stderr.write(`ERROR: ${message}\n`)

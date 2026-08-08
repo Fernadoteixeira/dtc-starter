@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-host-authority-matrix",
+  "task_id": "EXECUTION-ATTESTATION-R1",
+  "timestamp": "2026-08-08T16:23:00.000Z",
+  "surfaces": [
+    {
+      "source": "host_transcript_log",
+      "physical_location": "<appDataDir>/brain/<conversation-id>/.system_generated/logs/transcript.jsonl",
+      "classification": "HOST_EXTERNAL_IMMUTABLE",
+      "readable_by_repo": true,
+      "writable_by_repo": false,
+      "host_issued": true,
+      "cryptographically_verifiable": false,
+      "append_only": true,
+      "correlates_agent_invocation": true,
+      "selected": true,
+      "reason": "Transcript log is written exclusively by the host process outside the workspace repository and records all invoke_subagent tool calls."
+    },
+    {
+      "source": "environment_variables",
+      "physical_location": "process.env (ANTIGRAVITY_CONVERSATION_ID, ANTIGRAVITY_TRAJECTORY_ID)",
+      "classification": "PROCESS_LOCAL",
+      "readable_by_repo": true,
+      "writable_by_repo": false,
+      "host_issued": true,
+      "cryptographically_verifiable": false,
+      "append_only": false,
+      "correlates_agent_invocation": true,
+      "selected": true,
+      "reason": "Supplies process-level session identifiers injected by the host runtime."
+    },
+    {
+      "source": "repository_evidence_directory",
+      "physical_location": "docs/artifacts/agent-attestation-r1/",
+      "classification": "REPOSITORY_WRITABLE",
+      "readable_by_repo": true,
+      "writable_by_repo": true,
+      "host_issued": false,
+      "cryptographically_verifiable": false,
+      "append_only": false,
+      "correlates_agent_invocation": false,
+      "selected": false,
+      "reason": "Repository-writable receipts cannot serve as their own external authority."
+    },
+    {
+      "source": "external_pki_signature_service",
+      "physical_location": "N/A",
+      "classification": "UNKNOWN / NOT_IMPLEMENTED",
+      "readable_by_repo": false,
+      "writable_by_repo": false,
+      "host_issued": false,
+      "cryptographically_verifiable": true,
+      "append_only": false,
+      "correlates_agent_invocation": false,
+      "selected": false,
+      "reason": "No asymmetric signing daemon or HMAC verification endpoint is currently provisioned."
+    }
+  ]
+}

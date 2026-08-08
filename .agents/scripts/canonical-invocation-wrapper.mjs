@@ -16,6 +16,7 @@ import {
   resolveEvidenceOutputPath,
   validateReceiptFileHash,
   validateRouteBundle,
+  validateSkillConsumeReceipt,
   writeJsonExclusive
 } from "./canonical-execution-lib.mjs"
 import {
@@ -39,7 +40,8 @@ export function emitWorkerAgentRun({
   artifactPaths = [],
   selfCritique,
   validationRecords = [],
-  stopConditionSatisfied = true
+  stopConditionSatisfied = true,
+  skillConsumeReceipts = []
 }) {
   const loadValidation = validateExecutionLoads({ routePath, loadBundlePath, evidenceDir })
   if (loadValidation.status !== "VALIDATED") {
@@ -78,6 +80,20 @@ export function emitWorkerAgentRun({
   const orchestrationReceipts = loadBundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E").map((r) => r.receipt_id)
   const contractReceipts = loadBundle.receipts.filter((r) => r.type === "CONTRACT-LOAD-E").map((r) => r.receipt_id)
 
+  const skillLoadSet = new Set(skillReceipts)
+  const validatedSkillConsumes = []
+  if (Array.isArray(skillConsumeReceipts) && skillConsumeReceipts.length > 0) {
+    for (const consume of skillConsumeReceipts) {
+      validateSkillConsumeReceipt(consume)
+      if (!skillLoadSet.has(consume.skill_load_receipt_ref)) {
+        throw new Error(`SKILL-CONSUME-E references skill load that was not in load bundle: ${consume.skill_load_receipt_ref}`)
+      }
+      validatedSkillConsumes.push(consume)
+    }
+  }
+
+  const instructionsAcknowledged = validatedSkillConsumes.length > 0
+
   const agentRun = {
     type: "AGENT-RUN",
     receipt_id: randomUUID(),
@@ -93,9 +109,10 @@ export function emitWorkerAgentRun({
     dispatcher_receipt_ref: dispatcherReceipt.receipt_id,
     adapter_receipt_ref: adapterReceipt.receipt_id,
     skill_receipt_refs: skillReceipts,
+    skill_consume_receipt_refs: validatedSkillConsumes.map((r) => r.receipt_id),
     orchestration_receipt_refs: orchestrationReceipts,
     contract_receipt_refs: contractReceipts,
-    instructions_acknowledged: true,
+    instructions_acknowledged: instructionsAcknowledged,
     task: validatedTask,
     task_sha256: hashCanonicalValue(validatedTask, "AGENT-RUN.task"),
     input_bundle_sha256: hashExecutionInputBundle(route, loadBundle),
@@ -107,7 +124,7 @@ export function emitWorkerAgentRun({
     provenance
   }
 
-  return { agentRun, artifacts: validatedArtifacts, provenance }
+  return { agentRun, artifacts: validatedArtifacts, provenance, skillConsumeReceipts: validatedSkillConsumes }
 }
 
 export function emitReviewerReview({
@@ -120,7 +137,8 @@ export function emitReviewerReview({
   workerArtifacts,
   findings = [],
   verdict = "PASS",
-  passJustification
+  passJustification,
+  skillConsumeReceipts = []
 }) {
   const loadValidation = validateExecutionLoads({ routePath, loadBundlePath, evidenceDir })
   if (loadValidation.status !== "VALIDATED") {
@@ -155,6 +173,20 @@ export function emitReviewerReview({
   const orchestrationReceipts = loadBundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E").map((r) => r.receipt_id)
   const contractReceipts = loadBundle.receipts.filter((r) => r.type === "CONTRACT-LOAD-E").map((r) => r.receipt_id)
 
+  const skillLoadSet = new Set(skillReceipts)
+  const validatedSkillConsumes = []
+  if (Array.isArray(skillConsumeReceipts) && skillConsumeReceipts.length > 0) {
+    for (const consume of skillConsumeReceipts) {
+      validateSkillConsumeReceipt(consume)
+      if (!skillLoadSet.has(consume.skill_load_receipt_ref)) {
+        throw new Error(`SKILL-CONSUME-E references skill load that was not in load bundle: ${consume.skill_load_receipt_ref}`)
+      }
+      validatedSkillConsumes.push(consume)
+    }
+  }
+
+  const instructionsAcknowledged = validatedSkillConsumes.length > 0
+
   const review = {
     type: "REVIEW-E",
     receipt_id: randomUUID(),
@@ -171,9 +203,10 @@ export function emitReviewerReview({
     dispatcher_receipt_ref: dispatcherReceipt.receipt_id,
     adapter_receipt_ref: adapterReceipt.receipt_id,
     skill_receipt_refs: skillReceipts,
+    skill_consume_receipt_refs: validatedSkillConsumes.map((r) => r.receipt_id),
     orchestration_receipt_refs: orchestrationReceipts,
     contract_receipt_refs: contractReceipts,
-    instructions_acknowledged: true,
+    instructions_acknowledged: instructionsAcknowledged,
     reviewed_artifacts: workerArtifacts,
     findings,
     verdict,
@@ -181,5 +214,5 @@ export function emitReviewerReview({
     provenance
   }
 
-  return { review, provenance }
+  return { review, provenance, skillConsumeReceipts: validatedSkillConsumes }
 }
