@@ -1,5 +1,7 @@
 # 09 — Medusa Adaptation Register (NOS-001)
 
+> **SUPERSEDED_ADAPTATION_DESIGN:** target paths, owners and dependency decisions below predate Iteration 1. Use `dependency_adaptations`, `target_legacy_dispositions`, `target_host_dispositions` and `legacy_replacement_order` in the current manifest.
+
 **Issue:** #13 (NOS-001)
 **Protocol:** Canonical Autonomous Execution v4.0
 

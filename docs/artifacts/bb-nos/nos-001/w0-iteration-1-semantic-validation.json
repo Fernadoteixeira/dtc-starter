@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "nos-gallery-manifest-semantic-validation-receipt",
+  "generated_at": "2026-08-08T23:05:34.762Z",
+  "command": "node .agents/scripts/validate-nos-gallery-manifest.mjs",
+  "test_command": "node --test .agents/scripts/__tests__/validate-nos-gallery-manifest.test.mjs",
+  "pass": true,
+  "p0_count": 0,
+  "p1_count": 0,
+  "tests": {
+    "passed": 9,
+    "failed": 0,
+    "negative_cases": [
+      "ghost source outside pinned closure",
+      "disposition count mismatch",
+      "duplicate capability id",
+      "unowned defer",
+      "dependency edge drift",
+      "missing closure hash",
+      "invented issue owner",
+      "P1 missing intentional deviation"
+    ]
+  },
+  "computed": {
+    "capabilities_total": 33,
+    "capabilities_by_disposition": {
+      "PORT": 2,
+      "ADAPT": 26,
+      "KEEP_DTC": 0,
+      "DEFER": 2,
+      "REJECT_WITH_REASON": 3
+    },
+    "closure_total": 55,
+    "closure_hashed": 55,
+    "closure_classified": 55,
+    "canonical_head": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "canonical_origin_main": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "canonical_remote_main": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "canonical_tree": "ab05069f81f3763a108b55e1e49ff3845cc15267",
+    "target_head": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "target_origin_main": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "target_remote_main": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "target_branch": "main",
+    "pdp_sha256": "2a03a9d4854ca7277e6ae77102ed217bba93cc6bc8df7bd4b1d6a79a5c6e5dbf"
+  },
+  "evidence_boundary": "This receipt proves W0 semantic manifest integrity and runtime write-set confinement. It does not prove implementation, commercial truth, visual parity or release readiness."
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "nos-001-supersession-index",
+  "updated_at": "2026-08-08T23:14:00.000Z",
+  "current_contract": ".agents/contracts/nos-gallery-transplant-manifest.yaml",
+  "current_semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
+  "current_manifest_frozen": false,
+  "current_dod_pass": false,
+  "entries": [
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t21/13-cross-agent-review.md",
+      "status": "SUPERSEDED",
+      "reason": "Reviewed the invalid historical source-target manifest",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t21/13-review-evidence.json",
+      "status": "SUPERSEDED",
+      "reason": "PASS evidence is bound to the invalid historical manifest",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t21/13-reviewed-manifest.json",
+      "status": "SUPERSEDED",
+      "reason": "Reviewed-artifact set contains the invalid historical manifest",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t22/13-dod-evaluation.md",
+      "status": "SUPERSEDED",
+      "reason": "DoD used invalid T21 inputs",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t22/13-dod-evidence.json",
+      "status": "SUPERSEDED",
+      "reason": "DoD evidence used invalid T21 inputs",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t22-r1/13-dod-derived-evaluation.md",
+      "status": "SUPERSEDED",
+      "reason": "Derivation used existence checks and hardcoded PASS/zero-risk values",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t22-r1/13-dod-derived-evidence.json",
+      "status": "SUPERSEDED",
+      "reason": "Derivation used existence checks and hardcoded PASS/zero-risk values",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t23/13-canonical-360-completion-record.md",
+      "status": "SUPERSEDED",
+      "reason": "Premature completion depended on invalid T21/T22 inputs",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t23/13-canonical-360-completion-record.json",
+      "status": "SUPERSEDED",
+      "reason": "Premature completion depended on invalid T21/T22 inputs",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t23-r1/13-canonical-360-completion-record-r1.md",
+      "status": "SUPERSEDED",
+      "reason": "Premature completion depended on invalid T21/T22-R1 inputs",
+      "must_not_be_used_for_current_gate": true
+    },
+    {
+      "path": "docs/artifacts/bb-nos/nos-001/t23-r1/13-canonical-360-completion-record-r1.json",
+      "status": "SUPERSEDED",
+      "reason": "Premature completion depended on invalid T21/T22-R1 inputs",
+      "must_not_be_used_for_current_gate": true
+    }
+  ],
+  "supersession_evidence": "docs/artifacts/bb-nos/nos-001/2026-08-08-w0-supersession.md"
+}

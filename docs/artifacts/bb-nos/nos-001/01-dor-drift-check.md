@@ -1,5 +1,7 @@
 # NOS-001 — 01 DoR Drift Check
 
+> **HISTORICAL_DOR_SNAPSHOT:** this PASS belongs to the earlier `34306f1` snapshot. Current target baseline and drift evidence are `main@38246f64...` in `../2026-08-08-w0-base-e.md` and `../2026-08-08-external-git-drift.md`. This file is not a current DoD, GO or freeze input.
+
 - **Date:** 2026-08-08
 - **Agent:** RUG orchestrator (direct execution, subagents unavailable)
 - **DoR publication:** [issue #13 comment 5223283282](https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-5223283282)

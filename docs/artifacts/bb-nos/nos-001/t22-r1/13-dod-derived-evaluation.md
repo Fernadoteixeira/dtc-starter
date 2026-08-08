@@ -1,5 +1,7 @@
 # Issue #13 T22-R1 — Derived Definition of Done (DoD) & GO/NO-GO
 
+> **SUPERSEDED_INVALID_DERIVATION:** the former script used existence checks and hardcoded PASS/zero-risk values. This document is historical only and cannot be a current gate input.
+
 **Issue ID:** `#13 — NOS Gallery Canonical Inventory, Manifest & Behavioral Contract Matrix`  
 **Derivation Script:** `.agents/scripts/derive-issue-13-dod.mjs`  
 **Derivation Mode:** `derived_from_inspectable_evidence` (Zero hardcoded booleans)  

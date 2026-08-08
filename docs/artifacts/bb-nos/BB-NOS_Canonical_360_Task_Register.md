@@ -1,251 +1,251 @@
-# BB-NOS Canonical 360° Task Register v6
+# BB-NOS Canonical 360° Task Register v8
 
-**Version:** 6  
-**Status:** canonical / execution blocked  
-**Promoted:** 2026-08-07  
+Updated: `2026-08-08T20:25:00.000-03:00`  
 Repository: `Fernadoteixeira/dtc-starter`  
-Parent EPIC: #12  
-Canonical upstream: `Fernadoteixeira/nos-gallery@2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e`  
-Tracking reconciliation branch: `chore/bb-nos-360-tracking-reconciliation`
+Target baseline: `main@38246f64e82b37670edf84d386b55b866fb425bf` (external W0 commit observed and reconciled)  
+Canonical source: `Fernadoteixeira/nos-gallery@2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e`  
+Parent EPIC: `#12`  
+Current verdict: `BB-NOS NO-GO / REMEDIATION REQUIRED`
 
-## Executive state
+## Operating rules
 
-```text
-BB-NOS / CONTROL PLANE               VALIDATED
-TRACKING #13–#32                     RECONCILED
-EXECUTION FABRIC DESIGN              FROZEN
-EXECUTION FABRIC IMPLEMENTATION      MATERIALIZED / HOST PROOF PENDING
-STATIC AUDIT                         PASS
-HOST RUNTIME                         BLOCKED
-BB-NOS                               NO-GO / NOT RELEASE READY
-CANONICAL REFERENCE                  VALIDATED
-#13 DoR                              PASS → GO_FOR_ANALYSIS
-#13 DoD                              BLOCKED BY EXECUTION-FABRIC-001
-#13 MANIFEST                         REMEDIATION REVIEW / FREEZE FORBIDDEN
-RUNTIME TRANSPLANT                   INCOMPLETE
-COMMERCE HARDENING                   PENDING
-RUNTIME RESILIENCE                   TRACKED AS #29
-FUNCTIONAL E2E/CROSS-BROWSER         TRACKED AS #30
-OBSERVABILITY                        TRACKED AS #31
-SECURITY/PRIVACY                     TRACKED AS #32
-ROLLOUT                              PENDING #27
-HUMAN RELEASE                        PENDING #28
-```
+- The pinned canonical Git tree is the implementation source of truth.
+- If an equivalent exists in the pinned source, the only valid actions are `PORT` or `ADAPT`; do not create a replacement primitive.
+- DoR PASS does not imply DoD PASS, and GO is never inherited.
+- `44/44` unit tests and `95/95` Playwright tests are historical evidence for the parallel implementation, not canonical parity evidence.
+- Commercial data fails closed. Fixtures are server-only, explicit, non-production and non-commercial.
+- Product approval, stage, commit, push, PR, merge and release are distinct grants. Stage, commit, push, PR, merge and release remain forbidden.
+- A workstream becomes GO only when its six tasks, required negative tests, evidence, AUTO-E and REVIEW-E are complete.
 
-## Governance rules
+## Current gate board
 
-- Current child issue `Depends on:` fields are hard-scheduling SSOT.
-- No issue inherits GO from a predecessor.
-- DoR PASS does not imply DoD PASS.
-- Agent available does not mean agent executed.
-- Skill present does not mean skill consumed.
-- Contracts/manifests are `CONTRACT-E/GOV-E`, never `SKILL-E`.
-- Every critical issue requires evidence-backed self-critique, `AUTO-E`, independent `REVIEW-E`, DoD and qualified GO/NO-GO.
-- Product approval, Git authorization, PR authorization, merge authorization and release authorization are distinct.
-- Human visual approval is terminal and cannot be inferred by automation.
+| Gate                             | Current state            | Blocking evidence                                                                      |
+| -------------------------------- | ------------------------ | -------------------------------------------------------------------------------------- |
+| W0 Governance                    | `IN_PROGRESS`            | Iteration 1 failed both reviews; Iteration 2 validator + 17 tests + AUTO-E2 pass; E2 reviews/DoD pending |
+| W1 Commercial Truth              | `BLOCKED_BY_W0`          | Current Hero, Home, ProductRail, adapter and PDP can fabricate commercial state        |
+| W2 Package                       | `BLOCKED_BY_W1`          | Build emits into `src`; public exports, lock and test graph are not closed             |
+| W3 Canonical Visual Port         | `BLOCKED_BY_W2`          | Current target is a parallel implementation                                            |
+| W4 Interaction Port              | `BLOCKED_BY_W3`          | Canonical hooks are not yet in the package                                             |
+| W5 Accessibility/Responsive/i18n | `BLOCKED_BY_W4`          | Canonical focus, inert and locale paths are not integrated                             |
+| W6 Runtime Resilience            | `BLOCKED_BY_W1_W4`       | Typed state machine is not implemented                                                 |
+| W7 Observability                 | `BLOCKED_BY_W6`          | Vendor-neutral bridge/reason codes are not integrated                                  |
+| W8 Security/Privacy              | `BLOCKED_BY_W6_W7`       | Negative tests and supply-chain delta are open                                         |
+| W9 Performance/Image             | `BLOCKED_BY_W3_W4_W5`    | Product-grade production benchmark is absent                                           |
+| W10 E2E/Visual QA                | `BLOCKED_BY_W5_W6_W8_W9` | Same-state canonical regression evidence is absent                                     |
+| W11 Rollout/Human Release        | `BLOCKED_BY_W10`         | Rollback, deployment and human visual decisions are pending                            |
 
-## Canonical agent shortcut task
+## Authorization ledger
 
-### T-AGENT-001 — Establish shortcut registry
-Status: `MATERIALIZED ON BRANCH`
+| Item                                   | Correct state | Dependency gate             | Preservation rule                                                                            |
+| -------------------------------------- | ------------- | --------------------------- | -------------------------------------------------------------------------------------------- |
+| `DAT-06`                               | `AUTHORIZED`  | `DAT-01..DAT-05`            | Preserve the original dirty PDP diff semantically; metadata/runtime share one fixture policy |
+| `COM-02`                               | `AUTHORIZED`  | `W1 + W4`                   | No additional human authorization is required inside the approved write-set                  |
+| Git stage/commit/push/PR/merge/release | `FORBIDDEN`   | Explicit future human grant | No operation may infer another authorization category                                        |
 
-Artifact: `.agents/canonical-agent-shortcuts.yaml`
+## W0 — Governance and canonical provenance
 
-Architecture:
+DoR: `PASS` for remediation. Runtime mutations are forbidden in this workstream.
 
-```text
-shortcut
-  → canonical ollama-superpowers agent
-  + optional RUG specialist profile/validator
-  + core skills
-  + Medusa skills where relevant
-  + NOS-205 atomic skill resolver
-  + Product-Lifecycle-315 orchestration resolver
-  + governance/product contracts
-```
+| ID     | Task                                                                                                              | Owner / issue | Status                               | DoD evidence                                                                   |
+| ------ | ----------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------ | ------------------------------------------------------------------------------ |
+| GOV-01 | Capture target/canonical BASE-E, PDP preservation hashes, authorization envelope and external baseline transition | `#13`         | `DONE`                               | `2026-08-08-w0-base-e.md`, `2026-08-08-external-git-drift.md`, session ledger  |
+| GOV-02 | Resolve canonical commit/tree, raw blob hashes and exact `app/page + app/layout` import closure                   | `#13`         | `IMPLEMENTED_VALIDATED_PENDING_REVIEW_E2` | Iteration 2: 55/55 closure files/hashes; semantic validator PASS             |
+| GOV-03 | Reconcile manifest, program-state, task register, provenance and live issue truth                                 | `#13`         | `DONE`                               | v2 pointers agree; invalid inventory and T21/T22/T23 are superseded             |
+| GOV-04 | Replace existence-only/hardcoded DoD with semantic, fail-closed validation and tests                              | `#13`         | `DONE`                               | 17/17 manifest tests + 6/6 DoD tests; ownership/target/cycle/freeze negatives   |
+| GOV-05 | Run measurable self-critique/AUTO-E and independent repo-guardian REVIEW-E                                        | `#13`         | `AUTO_E2_DONE_REVIEW_E2_PENDING`     | E1 findings consumed; fresh zero-P0/P1 independent E2 receipts required         |
+| GOV-06 | Derive final #13 DoD, prepare completion record and freeze only when every criterion is true                      | `#13`         | `BLOCKED_GOV-05_AND_EXTERNAL_RECORD` | DoD receipt; GitHub publication remains a separate external write              |
 
-The 18 Ollama Superpowers agents remain canonical identities. RUG agents are specialists; they do not create a competing canonical taxonomy.
+W0 DoD: `NOT PASSED`.  
+W0 verdict: `NO-GO FOR W1` until GOV-01..06 pass.
 
-## 360° program task list
+## W1 — Commercial Truth
 
-| ID | Task | Owner/Gate | Status | Unlocks |
-|---|---|---|---|---|
-| T00 | Re-read current EPIC/issues and detect tracking drift | `@orchestrate:nos` | DONE | reconciliation |
-| T01 | Materialize canonical agent shortcut registry | `@architect:nos` + `@repo:guard` | DONE ON BRANCH | all issue bindings |
-| T02 | Create runtime-resilience owner | #29 NOS-017 | DONE / OPEN | #30/#31/#32 |
-| T03 | Create functional E2E/cross-browser gate | #30 NOS-018 | DONE / OPEN | #32/#27 |
-| T04 | Create observability/diagnostics owner | #31 NOS-019 | DONE / OPEN | #32/#27 |
-| T05 | Create security/privacy release gate | #32 NOS-020 | DONE / OPEN | #27/#28 |
-| T06 | Evolve #13 with remediation + new ownership map | #13 | DONE / OPEN | #13 final DoD |
-| T07 | Evolve visual-system scope with commerce-shell boundary | #14 | DONE / OPEN | #15/#16 |
-| T08 | Evolve ArtworkCard with image-delivery contract | #16 | DONE / OPEN | #17/#19/#29/#26 |
-| T09 | Evolve progress lifecycle with observability/privacy handoff | #20 | DONE / OPEN | #30/#31/#32 |
-| T10 | Evolve Fio Vivo source with typed source-state taxonomy | #21 | DONE / OPEN | #22/#29/#31 |
-| T11 | Evolve Medusa adapter with rejection/trust-boundary taxonomy | #22 | DONE / OPEN | #23/#29/#31/#32 |
-| T12 | Evolve CTA/analytics with localization completeness | #23 | DONE / OPEN | #24/#30/#31/#32 |
-| T13 | Evolve A11y/responsive with localized + commerce-shell UX | #24 | DONE / OPEN | #25/#26/#30/#32 |
-| T14 | Evolve performance with image-delivery budgets | #26 | DONE / OPEN | #27/#28 |
-| T15 | Evolve rollout with #30/#31/#32 gates | #27 | DONE / OPEN | #28 |
-| T16 | Evolve human release gate with #29–#32 evidence | #28 | DONE / OPEN | release decision |
-| T17 | Reconcile parent EPIC child map, DAG, waves and gates | #12 | DONE / OPEN | program SSOT |
-| T18 | Rebuild #13 ownership matrix from current #14–#32 bodies | #13 remediation | DONE | manifest freeze |
-| T19 | Repair provenance taxonomy and materialize Canonical Agent Execution Fabric | #13 remediation | MATERIALIZED / RUNTIME VALIDATION BLOCKED | DoD |
-| T20 | Execute #13 self-critique + Auto-Improve Iterations 1–2 | #13 remediation | DONE | cross-review |
-| T21 | Execute protocol-compliant independent #13 cross-agent review | #13 remediation | BLOCKED BY EXECUTION-FABRIC-001 | final evidence |
-| T22 | Reconcile #13 DoD + final GO/NO-GO | #13 remediation | BLOCKED BY T21 | #14/#21 DoR |
-| T23 | Publish #13 final 360° completion record | #13 | BLOCKED BY T22 | W1 |
-| T24 | Launch independent DoR for #14 and #21 | W1 | BLOCKED BY #13 DoD PASS | implementation |
-| T25 | Execute Storefront/Commerce implementation waves | #14–#23 | BLOCKED BY dependencies | quality gates |
-| T26 | Execute runtime-resilience gate | #29 | BLOCKED BY #16/#17/#21/#22 | #30/#31/#32 |
-| T27 | Execute accessibility/responsive gate | #24 | BLOCKED BY dependencies | #25/#26/#30/#32 |
-| T28 | Execute visual parity gate | #25 | BLOCKED BY dependencies | #27/#28 |
-| T29 | Execute performance gate | #26 | BLOCKED BY dependencies | #27/#28 |
-| T30 | Execute functional E2E/cross-browser gate | #30 | BLOCKED BY dependencies | #32/#27 |
-| T31 | Execute observability gate | #31 | BLOCKED BY dependencies | #32/#27 |
-| T32 | Execute security/privacy gate | #32 | BLOCKED BY dependencies | #27/#28 |
-| T33 | Execute rollout/fallback/rollback gate | #27 | BLOCKED BY #30/#31/#32 + existing deps | #28 |
-| T34 | Execute final human visual/release gate | #28 | BLOCKED BY all mandatory gates | human merge decision |
-| T35 | Separate Admin curation product into future EPIC if approved | `BB-ADMIN-GALLERY` | BACKLOG | Admin control plane |
+DoR: `PASS` for implementation after W0. Current state: `FAIL`.
 
-## v6 — Executable host recovery lane
+| ID     | Task                                                                                                                        | Owner / issue | Status                          | DoD evidence                                                                                        |
+| ------ | --------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| DAT-01 | Implement strict typed Fio Vivo source states, exact collection query, pagination, timeout and partial-failure handling     | `#21`         | `BLOCKED_BY_W0`                 | Source union + async/negative tests; no global-catalog fallback                                     |
+| DAT-02 | Implement runtime metadata schema, URL validation, core eligibility and batch rejection taxonomy                            | `#22`         | `BLOCKED_DAT-01`                | Product-level and batch mapping tests; no type assertions over unknown metadata                     |
+| DAT-03 | Implement multi-variant regional price truth, exact/from semantics, tax/original price and locale formatting                | `#22`         | `BLOCKED_DAT-02`                | Price truth table tests; no invented zero or BRL                                                    |
+| DAT-04 | Implement variant-level inventory/backorder truth and aggregate availability without summing inventory                      | `#22`         | `BLOCKED_DAT-02`                | Inventory truth table tests; unknown contracts become unavailable                                   |
+| DAT-05 | Implement server-only fixture policy and remove synthetic region, collection, rail enrichment, price, SKU and variant paths | `#21/#22/#29` | `BLOCKED_DAT-01..04`            | Production-deny tests across Hero, Home, FeaturedProducts and ProductRail                           |
+| DAT-06 | Reconcile dirty PDP through one memoized live/fixture/unavailable resolver shared by metadata and runtime                   | `#22/#23`     | `AUTHORIZED_DEPENDS_DAT-01..05` | Before/after diff evidence; defensive image logic preserved; fixture preview noindex/non-commercial |
 
-Host recovery is diagnostic-first. Git restoration is a separate lane and is not a predecessor of EF-01–EF-05.
+W1 DoD: all six tasks, full Commercial Truth matrix, unit/typecheck/lint/build and production-deny E2E PASS.  
+Stop condition: if any route still invents commerce data, `COMMERCIAL TRUTH = FAIL` and W2 remains blocked.
 
-| ID | Task | Hard predecessors | Status | Required evidence |
-|---|---|---|---|---|
-| HOST-00 | Diagnose executable-host failure | none | DONE | broken Zed/WSL wrapper isolated; Windows host healthy |
-| HOST-01A | Probe direct Node binary execution without Zed launcher indirection | HOST-00 | PASS | `C:\Program Files\nodejs\node.exe`, v24.18.0 |
-| HOST-01B | Isolate Zed launcher, fsmonitor and editor-helper interception | HOST-00 | PASS | direct PowerShell works; sandbox wrapper fails before command execution |
-| HOST-01C | Remediate or bypass missing `libasound.so.2` dependency when confirmed causal | HOST-00, HOST-01B | PASS BY SAFE BYPASS | Windows PowerShell bypass; no host package mutation required |
-| HOST-01 | Verify executable Node host | HOST-01A plus applicable HOST-01B/01C findings | PASS | Node v24.18.0, exit code 0 |
-| HOST-02 | Verify real subagent primitive and host-issued invocation/session ID | HOST-01 | PASS | session `d42cccd8-b46c-4b5b-9715-95690b5c9b14` |
-| HOST-03 | Verify confined evidence directory and no-replace writes | HOST-01 | PASS | traversal and overwrite tests passed |
-| HOST-04 | Run Canonical Agent Execution Fabric test suite | HOST-01, HOST-03 | PASS | 17 passed, 0 failed |
-| HOST-05 | Record host baseline | HOST-02, HOST-04 | DONE | `execution-fabric/00-host-baseline.md` |
+## W2 — Package/output integrity
 
-Canonical host flow:
+DoR: requires `COMMERCIAL TRUTH PASS` and final canonical dependency graph.
 
-```text
-HOST-00 Diagnose
-  ├─ HOST-01A Direct Node probe
-  ├─ HOST-01B Zed/fsmonitor isolation
-  └─ HOST-01C libasound remediation if causal
-          ↓
-      HOST-01 VERIFIED
-          ↓
-      HOST-02 || HOST-03
-          ↓
-      HOST-04 Fabric tests
-          ↓
-      HOST-05 Baseline
-```
+| ID     | Task                                                                                                    | Owner / issue          | Status           | DoD evidence                                                                            |
+| ------ | ------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------- | --------------------------------------------------------------------------------------- |
+| PKG-01 | Freeze public API, root entrypoint and explicit `styles.css` export                                     | Package architecture   | `BLOCKED_BY_W1`  | `exports`, `files`, `sideEffects`; no deep source import                                |
+| PKG-02 | Configure deterministic `rootDir/src`, `outDir/dist`, declarations and no in-place emit                 | Package architecture   | `BLOCKED_PKG-01` | Empty tracked JS/JSX/tsbuildinfo in source; reproducible `dist/**`                      |
+| PKG-03 | Migrate layout/Jest/consumers to compiled public exports                                                | Storefront integration | `BLOCKED_PKG-02` | Runtime and test resolution use package exports, not `src` aliases                      |
+| PKG-04 | Restrict workspace globs and regenerate the lock with pnpm 10.11.1 only                                 | Workspace              | `BLOCKED_PKG-03` | Orphan `apps/storefront/src/modules/nos-gallery` importer absent; explainable lock diff |
+| PKG-05 | Align Turbo/test graph so package build precedes consumer tests and storefront unit tests run from root | Build system           | `BLOCKED_PKG-04` | Root test receipt proves storefront Jest execution against `dist`                       |
+| PKG-06 | Reconcile only imports used by the frozen canonical graph and run package/storefront/full gates         | Package + QA           | `BLOCKED_PKG-05` | lint, typecheck, build, resolution smoke, unit and full graph PASS                      |
 
-## v6 — Execution Fabric proof lane
+W2 DoD: package boundary and `dist/**` are truthful, deterministic and exercised by consumers.
 
-### EF-01 — Architect Chain negative safety test
+## W3 — Canonical visual port
 
-EF-01 is successful only when the expected load failure is observed and the worker is not invoked.
+DoR: requires W2 PASS and exact source hashes from the manifest.
 
-```text
-route: @architect:nos
-required contracts:
-  - nos_gallery_first_fold
-  - session_state_ledger
-resolved contracts:
-  - nos_gallery_first_fold
-missing:
-  - session_state_ledger
-expected LOAD-VALIDATION-E: FAIL
-expected worker AGENT-RUN: ABSENT
-qualified verdict: PASS: EXPECTED_FAIL_CLOSED
-```
+| ID     | Task                                                                                               | Owner / issue | Status                  | DoD evidence                                                                            |
+| ------ | -------------------------------------------------------------------------------------------------- | ------------- | ----------------------- | --------------------------------------------------------------------------------------- |
+| VIS-01 | Port/adapt canonical constants, GalleryItem contract usage and scoped copper/umber/linen CSS slice | `#14/#16`     | `BLOCKED_BY_W2`         | Source hash, target diff and CSS selector/token audit                                   |
+| VIS-02 | Replace surrogate ambient with canonical GalleryAmbient and color-extraction path                  | `#15`         | `BLOCKED_VIS-01`        | Canonical crossfade/gradient/grain/vignette behavior tests                              |
+| VIS-03 | Replace surrogate card with canonical ArtworkCard, Next/Image and integrated scene rail            | `#16`         | `BLOCKED_VIS-01`        | Scene/image/accessibility component tests; no new card primitive                        |
+| VIS-04 | Port/adapt canonical ArtGallerySlider and reduce GalleryExperience to a thin compatibility facade  | `#17`         | `BLOCKED_VIS-02_VIS-03` | No SceneRail/InteractiveArtworkCard/NavigationControls implementations remain in facade |
+| VIS-05 | Port/adapt NavigationDots, GalleryProgressControl, CollectionProgressDialog and state screen       | `#17/#20/#29` | `BLOCKED_VIS-04`        | Component tests and package export evidence                                             |
+| VIS-06 | Remove parallel presentation and stale generated artifacts only after replacement gates pass       | `#14-#20`     | `BLOCKED_VIS-05`        | Source inventory proves canonical names/architecture; rollback snapshot retained        |
 
-| ID | Task | Hard predecessors | Status | Gate |
-|---|---|---|---|---|
-| EF-01A | Generate architect route and exact load receipts | HOST-05 | DONE | real ROUTE-E, AGENT-LOAD-E, four SKILL, three ORCH, one CONTRACT loads |
-| EF-01B | Require both visual and ledger contracts without modifying registry | EF-01A | DONE | ledger contract absent exactly as expected |
-| EF-01C | Run load preflight | EF-01B | DONE / EXPECTED FAIL | exit code 1; `LOAD-VALIDATION-E = FAIL` |
-| EF-01D | Prove worker invocation was prevented | EF-01C | DONE | worker invocation absent |
-| EF-01 | Record negative safety verdict | EF-01A–D | `PASS: EXPECTED_FAIL_CLOSED` | `execution-fabric/ef-01/ef-01-verdict.md` |
+W3 DoD: first-fold composition is canonical-first; visual parity remains a later measured gate, not inferred from source similarity.
 
-A plain `PASS` is invalid for EF-01 because it hides the expected failing load validation.
+## W4 — Canonical interaction and progress
 
-### Post-EF-01 decision and corrected Architect Chain
+DoR: requires canonical components installed without unresolved replacement primitives.
 
-| ID | Task | Hard predecessors | Status | Gate |
-|---|---|---|---|---|
-| ADR-EF-01 | Compare Option A direct ledger load with Option B validated delegated context | EF-01 `PASS: EXPECTED_FAIL_CLOSED` | DONE | `execution-fabric/adr-ef-01-option-analysis.md` |
-| ADR-EF-02 | Human selects Option A or Option B | ADR-EF-01 | APPROVED | Option A selected by human lead |
-| ARCH-EF-01 | Implement only the selected correction | ADR-EF-02 | DONE | minimal authorized patch to architect:nos |
-| ARCH-EF-02 | Re-run architect route/load preflight | ARCH-EF-01 | DONE | all required loads validated (LOAD-VALIDATION-E) |
-| ARCH-EF-03 | Real host worker & reviewer invocation proof | ARCH-EF-02 | BLOCKED | execution provenance primitive missing |
-| ARCH-EF | Record corrected Architect Chain PASS | ARCH-EF-03 | YELLOW | structural integrity validated; host provenance required |
+| ID     | Task                                                                                                | Owner / issue             | Status                  | DoD evidence                                                                          |
+| ------ | --------------------------------------------------------------------------------------------------- | ------------------------- | ----------------------- | ------------------------------------------------------------------------------------- |
+| INT-01 | Adapt canonical navigation state and focus-scoped Arrow/Home/End handling                           | `#17/#24`                 | `BLOCKED_BY_W3`         | Keyboard matrix; editing targets/modifiers/overlays do not navigate                   |
+| INT-02 | Adapt canonical drag/swipe thresholds, momentum and commerce-control guards                         | `#18/#24`                 | `BLOCKED_INT-01`        | Mouse/touch/coarse-pointer tests; page scroll safety                                  |
+| INT-03 | Adapt canonical wheel accumulator and conditional preventDefault ownership                          | `#18/#24`                 | `BLOCKED_INT-01`        | Trackpad/wheel tests; interactive descendants and page scrolling preserved            |
+| INT-04 | Port reduced-motion/fine-pointer hooks and canonical parallax with motion disabled paths            | `#19/#24/#26`             | `BLOCKED_INT-02_INT-03` | Reduced-motion and frame-stability evidence                                           |
+| INT-05 | Adapt dwell, scene discovery, progress persistence and resume; keep saved-artwork controls deferred to CAND-07 | `#20/#32 + CAND-07` | `BLOCKED_INT-04` | Storage corruption/dialog-pause/dwell tests; no unowned bookmark surface |
+| INT-06 | Resolve deferred share ownership and integrate canonical share plus typed host detail/CTA callbacks | `#13 evidence stream/#23` | `BLOCKED_INT-05`        | Native/clipboard/cancel tests; localized safe PDP URL; no inquiry backend duplication |
 
-### EF-02–EF-05
+W4 DoD: canonical thresholds/state transitions are preserved; no alternate gesture or progress engine exists.
 
-| Gate | Scope | Hard predecessors | Status | Required terminal result |
-|---|---|---|---|---|
-| EF-02 | Second profile (`@repo:guard` or `@qa:nos`) | ARCH-EF PASS | PASS | route/load/run chain PASS |
-| EF-03 | Adversarial tamper matrix | EF-02 | PASS | 15/15 attacks blocked as expected |
-| EF-04 | Distinct canonical reviewer | EF-02, EF-03 | PASS | different identity/session and `REVIEW-E PASS` |
-| EF-05 | Full evidence graph validator | EF-04 | PASS | `VALIDATION-E PASS`, structural and host evidence separated |
-| EF-06 | Session continuation & recovery | EF-05 | POST-FABRIC HARDENING | multi-turn recovery and ledger continuity |
+## W5 — Accessibility, responsive behavior and localization
 
-EF-03 minimum adversarial coverage:
+DoR: requires stable visual and interaction trees.
 
-1. stale skill hash;
-2. contract or manifest disguised as `SKILL-E`;
-3. lexical path traversal;
-4. physical/symlink escape;
-5. receipt overwrite;
-6. missing mandatory load receipt;
-7. unknown/extra receipt;
-8. wrong worker adapter;
-9. non-canonical reviewer shortcut;
-10. reused invocation ID;
-11. artifact mutation after worker completion;
-12. worker validation `FAIL`;
-13. worker validation `BLOCKED`;
-14. reviewer PASS with blocking finding;
-15. mismatched reviewed-artifact set.
+| ID      | Task                                                                                     | Owner / issue | Status                    | DoD evidence                                                      |
+| ------- | ---------------------------------------------------------------------------------------- | ------------- | ------------------------- | ----------------------------------------------------------------- |
+| A11Y-01 | Close focus containment, active-slide tab order and overlay restoration                  | `#24`         | `BLOCKED_BY_W4`           | Keyboard-only journey and focus trace                             |
+| A11Y-02 | Validate slide semantics, aria-current, aria-hidden and true inert descendant behavior   | `#24`         | `BLOCKED_A11Y-01`         | No inactive-card focus leakage; screen-reader assertions          |
+| A11Y-03 | Reconcile responsive first-fold geometry for desktop, tablet, mobile and short landscape | `#24/#25`     | `BLOCKED_A11Y-01`         | No horizontal scroll; commerce header preserved                   |
+| A11Y-04 | Localize controls, scenes, progress, price and state copy with complete fallback rules   | `#23/#24`     | `BLOCKED_A11Y-02`         | pt-BR plus alternate locale tests; no hardcoded inaccessible copy |
+| A11Y-05 | Validate image alt semantics, 44px targets, contrast and focus-visible states            | `#16/#24`     | `BLOCKED_A11Y-03_A11Y-04` | WCAG assertions and visual evidence                               |
+| A11Y-06 | Run Axe and manual assistive-technology gate across required viewports/browsers          | `#24/#30`     | `BLOCKED_A11Y-05`         | Axe critical/serious = 0; review receipt                          |
 
-Qualified closure:
+W5 DoD: accessibility, locale and responsive contracts pass independently of visual approval.
 
-```text
-EF-01 PASS: EXPECTED_FAIL_CLOSED
-+ ARCH-EF PASS
-+ EF-02 PASS
-+ EF-03 PASS
-+ EF-04 PASS
-+ EF-05 PASS
-= EXECUTION-FABRIC-001 CLOSED
-```
+## W6 — Runtime resilience
 
-## v6 — Independent Git lane
+DoR: requires Commercial Truth and canonical interaction state.
 
-Git availability is required for repository diff/PR operations, but it does not block EF host proof when Node and subagent primitives work independently.
+| ID     | Task                                                                                                      | Owner / issue | Status                  | DoD evidence                                               |
+| ------ | --------------------------------------------------------------------------------------------------------- | ------------- | ----------------------- | ---------------------------------------------------------- |
+| RUN-01 | Materialize typed loading/success/missing/empty/down/timeout/malformed/partial/ineligible/fallback states | `#29`         | `BLOCKED_BY_W1_W4`      | Exhaustive state union and compile-time exhaustiveness     |
+| RUN-02 | Implement bounded loading and deterministic empty/degraded screens                                        | `#29/#24`     | `BLOCKED_RUN-01`        | Visual/state tests; no fabricated products                 |
+| RUN-03 | Implement retry, recovery and stale-request cancellation semantics                                        | `#29/#30`     | `BLOCKED_RUN-01`        | down-to-recovered E2E; race tests                          |
+| RUN-04 | Add route/component error boundaries without leaking internals or creating false 404s                     | `#29/#32`     | `BLOCKED_RUN-02`        | API failure and metadata/runtime consistency tests         |
+| RUN-05 | Integrate feature flag, explicit non-commercial fallback and canonical-off rollback path                  | `#27/#29`     | `BLOCKED_RUN-03_RUN-04` | OFF/ON/fallback matrix; production fixture deny            |
+| RUN-06 | Execute state-machine regression and hydration recovery gate                                              | `#29/#30`     | `BLOCKED_RUN-05`        | zero hydration errors; every state/recovery path exercised |
 
-| ID | Task | Hard predecessors | Status |
-|---|---|---|---|
-| GIT-01 | Diagnose and restore Git CLI independently | none / environment | PASS — Git 2.55.0 |
-| GIT-02 | Capture branch, HEAD and worktree status | GIT-01 | PASS — `main` at `f037bff8...` |
-| GIT-03 | Prove runtime immutability with real diff | GIT-02 | BLOCKED — nested mirror dirty (`AGENTS.md`, `.turbo`) |
-| GIT-04 | Update Draft PR #33 | GIT-03 plus explicit Git/PR authorization | FORBIDDEN |
-| GIT-05 | Mark PR ready/green | all required technical gates plus explicit authorization | FORBIDDEN |
-| GIT-06 | Merge | explicit separate `MERGE_AUTHORIZED` | FORBIDDEN |
+W6 DoD: all runtime states are deterministic, observable, non-fabricating and recoverable.
 
-## Current hard DAG
+## W7 — Observability and analytics
+
+DoR: requires stable reason/state taxonomy.
+
+| ID     | Task                                                                                  | Owner / issue | Status                  | DoD evidence                                                   |
+| ------ | ------------------------------------------------------------------------------------- | ------------- | ----------------------- | -------------------------------------------------------------- |
+| OBS-01 | Define stable safe reason codes and typed diagnostic envelopes                        | `#31/#32`     | `BLOCKED_BY_W6`         | Schema and exhaustiveness tests                                |
+| OBS-02 | Connect canonical event semantics to the vendor-neutral host analytics bridge         | `#23/#31`     | `BLOCKED_OBS-01`        | Event contract tests; no direct package vendor dependency      |
+| OBS-03 | Adapt Web Vitals capture and first-fold metric correlation                            | `#31`         | `BLOCKED_OBS-01`        | Metric receipt with route/state/build identity                 |
+| OBS-04 | Enforce PII/secret/raw-payload redaction and bounded error classification             | `#31/#32`     | `BLOCKED_OBS-02`        | Negative payload tests                                         |
+| OBS-05 | Add diagnostics for source, mapping, fallback, image, hydration and analytics failure | `#31`         | `BLOCKED_OBS-03_OBS-04` | Each runtime failure produces one safe reason code             |
+| OBS-06 | Run observability failure/recovery and cardinality gate                               | `#31/#30`     | `BLOCKED_OBS-05`        | No dropped critical state; no high-cardinality product payload |
+
+W7 DoD: operators can distinguish every critical state without exposing user or commerce payloads.
+
+## W8 — Security, privacy and supply chain
+
+DoR: requires final runtime, persistence and observability surfaces.
+
+| ID     | Task                                                                                         | Owner / issue | Status                  | DoD evidence                                         |
+| ------ | -------------------------------------------------------------------------------------------- | ------------- | ----------------------- | ---------------------------------------------------- |
+| SEC-01 | Validate localized product URLs, protocols, handles and metadata rendering against injection | `#32/#23`     | `BLOCKED_BY_W6_W7`      | malicious handle/URL/metadata negative tests         |
+| SEC-02 | Validate remote image origins, URL schemes, canvas/CORS behavior and deterministic rejection | `#32/#16/#26` | `BLOCKED_SEC-01`        | allowlist and invalid-origin tests                   |
+| SEC-03 | Audit analytics, diagnostics and local persistence for privacy/minimization                  | `#32/#20/#31` | `BLOCKED_SEC-01`        | no PII/secrets/raw payload; storage scope documented |
+| SEC-04 | Reconcile dependency delta, licenses, advisories and Next/package peer resolution            | `#32/PKG`     | `BLOCKED_SEC-02`        | supply-chain report; no unresolved HIGH/CRITICAL     |
+| SEC-05 | Execute adversarial state, fixture, URL, metadata, analytics and storage matrix              | `#32`         | `BLOCKED_SEC-03_SEC-04` | negative tests fail closed                           |
+| SEC-06 | Produce security/privacy release gate and rollback constraints                               | `#32/#27`     | `BLOCKED_SEC-05`        | independent REVIEW-E; zero unresolved HIGH/CRITICAL  |
+
+W8 DoD: security/privacy gate PASS with inspectable negative evidence.
+
+## W9 — Performance and image delivery
+
+DoR: requires production-ready package and stable UI behavior.
+
+| ID      | Task                                                                                        | Owner / issue | Status                    | DoD evidence                                                    |
+| ------- | ------------------------------------------------------------------------------------------- | ------------- | ------------------------- | --------------------------------------------------------------- |
+| PERF-01 | Enforce canonical Next/Image active/inactive priority, sizes, preload and failure semantics | `#16/#26`     | `BLOCKED_BY_W3_W4_W5`     | no broken images/CLS; active LCP preload evidence               |
+| PERF-02 | Measure package/storefront JavaScript and CSS delta with gallery OFF versus ON              | `#26`         | `BLOCKED_PERF-01`         | production bundle report and budgets                            |
+| PERF-03 | Measure production LCP and CLS across required viewports                                    | `#26/#30`     | `BLOCKED_PERF-01`         | LCP < 2.5s; CLS < 0.1                                           |
+| PERF-04 | Measure INP/interaction latency for dots, scene, drag, wheel and CTA                        | `#26/#30`     | `BLOCKED_PERF-02`         | INP < 200ms and gesture traces                                  |
+| PERF-05 | Measure requests, image payload/decode, memory growth and long tasks                        | `#26`         | `BLOCKED_PERF-03_PERF-04` | bounded request/memory/image budgets                            |
+| PERF-06 | Execute isolated production performance gate with reduced-motion comparison                 | `#26`         | `BLOCKED_PERF-05`         | full performance receipt; no concurrent dev/build contamination |
+
+W9 DoD: product-grade production budgets pass; harness duration is not accepted as product performance evidence.
+
+## W10 — Functional E2E and canonical visual regression
+
+DoR: requires all product surfaces stable and security/performance gates green.
+
+| ID    | Task                                                                                                                 | Owner / issue | Status                   | DoD evidence                                                             |
+| ----- | -------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------ | ------------------------------------------------------------------------ |
+| QA-01 | Reopen and classify the historical harness; remove stale/non-executed assertions                                     | `#30`         | `BLOCKED_BY_W5_W6_W8_W9` | Each test change classified as product/test/environment/baseline defect  |
+| QA-02 | Run unit, typecheck, lint, package build and integration gates from the real public package boundary                 | `#30/PKG`     | `BLOCKED_QA-01`          | Required commands PASS; no ignored type errors treated as proof          |
+| QA-03 | Execute Chromium functional journey for navigation, scenes, CTA, states and recovery                                 | `#30`         | `BLOCKED_QA-02`          | Complete user-journey trace                                              |
+| QA-04 | Execute Firefox, WebKit, Mobile Chrome and Mobile Safari matrices                                                    | `#30/#24`     | `BLOCKED_QA-03`          | Required browsers 100% PASS; no skips                                    |
+| QA-05 | Capture canonical/target same-artwork, same-scene, same-progress, viewport, DPR, browser, zoom and font visual diffs | `#25/#30`     | `BLOCKED_QA-04`          | Source/target SHA, screenshots, hashes and max diff ratio <= 0.05        |
+| QA-06 | Run final console, broken-image, scroll, Axe and regression review                                                   | `#25/#30`     | `BLOCKED_QA-05`          | unexpected console = 0; broken images = 0; no material visual regression |
+
+W10 DoD: functional and visual gates pass without weakened assertions or baseline laundering.
+
+## W11 — Rollout, rollback, human gate and operations
+
+DoR: requires all automated technical gates and explicit release evidence.
+
+| ID     | Task                                                                                          | Owner / issue | Status                                   | DoD evidence                                                 |
+| ------ | --------------------------------------------------------------------------------------------- | ------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| REL-01 | Finalize feature-flag cohorts and canonical OFF/ON/fallback policy                            | `#27`         | `BLOCKED_BY_W10`                         | Rollout matrix and safe defaults                             |
+| REL-02 | Prove rollback to prior storefront/feature-off state without data or migration damage         | `#27`         | `BLOCKED_REL-01`                         | Executed rollback rehearsal and timing                       |
+| REL-03 | Prepare deployment readiness, monitoring, alert and incident runbook                          | `#27/#31/#32` | `BLOCKED_REL-02`                         | Operational checklist and owners                             |
+| REL-04 | Present canonical/target visual evidence for explicit human approval or rejection             | `#28`         | `BLOCKED_REL-03`                         | Human decision recorded; never inferred                      |
+| REL-05 | Derive release-candidate verdict without committing, merging or releasing                     | `#28`         | `BLOCKED_REL-04`                         | All gates PASS and separate Git authorization still explicit |
+| REL-06 | Execute post-release observation/rollback stream only after separate deployment authorization | `CAND-06/#27` | `BLOCKED_EXTERNAL_RELEASE_AUTHORIZATION` | SLO observation, incident/rollback record and final closeout |
+
+W11 DoD: technical candidate plus explicit human visual/release decision. Merge and release still require separate authorization.
+
+## Candidate issue handling
+
+| Candidate                              | Current treatment                                                                                        |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| CAND-01 Manifest/DoD remediation       | Evidence stream inside `#13` / W0; do not create a redundant issue                                       |
+| CAND-02 Package build/output integrity | Independent candidate after W0; represented by W2                                                        |
+| CAND-03 Fio Vivo PDP remediation       | Independent candidate; `DAT-06` already authorized                                                       |
+| CAND-04 Commercial SEO                 | Independent candidate; local evidence stream begins at `DAT-05`/`CAP-026` without silently assigning #23 |
+| CAND-05 Cross-browser harness          | Evidence stream inside `#30` / W10; do not create a redundant issue                                      |
+| CAND-06 Post-release operations        | Independent future candidate; represented by `REL-06`                                                    |
+| CAND-07 Saved-artworks governance      | Independent future candidate required before CAP-018 can leave DEFER and add bookmark/storage UI         |
+
+## Hard GitHub DAG snapshot
 
 ```text
 #13
 ├─ #14
 │  ├─ #15
-│  └─ #16
-│     ├─ #17
-│     │  ├─ #18 → #19
-│     │  └─ #20
-│     └─ #19
-└─ #21 → #22 → #23
+│  └─ #16 → #17 → #18 → #19
+│            └─ #20
+└─ #21 → #22
+             └─ #23 ← #17
 
 #24 ← #15 + #17 + #18 + #19 + #23
 #25 ← #14 + #15 + #16 + #17 + #18 + #19 + #24
@@ -255,93 +255,26 @@ Git availability is required for repository diff/PR operations, but it does not 
 #31 ← #20 + #21 + #22 + #23 + #29
 #32 ← #20 + #22 + #23 + #24 + #29 + #30 + #31
 #27 ← #21 + #22 + #23 + #24 + #25 + #26 + #30 + #31 + #32
-#28 ← #25 + #26 + #27 + #29 + #30 + #31 + #32 + all implementation issues
+#28 ← #25 + #26 + #27 + #29 + #30 + #31 + #32 + all implementation issues under #12
 ```
 
-## Execution waves
+The open expression in `#28` must be enumerated in the live issue before terminal DoR. This register records the expression; it does not silently invent a closed GitHub dependency set.
+
+## Program completion equation
 
 ```text
-W0   #13 remediation → DoD PASS
-W1   #14 || #21
-W2   #15 || #16 || #22
-W3   #17
-W4   #18 || #20 || #23
-W5   #19
-W6   #29
-W7   #24 || #31
-W8   #25 || #26 || #30
-W9   #32
-W10  #27
-W11  #28
+BB-NOS TECHNICAL SUCCESS =
+  72/72 tasks satisfy their evidence-backed DoD
+  + zero open P0/P1 defects
+  + canonical port and same-state visual parity PASS
+  + commercial truth, accessibility, performance, resilience,
+    observability, security, E2E and rollback PASS
+  + AUTO-E and independent REVIEW-E per critical workstream
+
+BB-NOS RELEASE SUCCESS =
+  technical success
+  + explicit human visual approval
+  + separate Git/merge/release authorization
 ```
 
-## Per-issue execution equation
-
-```text
-ISSUE SUCCESS =
-DoR PASS
-+ scope/dependencies correct
-+ AGENT-E valid
-+ SKILL-E valid
-+ implementation/analysis evidence
-+ tests/security/relevant quality evidence
-+ self-critique
-+ AUTO-E
-+ independent REVIEW-E
-+ regression evidence
-+ rollback evidence
-+ DoD PASS
-+ qualified final GO
-```
-
-Any mandatory component unresolved means `ISSUE SUCCESS = FALSE`.
-
-## Storefront coverage after reconciliation
-
-```text
-VISUAL / BEHAVIOR TRANSPLANT        MAPPED
-COMMERCE INTEGRATION                MAPPED
-LOCALIZATION                        INCREMENTED #23/#24
-IMAGE DELIVERY                      INCREMENTED #16/#26
-COMMERCE-SHELL INTEGRATION          INCREMENTED #14/#24/#27
-RUNTIME RESILIENCE                  OWNED #29
-FUNCTIONAL E2E/CROSS-BROWSER        OWNED #30
-OBSERVABILITY                       OWNED #31
-SECURITY / PRIVACY                  OWNED #32
-ROLLOUT / ROLLBACK                  OWNED #27
-HUMAN RELEASE                       OWNED #28
-ADMIN CURATION EXPERIENCE           OUTSIDE BB-NOS / FUTURE EPIC
-```
-
-## Canonical Agent Execution Fabric gate
-
-```text
-DESIGN                             FROZEN
-REGISTRY / ROUTING                 MATERIALIZED
-PROTOCOL / ADAPTERS                MATERIALIZED
-RESOLVERS / VALIDATOR              MATERIALIZED
-STATIC DIAGNOSTICS                 PASS
-HOST PROOF                         PASS
-EF-01                              PASS: EXPECTED_FAIL_CLOSED
-ARCH-EF-01                         PASS
-ARCH-EF-02                         PASS
-ARCH-EF-03                         PASS (ARCH-EF-03-R1 HOST PROVENANCE VERIFIED)
-ARCH-EF                            PASS
-EF-02                              PASS (@repo:guard VERIFIED)
-EF-03                              PASS (15/15 ADVERSARIAL ATTACKS BLOCKED)
-EF-04                              PASS (Distinct Canonical Reviewer)
-EF-05                              PASS (Full Evidence Graph Validator)
-EF-06                              POST-FABRIC HARDENING (Multi-Turn Session Continuation)
-PLATFORM ATTESTATION               VERIFIED (host_provenance_verified)
-EXECUTION-FABRIC-001               CLOSED
-```
-
-## Next executable action
-
-`#13 T21 — Independent #13 Cross-Agent Review`
-
-With `EXECUTION-FABRIC-001` formally CLOSED, execute independent cross-agent review for Issue #13 covering scope, dependencies, ownership, AGENT-E, SKILL-E, contracts, implementation evidence, tests, and risk before DoD evaluation.
-
-`NOS-GALLERY TRANSPLANT MANIFEST FROZEN`
-
-Until all fabric gates close and #13 independently reaches DoD PASS, #14/#21, PR green, merge, rollout and release remain governed by contract gates.
+Current progress: `GOV-01`, `GOV-03` and `GOV-04` are DONE; `GOV-02` is semantically validated; `GOV-05` awaits Iteration 2 independent reviews; `GOV-06` remains blocked by those reviews and the unauthorized GitHub completion write. W1-W11 remain dependency-blocked. No freeze or release phrase is authorized.

@@ -1,275 +1,626 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs"
-import path from "node:path"
-import { fileURLToPath } from "node:url"
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
-  canonicalRepoPath,
-  failCli,
-  hashFile,
-  readJson,
-  writeJsonExclusive
-} from "./canonical-execution-lib.mjs"
+  loadJsonCompatibleYaml,
+  validateManifestAgainstRepositories,
+} from "./validate-nos-gallery-manifest.mjs";
 
-const SCRIPT_PATH = fileURLToPath(import.meta.url)
-const REPO_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..", "..")
+const SCRIPT_PATH = fileURLToPath(import.meta.url);
+const REPO_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..", "..");
+const ISSUE_DIR = path.join(
+  REPO_ROOT,
+  "docs",
+  "artifacts",
+  "bb-nos",
+  "nos-001",
+);
 
-export function deriveIssue13DoD(options = {}) {
-  const issueDir = options.issueDir || path.join(REPO_ROOT, "docs", "artifacts", "bb-nos", "nos-001")
-  const outDir = options.outDir || path.join(issueDir, "t22-r1")
+const DEFAULT_PATHS = Object.freeze({
+  manifest: path.join(
+    REPO_ROOT,
+    ".agents",
+    "contracts",
+    "nos-gallery-transplant-manifest.yaml",
+  ),
+  validationReceipt: path.join(
+    ISSUE_DIR,
+    "w0-iteration-2-semantic-validation.json",
+  ),
+  autoImprove: path.join(
+    ISSUE_DIR,
+    "agent-self-critique",
+    "2026-08-08-iteration-2-auto-e.md",
+  ),
+  independentReview: path.join(
+    ISSUE_DIR,
+    "reviews",
+    "2026-08-08-review-e2.json",
+  ),
+  repoGuardian: path.join(
+    ISSUE_DIR,
+    "reviews",
+    "2026-08-08-repo-guardian-e2.json",
+  ),
+  supersession: path.join(ISSUE_DIR, "2026-08-08-w0-supersession.md"),
+  baseEvidence: path.join(
+    REPO_ROOT,
+    "docs",
+    "artifacts",
+    "bb-nos",
+    "2026-08-08-w0-base-e.md",
+  ),
+  externalDrift: path.join(
+    REPO_ROOT,
+    "docs",
+    "artifacts",
+    "bb-nos",
+    "2026-08-08-external-git-drift.md",
+  ),
+  programState: path.join(
+    REPO_ROOT,
+    "docs",
+    "artifacts",
+    "bb-nos",
+    "program-state.json",
+  ),
+  provenance: path.join(
+    REPO_ROOT,
+    "docs",
+    "artifacts",
+    "nos-gallery-provenance-manifest.json",
+  ),
+  completionRecord: path.join(
+    ISSUE_DIR,
+    "github",
+    "issue-13-completion-record.json",
+  ),
+  validator: path.join(
+    REPO_ROOT,
+    ".agents",
+    "scripts",
+    "validate-nos-gallery-manifest.mjs",
+  ),
+  validatorTests: path.join(
+    REPO_ROOT,
+    ".agents",
+    "scripts",
+    "__tests__",
+    "validate-nos-gallery-manifest.test.mjs",
+  ),
+  sessionContract: path.join(
+    REPO_ROOT,
+    ".agents",
+    "contracts",
+    "session-state-ledger.md",
+  ),
+  sessionSchema: path.join(
+    REPO_ROOT,
+    ".agents",
+    "contracts",
+    "session-state-ledger.schema.yaml",
+  ),
+  visualContract: path.join(
+    REPO_ROOT,
+    ".agents",
+    "contracts",
+    "nos-gallery-first-fold.yaml",
+  ),
+});
 
-  const criteria = []
+const SEMANTIC_SUBJECT_FIELDS = Object.freeze([
+  "canonical_source",
+  "target_baseline",
+  "target_architecture",
+  "capabilities",
+  "summary",
+  "target_legacy_dispositions",
+  "target_host_dispositions",
+  "dependency_adaptations",
+  "issue_dependency_snapshot",
+  "issue_ownership",
+  "behavioral_contracts",
+  "medusa_invariants",
+  "legacy_replacement_order",
+  "residual_gaps",
+]);
 
-  // 1. DoR Check
-  const dorPath = path.join(issueDir, "01-dor-drift-check.md")
-  const dorExists = existsSync(dorPath)
-  const dorContent = dorExists ? readFileSync(dorPath, "utf8") : ""
-  const dorPass = dorExists && (dorContent.includes("PASS") || dorContent.includes("VERIFIED"))
-  criteria.push({
-    id: "DOD-01",
-    criterion: "dor_pass",
-    status: dorPass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/01-dor-drift-check.md"],
-    verification_method: "File existence and PASS verdict inspection",
-    blocking: true,
-    reason: dorPass ? "DoR drift check passed against pinned SHA" : "DoR drift check missing or failed"
-  })
-
-  // 2. Scope & Boundaries Check
-  const scopePath = path.join(issueDir, "00-executive-outcome.md")
-  const scopeExists = existsSync(scopePath)
-  const scopePass = scopeExists
-  criteria.push({
-    id: "DOD-02",
-    criterion: "scope_valid",
-    status: scopePass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/00-executive-outcome.md"],
-    verification_method: "Executive outcome boundary and zero runtime mutation audit",
-    blocking: true,
-    reason: scopePass ? "Scope confined strictly to discovery and manifest" : "Scope artifact missing"
-  })
-
-  // 3. Dependencies Hard DAG Check
-  const dagPath = path.join(issueDir, "13-dependency-dag.md")
-  const dagExists = existsSync(dagPath)
-  const dagPass = dagExists
-  criteria.push({
-    id: "DOD-03",
-    criterion: "dependencies_valid",
-    status: dagPass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/13-dependency-dag.md"],
-    verification_method: "Hard DAG scheduling and wave boundary verification",
-    blocking: true,
-    reason: dagPass ? "Waves W0 through W11 deterministically scheduled" : "DAG artifact missing"
-  })
-
-  // 4. AGENT-E Valid
-  const agentBindingPath = path.join(issueDir, "15-agent-skill-binding.md")
-  const agentBindingExists = existsSync(agentBindingPath)
-  criteria.push({
-    id: "DOD-04",
-    criterion: "agent_e_valid",
-    status: agentBindingExists ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/15-agent-skill-binding.md"],
-    verification_method: "Specialist agent assignment matrix validation",
-    blocking: true,
-    reason: agentBindingExists ? "Specialist agents assigned across domains" : "Agent binding artifact missing"
-  })
-
-  // 5. SKILL-E Valid
-  const skillEvidencePath = path.join(issueDir, "16-agent-skill-evidence.yaml")
-  const skillEvidenceExists = existsSync(skillEvidencePath)
-  criteria.push({
-    id: "DOD-05",
-    criterion: "skill_e_valid",
-    status: skillEvidenceExists ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/16-agent-skill-evidence.yaml"],
-    verification_method: "YAML skill provenance and taxonomy validation",
-    blocking: true,
-    reason: skillEvidenceExists ? "Atomic skill taxonomy proven" : "Skill evidence artifact missing"
-  })
-
-  // 6. Contracts Valid
-  const contract1 = existsSync(path.join(REPO_ROOT, ".agents", "contracts", "nos-gallery-first-fold.yaml"))
-  const contract2 = existsSync(path.join(REPO_ROOT, ".agents", "contracts", "session-state-ledger.md"))
-  const contractsPass = contract1 && contract2
-  criteria.push({
-    id: "DOD-06",
-    criterion: "contracts_valid",
-    status: contractsPass ? "PASS" : "FAIL",
-    evidence_refs: [
-      ".agents/contracts/nos-gallery-first-fold.yaml",
-      ".agents/contracts/session-state-ledger.md"
-    ],
-    verification_method: "Repository contract presence and integrity check",
-    blocking: true,
-    reason: contractsPass ? "nos_gallery_first_fold and session_state_ledger active" : "Contracts missing"
-  })
-
-  // 7. Implementation / Analysis Evidence Valid
-  const coreFiles = readdirSync(issueDir).filter((f) => f.endsWith(".md") || f.endsWith(".json") || f.endsWith(".yaml"))
-  const implPass = coreFiles.length >= 15
-  criteria.push({
-    id: "DOD-07",
-    criterion: "implementation_evidence_valid",
-    status: implPass ? "PASS" : "FAIL",
-    evidence_refs: coreFiles.map((f) => `docs/artifacts/bb-nos/nos-001/${f}`),
-    verification_method: "Core issue artifacts count check (>= 15 required)",
-    blocking: true,
-    reason: implPass ? `${coreFiles.length} issue artifacts validated` : "Insufficient artifacts"
-  })
-
-  // 8. Tests Valid
-  const testSuiteExists = existsSync(path.join(REPO_ROOT, ".agents", "scripts", "__tests__", "canonical-execution-fabric.test.mjs"))
-  criteria.push({
-    id: "DOD-08",
-    criterion: "tests_valid",
-    status: testSuiteExists ? "PASS" : "FAIL",
-    evidence_refs: [".agents/scripts/__tests__/canonical-execution-fabric.test.mjs"],
-    verification_method: "Regression test suite availability check",
-    blocking: true,
-    reason: testSuiteExists ? "Execution fabric test suite verified" : "Test suite missing"
-  })
-
-  // 9. Security Valid (EF-03 Adversarial Matrix)
-  const ef03Path = path.join(issueDir, "execution-fabric", "ef-03", "adversarial-attack-matrix.json")
-  let ef03Pass = false
-  if (existsSync(ef03Path)) {
-    const ef03Data = readJson(canonicalRepoPath("docs/artifacts/bb-nos/nos-001/execution-fabric/ef-03/adversarial-attack-matrix.json"))
-    ef03Pass = ef03Data.matrix_verdict === "PASS" && ef03Data.total_attacks === 15
-  }
-  criteria.push({
-    id: "DOD-09",
-    criterion: "security_valid",
-    status: ef03Pass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/execution-fabric/ef-03/adversarial-attack-matrix.json"],
-    verification_method: "Adversarial attack matrix evaluation (15/15 blocked required)",
-    blocking: true,
-    reason: ef03Pass ? "15/15 adversarial attack vectors blocked fail-closed" : "Adversarial security matrix failed"
-  })
-
-  // 10. Self-Critique Valid
-  const selfCritiqueDir = path.join(issueDir, "agent-self-critique")
-  const selfCritiquePass = existsSync(selfCritiqueDir) && readdirSync(selfCritiqueDir).length > 0
-  criteria.push({
-    id: "DOD-10",
-    criterion: "self_critique_valid",
-    status: selfCritiquePass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/agent-self-critique/"],
-    verification_method: "Self-critique artifacts existence check",
-    blocking: true,
-    reason: selfCritiquePass ? "Self-critique iterations recorded" : "Self-critique missing"
-  })
-
-  // 11. AUTO-E Valid
-  const autoEPath = path.join(selfCritiqueDir, "18-auto-improve-iteration-2-execution-fabric.md")
-  const autoEPass = existsSync(autoEPath)
-  criteria.push({
-    id: "DOD-11",
-    criterion: "auto_e_valid",
-    status: autoEPass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/agent-self-critique/18-auto-improve-iteration-2-execution-fabric.md"],
-    verification_method: "Automated improvement report inspection",
-    blocking: true,
-    reason: autoEPass ? "Auto-improve execution fabric report verified" : "AUTO-E artifact missing"
-  })
-
-  // 12. Review-E Valid (T21 Independent Review)
-  const t21Path = path.join(issueDir, "t21", "13-review-evidence.json")
-  let t21Pass = false
-  if (existsSync(t21Path)) {
-    const t21Data = readJson(canonicalRepoPath("docs/artifacts/bb-nos/nos-001/t21/13-review-evidence.json"))
-    t21Pass = t21Data.verdict === "PASS" && t21Data.blocking_findings === 0
-  }
-  criteria.push({
-    id: "DOD-12",
-    criterion: "review_e_valid",
-    status: t21Pass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/t21/13-review-evidence.json"],
-    verification_method: "Independent cross-agent review inspection (0 blocking findings required)",
-    blocking: true,
-    reason: t21Pass ? "T21 independent review passed with 0 blocking findings" : "T21 review missing or failed"
-  })
-
-  // 13. Regression Valid
-  criteria.push({
-    id: "DOD-13",
-    criterion: "regression_valid",
-    status: "PASS",
-    evidence_refs: [".agents/scripts/__tests__/canonical-execution-fabric.test.mjs"],
-    verification_method: "Regression test suite execution check",
-    blocking: true,
-    reason: "Regression test suite green"
-  })
-
-  // 14. Rollback Valid
-  const rollbackPass = existsSync(path.join(issueDir, "07-behavior-contract-matrix.md"))
-  criteria.push({
-    id: "DOD-14",
-    criterion: "rollback_valid",
-    status: rollbackPass ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/07-behavior-contract-matrix.md"],
-    verification_method: "Rollback and behavioral contract inspection",
-    blocking: true,
-    reason: rollbackPass ? "Declarative manifest state and rollback path defined" : "Rollback contract missing"
-  })
-
-  // 15. Execution Fabric Closed (EF-05-R1 derived validation)
-  const ef05r1Path = path.join(issueDir, "execution-fabric", "ef-05-r1", "ef-05-r1-validation-evidence.json")
-  let fabricClosed = false
-  if (existsSync(ef05r1Path)) {
-    const ef05Data = readJson(canonicalRepoPath("docs/artifacts/bb-nos/nos-001/execution-fabric/ef-05-r1/ef-05-r1-validation-evidence.json"))
-    fabricClosed = ef05Data.computed_status === "PASS" && ef05Data.all_terms_satisfied === true && ef05Data.execution_fabric_001_eligible_for_closure === true
-  }
-  criteria.push({
-    id: "DOD-15",
-    criterion: "execution_fabric_closed",
-    status: fabricClosed ? "PASS" : "FAIL",
-    evidence_refs: ["docs/artifacts/bb-nos/nos-001/execution-fabric/ef-05-r1/ef-05-r1-validation-evidence.json"],
-    verification_method: "Full evidence graph validator derivation",
-    blocking: true,
-    reason: fabricClosed ? "EXECUTION-FABRIC-001 closed via derived EF-05-R1 validation" : "Execution fabric not closed"
-  })
-
-  // Compute final DoD verdict dynamically
-  const dodPass = criteria.every((c) => c.status === "PASS")
-  const p0Count = 0
-  const p1Count = 0
-  const goDecision = dodPass && p0Count === 0 && p1Count === 0 && fabricClosed ? "GO" : "NO-GO"
-
-  return {
-    schema_version: 1,
-    kind: "canonical-issue-13-dod-derived-evidence",
-    task_id: "NOS-001-T22-R1",
-    issue_id: "#13",
-    timestamp: new Date().toISOString(),
-    dod_pass: dodPass,
-    go_decision: goDecision,
-    total_criteria: criteria.length,
-    passed_criteria: criteria.filter((c) => c.status === "PASS").length,
-    failed_criteria: criteria.filter((c) => c.status === "FAIL").length,
-    risk_profile: {
-      p0_count: p0Count,
-      p1_count: p1Count
-    },
-    criteria,
-    trust_profile: {
-      evaluation_mode: "derived_from_inspectable_evidence",
-      zero_hardcoded_booleans: true,
-      execution_fabric_closed: fabricClosed
-    }
-  }
+function sha256(value) {
+  return createHash("sha256").update(value).digest("hex");
 }
 
-// CLI execution
-if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+function canonicalize(value) {
+  if (Array.isArray(value)) {
+    return value.map(canonicalize);
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort((left, right) => left.localeCompare(right))
+        .map((key) => [key, canonicalize(value[key])]),
+    );
+  }
+  return value;
+}
+
+export function hashSemanticManifestSubject(manifest) {
+  const subject = {};
+  for (const field of SEMANTIC_SUBJECT_FIELDS) {
+    subject[field] = manifest[field];
+  }
+  return sha256(JSON.stringify(canonicalize(subject)));
+}
+
+function hashFile(filePath) {
+  return sha256(readFileSync(filePath));
+}
+
+function readJsonIfPresent(filePath) {
+  if (!existsSync(filePath)) {
+    return null;
+  }
+  return JSON.parse(readFileSync(filePath, "utf8"));
+}
+
+function readTextIfPresent(filePath) {
+  return existsSync(filePath) ? readFileSync(filePath, "utf8") : "";
+}
+
+function criterion(id, criterionName, passed, evidenceRefs, reason) {
+  return {
+    id,
+    criterion: criterionName,
+    status: passed ? "PASS" : "FAIL",
+    blocking: true,
+    evidence_refs: evidenceRefs,
+    verification_method: "Semantic, hash-bound evidence evaluation",
+    reason,
+  };
+}
+
+function hasNonEmptyCollection(value) {
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+  return Boolean(
+    value && typeof value === "object" && Object.keys(value).length > 0,
+  );
+}
+
+function isPassVerdict(value) {
+  return ["PASS", "PASS_WITH_NON_BLOCKING_FINDINGS"].includes(value);
+}
+
+function reviewPasses(review, subjectHash) {
+  return Boolean(
+    review &&
+    isPassVerdict(review.verdict) &&
+    review.blocking_findings === 0 &&
+    review.p0_count === 0 &&
+    review.p1_count === 0 &&
+    review.semantic_subject_sha256 === subjectHash,
+  );
+}
+
+function contractHashesPass(manifest, currentHashes) {
+  const declared = manifest.evidence?.CONTRACT_HASHES ?? {};
+  return Object.entries(currentHashes).every(
+    ([contractPath, currentHash]) => declared[contractPath] === currentHash,
+  );
+}
+
+function currentPointersAgree(manifest, programState, provenance) {
+  if (!programState || !provenance) {
+    return false;
+  }
+
+  const manifestFrozen = manifest.freeze?.manifest_immutable === true;
+  const expectedManifestState = manifestFrozen ? "FROZEN" : "NOT_FROZEN";
+  const expectedDodState = manifestFrozen ? "PASS" : "NOT_PASSED";
+  const provenanceSource = provenance.canonical_source ?? {};
+
+  return Boolean(
+    programState.issue_13?.manifest === expectedManifestState &&
+    programState.issue_13?.dod === expectedDodState &&
+    programState.git_state?.head === manifest.target_baseline?.head_sha &&
+    provenanceSource.pinned_commit ===
+      manifest.canonical_source?.pinned_commit &&
+    provenanceSource.tree_sha === manifest.canonical_source?.tree_sha &&
+    provenance.manifest_contract?.semantic_subject_sha256 ===
+      hashSemanticManifestSubject(manifest) &&
+    provenance.gates?.manifest === expectedManifestState &&
+    provenance.gates?.visual_parity !== "GO" &&
+    provenance.gates?.commercial_truth !== "GO",
+  );
+}
+
+export function evaluateIssue13DoD(evidence) {
+  const {
+    manifest,
+    liveValidation,
+    validationReceipt,
+    autoImproveText,
+    independentReview,
+    repoGuardian,
+    supersessionText,
+    programState,
+    provenance,
+    completionRecord,
+    semanticSubjectSha256,
+    validatorSha256,
+    validatorTestsSha256,
+    contractHashes,
+    baseEvidenceExists,
+    externalDriftEvidenceExists,
+  } = evidence;
+
+  const summary = manifest.summary ?? {};
+  const canonical = manifest.canonical_source ?? {};
+  const capabilities = manifest.capabilities ?? [];
+  const declaredSourceHashes = Object.keys(
+    canonical.critical_source_hashes ?? {},
+  );
+  const closure = canonical.import_closure ?? [];
+
+  const semanticPass = Boolean(
+    liveValidation?.pass &&
+    liveValidation.p0_count === 0 &&
+    liveValidation.p1_count === 0 &&
+    liveValidation.computed?.closure_total === closure.length &&
+    liveValidation.computed?.capabilities_total === capabilities.length,
+  );
+  const sourceTargetPass = Boolean(
+    closure.length > 0 &&
+    closure.length === declaredSourceHashes.length &&
+    summary.canonical_import_closure_files === closure.length &&
+    summary.canonical_import_closure_covered === closure.length &&
+    summary.capabilities_total === capabilities.length &&
+    summary.unknown_capabilities === 0 &&
+    Array.isArray(manifest.target_legacy_dispositions) &&
+    manifest.target_legacy_dispositions.length > 0 &&
+    Array.isArray(manifest.target_host_dispositions) &&
+    manifest.target_host_dispositions.length > 0,
+  );
+  const receiptPass = Boolean(
+    validationReceipt?.pass &&
+    validationReceipt.p0_count === 0 &&
+    validationReceipt.p1_count === 0 &&
+    validationReceipt.tests?.failed === 0 &&
+    validationReceipt.tests?.passed >= 17 &&
+    validationReceipt.semantic_subject_sha256 === semanticSubjectSha256 &&
+    validationReceipt.validator_sha256 === validatorSha256 &&
+    validationReceipt.validator_tests_sha256 === validatorTestsSha256,
+  );
+  const issueSet = Object.keys(
+    manifest.issue_dependency_snapshot?.issues ?? {},
+  ).sort();
+  const ownershipSet = Object.keys(manifest.issue_ownership ?? {}).sort();
+  const dagPass = Boolean(
+    issueSet.length > 0 &&
+    JSON.stringify(issueSet) === JSON.stringify(ownershipSet) &&
+    semanticPass,
+  );
+  const contractsPass = Boolean(
+    contractHashesPass(manifest, contractHashes) &&
+    hasNonEmptyCollection(manifest.behavioral_contracts) &&
+    hasNonEmptyCollection(manifest.medusa_invariants) &&
+    Array.isArray(manifest.legacy_replacement_order) &&
+    manifest.legacy_replacement_order.length > 0,
+  );
+  const writeSetPass = Boolean(
+    semanticPass &&
+    manifest.manifest?.runtime_code_changes_since_w0_base === "none" &&
+    baseEvidenceExists &&
+    externalDriftEvidenceExists &&
+    !liveValidation.findings?.some(
+      (finding) => finding.code === "runtime_write_set",
+    ),
+  );
+  const supersessionPass = Boolean(
+    supersessionText.includes("SUPERSEDED_INVALID_DERIVATION") &&
+    supersessionText.includes("reserved phrase") &&
+    currentPointersAgree(manifest, programState, provenance),
+  );
+  const autoImprovePass = Boolean(
+    autoImproveText.includes("AUTO-E2 verdict") &&
+    autoImproveText.includes("PASS FOR ITERATION IMPROVEMENT ONLY") &&
+    autoImproveText.includes("55/55") &&
+    autoImproveText.includes("P0=0") &&
+    autoImproveText.includes("P1=0"),
+  );
+  const independentReviewPass = reviewPasses(
+    independentReview,
+    semanticSubjectSha256,
+  );
+  const repoGuardianPass = reviewPasses(repoGuardian, semanticSubjectSha256);
+
+  const riskCounts = {
+    p0_count:
+      (liveValidation?.p0_count ?? 1) +
+      (independentReview?.p0_count ?? (independentReview ? 1 : 0)) +
+      (repoGuardian?.p0_count ?? (repoGuardian ? 1 : 0)),
+    p1_count:
+      (liveValidation?.p1_count ?? 1) +
+      (independentReview?.p1_count ?? (independentReview ? 1 : 0)) +
+      (repoGuardian?.p1_count ?? (repoGuardian ? 1 : 0)),
+  };
+  const zeroBlockingRisk = Boolean(
+    riskCounts.p0_count === 0 &&
+    riskCounts.p1_count === 0 &&
+    semanticPass &&
+    independentReviewPass &&
+    repoGuardianPass,
+  );
+  const completionPublished = Boolean(
+    completionRecord?.published === true &&
+    completionRecord.issue === "#13" &&
+    completionRecord.semantic_subject_sha256 === semanticSubjectSha256 &&
+    typeof completionRecord.url === "string" &&
+    completionRecord.url.startsWith("https://github.com/"),
+  );
+
+  const criteria = [
+    criterion(
+      "DOD-01",
+      "semantic_manifest_valid",
+      semanticPass,
+      [
+        ".agents/contracts/nos-gallery-transplant-manifest.yaml",
+        ".agents/scripts/validate-nos-gallery-manifest.mjs",
+      ],
+      semanticPass
+        ? "Live semantic validation passed with zero P0/P1 findings"
+        : "Live semantic validation is missing, stale or has P0/P1 findings",
+    ),
+    criterion(
+      "DOD-02",
+      "semantic_regression_tests_valid",
+      receiptPass,
+      [
+        ".agents/scripts/__tests__/validate-nos-gallery-manifest.test.mjs",
+        "docs/artifacts/bb-nos/nos-001/w0-iteration-2-semantic-validation.json",
+      ],
+      receiptPass
+        ? "Executed positive and fail-closed tests are bound to current validator and semantic subject hashes"
+        : "Regression receipt is absent, stale, failed or not hash-bound",
+    ),
+    criterion(
+      "DOD-03",
+      "source_target_ownership_complete",
+      sourceTargetPass,
+      [".agents/contracts/nos-gallery-transplant-manifest.yaml"],
+      sourceTargetPass
+        ? `${closure.length}/${closure.length} canonical closure files are hashed and classified; target legacy and host matrices are explicit`
+        : "Canonical closure or target ownership matrix is incomplete",
+    ),
+    criterion(
+      "DOD-04",
+      "issue_dependency_snapshot_reconciled",
+      dagPass,
+      [".agents/contracts/nos-gallery-transplant-manifest.yaml"],
+      dagPass
+        ? `${issueSet.length}/${issueSet.length} issue nodes have matching ownership and dependency sets`
+        : "Issue DAG and ownership snapshot differ or semantic validation failed",
+    ),
+    criterion(
+      "DOD-05",
+      "contracts_behaviors_and_rollback_valid",
+      contractsPass,
+      [
+        ".agents/contracts/session-state-ledger.md",
+        ".agents/contracts/session-state-ledger.schema.yaml",
+        ".agents/contracts/nos-gallery-first-fold.yaml",
+        ".agents/contracts/nos-gallery-transplant-manifest.yaml",
+      ],
+      contractsPass
+        ? "Contract hashes, behavioral invariants and replacement/rollback order are current"
+        : "A contract hash, behavior invariant or replacement/rollback step is missing or stale",
+    ),
+    criterion(
+      "DOD-06",
+      "w0_runtime_write_set_confined",
+      writeSetPass,
+      [
+        "docs/artifacts/bb-nos/2026-08-08-w0-base-e.md",
+        "docs/artifacts/bb-nos/2026-08-08-external-git-drift.md",
+      ],
+      writeSetPass
+        ? "W0 changes are confined to governance evidence; external HEAD drift and PDP bytes are reconciled"
+        : "W0 BASE-E, external drift or runtime write-set evidence is invalid",
+    ),
+    criterion(
+      "DOD-07",
+      "supersession_and_current_pointers_consistent",
+      supersessionPass,
+      [
+        "docs/artifacts/bb-nos/nos-001/2026-08-08-w0-supersession.md",
+        "docs/artifacts/bb-nos/program-state.json",
+        "docs/artifacts/nos-gallery-provenance-manifest.json",
+      ],
+      supersessionPass
+        ? "Historical false PASS/FROZEN claims are superseded and current pointers agree"
+        : "Historical or current state pointers remain contradictory",
+    ),
+    criterion(
+      "DOD-08",
+      "auto_e_valid",
+      autoImprovePass,
+      [
+        "docs/artifacts/bb-nos/nos-001/agent-self-critique/2026-08-08-iteration-2-auto-e.md",
+      ],
+      autoImprovePass
+        ? "AUTO-E2 records measurable Iteration 1 to Iteration 2 improvement and retained residual risks"
+        : "AUTO-E2 evidence is missing or does not report the measured semantic delta",
+    ),
+    criterion(
+      "DOD-09",
+      "independent_review_e_valid",
+      independentReviewPass,
+      ["docs/artifacts/bb-nos/nos-001/reviews/2026-08-08-review-e2.json"],
+      independentReviewPass
+        ? "Independent REVIEW-E2 passed with zero P0/P1 findings on the current semantic subject"
+        : "Independent REVIEW-E2 is absent, failed, blocking or stale",
+    ),
+    criterion(
+      "DOD-10",
+      "repo_guardian_valid",
+      repoGuardianPass,
+      [
+        "docs/artifacts/bb-nos/nos-001/reviews/2026-08-08-repo-guardian-e2.json",
+      ],
+      repoGuardianPass
+        ? "REPO-GUARDIAN-E2 passed with zero P0/P1 findings on the current semantic subject"
+        : "REPO-GUARDIAN-E2 is absent, failed, blocking or stale",
+    ),
+    criterion(
+      "DOD-11",
+      "zero_open_p0_p1",
+      zeroBlockingRisk,
+      [
+        "docs/artifacts/bb-nos/nos-001/w0-iteration-2-semantic-validation.json",
+        "docs/artifacts/bb-nos/nos-001/reviews/",
+      ],
+      zeroBlockingRisk
+        ? "Live validator and both independent reviews report zero P0/P1 findings"
+        : `Derived risk counts are P0=${riskCounts.p0_count}, P1=${riskCounts.p1_count}`,
+    ),
+    criterion(
+      "DOD-12",
+      "github_completion_record_published",
+      completionPublished,
+      [
+        "docs/artifacts/bb-nos/nos-001/github/issue-13-completion-record.json",
+        "GitHub issue #13",
+      ],
+      completionPublished
+        ? "Hash-bound completion record was published to GitHub issue #13"
+        : "GitHub completion record is not published or is not bound to the current semantic subject",
+    ),
+  ];
+
+  const localTechnicalPass = criteria
+    .filter((item) => item.id !== "DOD-12")
+    .every((item) => item.status === "PASS");
+  const freezeStatePass = Boolean(
+    localTechnicalPass &&
+    completionPublished &&
+    manifest.freeze?.status === "frozen" &&
+    manifest.freeze?.manifest_immutable === true &&
+    manifest.freeze?.downstream_ready === true &&
+    manifest.freeze?.github_completion_record_published === true &&
+    manifest.manifest?.status === "FROZEN" &&
+    manifest.manifest?.gate_verdict === "PASS" &&
+    manifest.manifest?.reserved_freeze_phrase_permitted === true &&
+    typeof manifest.manifest?.frozen_at === "string",
+  );
+  criteria.push(
+    criterion(
+      "DOD-13",
+      "manifest_freeze_transition_complete",
+      freezeStatePass,
+      [
+        ".agents/contracts/nos-gallery-transplant-manifest.yaml",
+        "docs/artifacts/bb-nos/program-state.json",
+      ],
+      freezeStatePass
+        ? "Manifest freeze was applied only after all local and GitHub prerequisites passed"
+        : "Manifest remains correctly unfrozen until every prerequisite, including GitHub publication, passes",
+    ),
+  );
+
+  const dodPass = criteria.every((item) => item.status === "PASS");
+
+  return {
+    schema_version: 2,
+    kind: "canonical-issue-13-dod-derived-evidence",
+    task_id: "NOS-001-GOV-06",
+    issue_id: "#13",
+    generated_at: new Date().toISOString(),
+    semantic_subject_sha256: semanticSubjectSha256,
+    local_technical_pass: localTechnicalPass,
+    external_completion_pass: completionPublished,
+    freeze_eligible:
+      localTechnicalPass && completionPublished && !freezeStatePass,
+    dod_pass: dodPass,
+    go_decision: dodPass ? "GO" : "NO-GO",
+    total_criteria: criteria.length,
+    passed_criteria: criteria.filter((item) => item.status === "PASS").length,
+    failed_criteria: criteria.filter((item) => item.status === "FAIL").length,
+    risk_profile: riskCounts,
+    criteria,
+    trust_profile: {
+      evaluation_mode: "live_semantic_and_hash_bound_evidence",
+      risk_counts_derived: true,
+      missing_external_evidence_fails_closed: true,
+      reserved_freeze_phrase_permitted:
+        manifest.manifest?.reserved_freeze_phrase_permitted === true,
+    },
+  };
+}
+
+export function deriveIssue13DoD(options = {}) {
+  const paths = { ...DEFAULT_PATHS, ...(options.paths ?? {}) };
+  const manifest = options.manifest ?? loadJsonCompatibleYaml(paths.manifest);
+  const semanticSubjectSha256 = hashSemanticManifestSubject(manifest);
+  const liveValidation =
+    options.liveValidation ??
+    validateManifestAgainstRepositories({
+      manifest,
+      targetRepo: REPO_ROOT,
+      canonicalRepo: manifest.canonical_source.local_checkout,
+    });
+
+  return evaluateIssue13DoD({
+    manifest,
+    liveValidation,
+    validationReceipt:
+      options.validationReceipt ?? readJsonIfPresent(paths.validationReceipt),
+    autoImproveText:
+      options.autoImproveText ?? readTextIfPresent(paths.autoImprove),
+    independentReview:
+      options.independentReview ?? readJsonIfPresent(paths.independentReview),
+    repoGuardian: options.repoGuardian ?? readJsonIfPresent(paths.repoGuardian),
+    supersessionText:
+      options.supersessionText ?? readTextIfPresent(paths.supersession),
+    programState: options.programState ?? readJsonIfPresent(paths.programState),
+    provenance: options.provenance ?? readJsonIfPresent(paths.provenance),
+    completionRecord:
+      options.completionRecord ?? readJsonIfPresent(paths.completionRecord),
+    semanticSubjectSha256,
+    validatorSha256: hashFile(paths.validator),
+    validatorTestsSha256: hashFile(paths.validatorTests),
+    contractHashes: {
+      ".agents/contracts/session-state-ledger.md": hashFile(
+        paths.sessionContract,
+      ),
+      ".agents/contracts/session-state-ledger.schema.yaml": hashFile(
+        paths.sessionSchema,
+      ),
+      ".agents/contracts/nos-gallery-first-fold.yaml": hashFile(
+        paths.visualContract,
+      ),
+    },
+    baseEvidenceExists: existsSync(paths.baseEvidence),
+    externalDriftEvidenceExists: existsSync(paths.externalDrift),
+  });
+}
+
+if (
+  process.argv[1] &&
+  fileURLToPath(import.meta.url) === path.resolve(process.argv[1])
+) {
   try {
-    const result = deriveIssue13DoD()
-    if (!result.dod_pass) {
-      process.stderr.write(`Issue #13 DoD derivation failed:\n${JSON.stringify(result, null, 2)}\n`)
-      process.exitCode = 1
+    const result = deriveIssue13DoD();
+    const output = `${JSON.stringify(result, null, 2)}\n`;
+    if (result.dod_pass) {
+      process.stdout.write(output);
     } else {
-      process.stdout.write(JSON.stringify(result, null, 2) + "\n")
+      process.stderr.write(output);
+      process.exitCode = 1;
     }
-  } catch (err) {
-    failCli(err)
+  } catch (error) {
+    process.stderr.write(`${error.stack ?? error.message}\n`);
+    process.exitCode = 1;
   }
 }

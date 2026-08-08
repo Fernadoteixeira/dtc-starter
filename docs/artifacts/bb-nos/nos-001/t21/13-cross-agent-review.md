@@ -1,5 +1,7 @@
 # #13 T21 — Independent Cross-Agent Review Report
 
+> **SUPERSEDED_REVIEW:** this review evaluated the invalid pre-Iteration-1 manifest and must not be consumed as current REVIEW-E evidence. See `../2026-08-08-w0-supersession.md` and `../supersession-index.json`.
+
 **Task:** `NOS-001-T21` (Independent #13 Cross-Agent Review)  
 **Parent Issue:** `#13 — NOS Gallery Canonical Inventory, Manifest & Behavioral Contract Matrix`  
 **Parent EPIC:** `#12 — BB-NOS: Nos Gallery Transplant & Commerce-Shell Integration`  

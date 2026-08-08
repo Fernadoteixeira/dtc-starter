@@ -3,11 +3,11 @@
   "kind": "canonical-program-state",
   "program": "BB-NOS",
   "epic_id": "#12",
-  "updated_at": "2026-08-08T19:37:17.068-03:00",
+  "updated_at": "2026-08-08T20:25:00.000-03:00",
   "current_wave": "W0",
   "current_workstream": "GOV-01..GOV-06",
   "issue_13": {
-    "state": "REMEDIATION_IN_PROGRESS",
+    "state": "ITERATION_2_REVIEW_PENDING",
     "dor": "PASS",
     "dod": "NOT_PASSED",
     "manifest": "NOT_FROZEN",
@@ -55,7 +55,7 @@
     "release candidate"
   ],
   "current_gates": {
-    "architecture": "FAIL_REMEDIATION_IN_PROGRESS",
+    "architecture": "SEMANTIC_PASS_INDEPENDENT_REVIEW_PENDING",
     "canonical_port": "FAIL_NOT_EXECUTED",
     "visual_parity": "FAIL",
     "behavioral_parity": "FAIL",
@@ -70,11 +70,9 @@
     "human_gate": "PENDING"
   },
   "risk_register": {
-    "p0": [
-      "BB-NOS-MANIFEST",
-      "BB-NOS-COMMERCIAL-TRUTH"
-    ],
+    "p0": ["BB-NOS-COMMERCIAL-TRUTH"],
     "p1": [
+      "BB-NOS-ITERATION-2-INDEPENDENT-REVIEW",
       "BB-NOS-PACKAGE-OUTPUT",
       "BB-NOS-PARALLEL-IMPLEMENTATION"
     ]
@@ -86,11 +84,21 @@
   },
   "git_state": {
     "branch": "main",
-    "head": "45ef2606512a5a26f0fee2a377ffda823423fce9",
+    "head": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "previous_head": "45ef2606512a5a26f0fee2a377ffda823423fce9",
+    "head_transition": "EXTERNAL_COMMIT_OBSERVED_DURING_W0",
     "working_tree_clean": false,
-    "preexisting_dirty_path": "apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx",
+    "preexisting_pdp_state": "COMMITTED_EXTERNALLY_UNCHANGED_FROM_BASE_E",
     "stage_commit_push_pr_merge_release": "FORBIDDEN"
   },
-  "next_action": "Complete semantic W0 remediation, AUTO-E and independent REVIEW-E. Do not start runtime W1 before W0 gate transition.",
+  "w0_task_progress": {
+    "GOV-01": "DONE",
+    "GOV-02": "IMPLEMENTED_VALIDATED_PENDING_REVIEW_E2",
+    "GOV-03": "DONE",
+    "GOV-04": "DONE",
+    "GOV-05": "AUTO_E2_DONE_REVIEW_E2_PENDING",
+    "GOV-06": "BLOCKED_BY_REVIEW_E2_AND_EXTERNAL_GITHUB_RECORD"
+  },
+  "next_action": "Run independent REVIEW-E2 and REPO-GUARDIAN-E2 on semantic subject 71d3d84f. Do not start runtime W1 or freeze before those reviews and the separate GitHub completion record gate.",
   "release_verdict": "BB-NOS NO-GO / REMEDIATION REQUIRED"
 }

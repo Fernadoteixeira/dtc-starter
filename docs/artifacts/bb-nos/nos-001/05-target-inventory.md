@@ -1,5 +1,7 @@
 # 05 — Target Surface Inventory (NOS-001)
 
+> **HISTORICAL_TARGET_SNAPSHOT:** this file predates target baseline `38246f64...` and the current W1 host surface. Current target truth is in `target_baseline`, `target_legacy_dispositions` and `target_host_dispositions` of `/.agents/contracts/nos-gallery-transplant-manifest.yaml`.
+
 **Issue:** #13 (NOS-001)
 **Protocol:** Canonical Autonomous Execution v4.0
 **DoR status:** PASS (13/13)

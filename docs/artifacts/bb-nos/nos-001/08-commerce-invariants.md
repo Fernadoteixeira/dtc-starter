@@ -1,5 +1,7 @@
 # 08 — Commerce Invariants (NOS-001)
 
+> **SUPERSEDED_UNENFORCED_INVARIANTS:** the table below records historical design intent, not verified enforcement. Current production code still fails Commercial Truth. Authoritative requirements are `medusa_invariants` in the manifest; proof remains gated by DAT-01..DAT-05.
+
 **Issue:** #13 (NOS-001)
 **Protocol:** Canonical Autonomous Execution v4.0
 

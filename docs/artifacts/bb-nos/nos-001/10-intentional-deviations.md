@@ -1,5 +1,7 @@
 # 10 — Intentional Deviations (NOS-001)
 
+> **SUPERSEDED_UNAPPROVED_DEVIATIONS:** this historical list grants no current waiver. Only explicit `ADAPT`, `DEFER` and `REJECT_WITH_REASON` entries with typed ownership in `/.agents/contracts/nos-gallery-transplant-manifest.yaml` are current.
+
 **Issue:** #13 (NOS-001)
 **Protocol:** Canonical Autonomous Execution v4.0
 

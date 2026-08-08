@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "kind": "nos-001-repo-guardian-review",
+  "review_id": "REPO-GUARDIAN-E1",
+  "reviewer": "/root/target_duplication_audit",
+  "mode": "independent-read-only",
+  "reviewed_manifest_sha256": "a8f90d6be054d0a318d9c275fa5436a7ff5390d37eb85ef7bdd954653411d185",
+  "semantic_subject_sha256": "85b2437ecc08b8c3d8dda564593388c350bac2d7f15aef4617829085ffff0455",
+  "verdict": "FAIL",
+  "blocking_findings": 3,
+  "p0_count": 0,
+  "p1_count": 3,
+  "p2_count": 2,
+  "finding_codes": [
+    "jsonld_target_disposition_conflict",
+    "client_server_observability_target_conflict",
+    "target_truth_validator_gap"
+  ],
+  "consequence": "NO_FREEZE_ITERATION_1",
+  "superseded_by": "Iteration 2 remediation and REPO-GUARDIAN-E2",
+  "evidence_boundary": "This receipt records the repository guardian result supplied by the read-only reviewer; it does not self-certify Iteration 2."
+}

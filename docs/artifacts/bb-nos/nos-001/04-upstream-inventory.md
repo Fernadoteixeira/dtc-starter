@@ -1,5 +1,7 @@
 # 04 — Upstream Source Inventory (NOS-001)
 
+> **SUPERSEDED_INVALID_INVENTORY:** this snapshot contains paths absent from the pinned Git tree and must not be used for counts or classification. The authoritative inventory is the 55/55 `canonical_source.import_closure` plus raw blob hashes in `/.agents/contracts/nos-gallery-transplant-manifest.yaml`.
+
 **Issue:** #13 (NOS-001)
 **Canonical SHA:** `2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e`
 **Source path:** `apps/storefront/src/modules/nos-gallery/`

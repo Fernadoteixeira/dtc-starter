@@ -1,5 +1,7 @@
 # 07 — Behavior Contract Matrix (NOS-001)
 
+> **SUPERSEDED_BEHAVIOR_MAPPING:** historical counts, dispositions and owners below are not current gate inputs. Use `behavioral_contracts`, `capabilities`, `issue_ownership` and `medusa_invariants` in `/.agents/contracts/nos-gallery-transplant-manifest.yaml`.
+
 **Issue:** #13 (NOS-001)
 **Protocol:** Canonical Autonomous Execution v4.0
 **DoR status:** PASS (13/13)

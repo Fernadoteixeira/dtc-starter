@@ -1,5 +1,7 @@
 # 12 — Issue Ownership Matrix (NOS-001, Remediated)
 
+> **CURRENT SCHEDULING SNAPSHOT, NOT MANIFEST SSOT:** the literal GitHub dependency snapshot remains useful, but historical deliverable pointers below do not override `issue_dependency_snapshot`, `issue_ownership` or the acceptance checklist in `/.agents/contracts/nos-gallery-transplant-manifest.yaml`.
+
 **Issue:** #13 (NOS-001)  
 **Protocol:** Canonical Autonomous Execution v4.0  
 **Status:** Auto-Improve Iteration 1  

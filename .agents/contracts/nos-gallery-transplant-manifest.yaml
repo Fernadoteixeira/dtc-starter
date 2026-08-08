@@ -1,286 +1,1764 @@
-# NOS-Gallery Transplant Manifest — BB-NOS / Issue #13 (NOS-001)
-# Iteration 0 rebuilt on 2026-08-08 from the pinned Git blob, current issue
-# bodies #14-#32 and the current target checkout. This artifact remains mutable
-# until AUTO-E1 and REVIEW-E1 pass.
-
-manifest:
-  id: nos-gallery-transplant-manifest
-  issue: "#13 / NOS-001"
-  iteration: 0
-  status: iteration_0_ready_for_self_critique
-  frozen_at: null
-  gate_verdict: REMEDIATION_REVIEW_PENDING
-  runtime_code_changes: none
-  unknown_capabilities: 0
-
-canonical_source:
-  repository: Fernadoteixeira/nos-gallery
-  remote_url: https://github.com/Fernadoteixeira/nos-gallery.git
-  pinned_commit: 2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e
-  pinned_commit_subject: "feat: initialize product-lifecycle-canonical-skills-315 agent with domain-specific skills, schemas, and orchestrations"
-  pinned_commit_date: "2026-08-04T16:56:43-03:00"
-  local_checkout: C:/Users/fjuni/Documents/GitHub/06-hackblue-halls/nos-gallery
-  local_branch: main
-  verification:
-    remote_sha_match: true
-    local_head_match: true
-    source_scope_clean_at_head: true
-    working_tree_exceptions:
-      - path: package.json
-        reason: dev command explicitly binds the reference runtime to port 3422
-    lineage_conflict: false
-    hashing_method: SHA-256 over raw Git blob bytes from pinned_commit:path
-  source_hashes:
-    components/art-gallery-slider.tsx: f2a13697bf3b7c71a2ac85e2431f4629a11ac7969e524e054c9844961514a800
-    components/artwork-card.tsx: b021a9f19ec96bc09fdc66bc7d0190ff9fee854b5c388ff4f5e6653dd491fbac
-    components/gallery-ambient.tsx: 149e186c78bcbab832344e81ef06b5154c2ab9a5c962af2177f7e3a9511f8aa1
-    components/navigation-dots.tsx: 8e450c4d9967facac5dcd1f3174e4f39cfce11cc44894424024560cf21f5d346
-    components/gallery-progress-control.tsx: dc0b4b12b2a14eef2a313aed94b58d8509c8ea9e33a2ae10ec8fc84dd76b7589
-    hooks/use-slider-navigation.ts: c1d36820521540d3e5385642a024af937274776a5daf737182e46d2b52cd7bce
-    hooks/use-slider-drag.ts: b6d99a4d62ec45f4c13d10b4ec446f01cf1fad7b7130fa41ac2f1399280c6369
-    hooks/use-slider-wheel.ts: 7ff1d1919f441bead607381c04e812f36816cb291899729ce315f2e32231af50
-    hooks/use-reduced-motion.ts: 85577edd0b73b5a098f2ff0b98a890083aa2ffc765519bad9e7f5a25aefbb90a
-    hooks/use-artwork-dwell.ts: 1547ad604644b595f1e06f65e207d5adbc9210661545d810b54cbfc60c0e9c40
-    hooks/use-gallery-progress.ts: 616029f292b8ea9924a55ebb462074a4ba138a0bd83f433622bdfdb1c62a933d
-    hooks/use-color-extraction.ts: 57664e665fbd6a00810853ddaaa66f8b4d71405da46c44dc3b630a1228a6092c
-    hooks/use-saved-artworks.ts: 056a267a4e733e17557cafcff00eeb44af5a52c48885c3f776d68d0c9cb9b8e8
-    lib/constants.ts: 2428ce6094bb43e675d6690bcc2f88e2aaa9ac308e7ed9a9e537d8ab02d7dc5c
-    lib/gallery-progress.ts: b55b5e1b1315cd6e0e825c2bb2a4a426514b49ec7ac24c568ce0c014e8843e34
-    lib/color-extractor.ts: bcd4b3f2de68411955a3effabdb95699ecf64de3bf782a3871a0d8d1eeb23b25
-    lib/share.ts: d7931df06aa54e907f4f41de52f5ec77d368c6bb6692961ae05af7cc2d943e60
-    lib/analytics.ts: c66b688944a5a415501e593fb3d7d84ae3beafe0fa53a608fae000d175a68138
-    lib/utils.ts: 0f3c697eb027475a29e8b926d6dd45ddcd56c814245ecfd84d790fc91a6554ff
-    types/artwork.ts: 6482bdc6ecd46c58f1b287bbf65b6de9561ff0547a00e14289b58a98eaceb03a
-    app/page.tsx: 65e6643f335cf65800292341efbafae1e0d68f1804cefe5e2d526654867268fa
-    app/globals.css: 7fca5b50b42aea51d4c4938824a98c25ec8312c92abc858d39881d1596b5216b
-
-target_architecture:
-  presentation_package: packages/gallery-experience
-  storefront_integration: apps/storefront/src/modules/home/gallery-hero
-  product_route: apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx
-  server_flow:
-    - GalleryHero server component
-    - typed Fio Vivo Medusa source result
-    - commercially truthful StoreProduct to GalleryItem adapter
-    - serializable GalleryItem array
-    - GalleryHeroClient boundary
-  client_flow:
-    - GalleryExperience thin compatibility facade
-    - ArtGallerySlider canonical engine
-    - canonical components, hooks and utilities
-  invariant: Medusa logic remains outside the canonical presentation engine
-
-owners:
-  presentation_package:
-    paths: [packages/gallery-experience/src/**]
-    issues: ["#14", "#15", "#16", "#17", "#18", "#19", "#20"]
-  storefront_integration:
-    paths: [apps/storefront/src/modules/home/gallery-hero/**]
-    issues: ["#21", "#22", "#23", "#29", "#31"]
-  commerce_pdp:
-    paths: [apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx]
-    issues: ["#22", "#23"]
-  quality:
-    paths: [e2e/**, playwright.config.ts, docs/artifacts/bb-nos/**]
-    issues: ["#24", "#25", "#26", "#30"]
-  operations_security:
-    issues: ["#27", "#28", "#31", "#32"]
-
-dispositions:
-  - { upstream: components/art-gallery-slider.tsx, disposition: ADAPT, target: packages/gallery-experience/src/components/art-gallery-slider.tsx, issue: "#17" }
-  - { upstream: components/artwork-card.tsx, disposition: ADAPT, target: packages/gallery-experience/src/components/artwork-card.tsx, issue: "#16" }
-  - { upstream: components/gallery-ambient.tsx, disposition: ADAPT, target: packages/gallery-experience/src/components/gallery-ambient.tsx, issue: "#15" }
-  - { upstream: components/navigation-dots.tsx, disposition: PORT, target: packages/gallery-experience/src/components/navigation-dots.tsx, issue: "#17" }
-  - { upstream: components/gallery-progress-control.tsx, disposition: ADAPT, target: packages/gallery-experience/src/components/gallery-progress-control.tsx, issue: "#20" }
-  - { upstream: lib/constants.ts, disposition: ADAPT, target: packages/gallery-experience/src/lib/constants.ts, issue: "#14" }
-  - { upstream: app/page.tsx, disposition: KEEP_DTC, target: apps/storefront/src/modules/home/gallery-hero/index.tsx, issue: "#21" }
-  - { upstream: app/globals.css, disposition: ADAPT, target: packages/gallery-experience/src/styles/gallery-experience.css, issue: "#14" }
-  - { upstream: hooks/use-slider-navigation.ts, disposition: ADAPT, target: packages/gallery-experience/src/hooks/use-slider-navigation.ts, issue: "#17" }
-  - { upstream: hooks/use-slider-drag.ts, disposition: PORT, target: packages/gallery-experience/src/hooks/use-slider-drag.ts, issue: "#18" }
-  - { upstream: hooks/use-slider-wheel.ts, disposition: PORT, target: packages/gallery-experience/src/hooks/use-slider-wheel.ts, issue: "#18" }
-  - { upstream: hooks/use-reduced-motion.ts, disposition: PORT, target: packages/gallery-experience/src/hooks/use-reduced-motion.ts, issue: "#19" }
-  - { upstream: hooks/use-gallery-progress.ts + lib/gallery-progress.ts, disposition: ADAPT, target: packages/gallery-experience/src/hooks/use-gallery-progress.ts + packages/gallery-experience/src/lib/gallery-progress.ts, issue: "#20" }
-  - { upstream: hooks/use-artwork-dwell.ts, disposition: ADAPT, target: packages/gallery-experience/src/hooks/use-artwork-dwell.ts, issue: "#20" }
-  - { upstream: hooks/use-color-extraction.ts + lib/color-extractor.ts, disposition: ADAPT, target: packages/gallery-experience/src/hooks/use-color-extraction.ts + packages/gallery-experience/src/lib/color-extractor.ts, issue: "#15" }
-  - { upstream: hooks/use-saved-artworks.ts, disposition: DEFER, target: packages/gallery-experience/src/hooks/use-saved-artworks.ts, issue: "future wishlist decision" }
-  - { upstream: lib/artworks/indexes.ts, disposition: ADAPT, target: packages/gallery-experience/src/lib/indexes.ts, issue: "#17" }
-  - { upstream: types/artwork.ts, disposition: ADAPT, target: packages/gallery-experience/src/types/canonical-artwork.ts + adapters/gallery-item-to-artwork.ts, issue: "#16" }
-  - { upstream: lib/utils.ts artworkImageUrl, disposition: REJECT_WITH_REASON, replacement: GalleryImage.url with host image policy, issue: "#16" }
-  - { upstream: lib/analytics.ts, disposition: REJECT_WITH_REASON, replacement: typed package callbacks plus gallery-hero-analytics.ts, issue: "#23" }
-  - { upstream: lib/share.ts, disposition: ADAPT, target: packages/gallery-experience/src/lib/share.ts, issue: "#23" }
-  - { upstream: lib/artworks repositories and postgres files, disposition: REJECT_WITH_REASON, replacement: typed Medusa Store API source, issue: "#21" }
-  - { upstream: lib/schema.ts buildGalleryJsonLd, disposition: ADAPT, target: apps/storefront/src/modules/home/gallery-hero/gallery-hero-jsonld.ts, issue: "#23" }
-  - { upstream: components/artwork-details-dialog.tsx, disposition: REJECT_WITH_REASON, replacement: localized Medusa PDP, issue: "#23" }
-  - { upstream: components/inquiry-modal.tsx and inquiry pipeline, disposition: REJECT_WITH_REASON, replacement: Medusa PDP/cart/checkout, issue: "#23" }
-  - { upstream: components/collection-progress-dialog.tsx, disposition: ADAPT, target: packages/gallery-experience/src/components/collection-progress-dialog.tsx, issue: "#20" }
-  - { upstream: components/gallery-state-screen.tsx, disposition: ADAPT, target: apps/storefront/src/modules/home/gallery-hero/gallery-hero-fallback.tsx, issue: "#29" }
-  - { upstream: components/theme-provider.tsx, disposition: REJECT_WITH_REASON, replacement: scoped fixed editorial tokens, issue: "#14" }
-  - { upstream: components/web-vitals-reporter.tsx, disposition: KEEP_DTC, target: storefront observability bridge, issue: "#31" }
-  - { upstream: app/privacidade + app/studio + lib/auth + lib/db + lib/api, disposition: REJECT_WITH_REASON, replacement: Medusa commerce/admin/auth boundaries, issue: "#32" }
-
-disposition_rules:
-  ADAPT: preserve canonical structure and behavior; alter only type, host, locale, routing, analytics, security or runtime boundaries
-  PORT: copy canonical behavior with mechanical import and Tailwind-v3 compatibility changes only
-  KEEP_DTC: retain a host-commerce responsibility absent from the canonical presentation engine
-  DEFER: keep explicitly out of the current critical path with a named future owner
-  REJECT_WITH_REASON: do not transplant because a DTC/Medusa boundary owns the capability
-  never: reimplement an equivalent canonical primitive
-
-issue_ownership:
-  "#14": { depends_on: ["#13"], owns: visual tokens, typography, first-fold shell and commerce-header stacking }
-  "#15": { depends_on: ["#13", "#14"], owns: dynamic ambient, color extraction, grain and vignette }
-  "#16": { depends_on: ["#13", "#14"], owns: ArtworkCard, scene state, discovery and image delivery }
-  "#17": { depends_on: ["#13", "#16"], owns: active index, full track, navigation and dots }
-  "#18": { depends_on: ["#17"], owns: drag, touch, wheel and page-scroll safety }
-  "#19": { depends_on: ["#16", "#18"], owns: pointer parallax, fine pointer and reduced motion }
-  "#20": { depends_on: ["#16", "#17"], owns: progress, dwell, discovery persistence and resume }
-  "#21": { depends_on: ["#13"], owns: Fio Vivo source, source-state taxonomy, pagination and fail-closed behavior }
-  "#22": { depends_on: ["#21"], owns: truthful adapter, eligibility, pricing, inventory and metadata validation }
-  "#23": { depends_on: ["#17", "#22"], owns: localized CTA, prefetch and analytics bridge }
-  "#24": { depends_on: ["#15", "#17", "#18", "#19", "#23"], owns: responsive, keyboard, focus, screen-reader and localized UX }
-  "#25": { depends_on: ["#14", "#15", "#16", "#17", "#18", "#19", "#24"], owns: same-state canonical visual regression }
-  "#26": { depends_on: ["#18", "#19", "#24"], owns: image, runtime and interaction performance budgets }
-  "#27": { depends_on: ["#21", "#22", "#23", "#24", "#25", "#26", "#30", "#31", "#32"], owns: feature flag, fallback, rollout and rollback }
-  "#28": { depends_on: ["#25", "#26", "#27", "#29", "#30", "#31", "#32", all implementation issues], owns: explicit human visual and release decision }
-  "#29": { depends_on: ["#16", "#17", "#21", "#22"], owns: runtime state machine, degraded UX and recovery }
-  "#30": { depends_on: ["#18", "#19", "#20", "#22", "#23", "#24", "#29"], owns: functional E2E and browser/device gate }
-  "#31": { depends_on: ["#20", "#21", "#22", "#23", "#29"], owns: vendor-neutral observability and diagnostics }
-  "#32": { depends_on: ["#20", "#22", "#23", "#24", "#29", "#30", "#31"], owns: security, privacy and dependency gate }
-
-behavioral_contracts:
-  active_index:
-    - orchestrator owns currentIndex and initializes from a clamped initialItemHandle
-    - next and previous wrap; direct selection clamps
-    - keyboard handles ArrowLeft, ArrowRight, Home and End only while gallery focus is contained
-    - editing targets, modifier keys and open overlays disable gallery keyboard handling
-  scenes:
-    - ArtworkCard owns activeScene and a ref mirror
-    - pointer selection uses the canonical 2x2 grid and 0.08 dead band
-    - thumbnail hover and click remain available on all pointers
-    - discovery requires active, loaded and unobscured dwell for 650ms
-  interaction:
-    - drag uses resistance 0.4, viewport threshold 0.08, velocity threshold 0.3 and canonical momentum easing
-    - wheel uses dominant axis, resistance 0.3, threshold 120, idle reset 150ms and passive false
-    - interactive descendants never initiate drag or wheel hijacking
-  ambient:
-    - canonical keyed crossfade and gradient recipe are preserved
-    - grain, vignette and reflection stay below interactive content and are aria-hidden
-    - validated product ambient colors may be used when present
-    - canonical DEFAULT_COLORS are a presentational fallback only; they are never serialized or claimed as product metadata
-  progress:
-    - snapshot is versioned, immutable, corruption-safe and storage-event synchronized
-    - discovery keys use item handle plus scene id
-    - dialogs pause dwell/discovery and resume is deterministic
-  reduced_motion:
-    - motion resolves to zero duration
-    - pointer tracking, parallax, scene light, shimmer and grain animation are disabled
-    - scene discovery remains reachable by explicit controls
-  cta:
-    - desktop and mobile retain canonical placement and minimum 44px target
-    - action uses a validated localized GalleryItem.productUrl and emits onProductIntent
-    - canonical inquiry pipeline is not transplanted
-
-medusa_invariants:
-  - fio-vivo collection lookup fails closed
-  - collection missing, empty, API unavailable, partial failure and all-ineligible remain distinguishable
-  - fixtures require an explicit policy and can never silently substitute production commerce data
-  - title, handle, image, currency and calculated price are required for commercial eligibility
-  - no invented currency, amount, artist, year, image, ambient metadata or availability
-  - multi-variant pricing and inventory/backorder policy are deterministic and tested
-  - countryCode and region context are preserved
-  - StoreProduct to GalleryItem mapping is pure where practical and runtime-validates metadata
-
-intentional_deviations:
-  - { id: medusa-data-source, kind: host, source: direct artwork repository, target: typed Medusa Store API source, issue: "#21" }
-  - { id: gallery-item-contract, kind: host, source: Artwork, target: GalleryItem plus canonical adapter, issue: "#16" }
-  - { id: localized-pdp-cta, kind: commerce, source: in-page inquiry dialog, target: localized Medusa PDP, issue: "#23" }
-  - { id: tailwind-v3, kind: platform, source: Tailwind v4 utility syntax, target: mechanical v3-compatible syntax and scoped CSS, issue: "#14" }
-  - { id: scoped-keyboard, kind: accessibility, source: window keydown, target: gallery-focus-contained handler, issue: "#24" }
-  - { id: vendor-neutral-analytics, kind: privacy, source: hardcoded Vercel sink, target: package callbacks and host bridge, issue: "#31" }
-  - { id: package-notification-callbacks, kind: platform, source: sonner calls, target: typed host notification callbacks, issue: "#20" }
-
-legacy_replacement_order:
-  - introduce canonical constants and package foundation without deleting runtime code
-  - port ambient and scoped visual layer
-  - port ArtworkCard and scene behavior
-  - port ArtGallerySlider and NavigationDots; reduce GalleryExperience to a facade
-  - port progress and dwell
-  - validate canonical parity
-  - remove InteractiveArtworkCard, duplicate SceneRail, NavigationControls and stale generated JavaScript
-
-evidence:
-  BASE_E1: docs/artifacts/bb-nos/2026-08-08-w0-base-e.md
-  CONTRACT_E1:
-    path: .agents/contracts/session-state-ledger.md
-    sha256: ada5a9602deddff95906206a5468b313de65f8c9ee6506e8be32f5c8d6ebef82
-  CONTRACT_E2:
-    path: .agents/contracts/nos-gallery-first-fold.yaml
-    sha256: 731f561f8c5943bff3fbc4eea0a4e2b9d87017111a92bc661dd9d921a7b45171
-  CONTRACT_E3:
-    path: .agents/contracts/session-state-ledger.schema.yaml
-    sha256: 3c59bdc72f3c960e5de84e0796cd250021378d6c38c113a2508ce85a624703ec
-  GOV_E1:
-    path: .agents/canonical-agent-shortcuts.yaml
-    sha256: 99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3
-  AGENT_E1:
-    agent: /root/runtime_visual_baseline
-    task: canonical runtime identity, geometry, interaction, console, images and accessibility observations
-    output: canonical localhost:3422 validated at pinned SHA and 1680x934
-  AGENT_E2:
-    agent: /root/target_duplication_audit
-    task: target duplication, build, test and commercial-truth audit
-    output: parallel implementation and replacement inventory
-  SKILL_E1:
-    path: .agents/skills/medusa/medusa-dev-building-storefronts/SKILL.md
-    sha256: 6ebeb8e4cbedb462aac86d58a7537a65c8044c4633148fc2f167e27de653536e
-    applied: server/client Medusa data boundary and SDK verification rules
-  SKILL_E2:
-    path: .agents/skills/medusa/medusa-ecommerce-storefront-best-practices/SKILL.md
-    sha256: 9379c113b4272080465630e9134c5a55df653811c04d854784911e486c6b2d43
-    applied: commercial truth, price, inventory, PDP and fixture rules
-  SKILL_E3:
-    path: C:/Users/fjuni/.codex/plugins/cache/openai-curated-remote/vercel/0.21.4/skills/nextjs/SKILL.md
-    sha256: cdd014ce090e4a137abd81682238d994a41fcd73a626cd70a2af47e2451bbb0c
-    applied: RSC serialization, async params, metadata and next/image boundaries
-  SKILL_E4:
-    path: C:/Users/fjuni/.codex/plugins/cache/openai-curated-remote/github/0.1.8-2841cf9749ae/skills/github/SKILL.md
-    sha256: 81dbdd90934fe86a79ddc4790fd211e5fca866302a74090ad153395f56f2bd42
-    applied: read-only issue body and dependency reconciliation
-  AUTO_E1: pending
-  REVIEW_E1: pending
-
-residual_gaps:
-  - package build currently emits generated JavaScript into src while Turbo expects dist
-  - package public exports and CSS boundary are not production-ready
-  - fixture policy and commercial adapter are not yet truthful
-  - current target is a parallel implementation, not a canonical transplant
-  - existing tests primarily validate the parallel implementation
-  - visual, accessibility, performance, security, rollout and human gates remain open
-
-freeze:
-  status: pending_auto_improve_and_independent_review
-  canonical_source_immutable_for_slice: true
-  manifest_immutable: false
-  dispositions_total: 30
-  dispositions_by_class: { ADAPT: 16, PORT: 4, KEEP_DTC: 2, DEFER: 1, REJECT_WITH_REASON: 7 }
-  downstream_ready: false
-
-acceptance_checklist:
-  canonical_sha_and_lineage_proven: true
-  required_upstream_components_inspected: true
-  unknown_capabilities_zero: true
-  every_capability_classified: true
-  every_deviation_has_rationale: true
-  source_target_ownership_complete: true
-  behavioral_contracts_complete: true
-  medusa_invariants_separated: true
-  dependency_dag_reconciled: true
-  issues_14_21_handoffs_executable_without_rediscovery: true
-  only_executed_agents_claimed: true
-  only_consumed_skills_claimed: true
-  runtime_package_lockfile_mutation_none: true
-  auto_improve_passed: false
-  independent_review_passed: false
-  repo_guardian_passed: false
-  github_completion_record_published: false
-  manifest_sufficient_for_subsequent_issues: pending_review
+{
+  "schema_version": 2,
+  "manifest": {
+    "id": "nos-gallery-transplant-manifest",
+    "issue": "#13 / NOS-001",
+    "iteration": 2,
+    "status": "iteration_2_semantic_validation_pending",
+    "frozen_at": null,
+    "gate_verdict": "REMEDIATION_REVIEW_PENDING",
+    "runtime_code_changes_since_w0_base": "none",
+    "reserved_freeze_phrase_permitted": false
+  },
+  "canonical_source": {
+    "repository": "Fernadoteixeira/nos-gallery",
+    "remote_url": "https://github.com/Fernadoteixeira/nos-gallery.git",
+    "pinned_commit": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "tree_sha": "ab05069f81f3763a108b55e1e49ff3845cc15267",
+    "pinned_commit_subject": "feat: initialize product-lifecycle-canonical-skills-315 agent with domain-specific skills, schemas, and orchestrations",
+    "pinned_commit_date": "2026-08-04T16:56:43-03:00",
+    "local_checkout": "C:/Users/fjuni/Documents/GitHub/06-hackblue-halls/nos-gallery",
+    "local_branch": "main",
+    "remote_verification": {
+      "command": "git ls-remote origin refs/heads/main",
+      "observed_sha": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+      "observed_at": "2026-08-08T20:06:04.025-03:00"
+    },
+    "hashing_method": "SHA-256 over raw Git blob bytes from pinned_commit:path",
+    "working_tree_exceptions": [
+      {
+        "path": "package.json",
+        "reason": "Local reference runtime binds the development server to port 3422; this exception is not part of the pinned blob."
+      }
+    ],
+    "closure_entrypoints": ["app/page.tsx", "app/layout.tsx"],
+    "import_closure": [
+      "app/actions/inquiries.ts",
+      "app/globals.css",
+      "app/layout.tsx",
+      "app/page.tsx",
+      "components/art-gallery-slider.tsx",
+      "components/artwork-card.tsx",
+      "components/artwork-details-dialog.tsx",
+      "components/collection-progress-dialog.tsx",
+      "components/gallery-ambient.tsx",
+      "components/gallery-progress-control.tsx",
+      "components/gallery-state-screen.tsx",
+      "components/inquiry-modal.tsx",
+      "components/navigation-dots.tsx",
+      "components/ui/button.tsx",
+      "components/ui/checkbox.tsx",
+      "components/ui/dialog.tsx",
+      "components/ui/input.tsx",
+      "components/ui/label.tsx",
+      "components/ui/textarea.tsx",
+      "components/web-vitals-reporter.tsx",
+      "data/artworks.ts",
+      "hooks/use-artwork-dwell.ts",
+      "hooks/use-color-extraction.ts",
+      "hooks/use-gallery-progress.ts",
+      "hooks/use-reduced-motion.ts",
+      "hooks/use-saved-artworks.ts",
+      "hooks/use-slider-drag.ts",
+      "hooks/use-slider-navigation.ts",
+      "hooks/use-slider-wheel.ts",
+      "lib/analytics.ts",
+      "lib/artworks/catalog.ts",
+      "lib/artworks/indexes.ts",
+      "lib/artworks/postgres-mapper.ts",
+      "lib/artworks/postgres-queries.ts",
+      "lib/artworks/postgres-repository.ts",
+      "lib/artworks/repository.ts",
+      "lib/artworks/static-repository.ts",
+      "lib/color-extractor.ts",
+      "lib/constants.ts",
+      "lib/db/config.ts",
+      "lib/db/organization.ts",
+      "lib/db/pool.ts",
+      "lib/db/query.ts",
+      "lib/gallery-progress.ts",
+      "lib/inquiries/constants.ts",
+      "lib/inquiries/database-delivery.ts",
+      "lib/inquiries/delivery.ts",
+      "lib/inquiries/intake.ts",
+      "lib/inquiries/rate-limit.ts",
+      "lib/inquiries/schema.ts",
+      "lib/observability.ts",
+      "lib/schema.ts",
+      "lib/share.ts",
+      "lib/utils.ts",
+      "types/artwork.ts"
+    ],
+    "critical_source_hashes": {
+      "app/actions/inquiries.ts": "ef5d2329de8cd626531a127db030afba543e8dd8d66e58b03e407ec393ce1c68",
+      "app/globals.css": "7fca5b50b42aea51d4c4938824a98c25ec8312c92abc858d39881d1596b5216b",
+      "app/layout.tsx": "c3ccdc4747a22aa70702a1d8cc60f3c3d699d042e57840b4479bf6b7f61c543b",
+      "app/page.tsx": "65e6643f335cf65800292341efbafae1e0d68f1804cefe5e2d526654867268fa",
+      "components/art-gallery-slider.tsx": "f2a13697bf3b7c71a2ac85e2431f4629a11ac7969e524e054c9844961514a800",
+      "components/artwork-card.tsx": "b021a9f19ec96bc09fdc66bc7d0190ff9fee854b5c388ff4f5e6653dd491fbac",
+      "components/artwork-details-dialog.tsx": "810fa175cfc450fe09cf0238ea6d963896971e0a119e4359ea619486c733963c",
+      "components/collection-progress-dialog.tsx": "5291adacfe23e1dfb9d0b4e0a9b2babf0ebb40aadc947238903a5ee26f23a3d9",
+      "components/gallery-ambient.tsx": "149e186c78bcbab832344e81ef06b5154c2ab9a5c962af2177f7e3a9511f8aa1",
+      "components/gallery-progress-control.tsx": "dc0b4b12b2a14eef2a313aed94b58d8509c8ea9e33a2ae10ec8fc84dd76b7589",
+      "components/gallery-state-screen.tsx": "749ca6e747e7e3ba66d5f101db0eebc0496291d86a89d3e2a0b9094e8a8cb8c1",
+      "components/inquiry-modal.tsx": "5fd500a47168d97d9f8b977ecb044b6ecad0a870bc2aaff2ddc1a973cfb6c13c",
+      "components/navigation-dots.tsx": "8e450c4d9967facac5dcd1f3174e4f39cfce11cc44894424024560cf21f5d346",
+      "components/ui/button.tsx": "7cb96ee534dedef7eb138952dc02fda0cb2caf2e02f2d3c08afab7f978d58dc3",
+      "components/ui/checkbox.tsx": "f4629326151cdb4fefbb8d49ff20bcc3ffab3f791fb31b795937650877eae212",
+      "components/ui/dialog.tsx": "4da22ff7034e474602509703b25d609490db1bf37053b0e3af962bdb4bc3ccc9",
+      "components/ui/input.tsx": "b67dea8a8d35c004c6d94c22aacbbf2340b0e536c614e4c87a69d8814a7b4502",
+      "components/ui/label.tsx": "dfd466a53a86f0bd002050d33e96b5385ac4e102e93485ff8d9943fdc2fbeb12",
+      "components/ui/textarea.tsx": "cf31ce99f03ac69f9821b4463a366c66698ae8e7eba5c06d2ede63d5cf7309bd",
+      "components/web-vitals-reporter.tsx": "02b4affec256ccadf4dab060ce046ea5a0146b3f565ae98bf8635f121c126e0f",
+      "data/artworks.ts": "0bf0b2d237e73537659e498177aaa61a532c73dec7fd8165457459f26b3e00b3",
+      "hooks/use-artwork-dwell.ts": "1547ad604644b595f1e06f65e207d5adbc9210661545d810b54cbfc60c0e9c40",
+      "hooks/use-color-extraction.ts": "57664e665fbd6a00810853ddaaa66f8b4d71405da46c44dc3b630a1228a6092c",
+      "hooks/use-gallery-progress.ts": "616029f292b8ea9924a55ebb462074a4ba138a0bd83f433622bdfdb1c62a933d",
+      "hooks/use-reduced-motion.ts": "85577edd0b73b5a098f2ff0b98a890083aa2ffc765519bad9e7f5a25aefbb90a",
+      "hooks/use-saved-artworks.ts": "056a267a4e733e17557cafcff00eeb44af5a52c48885c3f776d68d0c9cb9b8e8",
+      "hooks/use-slider-drag.ts": "b6d99a4d62ec45f4c13d10b4ec446f01cf1fad7b7130fa41ac2f1399280c6369",
+      "hooks/use-slider-navigation.ts": "c1d36820521540d3e5385642a024af937274776a5daf737182e46d2b52cd7bce",
+      "hooks/use-slider-wheel.ts": "7ff1d1919f441bead607381c04e812f36816cb291899729ce315f2e32231af50",
+      "lib/analytics.ts": "c66b688944a5a415501e593fb3d7d84ae3beafe0fa53a608fae000d175a68138",
+      "lib/artworks/catalog.ts": "16f789b59d760cf0959f699f60c302349c53a8e5e20d92cfa10ba059d766b6cd",
+      "lib/artworks/indexes.ts": "d4799c185e914110a3eff9f53661c27cf0f1911ab69eac5b3ea1ebea06df23b3",
+      "lib/artworks/postgres-mapper.ts": "d02cdb1fcfbd823e98b1ceb73288af3f19a7e6301083066a3a6a5b925b8ad93d",
+      "lib/artworks/postgres-queries.ts": "742047907992d2c92cf7085772d63badf6b8e253c438200d44bac7bb4ce95eac",
+      "lib/artworks/postgres-repository.ts": "a7d9430a45e671d486260ca92f045572bc0b3117734346f03ee6a8fce5eefc43",
+      "lib/artworks/repository.ts": "7dce7aa300e514e67948d281b542bf0393b962355a6779423656d42f95a1cc1c",
+      "lib/artworks/static-repository.ts": "08b2ef00753fc6ed15a530e42e4716d288b06f95a5b7bb032b8dcd3a99ae94a3",
+      "lib/color-extractor.ts": "bcd4b3f2de68411955a3effabdb95699ecf64de3bf782a3871a0d8d1eeb23b25",
+      "lib/constants.ts": "2428ce6094bb43e675d6690bcc2f88e2aaa9ac308e7ed9a9e537d8ab02d7dc5c",
+      "lib/db/config.ts": "50ffeafca5443f6f50c6aa77a7e3394b2ec9f48f3b9f91acb0856b3747b1abeb",
+      "lib/db/organization.ts": "635e31ccd2bea6b8e745cd8ee372a604f40a0d7a35ec64055efd44be0406332d",
+      "lib/db/pool.ts": "b7e8587cbb9dfbe0fb3b8db0187bde9917a5264bb1de426ff73dc29e1bd9eeaf",
+      "lib/db/query.ts": "7f752a3ab5dc7afa4a726ef43a7ef2a295f4b361af193b14100377d4d9cf4040",
+      "lib/gallery-progress.ts": "b55b5e1b1315cd6e0e825c2bb2a4a426514b49ec7ac24c568ce0c014e8843e34",
+      "lib/inquiries/constants.ts": "299bfc7a14fbaac4c50600d4b6ce8ea19fc83d230b94a154e8010599afcd99b1",
+      "lib/inquiries/database-delivery.ts": "b27347ac0dbd48f5191bcfc237b9d72bedc2f418591c2f4cb07cad4b9797fb5a",
+      "lib/inquiries/delivery.ts": "0397255ba5780f93f23757a8f8350373649b55100213ffebdf567b6c6fddcfb5",
+      "lib/inquiries/intake.ts": "157f3b5d3d3bfb87fa0d5551e6eb090205e8278c95fdde4e0bb9151a7bb6cac3",
+      "lib/inquiries/rate-limit.ts": "3a5e57d8f5de1fc91346c098f85c46947d2acd4594f4794fa879a64ebfc79956",
+      "lib/inquiries/schema.ts": "7a2d32acf40dbd21003e705195d4e175e3e7f129b5993220c08ec68c2c31d4e6",
+      "lib/observability.ts": "be97e14ae31eccd0e5068e95fc672fa4b378b2a899d0517f1d0ffadc8e4c50f7",
+      "lib/schema.ts": "a30a7f38235596f21c5c2633de4d477ab3054e0e395e709ff81071421d072331",
+      "lib/share.ts": "d7931df06aa54e907f4f41de52f5ec77d368c6bb6692961ae05af7cc2d943e60",
+      "lib/utils.ts": "0f3c697eb027475a29e8b926d6dd45ddcd56c814245ecfd84d790fc91a6554ff",
+      "types/artwork.ts": "6482bdc6ecd46c58f1b287bbf65b6de9561ff0547a00e14289b58a98eaceb03a"
+    },
+    "closure_coverage": {
+      "app/actions/inquiries.ts": "CAP-030",
+      "app/globals.css": "CAP-003",
+      "app/layout.tsx": "CAP-001",
+      "app/page.tsx": "CAP-002",
+      "components/art-gallery-slider.tsx": "CAP-004",
+      "components/artwork-card.tsx": "CAP-005",
+      "components/artwork-details-dialog.tsx": "CAP-029",
+      "components/collection-progress-dialog.tsx": "CAP-009",
+      "components/gallery-ambient.tsx": "CAP-006",
+      "components/gallery-progress-control.tsx": "CAP-008",
+      "components/gallery-state-screen.tsx": "CAP-010",
+      "components/inquiry-modal.tsx": "CAP-030",
+      "components/navigation-dots.tsx": "CAP-007",
+      "components/ui/button.tsx": "CAP-030",
+      "components/ui/checkbox.tsx": "CAP-030",
+      "components/ui/dialog.tsx": "CAP-028",
+      "components/ui/input.tsx": "CAP-030",
+      "components/ui/label.tsx": "CAP-030",
+      "components/ui/textarea.tsx": "CAP-030",
+      "components/web-vitals-reporter.tsx": "CAP-032",
+      "data/artworks.ts": "CAP-031",
+      "hooks/use-artwork-dwell.ts": "CAP-015",
+      "hooks/use-color-extraction.ts": "CAP-017",
+      "hooks/use-gallery-progress.ts": "CAP-016",
+      "hooks/use-reduced-motion.ts": "CAP-014",
+      "hooks/use-saved-artworks.ts": "CAP-018",
+      "hooks/use-slider-drag.ts": "CAP-011",
+      "hooks/use-slider-navigation.ts": "CAP-013",
+      "hooks/use-slider-wheel.ts": "CAP-012",
+      "lib/analytics.ts": "CAP-023",
+      "lib/artworks/catalog.ts": "CAP-031",
+      "lib/artworks/indexes.ts": "CAP-025",
+      "lib/artworks/postgres-mapper.ts": "CAP-031",
+      "lib/artworks/postgres-queries.ts": "CAP-031",
+      "lib/artworks/postgres-repository.ts": "CAP-031",
+      "lib/artworks/repository.ts": "CAP-031",
+      "lib/artworks/static-repository.ts": "CAP-031",
+      "lib/color-extractor.ts": "CAP-021",
+      "lib/constants.ts": "CAP-019",
+      "lib/db/config.ts": "CAP-031",
+      "lib/db/organization.ts": "CAP-031",
+      "lib/db/pool.ts": "CAP-031",
+      "lib/db/query.ts": "CAP-031",
+      "lib/gallery-progress.ts": "CAP-020",
+      "lib/inquiries/constants.ts": "CAP-030",
+      "lib/inquiries/database-delivery.ts": "CAP-030",
+      "lib/inquiries/delivery.ts": "CAP-030",
+      "lib/inquiries/intake.ts": "CAP-030",
+      "lib/inquiries/rate-limit.ts": "CAP-030",
+      "lib/inquiries/schema.ts": "CAP-030",
+      "lib/observability.ts": "CAP-033",
+      "lib/schema.ts": "CAP-026",
+      "lib/share.ts": "CAP-022",
+      "lib/utils.ts": "CAP-024",
+      "types/artwork.ts": "CAP-027"
+    }
+  },
+  "target_baseline": {
+    "repository": "Fernadoteixeira/dtc-starter",
+    "branch": "main",
+    "head_sha": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "previous_head_sha": "45ef2606512a5a26f0fee2a377ffda823423fce9",
+    "head_transition": "EXTERNAL_COMMIT_OBSERVED_DURING_W0",
+    "head_transition_evidence": "docs/artifacts/bb-nos/2026-08-08-external-git-drift.md",
+    "remote_verification": {
+      "command": "git ls-remote origin refs/heads/main",
+      "observed_sha": "38246f64e82b37670edf84d386b55b866fb425bf",
+      "observed_at": "2026-08-08T20:06:04.025-03:00"
+    },
+    "preexisting_dirty_path": "apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx",
+    "preexisting_change_state": "committed_externally_during_w0",
+    "preexisting_dirty_sha256": "2a03a9d4854ca7277e6ae77102ed217bba93cc6bc8df7bd4b1d6a79a5c6e5dbf",
+    "historical_dirty_patch_sha256": "957603bacd9927eb861837c8033e1907b5f392e779c7f3fea77eb8b2dc8934d2",
+    "external_commit_patch_sha256_raw_git": "d4ffe8059fbad8ef7916ab1f403c0bb7948678af66b9782c2cf834d6dd5ee48c",
+    "w0_allowed_dirty_prefixes": [".agents/", "docs/"]
+  },
+  "target_architecture": {
+    "presentation_package": "packages/gallery-experience",
+    "storefront_integration": "apps/storefront/src/modules/home/gallery-hero",
+    "server_flow": [
+      "GalleryHero server component",
+      "typed Fio Vivo Medusa source result",
+      "commercially truthful StoreProduct to GalleryItem adapter",
+      "serializable GalleryItem array",
+      "GalleryHeroClient boundary"
+    ],
+    "client_flow": [
+      "GalleryExperience thin compatibility facade",
+      "ArtGallerySlider canonical engine",
+      "canonical components, hooks and utilities"
+    ],
+    "data_contract_decision": "Adapt canonical primitives directly to the existing framework-agnostic GalleryItem and GalleryScene contracts; do not create a second canonical-artwork model or a duplicate GalleryItem-to-Artwork adapter.",
+    "invariant": "Medusa SDK, StoreProduct, pricing, inventory, countryCode and commerce routing remain outside the presentation package."
+  },
+  "capabilities": [
+    {
+      "id": "CAP-001",
+      "name": "root layout, fonts and shell integration",
+      "source_paths": ["app/layout.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "apps/storefront/src/app/layout.tsx",
+          "state": "host_boundary"
+        }
+      ],
+      "issue_owner": ["#14", "#31"],
+      "adaptation_reason": "Preserve the canonical font and global-style intent while retaining the Medusa commerce shell and host metadata boundary.",
+      "behavior_preserved": [
+        "Playfair editorial heading role",
+        "global gallery stylesheet load",
+        "web-vitals mount point"
+      ],
+      "intentional_deviation": "The commerce layout remains the root layout.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#14",
+        "#31"
+      ]
+    },
+    {
+      "id": "CAP-002",
+      "name": "canonical page composition",
+      "source_paths": ["app/page.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "apps/storefront/src/app/[countryCode]/(main)/page.tsx",
+          "state": "host_boundary"
+        },
+        {
+          "path": "apps/storefront/src/modules/home/gallery-hero/index.tsx",
+          "state": "host_boundary"
+        }
+      ],
+      "issue_owner": ["#21", "#29"],
+      "adaptation_reason": "Split canonical composition across localized Home, GalleryHero and typed source states without reproducing the presentation engine. Commercial JSON-LD remains exclusively classified by CAP-026.",
+      "behavior_preserved": [
+        "initial artwork selection",
+        "empty-state branch",
+        "gallery composition"
+      ],
+      "intentional_deviation": "Medusa data replaces the standalone repository and the commerce page remains localized.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#21",
+        "#29"
+      ]
+    },
+    {
+      "id": "CAP-003",
+      "name": "gallery visual tokens and selectors",
+      "source_paths": ["app/globals.css"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/styles/gallery-experience.css",
+          "state": "replace_existing",
+          "sha256": "59f92b3126daeb063507a43f2b2d9d05a86fc82a1506cafa44a58567229a9481"
+        }
+      ],
+      "issue_owner": ["#14", "#15", "#24"],
+      "adaptation_reason": "Extract only gallery tokens, selectors, keyframes and media rules; scope them under the package root and convert Tailwind-v4-only syntax mechanically to Tailwind v3.",
+      "behavior_preserved": [
+        "copper/umber/linen palette",
+        "grain",
+        "vignette",
+        "card sizing",
+        "reduced motion"
+      ],
+      "intentional_deviation": "Global reset, html/body and Tailwind root wiring remain owned by the storefront. Replace the surrogate CSS; do not free-merge it.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "nos-gallery-first-fold"
+      ]
+    },
+    {
+      "id": "CAP-004",
+      "name": "ArtGallerySlider orchestrator",
+      "source_paths": ["components/art-gallery-slider.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/components/art-gallery-slider.tsx",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#17", "#18", "#20", "#23", "#24"],
+      "adaptation_reason": "Preserve the canonical orchestrator and replace only Artwork, routing, notification and analytics boundaries with GalleryItem and typed callbacks.",
+      "behavior_preserved": [
+        "active index",
+        "track geometry",
+        "adjacent preload",
+        "dialogs/progress orchestration",
+        "navigation"
+      ],
+      "intentional_deviation": "Inquiry/details actions route through host callbacks and localized PDP policy.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "AGENT-E runtime baseline"
+      ]
+    },
+    {
+      "id": "CAP-005",
+      "name": "ArtworkCard",
+      "source_paths": ["components/artwork-card.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/components/artwork-card.tsx",
+          "state": "replace_existing",
+          "sha256": "712f0e79ce25184b0e33dc2266b7479ac84373a53e48c98ec7c113e1a343d9d5"
+        }
+      ],
+      "issue_owner": ["#16", "#19", "#20", "#24"],
+      "adaptation_reason": "Port the canonical component body and adapt it directly to GalleryItem/GalleryScene, localized copy and host callbacks.",
+      "behavior_preserved": [
+        "scene state",
+        "2x2 pointer selection",
+        "parallax",
+        "discovery dwell",
+        "thumbnail rail",
+        "reflection",
+        "slide semantics"
+      ],
+      "intentional_deviation": "Commercial detail intent exits through the host boundary; no Medusa type enters the package.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#16"
+      ]
+    },
+    {
+      "id": "CAP-006",
+      "name": "GalleryAmbient",
+      "source_paths": ["components/gallery-ambient.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/components/gallery-ambient.tsx",
+          "state": "replace_existing",
+          "sha256": "2203ffc6ef0a9ab2fe5895bb3e8e368da5beefe233ba2a502b6df7cbc08932c6"
+        }
+      ],
+      "issue_owner": ["#15"],
+      "adaptation_reason": "Preserve canonical color extraction and AnimatePresence while consuming validated GalleryItem image/color fields.",
+      "behavior_preserved": [
+        "keyed crossfade",
+        "dynamic radial gradients",
+        "reduced-motion timing"
+      ],
+      "intentional_deviation": "Validated product colors may seed presentation; absent colors use canonical visual defaults only.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#15"
+      ]
+    },
+    {
+      "id": "CAP-007",
+      "name": "NavigationDots",
+      "source_paths": ["components/navigation-dots.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/components/navigation-dots.tsx",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#17", "#23", "#24"],
+      "adaptation_reason": "Preserve canonical geometry and motion while injecting localized accessible labels.",
+      "behavior_preserved": [
+        "previous/next",
+        "active dot width",
+        "direct selection",
+        "aria-current"
+      ],
+      "intentional_deviation": "pt-BR literals become dictionary keys.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#17",
+        "#24"
+      ]
+    },
+    {
+      "id": "CAP-008",
+      "name": "GalleryProgressControl",
+      "source_paths": ["components/gallery-progress-control.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/components/gallery-progress-control.tsx",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#20", "#23", "#24"],
+      "adaptation_reason": "Preserve progress/resume behavior and replace sonner/analytics with typed host callbacks and localized copy.",
+      "behavior_preserved": [
+        "summary",
+        "resume target",
+        "reset",
+        "dynamic progress dialog"
+      ],
+      "intentional_deviation": "Notification delivery is host-injected.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#20"
+      ]
+    },
+    {
+      "id": "CAP-009",
+      "name": "CollectionProgressDialog",
+      "source_paths": ["components/collection-progress-dialog.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/components/collection-progress-dialog.tsx",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#20", "#24"],
+      "adaptation_reason": "Port the canonical collection map using the package dialog primitive, GalleryItem handles and localized copy.",
+      "behavior_preserved": [
+        "continue target",
+        "discovery map",
+        "reset confirmation"
+      ],
+      "intentional_deviation": "All local-storage keys are package-versioned and privacy-reviewed.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#20"
+      ]
+    },
+    {
+      "id": "CAP-010",
+      "name": "GalleryStateScreen",
+      "source_paths": ["components/gallery-state-screen.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-fallback.tsx",
+          "state": "replace_existing"
+        }
+      ],
+      "issue_owner": ["#21", "#29"],
+      "adaptation_reason": "Preserve canonical state composition while exposing typed Medusa reason codes and retryability.",
+      "behavior_preserved": [
+        "bounded first-fold state",
+        "accessible title and detail"
+      ],
+      "intentional_deviation": "Host state taxonomy distinguishes region, collection, API, timeout, partial and eligibility failures.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#29"
+      ]
+    },
+    {
+      "id": "CAP-011",
+      "name": "slider drag and swipe",
+      "source_paths": ["hooks/use-slider-drag.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-slider-drag.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#18", "#24"],
+      "adaptation_reason": "Preserve canonical thresholds/momentum and add host-safe interactive-descendant guards only where evidence requires them.",
+      "behavior_preserved": [
+        "resistance",
+        "velocity threshold",
+        "viewport threshold",
+        "momentum easing"
+      ],
+      "intentional_deviation": "Commerce controls never initiate drag.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#18"
+      ]
+    },
+    {
+      "id": "CAP-012",
+      "name": "slider wheel navigation",
+      "source_paths": ["hooks/use-slider-wheel.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-slider-wheel.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#18", "#24"],
+      "adaptation_reason": "Preserve canonical accumulator/thresholds and add page-scroll and interactive-descendant safety required by the commerce shell.",
+      "behavior_preserved": [
+        "dominant-axis accumulation",
+        "resistance",
+        "threshold",
+        "idle reset"
+      ],
+      "intentional_deviation": "preventDefault is conditional on a gallery-owned navigation gesture.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#18"
+      ]
+    },
+    {
+      "id": "CAP-013",
+      "name": "slider navigation state",
+      "source_paths": ["hooks/use-slider-navigation.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-slider-navigation.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#17", "#24"],
+      "adaptation_reason": "Preserve canonical index transitions and scope keyboard handling to gallery focus, non-editing targets and closed overlays.",
+      "behavior_preserved": [
+        "wrap",
+        "clamp",
+        "ArrowLeft",
+        "ArrowRight",
+        "Home",
+        "End"
+      ],
+      "intentional_deviation": "No unscoped window keyboard ownership.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#17",
+        "#24"
+      ]
+    },
+    {
+      "id": "CAP-014",
+      "name": "reduced-motion and pointer media hooks",
+      "source_paths": ["hooks/use-reduced-motion.ts"],
+      "disposition": "PORT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-reduced-motion.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#19", "#24"],
+      "adaptation_reason": "The framework-neutral useSyncExternalStore implementation ports with import-only changes.",
+      "behavior_preserved": [
+        "prefers-reduced-motion",
+        "fine-pointer detection",
+        "subscription cleanup"
+      ],
+      "intentional_deviation": null,
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#19"
+      ]
+    },
+    {
+      "id": "CAP-015",
+      "name": "artwork dwell",
+      "source_paths": ["hooks/use-artwork-dwell.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-artwork-dwell.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#20", "#31", "#32"],
+      "adaptation_reason": "Preserve canonical dwell timing and route events through PII-free typed callbacks.",
+      "behavior_preserved": ["active-item dwell measurement", "cleanup"],
+      "intentional_deviation": "No direct Vercel analytics import.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#20",
+        "#31"
+      ]
+    },
+    {
+      "id": "CAP-016",
+      "name": "gallery progress hooks",
+      "source_paths": ["hooks/use-gallery-progress.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-gallery-progress.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#20", "#32"],
+      "adaptation_reason": "Preserve immutable external-store behavior and adapt identity to GalleryItem handles and versioned package storage.",
+      "behavior_preserved": [
+        "useSyncExternalStore",
+        "cross-tab synchronization",
+        "summary",
+        "actions"
+      ],
+      "intentional_deviation": "Storage namespace is package-owned and versioned.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#20"
+      ]
+    },
+    {
+      "id": "CAP-017",
+      "name": "artwork color extraction hook",
+      "source_paths": ["hooks/use-color-extraction.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-color-extraction.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#15", "#26", "#32"],
+      "adaptation_reason": "Preserve cache/extraction behavior while consuming validated host image URLs and deterministic failure states.",
+      "behavior_preserved": [
+        "session cache",
+        "async extraction",
+        "canonical default colors"
+      ],
+      "intentional_deviation": "Unsafe or missing image URLs do not trigger extraction.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#15"
+      ]
+    },
+    {
+      "id": "CAP-018",
+      "name": "saved artworks",
+      "source_paths": ["hooks/use-saved-artworks.ts"],
+      "disposition": "DEFER",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/hooks/use-saved-artworks.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["UNASSIGNED"],
+      "future_owner": "CAND-07",
+      "future_target": "packages/gallery-experience/src/hooks/use-saved-artworks.ts",
+      "adaptation_reason": "The canonical capability must remain discoverable, but no live #14-#32 issue owns save/bookmark behavior. Defer it to a named governance stream instead of silently expanding issue scope.",
+      "behavior_preserved": [
+        "save toggle",
+        "cross-tab event",
+        "saved count",
+        "bookmark feedback"
+      ],
+      "intentional_deviation": "The first canonical transplant ships without saved-artwork controls unless CAND-07 receives explicit ownership and passes privacy/storage review.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "live issue ownership audit"
+      ]
+    },
+    {
+      "id": "CAP-019",
+      "name": "gallery constants",
+      "source_paths": ["lib/constants.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/lib/constants.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#14", "#16", "#18", "#19", "#20"],
+      "adaptation_reason": "Preserve visual/motion/interaction values and remove standalone site/contact/commerce constants from the engine.",
+      "behavior_preserved": [
+        "slider thresholds",
+        "motion durations",
+        "layout sizes",
+        "effects",
+        "default colors"
+      ],
+      "intentional_deviation": "Site URL, contact channels and commercial availability labels are host inputs.",
+      "verification_evidence": ["canonical_source.critical_source_hashes"]
+    },
+    {
+      "id": "CAP-020",
+      "name": "gallery progress state machine",
+      "source_paths": ["lib/gallery-progress.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/lib/gallery-progress.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#20", "#32"],
+      "adaptation_reason": "Preserve canonical parsing, immutable transitions, discovery and resume while adapting identity and storage version.",
+      "behavior_preserved": [
+        "corruption safety",
+        "scene discovery keys",
+        "summary",
+        "next scene",
+        "achievements"
+      ],
+      "intentional_deviation": "No PII and no commercial reward mechanics are added.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#20"
+      ]
+    },
+    {
+      "id": "CAP-021",
+      "name": "color extraction algorithm",
+      "source_paths": ["lib/color-extractor.ts"],
+      "disposition": "PORT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/lib/color-extractor.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#15", "#26"],
+      "adaptation_reason": "The browser canvas algorithm is presentation-only and ports with import changes.",
+      "behavior_preserved": ["dominant color sampling", "fallback handling"],
+      "intentional_deviation": null,
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#15"
+      ]
+    },
+    {
+      "id": "CAP-022",
+      "name": "share behavior",
+      "source_paths": ["lib/share.ts"],
+      "disposition": "DEFER",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/lib/share.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["UNASSIGNED"],
+      "future_owner": "INT-06-SHARE",
+      "future_target": "packages/gallery-experience/src/lib/share.ts",
+      "adaptation_reason": "The baseline behavior is required, but live issue bodies do not currently own share; defer implementation without pretending #23 owns it.",
+      "behavior_preserved": [
+        "native share",
+        "clipboard fallback",
+        "cancelled result"
+      ],
+      "intentional_deviation": "The card port must keep share behind a typed optional callback until this task executes.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "12-issue-ownership-matrix.md"
+      ]
+    },
+    {
+      "id": "CAP-023",
+      "name": "gallery analytics contract",
+      "source_paths": ["lib/analytics.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/types/index.ts",
+          "state": "existing",
+          "shared_target_contract": "gallery-item-domain-contract"
+        },
+        {
+          "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-analytics.ts",
+          "state": "host_boundary"
+        }
+      ],
+      "issue_owner": ["#23", "#31", "#32"],
+      "adaptation_reason": "Preserve event semantics as typed package callbacks and route them through the vendor-neutral host bridge.",
+      "behavior_preserved": [
+        "view",
+        "scene",
+        "progress",
+        "intent",
+        "resume events"
+      ],
+      "intentional_deviation": "No direct @vercel/analytics dependency in the package and no PII payloads.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#23",
+        "#31"
+      ]
+    },
+    {
+      "id": "CAP-024",
+      "name": "class and image utilities",
+      "source_paths": ["lib/utils.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/lib/utils.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#16", "#26", "#32"],
+      "adaptation_reason": "Preserve cn; adapt artworkImageUrl to validated host URLs without appending standalone cache-bust semantics blindly.",
+      "behavior_preserved": [
+        "deterministic class merge",
+        "stable image URL input"
+      ],
+      "intentional_deviation": "Image eligibility and remote-source policy are host-owned.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#16"
+      ]
+    },
+    {
+      "id": "CAP-025",
+      "name": "artwork indexes",
+      "source_paths": ["lib/artworks/indexes.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/lib/artworks/indexes.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#17", "#20"],
+      "adaptation_reason": "The canonical slider consumes these indexes; adapt code identity to GalleryItem handles rather than replacing it with a new lookup engine.",
+      "behavior_preserved": [
+        "catalog maps",
+        "index lookup",
+        "category/material/availability indexes"
+      ],
+      "intentional_deviation": "No static or PostgreSQL repository enters the package.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#17"
+      ]
+    },
+    {
+      "id": "CAP-026",
+      "name": "gallery JSON-LD",
+      "source_paths": ["lib/schema.ts"],
+      "disposition": "DEFER",
+      "targets": [
+        {
+          "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-jsonld.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["UNASSIGNED"],
+      "future_owner": "CAND-04",
+      "future_target": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-jsonld.ts",
+      "adaptation_reason": "SEO is host-owned and lacks a current #14-#32 owner; preserve its source evidence and defer to the named commercial SEO stream.",
+      "behavior_preserved": [
+        "ItemList structure",
+        "localized product URLs",
+        "image references"
+      ],
+      "intentional_deviation": "No JSON-LD is generated from fixture or invented commercial metadata.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "explicit user CAND-04 guidance"
+      ]
+    },
+    {
+      "id": "CAP-027",
+      "name": "presentation types",
+      "source_paths": ["types/artwork.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/types/index.ts",
+          "state": "existing",
+          "shared_target_contract": "gallery-item-domain-contract",
+          "sha256": "c8563e6edfe2e7f4e96d0c85f9a2ed3eec83d41c1073799fd2823f4e30bc2b36"
+        }
+      ],
+      "issue_owner": ["#16", "#22"],
+      "adaptation_reason": "Evolve the existing neutral GalleryItem/GalleryScene contract directly; do not create a second Artwork domain and adapter inside the package.",
+      "behavior_preserved": [
+        "scene identity",
+        "image semantics",
+        "availability",
+        "editorial metadata"
+      ],
+      "intentional_deviation": "Commercial price/inventory truth remains a host mapping result.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "target duplication audit"
+      ]
+    },
+    {
+      "id": "CAP-028",
+      "name": "progress dialog primitive",
+      "source_paths": ["components/ui/dialog.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "packages/gallery-experience/src/components/ui/dialog.tsx",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#20", "#24"],
+      "adaptation_reason": "Port the canonical Radix composition with scoped Tailwind-v3-compatible classes instead of recreating a dialog primitive.",
+      "behavior_preserved": [
+        "portal",
+        "overlay",
+        "focus management",
+        "close affordance"
+      ],
+      "intentional_deviation": "Styling is package-scoped and dependency metadata is explicit.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#24"
+      ]
+    },
+    {
+      "id": "CAP-029",
+      "name": "standalone artwork details dialog",
+      "source_paths": ["components/artwork-details-dialog.tsx"],
+      "disposition": "REJECT_WITH_REASON",
+      "targets": [
+        {
+          "path": "apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx",
+          "state": "host_boundary",
+          "shared_target_contract": "pdp-host-boundary-without-canonical-inquiry-backend"
+        }
+      ],
+      "issue_owner": ["#23", "#24"],
+      "adaptation_reason": "The Medusa PDP is the commerce detail boundary; duplicating purchasable product facts inside the package risks divergence.",
+      "behavior_preserved": ["details intent", "localized product destination"],
+      "intentional_deviation": "The canonical modal is replaced by a localized PDP intent and must be listed in visual/behavior deviation evidence.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#23"
+      ]
+    },
+    {
+      "id": "CAP-030",
+      "name": "standalone inquiry pipeline",
+      "source_paths": [
+        "app/actions/inquiries.ts",
+        "components/inquiry-modal.tsx",
+        "components/ui/button.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/input.tsx",
+        "components/ui/label.tsx",
+        "components/ui/textarea.tsx",
+        "lib/inquiries/constants.ts",
+        "lib/inquiries/database-delivery.ts",
+        "lib/inquiries/delivery.ts",
+        "lib/inquiries/intake.ts",
+        "lib/inquiries/rate-limit.ts",
+        "lib/inquiries/schema.ts"
+      ],
+      "disposition": "REJECT_WITH_REASON",
+      "targets": [
+        {
+          "path": "apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx",
+          "state": "host_boundary",
+          "shared_target_contract": "pdp-host-boundary-without-canonical-inquiry-backend"
+        }
+      ],
+      "issue_owner": ["#23", "#32"],
+      "adaptation_reason": "Medusa PDP/cart/checkout and host privacy controls own commercial conversion; the standalone inquiry backend must not be duplicated.",
+      "behavior_preserved": [
+        "clear product intent",
+        "privacy-safe host journey"
+      ],
+      "intentional_deviation": "No canonical inquiry database, action or form primitive is transplanted.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#23",
+        "#32"
+      ]
+    },
+    {
+      "id": "CAP-031",
+      "name": "standalone artwork repository and database",
+      "source_paths": [
+        "data/artworks.ts",
+        "lib/artworks/catalog.ts",
+        "lib/artworks/postgres-mapper.ts",
+        "lib/artworks/postgres-queries.ts",
+        "lib/artworks/postgres-repository.ts",
+        "lib/artworks/repository.ts",
+        "lib/artworks/static-repository.ts",
+        "lib/db/config.ts",
+        "lib/db/organization.ts",
+        "lib/db/pool.ts",
+        "lib/db/query.ts"
+      ],
+      "disposition": "REJECT_WITH_REASON",
+      "targets": [
+        {
+          "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-data.ts",
+          "state": "host_boundary"
+        }
+      ],
+      "issue_owner": ["#21", "#22", "#29", "#32"],
+      "adaptation_reason": "The DTC host must use a typed, fail-closed Medusa Store API source; a second catalog/database would violate commerce truth.",
+      "behavior_preserved": [
+        "deterministic collection ordering",
+        "empty/error distinctions",
+        "stable identifiers"
+      ],
+      "intentional_deviation": "Static/PostgreSQL artwork repositories remain only in the standalone source.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#21"
+      ]
+    },
+    {
+      "id": "CAP-032",
+      "name": "web-vitals reporter",
+      "source_paths": ["components/web-vitals-reporter.tsx"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-web-vitals.tsx",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#31", "#32"],
+      "adaptation_reason": "Preserve useReportWebVitals semantics behind a vendor-neutral, privacy-safe host bridge.",
+      "behavior_preserved": ["web-vital capture", "metric typing"],
+      "intentional_deviation": "No hardcoded Vercel analytics sink.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#31"
+      ]
+    },
+    {
+      "id": "CAP-033",
+      "name": "safe observability envelope",
+      "source_paths": ["lib/observability.ts"],
+      "disposition": "ADAPT",
+      "targets": [
+        {
+          "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-observability.ts",
+          "state": "planned"
+        }
+      ],
+      "issue_owner": ["#31", "#32"],
+      "adaptation_reason": "Retain safe structured diagnostic intent and adapt it to typed reason codes without payloads, URLs, tokens or PII.",
+      "behavior_preserved": [
+        "structured event envelope",
+        "safe error classification"
+      ],
+      "intentional_deviation": "Storefront diagnostics are vendor-neutral and client-serializable only where safe.",
+      "verification_evidence": [
+        "canonical_source.critical_source_hashes",
+        "#31",
+        "#32"
+      ]
+    }
+  ],
+  "summary": {
+    "capabilities_total": 33,
+    "capabilities_by_disposition": {
+      "PORT": 2,
+      "ADAPT": 25,
+      "KEEP_DTC": 0,
+      "DEFER": 3,
+      "REJECT_WITH_REASON": 3
+    },
+    "canonical_import_closure_files": 55,
+    "canonical_import_closure_covered": 55,
+    "unknown_capabilities": 0
+  },
+  "target_legacy_dispositions": [
+    {
+      "path": "packages/gallery-experience/src/components/gallery-experience.tsx",
+      "action": "REDUCE_TO_FACADE",
+      "remove_symbols": [
+        "SceneRail",
+        "InteractiveArtworkCard",
+        "NavigationControls",
+        "custom active-index",
+        "custom touch",
+        "custom wheel"
+      ],
+      "sha256": "7d9a441ba3489d5bcbae5e58b754b7f92c0a9a790145fe0a7df89b12e4e63da8"
+    },
+    {
+      "path": "packages/gallery-experience/src/components/artwork-card.tsx",
+      "action": "REPLACE_BY_CANONICAL_ADAPT",
+      "sha256": "712f0e79ce25184b0e33dc2266b7479ac84373a53e48c98ec7c113e1a343d9d5"
+    },
+    {
+      "path": "packages/gallery-experience/src/components/gallery-ambient.tsx",
+      "action": "REPLACE_BY_CANONICAL_ADAPT",
+      "sha256": "2203ffc6ef0a9ab2fe5895bb3e8e368da5beefe233ba2a502b6df7cbc08932c6"
+    },
+    {
+      "path": "packages/gallery-experience/src/styles/gallery-experience.css",
+      "action": "REPLACE_WITH_SCOPED_CANONICAL",
+      "sha256": "59f92b3126daeb063507a43f2b2d9d05a86fc82a1506cafa44a58567229a9481"
+    },
+    {
+      "path": "packages/gallery-experience/src/components/artwork-card.jsx",
+      "action": "REMOVE_GENERATED"
+    },
+    {
+      "path": "packages/gallery-experience/src/components/gallery-ambient.jsx",
+      "action": "REMOVE_GENERATED"
+    },
+    {
+      "path": "packages/gallery-experience/src/components/gallery-experience.jsx",
+      "action": "REMOVE_GENERATED_STALE"
+    },
+    {
+      "path": "packages/gallery-experience/src/i18n/dictionary.js",
+      "action": "REMOVE_GENERATED"
+    },
+    {
+      "path": "packages/gallery-experience/src/index.js",
+      "action": "REMOVE_GENERATED"
+    },
+    {
+      "path": "packages/gallery-experience/src/types/index.js",
+      "action": "REMOVE_GENERATED"
+    },
+    {
+      "path": "packages/gallery-experience/tsconfig.tsbuildinfo",
+      "action": "REMOVE_GENERATED"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/__tests__/medusa-adapter.test.js",
+      "action": "REMOVE_STALE_NON_EXECUTED_TEST"
+    }
+  ],
+  "target_host_dispositions": [
+    {
+      "path": "packages/gallery-experience/src/types/index.ts",
+      "action": "ADAPT_EXISTING_NEUTRAL_CONTRACT"
+    },
+    {
+      "path": "packages/gallery-experience/src/i18n/dictionary.ts",
+      "action": "KEEP_DTC_LOCALIZATION_BOUNDARY"
+    },
+    {
+      "path": "packages/gallery-experience/src/index.ts",
+      "action": "KEEP_PUBLIC_ENTRYPOINT_AND_REEXPORT_CANONICAL_ENGINE"
+    },
+    {
+      "path": "packages/gallery-experience/package.json",
+      "action": "PKG_W2_PUBLIC_EXPORTS_AND_DIST"
+    },
+    {
+      "path": "packages/gallery-experience/tsconfig.json",
+      "action": "PKG_W2_DETERMINISTIC_DIST"
+    },
+    {
+      "path": "packages/gallery-experience/README.md",
+      "action": "PKG_W2_CONTRACT_DOCUMENTATION"
+    },
+    {
+      "path": "apps/storefront/src/app/layout.tsx",
+      "action": "ADAPT_COMMERCE_SHELL"
+    },
+    {
+      "path": "apps/storefront/src/app/[countryCode]/(main)/page.tsx",
+      "action": "DAT_W1_REMOVE_SYNTHETIC_REGION_AND_PASS_INITIAL_SELECTION"
+    },
+    {
+      "path": "apps/storefront/src/app/[countryCode]/(main)/products/[handle]/page.tsx",
+      "action": "DAT_06_AUTHORIZED_SHARED_POLICY_RECONCILIATION"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/index.tsx",
+      "action": "KEEP_DTC_SERVER_BOUNDARY"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-client.tsx",
+      "action": "DAT_W1_REMOVE_CLIENT_FIXTURE_FALLBACK"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-data.ts",
+      "action": "DAT_W1_TYPED_FAIL_CLOSED_SOURCE"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/medusa-adapter.ts",
+      "action": "DAT_W1_TRUTHFUL_MAPPING"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-fallback.tsx",
+      "action": "DAT_W1_TYPED_DEGRADED_STATES"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-feature-flags.ts",
+      "action": "KEEP_DTC_FEATURE_FLAG"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/gallery-hero-analytics.ts",
+      "action": "KEEP_DTC_VENDOR_NEUTRAL_BRIDGE"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/fixtures/fio-vivo-products.ts",
+      "action": "DAT_W1_EXPLICIT_NON_COMMERCIAL_POLICY_ONLY"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/__tests__/gallery-hero-data.unit.spec.ts",
+      "action": "DAT_W1_REOPEN_HARNESS"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/gallery-hero/__tests__/medusa-adapter.unit.spec.ts",
+      "action": "DAT_W1_REPLACE_FALSE_ASSERTIONS"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/components/featured-products/index.tsx",
+      "action": "DAT_W1_REMOVE_SYNTHETIC_COLLECTION"
+    },
+    {
+      "path": "apps/storefront/src/modules/home/components/featured-products/product-rail/index.tsx",
+      "action": "DAT_W1_REMOVE_SYNTHETIC_COMMERCE_AND_FUZZY_ENRICHMENT"
+    },
+    {
+      "path": "apps/storefront/.env.template",
+      "action": "DAT_W1_DOCUMENT_SERVER_ONLY_FIXTURE_POLICY"
+    },
+    { "path": "apps/storefront/package.json", "action": "PKG_W2_TEST_SCRIPT" },
+    {
+      "path": "apps/storefront/jest.config.js",
+      "action": "PKG_W2_TEST_REAL_DIST"
+    },
+    {
+      "path": "apps/storefront/next.config.js",
+      "action": "KEEP_RISK_VISIBLE_NO_SILENT_GATE_RELAXATION"
+    },
+    { "path": "package.json", "action": "PKG_W2_TASK_GRAPH_ENTRYPOINT" },
+    { "path": "pnpm-workspace.yaml", "action": "PKG_W2_FIRST_LEVEL_WORKSPACE" },
+    { "path": "pnpm-lock.yaml", "action": "PKG_W2_REGENERATE_WITH_PNPM_ONLY" },
+    { "path": "turbo.json", "action": "PKG_W2_DIST_AND_TEST_DEPENDENCY" }
+  ],
+  "dependency_adaptations": [
+    { "package": "react", "decision": "KEEP_AS_HOST_PEER" },
+    { "package": "react-dom", "decision": "KEEP_AS_HOST_PEER" },
+    {
+      "package": "next",
+      "decision": "KEEP_AS_HOST_PEER_FOR_IMAGE_AND_DYNAMIC",
+      "risk": "Resolve stable 16.2.11 versus storefront canary 16.3.1-canary.4 explicitly in W2."
+    },
+    { "package": "framer-motion", "decision": "KEEP_CANONICAL_DEPENDENCY" },
+    {
+      "package": "lucide-react",
+      "decision": "ADD_WHEN_CANONICAL_FILES_PORT",
+      "reason": "Do not reimplement canonical icons as local SVGs."
+    },
+    {
+      "package": "@radix-ui/react-dialog",
+      "decision": "DECLARE_FOR_CANONICAL_DIALOG_PRIMITIVE"
+    },
+    { "package": "clsx", "decision": "KEEP_WITH_CANONICAL_CN" },
+    { "package": "tailwind-merge", "decision": "KEEP_WITH_CANONICAL_CN" },
+    {
+      "package": "sonner",
+      "decision": "ADAPT_TO_TYPED_NOTIFICATION_CALLBACKS"
+    },
+    {
+      "package": "@vercel/analytics",
+      "decision": "ADAPT_TO_VENDOR_NEUTRAL_HOST_CALLBACKS"
+    },
+    { "package": "pg", "decision": "REJECT_STANDALONE_DATA_LAYER" }
+  ],
+  "issue_dependency_snapshot": {
+    "source": "Live GitHub issue bodies #14-#32 read on 2026-08-08",
+    "fetched_at": "2026-08-08T19:20:00-03:00",
+    "issues": {
+      "#14": { "depends_on": ["#13"] },
+      "#15": { "depends_on": ["#13", "#14"] },
+      "#16": { "depends_on": ["#13", "#14"] },
+      "#17": { "depends_on": ["#13", "#16"] },
+      "#18": { "depends_on": ["#17"] },
+      "#19": { "depends_on": ["#16", "#18"] },
+      "#20": { "depends_on": ["#16", "#17"] },
+      "#21": { "depends_on": ["#13"] },
+      "#22": { "depends_on": ["#21"] },
+      "#23": { "depends_on": ["#17", "#22"] },
+      "#24": { "depends_on": ["#15", "#17", "#18", "#19", "#23"] },
+      "#25": {
+        "depends_on": ["#14", "#15", "#16", "#17", "#18", "#19", "#24"]
+      },
+      "#26": { "depends_on": ["#18", "#19", "#24"] },
+      "#27": {
+        "depends_on": [
+          "#21",
+          "#22",
+          "#23",
+          "#24",
+          "#25",
+          "#26",
+          "#30",
+          "#31",
+          "#32"
+        ]
+      },
+      "#28": {
+        "depends_on": ["#25", "#26", "#27", "#29", "#30", "#31", "#32"],
+        "open_expression": "all implementation issues under #12",
+        "resolved_as_of_snapshot": [
+          "#14",
+          "#15",
+          "#16",
+          "#17",
+          "#18",
+          "#19",
+          "#20",
+          "#21",
+          "#22",
+          "#23",
+          "#24",
+          "#25",
+          "#26",
+          "#27",
+          "#29",
+          "#30",
+          "#31",
+          "#32"
+        ]
+      },
+      "#29": { "depends_on": ["#16", "#17", "#21", "#22"] },
+      "#30": {
+        "depends_on": ["#18", "#19", "#20", "#22", "#23", "#24", "#29"]
+      },
+      "#31": { "depends_on": ["#20", "#21", "#22", "#23", "#29"] },
+      "#32": { "depends_on": ["#20", "#22", "#23", "#24", "#29", "#30", "#31"] }
+    }
+  },
+  "issue_ownership": {
+    "_non_source_work_items": {
+      "HOST-DATA-SOURCE": {
+        "kind": "host_responsibility",
+        "issue_owner": "#21"
+      },
+      "HOST-DATA-ADAPTER": {
+        "kind": "host_responsibility",
+        "issue_owner": "#22"
+      },
+      "HOST-PDP-CTA": { "kind": "host_responsibility", "issue_owner": "#23" },
+      "VISUAL-PARITY-GATE": { "kind": "quality_gate", "issue_owner": "#25" },
+      "PERFORMANCE-GATE": { "kind": "quality_gate", "issue_owner": "#26" },
+      "ROLLOUT": { "kind": "rollout", "issue_owner": "#27" },
+      "FALLBACK": { "kind": "rollout", "issue_owner": "#27" },
+      "ROLLBACK": { "kind": "rollout", "issue_owner": "#27" },
+      "HUMAN-VISUAL-GATE": { "kind": "human_gate", "issue_owner": "#28" },
+      "HUMAN-RELEASE-GATE": { "kind": "human_gate", "issue_owner": "#28" },
+      "RUNTIME-STATE-MACHINE": { "kind": "runtime", "issue_owner": "#29" },
+      "FUNCTIONAL-E2E": { "kind": "quality_gate", "issue_owner": "#30" },
+      "CROSS-BROWSER": { "kind": "quality_gate", "issue_owner": "#30" },
+      "CAND-04": {
+        "kind": "deferred_candidate",
+        "issue_owner": "UNASSIGNED",
+        "description": "Commercial gallery JSON-LD after Commercial Truth"
+      },
+      "CAND-07": {
+        "kind": "deferred_candidate",
+        "issue_owner": "UNASSIGNED",
+        "description": "Saved-artworks governance and privacy/storage review"
+      },
+      "INT-06-SHARE": {
+        "kind": "deferred_candidate",
+        "issue_owner": "UNASSIGNED",
+        "description": "Share capability pending explicit GitHub ownership"
+      }
+    },
+    "#14": { "depends_on": ["#13"], "owns": ["CAP-001", "CAP-003", "CAP-019"] },
+    "#15": {
+      "depends_on": ["#13", "#14"],
+      "owns": ["CAP-003", "CAP-006", "CAP-017", "CAP-021"]
+    },
+    "#16": {
+      "depends_on": ["#13", "#14"],
+      "owns": ["CAP-005", "CAP-019", "CAP-024", "CAP-027"]
+    },
+    "#17": {
+      "depends_on": ["#13", "#16"],
+      "owns": ["CAP-004", "CAP-007", "CAP-013", "CAP-025"]
+    },
+    "#18": {
+      "depends_on": ["#17"],
+      "owns": ["CAP-004", "CAP-011", "CAP-012", "CAP-019"]
+    },
+    "#19": {
+      "depends_on": ["#16", "#18"],
+      "owns": ["CAP-005", "CAP-014", "CAP-019"]
+    },
+    "#20": {
+      "depends_on": ["#16", "#17"],
+      "owns": [
+        "CAP-004",
+        "CAP-005",
+        "CAP-008",
+        "CAP-009",
+        "CAP-015",
+        "CAP-016",
+        "CAP-019",
+        "CAP-020",
+        "CAP-025",
+        "CAP-028"
+      ]
+    },
+    "#21": {
+      "depends_on": ["#13"],
+      "owns": ["CAP-002", "CAP-010", "CAP-031", "HOST-DATA-SOURCE"]
+    },
+    "#22": {
+      "depends_on": ["#21"],
+      "owns": ["CAP-027", "CAP-031", "HOST-DATA-ADAPTER"]
+    },
+    "#23": {
+      "depends_on": ["#17", "#22"],
+      "owns": [
+        "CAP-004",
+        "CAP-007",
+        "CAP-008",
+        "CAP-023",
+        "CAP-029",
+        "CAP-030",
+        "HOST-PDP-CTA"
+      ]
+    },
+    "#24": {
+      "depends_on": ["#15", "#17", "#18", "#19", "#23"],
+      "owns": [
+        "CAP-003",
+        "CAP-004",
+        "CAP-005",
+        "CAP-007",
+        "CAP-008",
+        "CAP-009",
+        "CAP-011",
+        "CAP-012",
+        "CAP-013",
+        "CAP-014",
+        "CAP-028",
+        "CAP-029"
+      ]
+    },
+    "#25": {
+      "depends_on": ["#14", "#15", "#16", "#17", "#18", "#19", "#24"],
+      "owns": ["VISUAL-PARITY-GATE"]
+    },
+    "#26": {
+      "depends_on": ["#18", "#19", "#24"],
+      "owns": ["CAP-017", "CAP-021", "CAP-024", "PERFORMANCE-GATE"]
+    },
+    "#27": {
+      "depends_on": [
+        "#21",
+        "#22",
+        "#23",
+        "#24",
+        "#25",
+        "#26",
+        "#30",
+        "#31",
+        "#32"
+      ],
+      "owns": ["ROLLOUT", "FALLBACK", "ROLLBACK"]
+    },
+    "#28": {
+      "depends_on": ["#25", "#26", "#27", "#29", "#30", "#31", "#32"],
+      "owns": ["HUMAN-VISUAL-GATE", "HUMAN-RELEASE-GATE"]
+    },
+    "#29": {
+      "depends_on": ["#16", "#17", "#21", "#22"],
+      "owns": ["CAP-002", "CAP-010", "CAP-031", "RUNTIME-STATE-MACHINE"]
+    },
+    "#30": {
+      "depends_on": ["#18", "#19", "#20", "#22", "#23", "#24", "#29"],
+      "owns": ["FUNCTIONAL-E2E", "CROSS-BROWSER"]
+    },
+    "#31": {
+      "depends_on": ["#20", "#21", "#22", "#23", "#29"],
+      "owns": ["CAP-001", "CAP-015", "CAP-023", "CAP-032", "CAP-033"]
+    },
+    "#32": {
+      "depends_on": ["#20", "#22", "#23", "#24", "#29", "#30", "#31"],
+      "owns": [
+        "CAP-015",
+        "CAP-016",
+        "CAP-017",
+        "CAP-020",
+        "CAP-023",
+        "CAP-024",
+        "CAP-030",
+        "CAP-031",
+        "CAP-032",
+        "CAP-033"
+      ]
+    }
+  },
+  "behavioral_contracts": {
+    "active_index": [
+      "orchestrator owns current index",
+      "next/previous wrap",
+      "direct selection clamps",
+      "keyboard is focus-scoped"
+    ],
+    "scenes": [
+      "ArtworkCard owns active scene",
+      "2x2 grid with canonical dead band",
+      "thumbnail hover/click",
+      "loaded active unobscured 650ms discovery"
+    ],
+    "interaction": [
+      "canonical drag thresholds",
+      "canonical wheel accumulator",
+      "interactive descendants never initiate gallery gestures"
+    ],
+    "ambient": [
+      "canonical keyed crossfade",
+      "grain/vignette/reflection remain noninteractive",
+      "visual defaults are never product metadata"
+    ],
+    "progress": [
+      "versioned corruption-safe snapshot",
+      "handle plus scene identity",
+      "dialogs pause discovery",
+      "deterministic resume"
+    ],
+    "reduced_motion": [
+      "zero-duration transitions",
+      "pointer/parallax/shimmer/grain animation disabled",
+      "explicit scene controls remain reachable"
+    ],
+    "cta": [
+      "canonical placement and minimum 44px target",
+      "validated localized product URL",
+      "host intent callback"
+    ],
+    "canonical_values": {
+      "layout": { "card_step_mobile_px": 340, "card_step_desktop_px": 564 },
+      "slider": {
+        "drag_resistance": 0.4,
+        "swipe_viewport_threshold_ratio": 0.08,
+        "velocity_threshold_px_per_ms": 0.3,
+        "wheel_resistance": 0.3,
+        "wheel_scroll_threshold": 120,
+        "wheel_reset_delay_ms": 150,
+        "momentum_easing": 0.1,
+        "animation_timeout_ms": 800
+      },
+      "motion": {
+        "scene_duration_s": 0.52,
+        "card_duration_s": 0.55,
+        "ambience_duration_s": 0.8,
+        "control_duration_s": 0.28,
+        "scene_ease": [0.22, 1, 0.36, 1],
+        "gallery_ease": [0.32, 0.72, 0, 1],
+        "pointer_spring": { "stiffness": 180, "damping": 28, "mass": 0.75 },
+        "scene_dead_band_ratio": 0.08,
+        "scene_discovery_delay_ms": 650
+      },
+      "effects": {
+        "parallax_x_px": 10,
+        "parallax_y_px": 8,
+        "rotate_x_deg": 4,
+        "rotate_y_deg": 5
+      },
+      "source": "lib/constants.ts at canonical pinned commit"
+    }
+  },
+  "medusa_invariants": [
+    "The exact fio-vivo collection lookup fails closed.",
+    "Region missing, collection missing, collection empty, API unavailable, timeout, partial failure and all-ineligible are distinct states.",
+    "Fixtures require an explicit server-only non-production policy and never silently substitute commerce data.",
+    "No invented currency, amount, region, collection, SKU, variant, artist, year, image, ambient metadata, inventory or availability.",
+    "Multi-variant pricing, inventory management and backorder semantics are deterministic and tested.",
+    "countryCode and resolved region context remain explicit.",
+    "Medusa mapping is runtime-validated and returns typed eligibility/rejection results."
+  ],
+  "legacy_replacement_order": [
+    "Complete Commercial Truth before package or visual mutation.",
+    "Make package exports/build deterministic in dist without inventing presentation primitives.",
+    "During PKG-W2, remove tracked generated JavaScript, tsbuildinfo and the stale non-executed adapter test before the first canonical package build.",
+    "Port canonical package foundation and types.",
+    "Replace ambient and scoped visual layer from canonical blobs.",
+    "Replace ArtworkCard from the canonical blob.",
+    "Port ArtGallerySlider and NavigationDots; reduce GalleryExperience to a facade.",
+    "Port canonical interaction hooks and progress state.",
+    "Remove remaining parallel presentation symbols only after their canonical replacements pass."
+  ],
+  "evidence": {
+    "BASE_E1": "docs/artifacts/bb-nos/2026-08-08-w0-base-e.md",
+    "SUPERSESSION_E1": "docs/artifacts/bb-nos/nos-001/2026-08-08-w0-supersession.md",
+    "CONTRACT_E1": ".agents/contracts/session-state-ledger.md",
+    "CONTRACT_E2": ".agents/contracts/nos-gallery-first-fold.yaml",
+    "CONTRACT_HASHES": {
+      ".agents/contracts/session-state-ledger.md": "ada5a9602deddff95906206a5468b313de65f8c9ee6506e8be32f5c8d6ebef82",
+      ".agents/contracts/nos-gallery-first-fold.yaml": "731f561f8c5943bff3fbc4eea0a4e2b9d87017111a92bc661dd9d921a7b45171",
+      ".agents/contracts/session-state-ledger.schema.yaml": "3c59bdc72f3c960e5de84e0796cd250021378d6c38c113a2508ce85a624703ec"
+    },
+    "GOV_E1": ".agents/canonical-agent-shortcuts.yaml",
+    "AGENT_E1": {
+      "agent": "/root/runtime_visual_baseline",
+      "result": "Pinned canonical runtime verified at 1680x934; CTA dialog, keyboard, images and console inspected."
+    },
+    "AGENT_E2": {
+      "agent": "/root/target_duplication_audit",
+      "result": "Parallel implementation, package-output and Iteration 0 source/target defects audited read-only."
+    },
+    "AGENT_E3": {
+      "agent": "/root/commercial_truth_design",
+      "result": "Commercial fabrication paths and truth matrices audited read-only."
+    },
+    "SKILL_E1": {
+      "path": ".agents/skills/medusa/medusa-dev-building-storefronts/SKILL.md",
+      "applied": "Medusa server/client and SDK boundaries."
+    },
+    "SKILL_E2": {
+      "path": ".agents/skills/medusa/medusa-ecommerce-storefront-best-practices/SKILL.md",
+      "applied": "Commercial truth, price, inventory, PDP and fixture constraints."
+    },
+    "SKILL_E3": {
+      "path": "C:/Users/fjuni/.codex/plugins/cache/openai-curated-remote/vercel/0.21.4/skills/nextjs/SKILL.md",
+      "applied": "RSC, metadata, image and routing boundaries."
+    },
+    "REVIEW_E0": {
+      "agent": "/root/gov_freeze_audit",
+      "verdict": "FAIL",
+      "reviewed_sha256": "bdc0bbf4856c21d65f693298813d6edc8bd64d3272cceb88ec9d3d5fc1fb2735",
+      "reason": "Iteration 0 YAML and semantic coverage defects."
+    },
+    "VALIDATOR_E1": {
+      "script": ".agents/scripts/validate-nos-gallery-manifest.mjs",
+      "script_sha256_before_format": "1b78ccbe711ecd817d3b9123cac0ac0b5f79f3713e88d2d56f119067a781fe88",
+      "tests": ".agents/scripts/__tests__/validate-nos-gallery-manifest.test.mjs",
+      "tests_sha256_before_format": "82469d07068c05da65603326401817a21a13a571cf0d3c747235c4bb50de4120",
+      "receipt": "docs/artifacts/bb-nos/nos-001/w0-iteration-1-semantic-validation.json",
+      "verdict": "PASS_VALIDATOR_BUT_SUPERSEDED_BY_INDEPENDENT_FINDINGS"
+    },
+    "AUTO_E1": "docs/artifacts/bb-nos/nos-001/agent-self-critique/2026-08-08-iteration-1-auto-e.md",
+    "REVIEW_E1": {
+      "path": "docs/artifacts/bb-nos/nos-001/reviews/2026-08-08-review-e1.json",
+      "verdict": "FAIL",
+      "p0": 0,
+      "p1": 5
+    },
+    "REPO_GUARDIAN_E1": {
+      "path": "docs/artifacts/bb-nos/nos-001/reviews/2026-08-08-repo-guardian-e1.json",
+      "verdict": "FAIL",
+      "p0": 0,
+      "p1": 3
+    },
+    "VALIDATOR_E2": {
+      "script": ".agents/scripts/validate-nos-gallery-manifest.mjs",
+      "tests": ".agents/scripts/__tests__/validate-nos-gallery-manifest.test.mjs",
+      "receipt": "docs/artifacts/bb-nos/nos-001/w0-iteration-2-semantic-validation.json",
+      "verdict": "PASS_PENDING_INDEPENDENT_REVIEW"
+    },
+    "AUTO_E2": "docs/artifacts/bb-nos/nos-001/agent-self-critique/2026-08-08-iteration-2-auto-e.md",
+    "REVIEW_E2": "pending",
+    "REPO_GUARDIAN_E2": "pending"
+  },
+  "residual_gaps": [
+    "Live GitHub ownership must be expanded or a named subtask retained for saved-artwork fidelity, share and commercial SEO before their implementation DoD.",
+    "The open #28 expression all implementation issues under #12 must be enumerated in the live issue before terminal DoR.",
+    "Commercial Truth is currently FAIL and blocks package work.",
+    "Package output, exports, workspace lock and test graph are not yet production-ready.",
+    "Current target presentation is a parallel implementation and remains visual/behavioral NO-GO.",
+    "Visual, accessibility, performance, resilience, observability, security, rollout and human gates remain open."
+  ],
+  "freeze": {
+    "status": "iteration_2_validation_pending",
+    "canonical_source_immutable_for_slice": true,
+    "manifest_immutable": false,
+    "downstream_ready": false,
+    "github_completion_record_published": false
+  },
+  "acceptance_checklist": {
+    "canonical_sha_and_tree_proven": {
+      "status": "pass",
+      "derived_by": "validate-nos-gallery-manifest.mjs + remote verification",
+      "evidence": "w0-iteration-2-semantic-validation.json"
+    },
+    "canonical_import_closure_complete": {
+      "status": "pass",
+      "derived_by": "validate-nos-gallery-manifest.mjs",
+      "evidence": "55/55 closure files"
+    },
+    "every_capability_classified": {
+      "status": "pass",
+      "derived_by": "validate-nos-gallery-manifest.mjs",
+      "evidence": "33 capabilities and zero unknown coverage ids"
+    },
+    "disposition_counts_equal": {
+      "status": "pass",
+      "derived_by": "validate-nos-gallery-manifest.mjs",
+      "evidence": "25 ADAPT + 2 PORT + 3 DEFER + 3 REJECT = 33"
+    },
+    "target_states_explicit": {
+      "status": "pass",
+      "derived_by": "validate-nos-gallery-manifest.mjs",
+      "evidence": "existing/planned/replace/host states, existence, hashes and shared-target contracts validated"
+    },
+    "dependency_snapshot_reconciled": {
+      "status": "pass",
+      "derived_by": "validate-nos-gallery-manifest.mjs",
+      "evidence": "19/19 issue nodes and exact explicit edges"
+    },
+    "w0_runtime_immutability": {
+      "status": "pass",
+      "derived_by": "validate-nos-gallery-manifest.mjs",
+      "evidence": "external transition reconciled; current dirty set limited to .agents/docs"
+    },
+    "auto_improve_passed": {
+      "status": "pass",
+      "derived_by": "AUTO-E2",
+      "evidence": "2026-08-08-iteration-2-auto-e.md"
+    },
+    "independent_review_passed": {
+      "status": "pending",
+      "derived_by": "REVIEW-E2"
+    },
+    "repo_guardian_passed": {
+      "status": "pending",
+      "derived_by": "REPO-GUARDIAN-E2"
+    },
+    "github_completion_record_published": {
+      "status": "pending_external_authorization",
+      "derived_by": "GitHub issue #13"
+    }
+  }
+}

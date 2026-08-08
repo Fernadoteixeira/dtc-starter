@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "kind": "nos-001-independent-review",
+  "review_id": "REVIEW-E1",
+  "reviewer": "/root/gov_freeze_audit",
+  "mode": "independent-read-only",
+  "reviewed_manifest_sha256": "a8f90d6be054d0a318d9c275fa5436a7ff5390d37eb85ef7bdd954653411d185",
+  "semantic_subject_sha256": "85b2437ecc08b8c3d8dda564593388c350bac2d7f15aef4617829085ffff0455",
+  "verdict": "FAIL",
+  "blocking_findings": 5,
+  "p0_count": 0,
+  "p1_count": 5,
+  "p2_count": 5,
+  "finding_codes": [
+    "ownership_edge_mismatch",
+    "dangling_ownership_tokens",
+    "saved_artworks_without_live_owner",
+    "jsonld_target_disposition_conflict",
+    "canonical_behavior_values_missing"
+  ],
+  "consequence": "NO_FREEZE_ITERATION_1",
+  "superseded_by": "Iteration 2 remediation and REVIEW-E2",
+  "evidence_boundary": "This receipt records the independent review result supplied by the read-only reviewer; it does not self-certify Iteration 2."
+}

@@ -1,5 +1,7 @@
 # #13 — Canonical 360 Completion Record (R1 Derived)
 
+> **SUPERSEDED_PREMATURE_COMPLETION:** this record depends on the invalid historical T21/T22 derivation. It is not evidence of current completion, DoD PASS, GO or manifest freeze.
+
 **Issue ID:** `#13 — NOS Gallery Canonical Inventory, Manifest & Behavioral Contract Matrix`  
 **Parent EPIC:** `#12 — BB-NOS: Nos Gallery Transplant & Commerce-Shell Integration`  
 **Final Status:** `COMPLETE` 🟢  

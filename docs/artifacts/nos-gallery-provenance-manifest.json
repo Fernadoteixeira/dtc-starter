@@ -1,53 +1,78 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "name": "nos-gallery-provenance-manifest",
-  "version": "1.0.0",
-  "description": "Provenance manifest and capability matrix tracking the transplantation of canonical nos-gallery into @dtc/gallery-experience",
+  "schema_version": 2,
+  "kind": "nos-gallery-provenance-pointer",
+  "updated_at": "2026-08-08T23:12:00.000Z",
+  "description": "Current provenance pointer for the canonical nos-gallery transplant. Historical capability and gate claims are explicitly non-authoritative.",
   "canonical_source": {
     "repository": "Fernadoteixeira/nos-gallery",
     "pinned_commit": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
-    "historical_ref": "97a7adf",
-    "architecture_pattern": "Transplant Adapter / Workspace Package",
-    "package_name": "@dtc/gallery-experience",
-    "package_location": "packages/gallery-experience"
+    "tree_sha": "ab05069f81f3763a108b55e1e49ff3845cc15267",
+    "closure_entrypoints": ["app/page.tsx", "app/layout.tsx"],
+    "import_closure_files": 55,
+    "hashed_files": 55,
+    "classified_files": 55
   },
-  "runtime_integration": {
-    "host_app": "@dtc/storefront",
-    "host_location": "apps/storefront/src/modules/home/gallery-hero",
-    "anti_corruption_layer": "mapStoreProductToGalleryItem",
-    "catalog_safety_policy": "fail-closed",
-    "css_isolation_scope": ".dtc-gallery"
+  "target_baseline": {
+    "repository": "Fernadoteixeira/dtc-starter",
+    "branch": "main",
+    "head_sha": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "previous_head_sha": "45ef2606512a5a26f0fee2a377ffda823423fce9",
+    "transition": "EXTERNAL_COMMIT_OBSERVED_DURING_W0",
+    "transition_evidence": "docs/artifacts/bb-nos/2026-08-08-external-git-drift.md"
   },
-  "capabilities_matrix": {
-    "visual_parity": {
-      "first_fold_shell": true,
-      "color_tokens": ["#BFA38A", "#26221F", "#F4EFEB"],
-      "scene_rail": true,
-      "ambient_gradients": true,
-      "editorial_typography": true
+  "manifest_contract": {
+    "path": ".agents/contracts/nos-gallery-transplant-manifest.yaml",
+    "schema_version": 2,
+    "iteration": 2,
+    "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
+    "status": "ITERATION_2_REVIEW_PENDING",
+    "frozen": false
+  },
+  "capability_summary": {
+    "total": 33,
+    "by_disposition": {
+      "ADAPT": 25,
+      "PORT": 2,
+      "KEEP_DTC": 0,
+      "DEFER": 3,
+      "REJECT_WITH_REASON": 3
     },
-    "behavioral_parity": {
-      "keyboard_navigation": true,
-      "tab_focus_management": true,
-      "reduced_motion": true,
-      "item_view_analytics": true,
-      "scene_switch_callback": true,
-      "share_callback": true,
-      "pointer_parallax": false,
-      "drag_swipe_gesture": true,
-      "wheel_navigation": true,
-      "dwell_tracking": false,
-      "persistent_discovery_map": false,
-      "achievements_dialog": false,
-      "inquiry_workflow": false
-    }
+    "target_legacy_rows": 12,
+    "target_host_rows": 29,
+    "unknown": 0
+  },
+  "architecture": {
+    "presentation_package": "packages/gallery-experience",
+    "host_integration": "apps/storefront/src/modules/home/gallery-hero",
+    "data_contract": "Existing framework-agnostic GalleryItem and GalleryScene contracts",
+    "state": "PLANNED_CANONICAL_REPLACEMENT_NOT_IMPLEMENTED",
+    "parallel_target_implementation": "REPLACE_AFTER_DEPENDENCY_GATES"
   },
   "gates": {
-    "incorporation_architecture": "GO",
-    "submodule_gitlink": "REMOVED",
-    "catalog_safety_nos009_nos010": "GO (FAIL-CLOSED)",
-    "visual_parity": "GO",
-    "canonical_behavioral_parity": "NO-GO (PARTIAL)",
-    "release_gate_28": "NO-GO"
+    "w0_semantic_validation": "PASS",
+    "iteration_1_independent_review": "FAIL_SUPERSEDED",
+    "iteration_1_repo_guardian": "FAIL_SUPERSEDED",
+    "independent_review": "PENDING_ITERATION_2",
+    "repo_guardian": "PENDING_ITERATION_2",
+    "github_completion_record": "NOT_PUBLISHED",
+    "manifest": "NOT_FROZEN",
+    "commercial_truth": "FAIL",
+    "canonical_port": "FAIL_NOT_EXECUTED",
+    "visual_parity": "FAIL_NOT_EXECUTED",
+    "behavioral_parity": "FAIL_NOT_EXECUTED",
+    "release": "NO_GO"
+  },
+  "authoritative_artifacts": {
+    "task_register": "docs/artifacts/bb-nos/BB-NOS_Canonical_360_Task_Register.md",
+    "program_state": "docs/artifacts/bb-nos/program-state.json",
+    "session_ledger": "docs/artifacts/bb-nos/session-state-2026-08-08-w0.yaml",
+    "semantic_receipt": "docs/artifacts/bb-nos/nos-001/w0-iteration-2-semantic-validation.json",
+    "supersession": "docs/artifacts/bb-nos/nos-001/2026-08-08-w0-supersession.md"
+  },
+  "historical_evidence_boundary": {
+    "previous_visual_and_behavioral_claims": "HISTORICAL_PARALLEL_IMPLEMENTATION_ONLY",
+    "previous_t21_t22_t23_pass_claims": "SUPERSEDED",
+    "previous_06_source_target_manifest": "SUPERSEDED",
+    "release_or_freeze_inference_permitted": false
   }
 }

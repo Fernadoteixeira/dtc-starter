@@ -1,14 +1,14 @@
 project:
   repository: Fernadoteixeira/dtc-starter
   branch: main
-  head_sha: 45ef2606512a5a26f0fee2a377ffda823423fce9
+  head_sha: 38246f64e82b37670edf84d386b55b866fb425bf
 
 execution:
   current_program: BB-NOS 360
   current_bb: BB-NOS
   current_task: GOV-01..06 then DAT-01..06
-  current_round: W0-W1 remediation
-  current_gate: W0_REMEDIATION_IN_PROGRESS
+  current_round: W0 Iteration 2 independent review
+  current_gate: W0_ITERATION_2_REVIEW_PENDING
   status: in_progress
 
 human_decisions:
@@ -81,17 +81,17 @@ mutation_policy:
 quality_gates:
   build: not_run
   typecheck: not_run
-  tests: not_run
+  tests: pass_23_of_23_w0_semantic_and_dod
   runtime: not_run
   visual: fail
   localization: not_run
-  evidence: not_run
+  evidence: semantic_pass_review_e2_pending
 
 blockers:
   open:
-    - id: BB-NOS-MANIFEST
-      severity: P0
-      summary: Issue #13 manifest remains DRAFT-0 / remediation required.
+    - id: BB-NOS-ITERATION-2-INDEPENDENT-REVIEW
+      severity: P1
+      summary: Iteration 2 semantic validator and AUTO-E2 pass; REVIEW-E2 and REPO-GUARDIAN-E2 remain required.
     - id: BB-NOS-COMMERCIAL-TRUTH
       severity: P0
       summary: Silent fixture fallbacks and fabricated adapter defaults can reach commercial UI.
@@ -100,6 +100,10 @@ blockers:
       severity: P0
       summary: Dirty PDP edit authorization was previously ambiguous.
       resolution: Human explicitly authorized surgical reconciliation while preserving the original diff semantically.
+    - id: BB-NOS-ITERATION-1-REVIEW-FINDINGS
+      severity: P1
+      summary: Iteration 1 had ownership, target, validator and behavior-contract defects.
+      resolution: Iteration 2 resolves the recorded E1 findings and adds fail-closed tests; independent E2 confirmation remains pending.
 
 evidence:
   canonical_report: docs/artifacts/bb-nos/2026-08-08-w0-base-e.md
@@ -108,17 +112,19 @@ evidence:
     - C:/Users/fjuni/AppData/Local/Temp/codex-clipboard-b39ee9e4-96ab-4ece-b874-c3a4494c7dc4.png
   measurements: canonical localhost:3422 at 1680x934; see 2026-08-08-w0-base-e.md
   hashes: docs/artifacts/bb-nos/2026-08-08-w0-base-e.md
+  semantic_receipt: docs/artifacts/bb-nos/nos-001/w0-iteration-2-semantic-validation.json
+  semantic_subject_sha256: 71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b
   pull_request: null
 
 transition:
-  previous_state: HUMAN_APPROVED
-  current_state: W0_REMEDIATION_IN_PROGRESS
-  trigger: Independent W0 audit invalidated the historical freeze and exposed semantic manifest and DoD derivation defects.
-  authorized_by: human authorization plus evidence-backed gate transition
-  timestamp: 2026-08-08T19:37:17.068-03:00
+  previous_state: W0_ITERATION_1_REVIEW_FAIL
+  current_state: W0_ITERATION_2_REVIEW_PENDING
+  trigger: REVIEW-E1 and REPO-GUARDIAN-E1 found semantic P1s; Iteration 2 consumed those findings and passed 17 validator plus 6 DoD tests.
+  authorized_by: user requested systematic 360-degree task execution; no Git operation executed by this session
+  timestamp: 2026-08-08T20:25:00.000-03:00
   irreversible_actions_allowed: false
 
 next_action:
   authorized: true
-  description: Repair W0 source truth, semantic validation, supersession records, current program pointers, AUTO-E and independent REVIEW-E before any runtime work.
+  description: Run REVIEW-E2 and REPO-GUARDIAN-E2 against semantic subject 71d3d84f; derive DoD afterward without GitHub publication or freeze unless separately authorized and all criteria pass.
   stop_condition: Stop if the manifest cannot be truthfully frozen or COMMERCIAL TRUTH is not PASS.

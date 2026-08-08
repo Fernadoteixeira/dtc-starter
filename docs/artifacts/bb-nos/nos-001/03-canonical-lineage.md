@@ -1,5 +1,7 @@
 # NOS-001 — 03 Canonical Lineage (Upstream Analysis)
 
+> **CANONICAL_SOURCE_PIN_VALID / INVENTORY_SNAPSHOT_SUPERSEDED:** the pinned source SHA remains valid. Current tree SHA, 55-file import closure, hashes and classifications live only in `/.agents/contracts/nos-gallery-transplant-manifest.yaml`; this historical inventory cannot freeze the transplant manifest.
+
 - **Date:** 2026-08-08
 - **Agent:** RUG orchestrator (direct execution)
 - **Scope:** Canonical `nos-gallery` source at pinned SHA `2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e`

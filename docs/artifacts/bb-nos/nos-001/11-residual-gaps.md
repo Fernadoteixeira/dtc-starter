@@ -1,5 +1,7 @@
 # 11 — Residual Gaps (NOS-001)
 
+> **SUPERSEDED_RESIDUAL_GAPS:** this snapshot cannot define current blockers or deferrals. Use `residual_gaps` and `acceptance_checklist` in the Iteration 1+ manifest; Commercial Truth, canonical port and all product gates remain open.
+
 **Issue:** #13 (NOS-001)
 **Protocol:** Canonical Autonomous Execution v4.0
 

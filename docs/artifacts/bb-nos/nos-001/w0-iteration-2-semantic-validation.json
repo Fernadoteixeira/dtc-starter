@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "kind": "nos-gallery-manifest-semantic-validation-receipt",
+  "generated_at": "2026-08-08T23:23:37.168Z",
+  "command": "node .agents/scripts/validate-nos-gallery-manifest.mjs",
+  "test_command": "node --test .agents/scripts/__tests__/validate-nos-gallery-manifest.test.mjs",
+  "dod_test_command": "node --test .agents/scripts/__tests__/derive-issue-13-dod.test.mjs",
+  "pass": true,
+  "p0_count": 0,
+  "p1_count": 0,
+  "manifest_sha256": "f927d9bb906cc606107e7ab58a47609f86232e7fd62c55a7cd7e36e3cd5aac87",
+  "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
+  "validator_sha256": "96a0516f3fcc120086f09864bf958721e366108ce6947e4b105289eadffba77d",
+  "validator_tests_sha256": "9e63d379f4886f256227f4b05dc213cb496e3a0b4efd8f74a382baf6fe33d8ff",
+  "dod_deriver_sha256": "08450a547b325a1520228a1acccc989bcf48d6882b4e2717076e029e920fc613",
+  "dod_tests_sha256": "2e9d5a2d39ad6c8164568cb5e33c036cb1022bf229b8b8bb5cc61f735f3880ab",
+  "tests": {
+    "passed": 17,
+    "failed": 0,
+    "negative_cases": [
+      "ghost source outside pinned closure",
+      "disposition count mismatch",
+      "duplicate capability id",
+      "unowned defer",
+      "dependency edge drift",
+      "missing closure hash",
+      "invented issue owner",
+      "P1 missing intentional deviation",
+      "one-sided ownership edge",
+      "dangling ownership token",
+      "unregistered future owner",
+      "dependency cycle",
+      "planned target already exists",
+      "shared target conflict",
+      "stale capability target hash",
+      "canonical behavior value drift"
+    ]
+  },
+  "dod_tests": {
+    "passed": 6,
+    "failed": 0,
+    "negative_cases": [
+      "live semantic P0",
+      "stale semantic receipt",
+      "stale independent review",
+      "missing GitHub publication",
+      "early freeze"
+    ]
+  },
+  "computed": {
+    "capabilities_total": 33,
+    "capabilities_by_disposition": {
+      "PORT": 2,
+      "ADAPT": 25,
+      "KEEP_DTC": 0,
+      "DEFER": 3,
+      "REJECT_WITH_REASON": 3
+    },
+    "closure_total": 55,
+    "closure_hashed": 55,
+    "closure_classified": 55,
+    "issue_nodes_total": 19,
+    "non_source_work_items_total": 16,
+    "capability_target_rows_total": 35,
+    "canonical_head": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "canonical_origin_main": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "canonical_remote_main": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "canonical_tree": "ab05069f81f3763a108b55e1e49ff3845cc15267",
+    "target_head": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "target_origin_main": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "target_remote_main": "38246f64e82b37670edf84d386b55b866fb425bf",
+    "target_branch": "main",
+    "pdp_sha256": "2a03a9d4854ca7277e6ae77102ed217bba93cc6bc8df7bd4b1d6a79a5c6e5dbf"
+  },
+  "evidence_boundary": "This receipt proves Iteration 2 semantic integrity, fail-closed regression coverage and W0 write-set confinement. It does not prove independent review, GitHub publication, implementation, Commercial Truth, visual parity or release readiness."
+}

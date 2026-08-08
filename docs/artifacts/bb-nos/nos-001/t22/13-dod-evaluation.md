@@ -1,5 +1,7 @@
 # #13 T22 — Definition of Done (DoD) & Final GO/NO-GO Evaluation
 
+> **SUPERSEDED_DOD:** this PASS/GO was derived from invalid inputs and is not current. The only current derivation is `.agents/scripts/derive-issue-13-dod.mjs`, which fails closed while required evidence is absent.
+
 **Issue ID:** `#13 — NOS Gallery Canonical Inventory, Manifest & Behavioral Contract Matrix`  
 **Parent EPIC:** `#12 — BB-NOS: Nos Gallery Transplant & Commerce-Shell Integration`  
 **Evaluation Task:** `NOS-001-T22`  

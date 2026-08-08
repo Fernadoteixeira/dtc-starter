@@ -1,103 +1,32 @@
 {
-  "manifest_id": "nos-001",
-  "issue": 13,
-  "protocol": "canonical-autonomous-execution-v4.0",
-  "canonical_sha": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
-  "status": "remediation_review_pending",
-  "dod_phrase_reserved": "NOS-GALLERY TRANSPLANT MANIFEST FROZEN",
-  "dod_phrase_permitted": false,
-  "ownership_ssot": "Current literal Depends on fields in GitHub issues #14-#32",
-  "generated_at": "2025-07-21T00:00:00Z",
-  "remediated_at": "2026-08-07",
-  "dispositions": {
-    "PORT": "Copy canonical source to target with minimal changes (path/imports only)",
-    "ADAPT": "Port canonical logic but adapt types, imports, or interfaces to target system",
-    "KEEP_DTC": "Use existing DTC code, do not transplant",
-    "DEFER": "Implement in a later explicitly-owned child issue (#14-#32); unresolved owner gaps remain deferred",
-    "REJECT_WITH_REASON": "Do not transplant, documented reason"
+  "schema_version": 2,
+  "kind": "superseded-source-target-manifest-pointer",
+  "status": "SUPERSEDED",
+  "superseded_at": "2026-08-08T23:12:00.000Z",
+  "superseded_reason": "The historical manifest contained nonexistent canonical paths, inconsistent totals and an incomplete target replacement inventory.",
+  "authoritative_contract": ".agents/contracts/nos-gallery-transplant-manifest.yaml",
+  "authoritative_contract_schema_version": 2,
+  "authoritative_contract_iteration": 2,
+  "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
+  "canonical_source": {
+    "pinned_commit": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+    "tree_sha": "ab05069f81f3763a108b55e1e49ff3845cc15267",
+    "closure_files": 55,
+    "hashed_files": 55,
+    "classified_files": 55
   },
-  "components": [
-    { "id": 1, "upstream": "components/gallery.tsx", "symbol": "Gallery", "target": "packages/gallery-experience/src/components/gallery-experience.tsx", "disposition": "ADAPT", "rationale": "Rename to GalleryExperience, keep barrel pattern" },
-    { "id": 2, "upstream": "components/art-gallery-slider.tsx", "symbol": "ArtGallerySlider", "target": "packages/gallery-experience/src/components/gallery-slider.tsx", "disposition": "PORT", "rationale": "Core orchestrator — port canonical logic, adapt imports" },
-    { "id": 3, "upstream": "components/artwork-card.tsx", "symbol": "ArtworkCard", "target": "packages/gallery-experience/src/components/artwork-card.tsx", "disposition": "ADAPT", "rationale": "Port logic, adapt Artwork→GalleryItem, lucide-react→inline SVG" },
-    { "id": 4, "upstream": "components/gallery-ambient.tsx", "symbol": "GalleryAmbient", "target": "packages/gallery-experience/src/components/gallery-ambient.tsx", "disposition": "PORT", "rationale": "Replace static with canonical color-extraction version" },
-    { "id": 5, "upstream": "components/gallery-navigation-dots.tsx", "symbol": "GalleryNavigationDots", "target": "packages/gallery-experience/src/components/gallery-navigation-dots.tsx", "disposition": "PORT", "rationale": "New file — canonical navigation dots" },
-    { "id": 6, "upstream": "components/gallery-progress-control.tsx", "symbol": "GalleryProgressControl", "target": "packages/gallery-experience/src/components/gallery-progress-control.tsx", "disposition": "PORT", "rationale": "New file — canonical progress panel" },
-    { "id": 7, "upstream": "components/gallery-state-screen.tsx", "symbol": "GalleryStateScreen", "target": "packages/gallery-experience/src/components/gallery-state-screen.tsx", "disposition": "PORT", "rationale": "New file — SSR fallback" }
-  ],
-  "hooks": [
-    { "id": 8, "upstream": "hooks/use-slider-navigation.ts", "target": "packages/gallery-experience/src/hooks/use-slider-navigation.ts", "disposition": "PORT" },
-    { "id": 9, "upstream": "hooks/use-slider-drag.ts", "target": "packages/gallery-experience/src/hooks/use-slider-drag.ts", "disposition": "PORT" },
-    { "id": 10, "upstream": "hooks/use-slider-wheel.ts", "target": "packages/gallery-experience/src/hooks/use-slider-wheel.ts", "disposition": "PORT" },
-    { "id": 11, "upstream": "hooks/use-reduced-motion.ts", "target": "packages/gallery-experience/src/hooks/use-reduced-motion.ts", "disposition": "PORT" },
-    { "id": 12, "upstream": "hooks/use-artwork-dwell.ts", "target": "packages/gallery-experience/src/hooks/use-artwork-dwell.ts", "disposition": "ADAPT", "rationale": "Replace @vercel/analytics with injected analytics callback" },
-    { "id": 13, "upstream": "hooks/use-color-extraction.ts", "target": "packages/gallery-experience/src/hooks/use-color-extraction.ts", "disposition": "PORT" },
-    { "id": 14, "upstream": "hooks/use-gallery-progress.ts", "target": "packages/gallery-experience/src/hooks/use-gallery-progress.ts", "disposition": "ADAPT", "rationale": "Adapt id: number → id: string" },
-    { "id": 15, "upstream": "hooks/use-saved-artworks.ts", "target": "packages/gallery-experience/src/hooks/use-saved-artworks.ts", "disposition": "ADAPT", "rationale": "Adapt id: number → id: string" },
-    { "id": 16, "upstream": "hooks/use-slide-observer.ts", "target": "packages/gallery-experience/src/hooks/use-slide-observer.ts", "disposition": "PORT" },
-    { "id": 17, "upstream": "hooks/use-touch-swipe.ts", "target": "packages/gallery-experience/src/hooks/use-touch-swipe.ts", "disposition": "PORT" }
-  ],
-  "lib": [
-    { "id": 18, "upstream": "lib/constants.ts", "target": "packages/gallery-experience/src/lib/constants.ts", "disposition": "PORT", "note": "SITE_URL needs ADAPT to use storefront env" },
-    { "id": 19, "upstream": "lib/analytics.ts", "target": "packages/gallery-experience/src/lib/analytics.ts", "disposition": "ADAPT", "rationale": "Replace @vercel/analytics with AnalyticsAdapter interface" },
-    { "id": 20, "upstream": "lib/gallery-progress.ts", "target": "packages/gallery-experience/src/lib/gallery-progress.ts", "disposition": "ADAPT", "rationale": "Adapt id: number → id: string" },
-    { "id": 21, "upstream": "lib/artworks/indexes.ts", "target": null, "disposition": "REJECT_WITH_REASON", "rationale": "Artwork data comes from Medusa, not static data" },
-    { "id": 22, "upstream": "lib/utils.ts", "target": "packages/gallery-experience/src/lib/utils.ts", "disposition": "KEEP_DTC", "rationale": "Already exists in gallery-experience" },
-    { "id": 23, "upstream": "lib/schema.ts", "target": "packages/gallery-experience/src/lib/schema.ts", "disposition": "ADAPT", "rationale": "Adapt Artwork → GalleryItem for JSON-LD" },
-    { "id": 24, "upstream": "lib/share.ts", "target": "packages/gallery-experience/src/lib/share.ts", "disposition": "PORT" },
-    { "id": 25, "upstream": "lib/artwork-availability.ts", "target": "packages/gallery-experience/src/lib/availability.ts", "disposition": "ADAPT", "rationale": "Adapt to GalleryAvailability enum" }
-  ],
-  "types": [
-    { "id": 26, "upstream": "Artwork", "target": "GalleryItem", "disposition": "ADAPT", "rationale": "id: number → string, code → handle" },
-    { "id": 27, "upstream": "ArtworkScene", "target": "GalleryScene", "disposition": "ADAPT", "rationale": "id: number → string, image: string → GalleryImage" },
-    { "id": 28, "upstream": "ArtworkAvailability", "target": "GalleryAvailability", "disposition": "ADAPT", "rationale": "Enum mapping: sold→out-of-stock, reserved→low-stock, commission→preorder" },
-    { "id": 29, "upstream": "ArtworkPublicationStatus", "target": null, "disposition": "DEFER", "rationale": "Managed by Medusa product status. Revisit in #21" },
-    { "id": 30, "upstream": "ArtworkRecord", "target": null, "disposition": "REJECT_WITH_REASON", "rationale": "Static data type — data comes from Medusa" },
-    { "id": 31, "upstream": "ArtworkMetadata", "target": "GalleryItem metadata fields", "disposition": "ADAPT", "rationale": "Flatten into GalleryItem" },
-    { "id": 32, "upstream": "GalleryProgress", "target": "GalleryProgress (new)", "disposition": "PORT" },
-    { "id": 33, "upstream": "GallerySnapshot", "target": "GallerySnapshot (new)", "disposition": "PORT" },
-    { "id": 34, "upstream": "AchievementId", "target": "AchievementId (new)", "disposition": "PORT" },
-    { "id": 35, "upstream": "GalleryProgressSummary", "target": "GalleryProgressSummary (new)", "disposition": "PORT" }
-  ],
-  "css": [
-    { "id": 36, "token": "--gallery-ink", "value": "#1b1814", "disposition": "PORT" },
-    { "id": 37, "token": "--gallery-ink-deep", "value": "#120e0b", "disposition": "PORT" },
-    { "id": 38, "token": "--gallery-surface", "value": "#272119", "disposition": "PORT" },
-    { "id": 39, "token": "--gallery-paper", "value": "#ede3d2", "disposition": "PORT" },
-    { "id": 40, "token": "--gallery-paper-bright", "value": "#fff8ec", "disposition": "PORT" },
-    { "id": 41, "token": "--gallery-accent", "value": "#c88f68", "disposition": "PORT" },
-    { "id": 42, "token": "--gallery-accent-bright", "value": "#e0ad82", "disposition": "PORT" },
-    { "id": 43, "token": "--gallery-copy", "value": "#d7c6ae", "disposition": "PORT" },
-    { "id": 44, "token": "--gallery-muted", "value": "#aa9a84", "disposition": "PORT" },
-    { "id": 45, "class": ".gallery-shell", "disposition": "PORT" },
-    { "id": 46, "class": ".gallery-grain", "disposition": "PORT" },
-    { "id": 47, "class": ".gallery-vignette", "disposition": "PORT" },
-    { "id": 48, "class": ".gallery-card", "disposition": "PORT", "rationale": "Replace existing blue/slate" },
-    { "id": 49, "class": ".gallery-scene-light", "disposition": "PORT" },
-    { "id": 50, "class": ".gallery-reflection", "disposition": "PORT" },
-    { "id": 51, "class": ".gallery-skeleton", "disposition": "PORT" },
-    { "id": 52, "class": ".gallery-skip-link", "disposition": "PORT" },
-    { "id": 53, "class": "responsive-breakpoints", "disposition": "PORT" },
-    { "id": 54, "class": "reduced-motion-overrides", "disposition": "PORT" },
-    { "id": 55, "property": "border-radius: 2px", "disposition": "PORT", "rationale": "Replace existing 1.25rem" }
-  ],
-  "dependencies": [
-    { "id": 58, "package": "framer-motion", "disposition": "PORT", "note": "Already in gallery-experience package.json" },
-    { "id": 59, "package": "lucide-react", "disposition": "ADAPT", "rationale": "NOT available. Replace 5 icons with inline SVG" },
-    { "id": 60, "package": "sonner", "disposition": "DEFER", "rationale": "NOT available. Inquiry modal is #22" },
-    { "id": 61, "package": "@vercel/analytics", "disposition": "ADAPT", "rationale": "NOT available. Create AnalyticsAdapter interface" },
-    { "id": 62, "package": "clsx", "disposition": "KEEP_DTC" },
-    { "id": 63, "package": "tailwind-merge", "disposition": "KEEP_DTC" },
-    { "id": 64, "package": "next/dynamic", "disposition": "ADAPT", "rationale": "Available via peerDep" },
-    { "id": 65, "package": "next/image", "disposition": "ADAPT", "rationale": "Available via peerDep" }
-  ],
-  "summary": {
-    "total_entries": 72,
-    "port": 40,
-    "adapt": 18,
-    "keep_dtc": 2,
-    "defer": 3,
-    "reject_with_reason": 4,
-    "reject_excluded_from_total": 0
-  }
+  "capabilities": {
+    "total": 33,
+    "ADAPT": 25,
+    "PORT": 2,
+    "KEEP_DTC": 0,
+    "DEFER": 3,
+    "REJECT_WITH_REASON": 3
+  },
+  "gate": {
+    "manifest_frozen": false,
+    "downstream_ready": false,
+    "github_completion_record_published": false
+  },
+  "supersession_evidence": "docs/artifacts/bb-nos/nos-001/2026-08-08-w0-supersession.md"
 }
