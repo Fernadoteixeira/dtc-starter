@@ -117,6 +117,8 @@ function createCompleteEvidenceBundle(options = {}) {
   const workerDisp = phase.loadBundle.receipts.find((r) => r.type === "DISPATCHER-LOAD-E")
   const workerAdap = phase.loadBundle.receipts.find((r) => r.type === "ADAPTER-LOAD-E")
   const workerSkillReceipts = phase.loadBundle.receipts.filter((r) => r.type === "SKILL-LOAD-E")
+  const workerOrchs = phase.loadBundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E").map((r) => r.receipt_id)
+  const workerContracts = phase.loadBundle.receipts.filter((r) => r.type === "CONTRACT-LOAD-E").map((r) => r.receipt_id)
 
   const revReceipt = reviewerRoute.receipts.find((r) => r.type === "ROUTE-E")
   const revAgentReceipt = reviewerRoute.receipts.find((r) => r.type === "AGENT-LOAD-E")
@@ -125,6 +127,7 @@ function createCompleteEvidenceBundle(options = {}) {
   const revAdap = reviewerLoadBundle.receipts.find((r) => r.type === "ADAPTER-LOAD-E")
   const revSkillReceipts = reviewerLoadBundle.receipts.filter((r) => r.type === "SKILL-LOAD-E")
   const revOrchs = reviewerLoadBundle.receipts.filter((r) => r.type === "ORCHESTRATION-LOAD-E").map((r) => r.receipt_id)
+  const revContracts = reviewerLoadBundle.receipts.filter((r) => r.type === "CONTRACT-LOAD-E").map((r) => r.receipt_id)
 
   const agentRunReceiptId = randomUUID()
   const reviewReceiptId = randomUUID()
@@ -174,8 +177,8 @@ function createCompleteEvidenceBundle(options = {}) {
     skill_receipt_refs: workerSkillReceipts.map((r) => r.receipt_id),
     skill_consume_receipt_refs: workerConsumeReceipts.map((r) => r.receipt_id),
     skill_consume_receipts: workerConsumeReceipts,
-    orchestration_receipt_refs: [],
-    contract_receipt_refs: [],
+    orchestration_receipt_refs: workerOrchs,
+    contract_receipt_refs: workerContracts,
     instructions_acknowledged: true,
     task,
     task_sha256: hashCanonicalValue(task, "AGENT-RUN.task"),
@@ -208,7 +211,7 @@ function createCompleteEvidenceBundle(options = {}) {
     skill_consume_receipt_refs: reviewerConsumeReceipts.map((r) => r.receipt_id),
     skill_consume_receipts: reviewerConsumeReceipts,
     orchestration_receipt_refs: revOrchs,
-    contract_receipt_refs: [],
+    contract_receipt_refs: revContracts,
     instructions_acknowledged: true,
     reviewed_artifacts: artifacts,
     findings: [],
