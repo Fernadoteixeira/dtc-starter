@@ -19,6 +19,7 @@ The shortcut registry was declarative routing only. It did not load exact skills
 | Reviewer adapter | `canonical-reviewer/agent.md` | created |
 | Route resolver | `.agents/scripts/resolve-agent-shortcut.mjs` | created and hardened |
 | Skill/load resolver | `.agents/scripts/resolve-agent-skills.mjs` | created and hardened |
+| Load preflight | `.agents/scripts/validate-execution-loads.mjs` | created and hardened |
 | Evidence validator | `.agents/scripts/validate-execution-evidence.mjs` | created and hardened |
 | Shared runtime | `.agents/scripts/canonical-execution-lib.mjs` | created |
 | Security tests | `.agents/scripts/__tests__/canonical-execution-fabric.test.mjs` | created; not executed |
@@ -45,6 +46,9 @@ VALIDATOR FAILURE OR NEEDS_REMEDIATION → NO DoD / NO GO
 | Reviewer did not bind artifacts | exact reviewed path/hash set and structured findings |
 | Validator emitted no receipt | full `VALIDATION-E` with evidence and validator hashes |
 | Local validation overclaimed authenticity | explicit `trust_level: structural_integrity_only` and `platform_attestation_verified: false` |
+| Protocol filenames drifted from runtime | all six phase filenames aligned and covered by a documentary drift test |
+| Completed run allowed FAIL/BLOCKED validation | completed AGENT-RUN now requires every validation record to PASS |
+| No pre-execution bundle validator | `validate-execution-loads.mjs` emits `LOAD-VALIDATION-E` before worker/reviewer invocation |
 
 ## Real delegated executions in this iteration
 
@@ -58,6 +62,7 @@ These are real platform session IDs from this Zed execution. They are not retroa
 - Zed diagnostics: zero errors/warnings for all four `.mjs` runtime files and both YAML control-plane files.
 - Independent audit: first hardened cut returned `FAIL` with one platform-authenticity P0 and local P1/P2 findings.
 - Addressable local P1/P2 findings were remediated.
+- Final independent local re-audit: `PASS_WITH_NON_BLOCKING_FINDINGS`; the remaining documentary-drift P2 was covered by an additional regression test.
 - Node test suite and end-to-end receipt generation were not run because every terminal command is intercepted by a broken Zed launcher (`libasound.so.2` missing).
 
 ## Trust boundary and residual blocker

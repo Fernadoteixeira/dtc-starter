@@ -63,7 +63,7 @@ automation_evidence:
   AUTO-E1: {operation: github-api-fetch, result: issue-13-requirements-captured}
   AUTO-E2: {operation: delegated-issue-reconciliation, result: ownership-and-dag-rebuilt-14-32}
   AUTO-E3: {operation: workspace-path-audit, result: registry-paths-validated}
-  AUTO-E4: {operation: zed-static-diagnostics, result: zero-errors-or-warnings-on-fabric-runtime-and-yaml}
+  AUTO-E4: {operation: zed-static-diagnostics, result: zero-errors-or-warnings-on-five-fabric-runtime-files-and-two-control-plane-yaml-files}
   AUTO-E5: {operation: mutation-allowlist, result: no-apps-or-packages-runtime-path-written}
 
 review_evidence:
@@ -71,9 +71,10 @@ review_evidence:
     runtime: zed-independent-audit-agent
     session_id: 19e837af-9631-45d9-b6d0-5f90bedcf7ba
     target: canonical-agent-execution-fabric-first-cut
-    verdict: fail
-    findings: [platform-attestation-gap, output-confinement, skill-root-policy, infrastructure-hashes, strict-flow-schema]
-    remediation: local-addressable-findings-fixed-in-auto-improve-2
+    initial_verdict: fail
+    final_local_verdict: pass_with_non_blocking_findings
+    findings: [platform-attestation-gap, output-confinement, skill-root-policy, infrastructure-hashes, strict-flow-schema, phase-name-drift, failed-validation-permissiveness]
+    remediation: all-local-addressable-findings-fixed-in-auto-improve-2; external-platform-attestation-remains-unavailable
     promoted_to_REVIEW-E: false
     reason: reviewer route/load bundle and final fabric validation were not executed
   final_review:
@@ -89,6 +90,8 @@ execution_fabric:
   reviewer: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md
   scripts_materialized: true
   tests_materialized: true
+  documentary_drift_test_materialized: true
+  independent_local_audit: pass_with_non_blocking_findings
   static_diagnostics: pass
   node_tests: not_run
   worker_run: not_run
