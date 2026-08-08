@@ -1,0 +1,117 @@
+version: 2
+issue: 13
+nos_id: NOS-001
+iteration: auto-improve-1
+status: remediation_in_progress
+
+agent_evidence:
+  AGENT-E-R1:
+    runtime: zed-delegated-analysis-agent
+    session_id: 162eadea-b3c6-40a8-a241-1ed1e4727e33
+    task: derive current ownership and hard DAG from GitHub issue bodies 14-32
+    inputs:
+      - https://api.github.com/repos/Fernadoteixeira/dtc-starter/issues
+      - docs/artifacts/bb-nos/nos-001/12-issue-ownership-matrix.md
+      - docs/artifacts/bb-nos/nos-001/13-dependency-dag.md
+    outputs:
+      - remediated ownership matrix input
+      - remediated hard DAG input
+      - ambiguity register for issues 27 and 28
+    verdict: pass
+  AGENT-E-R2:
+    runtime: zed-delegated-audit-agent
+    session_id: dde947e9-6aab-4532-9f1d-691ad32abaa4
+    task: audit shortcut registry paths and DRAFT-0 provenance
+    inputs:
+      - .agents/canonical-agent-shortcuts.yaml
+      - docs/artifacts/bb-nos/nos-001/15-agent-skill-binding.md
+      - docs/artifacts/bb-nos/nos-001/16-agent-skill-evidence.yaml
+    outputs:
+      - valid path inventory
+      - false execution-claim findings
+      - corrected evidence taxonomy
+    verdict: pass
+
+invalidated_draft0_agent_claims:
+  - id: AGENT-E1
+    status: invalidated
+    reason: stale path and no invocation evidence
+  - id: AGENT-E2
+    status: invalidated
+    reason: old artifact states delegated agents returned zero useful turns
+  - id: AGENT-E3
+    status: invalidated
+    reason: old artifact states delegated agents returned zero useful turns
+  - id: AGENT-E4
+    status: invalidated
+    reason: old artifact states delegated agents returned zero useful turns
+  - id: AGENT-E5
+    status: invalidated
+    reason: no invocation evidence and referenced output artifact does not exist
+
+skill_evidence:
+  status: none_claimed
+  reason: no atomic skill load or invocation was recorded during this remediation
+
+contract_evidence:
+  CONTRACT-E1:
+    path: .agents/contracts/session-state-ledger.md
+    applied:
+      - authorization categories remain distinct
+      - live ledger created under ignored .vscode path
+      - merge and release remain forbidden
+  CONTRACT-E2:
+    path: .agents/contracts/nos-gallery-first-fold.yaml
+    applied:
+      - human visual approval remains terminal
+      - manifest freeze does not imply visual or release approval
+
+governance_evidence:
+  GOV-E1:
+    source: https://api.github.com/repos/Fernadoteixeira/dtc-starter/issues/13
+    purpose: remediation checklist and freeze restriction
+  GOV-E2:
+    source: current issue bodies 14-32
+    purpose: ownership and hard scheduling SSOT
+  GOV-E3:
+    path: .agents/canonical-agent-shortcuts.yaml
+    purpose: shortcut registry and evidence separation
+  GOV-E4:
+    path: .agents/nos-gallery-canonical-skills-205/manifest/skills.json
+    purpose: atomic skill resolver only
+  GOV-E5:
+    path: .agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json
+    purpose: orchestration resolver only
+
+automation_evidence:
+  AUTO-E1:
+    operation: GitHub API fetch
+    result: issue 13 remediation requirements captured
+  AUTO-E2:
+    operation: delegated GitHub issue body reconciliation
+    result: issue ownership and hard DAG rebuilt for 14-32
+  AUTO-E3:
+    operation: workspace path audit
+    result: canonical registry paths valid; stale DRAFT-0 paths identified
+  AUTO-E4:
+    operation: workspace file inventory
+    result: 20 current entries found under docs/artifacts/bb-nos/nos-001
+  AUTO-E5:
+    operation: mutation allowlist enforcement
+    result: no runtime source path authorized or written
+
+review_evidence:
+  status: pending
+  reviewer_session_id: null
+  artifact: docs/artifacts/bb-nos/nos-001/agent-self-critique/18-independent-review.md
+
+limitations:
+  - terminal and Git commands unavailable because Zed launcher cannot load libasound.so.2
+  - head SHA, branch and Git diff could not be independently recomputed
+  - no hash is claimed where no hash operation ran
+
+final_gate:
+  dor: pass
+  dod: pending
+  verdict: remediation_in_progress
+  phrase_permitted: false

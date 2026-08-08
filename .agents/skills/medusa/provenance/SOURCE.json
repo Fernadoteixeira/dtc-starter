@@ -1,0 +1,550 @@
+{
+  "clone": {
+    "path": ".agents/medusa-agent-skills",
+    "commit": "c584f79",
+    "commitFull": "c584f7993b696d82eab6dbcfadff8ece9a02a521",
+    "origin": "https://github.com/boldfernando/medusa-agent-skills.git",
+    "upstream": "https://github.com/medusajs/medusa-agent-skills.git",
+    "branch": "main",
+    "trackedFiles": 107,
+    "skillCount": 18,
+    "clonedAt": "2026-07-16T11:41:26+03:00"
+  },
+  "files": [
+    {
+      "originalPath": ".claude-plugin/marketplace.json",
+      "sha256": "d6b649e8bc64c1eff7e6ad60b236716f6bf0685cd07c3a6f39cc3ec4b7a30f09",
+      "size": 671
+    },
+    {
+      "originalPath": ".github/workflows/skills-stats-to-posthog.yml",
+      "sha256": "5999fe9099de44db3e7b360658f9a94e54555b868bf0681b2cf2496f55fd5e94",
+      "size": 3397
+    },
+    {
+      "originalPath": ".gitignore",
+      "sha256": "a354a4959426eac74dbf740f4d1911d624ec739894cdcd762f52ddbd153a6aee",
+      "size": 108
+    },
+    {
+      "originalPath": "README.md",
+      "sha256": "c7d17193c031cdc21245cbcc9e78ef80a6edb78a416279b65bc5e5b99b417972",
+      "size": 2666
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/.claude-plugin/plugin.json",
+      "sha256": "5e117f9fad4213805502f7aeb2d3acb5d2ab7717d2cdfe7932bfd4fa70796995",
+      "size": 495
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/README.md",
+      "sha256": "957591adc9a36b08fcfd83f0c32ce64e41037a751e8fded0458305395e3747eb",
+      "size": 3303
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/SKILL.md",
+      "sha256": "191d60837b5bd6012dc8b033a9818ecdea266da0ab141150b0a10989d78ad7ce",
+      "size": 22506
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/breadcrumbs.md",
+      "sha256": "baf256290ec38fb11b2b14851c5f30a6da28c018f791d6715ae818cd1100c1e1",
+      "size": 3846
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/cart-popup.md",
+      "sha256": "d7158b4d77f012222bbd534e915f8c82e39052b97d335647ca3d997a113bd5d5",
+      "size": 7187
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/country-selector.md",
+      "sha256": "8915f068bdce3262383384ec7a3cd2b472e0d0c81b5a3b8c5843a6e4d2f0750d",
+      "size": 9423
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/footer.md",
+      "sha256": "476208c2b636bb6a1e9cfcb01692f8f61da8767e0cfdc863822e3d955b830315",
+      "size": 3768
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/hero.md",
+      "sha256": "43143f712d55b06a7c1be24efa9fbdb403173b7a54a8c4192830e551df9af4d1",
+      "size": 7196
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/megamenu.md",
+      "sha256": "1081228daddab533962f132d810ef4f59fb80f8afa40be8cb64277a6f244f246",
+      "size": 8847
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/navbar.md",
+      "sha256": "535bfaa6c8f7bdb63469706513d766581352f6c43a9e19bdbe935a2248bd1e60",
+      "size": 13990
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/popups.md",
+      "sha256": "d2b0120a234997a2848f643b84cc4fdc8a82e6ca5545b602d280d4e5c0866cf6",
+      "size": 7357
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/product-card.md",
+      "sha256": "4839cb5a1d16e93e95ef3c761d8088f89559775f21182a2b041646bd7e26d700",
+      "size": 4677
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/product-reviews.md",
+      "sha256": "79649df1a70a0fd0a53929fbc3985d85e07b07813c7307f6ae6c7b75cef4d657",
+      "size": 6492
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/product-slider.md",
+      "sha256": "ba7fa5550370cf04f89794f6cea96ac4b447afa94c90cf5209ba64e64e42edea",
+      "size": 5240
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/components/search.md",
+      "sha256": "fc40e542971d6f4f94ebb4be5db1f8f5f223356ed16078ab158fbe0a4ab5593b",
+      "size": 3986
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/connecting-to-backend.md",
+      "sha256": "59da31fee34eab89c63356d4ca979af33954f55a6deee8c1423b1812a5adcabe",
+      "size": 13752
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/design.md",
+      "sha256": "dcb77723abef124c405e21a07d75708129944ff77e4fee107d20e97923c4ec61",
+      "size": 12267
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/features/promotions.md",
+      "sha256": "54994a90bf2fe83e07a3d0fe2b7778ade488c43277d95d7a8fb150fccc724cf6",
+      "size": 10011
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/features/wishlist.md",
+      "sha256": "a1a6bfd0d8211feb3b1ab89de03d9eb544735385241d618bcdd474d2fa5f4b31",
+      "size": 8269
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/account.md",
+      "sha256": "4cae49d18b385906e225eb0cb448eb5d1c54b0935adb4f38c4a862d845e5085a",
+      "size": 12090
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/cart.md",
+      "sha256": "7e57c5639bff17fb4d453cce34cf834675ef6dec2ca5b652ba0a04ecf2f2fbed",
+      "size": 10611
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/checkout.md",
+      "sha256": "51f672eb9b33f95ce392816146bfbadae8893534eae17b43d20c911970c2b954",
+      "size": 22368
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/home-page.md",
+      "sha256": "362cdb58fb9bfcf652100422d578944a0b21cf882908652a9cf71227bc8e947c",
+      "size": 8957
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/order-confirmation.md",
+      "sha256": "c2f7d853580d143782a85614cfa91b405c8992a886e43b00f6e79da7c28f1796",
+      "size": 7014
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/product-details.md",
+      "sha256": "71f8ec4dabd8385b529d2640d0a4f8bf9ff512893df752f6ca773870b31e9b41",
+      "size": 15691
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/product-listing.md",
+      "sha256": "b3801affa73fa88d39d069cc6bbfdfdc332ebe7f2b2b4101b68f591540c15820",
+      "size": 15995
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/layouts/static-pages.md",
+      "sha256": "769c2dacd7dca7f9b5f6a440efae11dc62ba328610f79d059aa50356b7a9eeff",
+      "size": 9996
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/medusa.md",
+      "sha256": "c1b6a0d144aa1338253ded646faa02ae82c0348414647eaa80e722b3cf79b18b",
+      "size": 10088
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/mobile-responsiveness.md",
+      "sha256": "a2e9f679dfc03b9b070de40976c5e3248763f794ca6280f946eab0b2401857b2",
+      "size": 7195
+    },
+    {
+      "originalPath": "plugins/ecommerce-storefront/skills/storefront-best-practices/reference/seo.md",
+      "sha256": "d8f66ea6c51ab9e18a51f81b2635911851f8f8293fa1cb6fbc16989e6d834a8c",
+      "size": 8123
+    },
+    {
+      "originalPath": "plugins/learn-medusa/.claude-plugin/plugin.json",
+      "sha256": "8a2538271a2402eb0a72923de193f46ed1823c6065664e06dd73c4a020c1505b",
+      "size": 485
+    },
+    {
+      "originalPath": "plugins/learn-medusa/.mcp.json",
+      "sha256": "de68e59a02b5a244a81355a4ca1f28ea0ddeff30327e6aceff687f96eadf1113",
+      "size": 119
+    },
+    {
+      "originalPath": "plugins/learn-medusa/README.md",
+      "sha256": "8ab7c4863a24bd1c83f582e1ba15ccb718d44ce80dbaab22536aeb68641e4987",
+      "size": 3330
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/SKILL.md",
+      "sha256": "970c22c320dc2f0638976719a9f3890f5ec02114e9fca10ed5295947d804fbe9",
+      "size": 17234
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/architecture/admin-integration.md",
+      "sha256": "251132795ddd9318a5b62bca8eae6635d49e5998d4c7b648c913323b84159a92",
+      "size": 18320
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/architecture/module-isolation.md",
+      "sha256": "ac946420593ecf0fa8798d2fff0740d69606d78f3f98ab486376426aff4548b4",
+      "size": 13754
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/architecture/module-workflow-route.md",
+      "sha256": "c4f7480ab2c1712dd8bd45aa912e6c1c7e31cbdb26882342608330a59ab3c599",
+      "size": 13477
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/architecture/workflow-orchestration.md",
+      "sha256": "2fa9ab2b6ef96fb81d1d5ccac89903b746e9042ebc1b92f10fd137d50e2ecf4a",
+      "size": 19042
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-api-route.md",
+      "sha256": "9ceb868d63257c66b146732da2011024ff158e75986eb598cd29056d49f3f6b0",
+      "size": 8964
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-module-links.md",
+      "sha256": "4b52ffb0f3de644921f5a0623620e7d1cf7b8ac98ea3934400e654803c7c1392",
+      "size": 6059
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-module.md",
+      "sha256": "f072375faecae6f2cd8e5ef39abcdac82b0f72bd099b6dc60c3e387f66d7b80f",
+      "size": 4332
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-querying.md",
+      "sha256": "a8696e5124934b5f2c2de8daa8404cf6485adbe83238a2009683f4850eea547a",
+      "size": 7823
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-ui-route.md",
+      "sha256": "ff4408ba0aa7805cfff99c3ed6a7b3dc6251f82ad5e1cc8e30e5275b84e5648a",
+      "size": 13777
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-widget.md",
+      "sha256": "48a6dd6aebfb9b884b10238d0d8fe296ba5d1beb71ac914ced1cb996ecac3747",
+      "size": 10229
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-workflow-hooks.md",
+      "sha256": "8340e383f2ac2cf5f0c50e900583032e259ea31a94ed31482f6cb841bfe0f216",
+      "size": 7616
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/checkpoints/checkpoint-workflow.md",
+      "sha256": "92ef898b63c2df60427cdabf19a0454d0594baea3907c6304d930d67b99e06a9",
+      "size": 5817
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/lessons/lesson-1-custom-features.md",
+      "sha256": "101641769ba1fed6da5518bd44f35fbdd5e61b217f6b070696910ddfe29dfefe",
+      "size": 30359
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/lessons/lesson-2-extend-medusa.md",
+      "sha256": "5241f13ce667e90fa6af2da483c9a81debb85930f0c7f40f5a61e2ac08f3e827",
+      "size": 22056
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/lessons/lesson-3-admin-dashboard.md",
+      "sha256": "3b43193dc8d55f1d69480dfc5f60473701e3d1b64f54406c7812b0ca20a99405",
+      "size": 12268
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/troubleshooting/common-errors.md",
+      "sha256": "21313d1061331c3b0f888b4db6e1d979aacca0f16c507d3c19cb130fe482c173",
+      "size": 8630
+    },
+    {
+      "originalPath": "plugins/learn-medusa/skills/learning-medusa/troubleshooting/verification-guide.md",
+      "sha256": "43c7bfe10deeffcfc30a04ebffc393843e90d42936782679380c519be3ba9927",
+      "size": 17583
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/.claude-plugin/plugin.json",
+      "sha256": "aea976b6fcebc755dd2e8949690fbf4cf77568441677bed2c48d35174bb6ca2f",
+      "size": 624
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/README.md",
+      "sha256": "9447424fd2e9f1af68b18d8835f37f3aab334defa0e25e352567210adf7e1c36",
+      "size": 1740
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-auth/SKILL.md",
+      "sha256": "deb596399cb5f16ca9808573c7648d1e0e7d067a93fab70b0ea6cd6c529dbad0",
+      "size": 4248
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-deployments/SKILL.md",
+      "sha256": "e92f7c80c44bb46d44762b34015822091eb1b8d09b3862588004cc5b321a11e0",
+      "size": 3561
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-environments/SKILL.md",
+      "sha256": "0d9d36dc2d8f070f19ee8b9e3951af876ca8aaae63664e7357435aedf7f42ad2",
+      "size": 4711
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-local/SKILL.md",
+      "sha256": "866dd964f307c90ce4a22bf91af930cd637ce4057c8ca503c1c02d6a69c1b4b1",
+      "size": 4032
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-logs/SKILL.md",
+      "sha256": "ab0201265c84dc9c2e202394bf3afe161b799b6768214f5c24b47f0dee5c0333",
+      "size": 3254
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-organizations/SKILL.md",
+      "sha256": "db731492e80cd2ea944ce13c8952a4204ab2717ffddb471824e537dc6323d58c",
+      "size": 2460
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-projects/SKILL.md",
+      "sha256": "2935655f50188e1b80246f1b4b9176416a4c85c1731ce719092e4162f4ad6729",
+      "size": 3318
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/mcloud-variables/SKILL.md",
+      "sha256": "6906ea0ad3fff9ec854a0d6b281d3c839226dca2acce8d2d31d1356db21a614b",
+      "size": 6967
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/using-medusa-cloud/SKILL.md",
+      "sha256": "cbc51c132bf318f3a94132e5faf45a5da98f8f2e6fc1731d2ea359dc4893ce32",
+      "size": 4426
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/using-medusa-cloud/reference/debugging-deployments.md",
+      "sha256": "226ee517ea4cc580796457168b35764500e1aca007cdcaff41fb730e34417d35",
+      "size": 4775
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/using-medusa-cloud/reference/environments-and-variables.md",
+      "sha256": "cee289a2582d8a3516f81021a482118ab6c0aeac90ec84fc00b461eb6f2c666f",
+      "size": 3562
+    },
+    {
+      "originalPath": "plugins/medusa-cloud/skills/using-medusa-cloud/reference/setup.md",
+      "sha256": "c2ddc761ee403eddd427ebcd64b4cc62a548f51bd924ea880c448593791e977b",
+      "size": 2305
+    },
+    {
+      "originalPath": "plugins/medusa-dev/.claude-plugin/plugin.json",
+      "sha256": "301f3601456189dcf0f707098a58afbbf45abd78389f16457a1b5d27e805ee30",
+      "size": 595
+    },
+    {
+      "originalPath": "plugins/medusa-dev/.mcp.json",
+      "sha256": "a086c620c95750e3912a8fd8d7e494c71c5e8f42436ca43fe69005fad4e18aa3",
+      "size": 118
+    },
+    {
+      "originalPath": "plugins/medusa-dev/README.md",
+      "sha256": "63690fe360874cb81837db61032e82d706d93785f3d689c9864b63821b0185c5",
+      "size": 3430
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-admin-dashboard-customizations/SKILL.md",
+      "sha256": "26766b1da8dffd9d78c0dca0f101edb0ea4604d85e016948257a6d6e672c9d5e",
+      "size": 17048
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-admin-dashboard-customizations/references/data-loading.md",
+      "sha256": "8f394a141dc73c95eb83cd76169382006cce704e6d04130424b4f54a2cf6ef08",
+      "size": 16492
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-admin-dashboard-customizations/references/display-patterns.md",
+      "sha256": "4e9558317546cc9b5c8e1bed0b760e784d5db9c966011051157bd066746fc57d",
+      "size": 11194
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-admin-dashboard-customizations/references/forms.md",
+      "sha256": "6ccc790b8afd0dbb02ad382427b857daa0fd8739ea1493cdab1d2fd1dbd47955",
+      "size": 10962
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-admin-dashboard-customizations/references/navigation.md",
+      "sha256": "0d7488730e370189e9cdcd13b5fda1281d8d43bd5f6be39b53c8cbb44c8cfeec",
+      "size": 12899
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-admin-dashboard-customizations/references/table-selection.md",
+      "sha256": "e873a016b5a6661a41e70f508b938f222f4b3685af15c7e84b4db3520ecc3a12",
+      "size": 13069
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-admin-dashboard-customizations/references/typography.md",
+      "sha256": "48ac23c81bce178bd607fac29d79c46e9e5004e49ac69e7e62a137d185a05a16",
+      "size": 5020
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-storefronts/SKILL.md",
+      "sha256": "e31485dfbf8135546d63d77c5993d03a55a22d783075cd769ee93adf1747e6fb",
+      "size": 7218
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-storefronts/references/frontend-integration.md",
+      "sha256": "9edbe922d81b1ddcf3c5cd1870342673b319612120a0bf604058ee7e75ce840d",
+      "size": 6951
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/SKILL.md",
+      "sha256": "b5c56f31cfd8ce88ae5e754fadb8376eb40ec97e321bbd78258dffc962084fee",
+      "size": 15259
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/api-routes.md",
+      "sha256": "f113477a384a2aaeb955b83eedb8004908fc3645b197722a6793751da3f7a73f",
+      "size": 23348
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/authentication.md",
+      "sha256": "9157442751f9c7dfb7b68eae8a8f5eb9b9bea34b7668db97afae9564688fb8f6",
+      "size": 15664
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/custom-modules.md",
+      "sha256": "22d73fa1a0e801a07a00313519cf69ce057544b0d94fffa10b6c05ea18810daf",
+      "size": 8440
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/data-models.md",
+      "sha256": "b8accce2d95d920b49bf4f85a94ff0b5bc41b03c7001cd19581a88f5be83dbaf",
+      "size": 2468
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/error-handling.md",
+      "sha256": "817cb21f26f1f8028f6a16417a7c17e7c62b883754f9832f36a59ffbf2ac9976",
+      "size": 5448
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/frontend-integration.md",
+      "sha256": "9edbe922d81b1ddcf3c5cd1870342673b319612120a0bf604058ee7e75ce840d",
+      "size": 6951
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/module-links.md",
+      "sha256": "e5263ef69623f8fc32107955349920bf10fb80953a90caaa7149ad6d8c056463",
+      "size": 11688
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/querying-data.md",
+      "sha256": "de8a6db17af4ba4ac05fc8d185b80cd9959b1f157b01a36017e6846b9aed8631",
+      "size": 24859
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/scheduled-jobs.md",
+      "sha256": "14f534adc80cd6d724f8a0f23e57224fb2fa886f7fe62d2f72a526d4d980dfe9",
+      "size": 11804
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/subscribers-and-events.md",
+      "sha256": "9ac21b94eccf9e32907fe8a931c1d61c75d8de2668d42fd54128b395c6d8f651",
+      "size": 14037
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/troubleshooting.md",
+      "sha256": "e5b9950c6fa91cc2e4b696daa1eb22ee4d999806cb6e7be279047c1baa9b92aa",
+      "size": 4795
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/workflow-hooks.md",
+      "sha256": "ce424ef7d49de4f45951249cfbed5f96cb8f8e44715c4901d35b8688f72ac2ec",
+      "size": 2243
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/building-with-medusa/reference/workflows.md",
+      "sha256": "c841eea1613f7b3bf563513cefe2de18391468f431c4aa0b84aed777685a1b87",
+      "size": 16546
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/SKILL.md",
+      "sha256": "55634762f35b18cb8916ec73e3c33140e9eec68249ca4a16c14747b3269e4b6e",
+      "size": 7526
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/reference/admin-extension.md",
+      "sha256": "8a1180d6b11b62202c7e5b5d4137125fe639902e8261fbf1d170d05fc92d6495",
+      "size": 13359
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/reference/agent-setup.md",
+      "sha256": "2accebad635f3a11bf5a37e95c4ac9dbfe3d48587a866fa7eb3f39392ec4abd6",
+      "size": 4407
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/reference/api-route.md",
+      "sha256": "a9ce89b5ab982c73098587cd44e592793bc24135a491a158e787a086e9951b24",
+      "size": 5852
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/reference/data-models.md",
+      "sha256": "0d1b5429332c94916c67d28c8dc6d987c047dbc1d14b0f98caed4d35fbfd5496",
+      "size": 2355
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/reference/medusa-exec.md",
+      "sha256": "8c08e1c3b275cb2dc595f11c83976f7a4add6d154fe6aaa3a37994f89598e259",
+      "size": 7230
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/reference/service.md",
+      "sha256": "d90f5794dce0dbb86be87134a1dc2acf74b5b0cc7263a82b5e8c96adce097044",
+      "size": 3119
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/creating-internal-agents/reference/streaming.md",
+      "sha256": "4c653a6245c4ca209d163315dabb0aa56e6913dfe7562e7905f9075e7d25316a",
+      "size": 3964
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/db-generate/SKILL.md",
+      "sha256": "64036b7954849ef3976b01a51c0160748b55f689a7429c50d66adb004496e6da",
+      "size": 768
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/db-migrate/SKILL.md",
+      "sha256": "957e06e9ce613f90d44d8b21e746dcc8ea8e6af6d60121eb017faae3c8a61730",
+      "size": 411
+    },
+    {
+      "originalPath": "plugins/medusa-dev/skills/new-user/SKILL.md",
+      "sha256": "1e7d8a34667cbd2577bdd7f339b44ec804432dd304258fa7d6dc78d5e627ce13",
+      "size": 793
+    },
+    {
+      "originalPath": "scripts/skills-stats-to-posthog.mjs",
+      "sha256": "6e5eac97ad8665dc17430be60a611ba4bd00434850df5bec59bf2116c21cd5f7",
+      "size": 8574
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # PR-D: Dependency Compatibility Audit
 
-**Date:** 2025-01-XX
+**Date:** 2026-08-06
 **Branch:** `pr-d/dependency-compat` (stacked on `pr-c/reproducible-pipeline`)
 **Tool:** pnpm 10.11.1
 

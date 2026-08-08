@@ -1,0 +1,183 @@
+version: 1
+kind: canonical-agent-shortcut-registry
+status: active
+repository: Fernadoteixeira/dtc-starter
+canonical_agent_root: .agents/ollama-superpowers-pack-v1.0.0/agents
+canonical_skill_root: .agents/ollama-superpowers-pack-v1.0.0/skills
+nos_skill_resolver: .agents/nos-gallery-canonical-skills-205/manifest/skills.json
+product_lifecycle_orchestration_resolver: .agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json
+medusa_skill_root: .agents/skills/medusa
+contracts:
+  session_state_ledger: .agents/contracts/session-state-ledger.md
+  nos_gallery_first_fold: .agents/contracts/nos-gallery-first-fold.yaml
+rules:
+  - shortcuts never replace or fork canonical agents
+  - specialist agents are capability profiles or independent validators
+  - contracts and manifests are never counted as SKILL-E evidence
+  - an available agent is not an executed agent
+  - a present skill is not a consumed skill
+  - actual execution must resolve exact paths and hashes into AGENT-E and SKILL-E
+  - only one writer may own overlapping workspace surfaces
+  - product approval, git authorization, PR authorization, merge authorization and release authorization are independent
+  - human visual approval can never be inferred by automation
+shortcuts:
+  orchestrate:
+    canonical_agent: orchestrator
+    core_skills: [issue-to-plan, structured-output, context-compaction, cost-governance]
+  orchestrate:nos:
+    canonical_agent: orchestrator
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md
+    core_skills: [issue-to-plan, structured-output, context-compaction, cost-governance]
+    orchestrations: [ORCH-02, ORCH-24]
+    contracts: [session_state_ledger, nos_gallery_first_fold]
+  repo:map:
+    canonical_agent: repo-cartographer
+    core_skills: [repo-map, dependency-audit]
+  repo:guard:
+    canonical_agent: repo-cartographer
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/repo-guardian/agent.md
+    core_skills: [repo-map, dependency-audit]
+    mode: read_only
+  architect:
+    canonical_agent: software-architect
+    core_skills: [issue-to-plan, research-synthesis, dependency-audit, structured-output]
+  architect:nos:
+    canonical_agent: software-architect
+    core_skills: [issue-to-plan, research-synthesis, dependency-audit, structured-output]
+    orchestrations: [ORCH-02, ORCH-04, ORCH-13]
+    nos_domains: [01-web-runtime, 03-data-contracts-forms, 06-interaction-visualization-ux, 08-quality-engineering]
+    contracts: [nos_gallery_first_fold]
+  impl:
+    canonical_agent: implementation-engineer
+    core_skills: [plan-to-patch, test-generation, debugging, documentation]
+  impl:storefront:
+    canonical_agent: implementation-engineer
+    core_skills: [plan-to-patch, test-generation, debugging, documentation]
+    external_skills:
+      - .agents/skills/medusa/medusa-ecommerce-storefront-best-practices/SKILL.md
+      - .agents/skills/medusa/medusa-dev-building-storefronts/SKILL.md
+      - .agents/skills/web-design-guidelines/SKILL.md
+    orchestrations: [ORCH-05]
+    nos_domains: [01-web-runtime, 03-data-contracts-forms, 05-styles-themes-css, 06-interaction-visualization-ux]
+  impl:medusa:
+    canonical_agent: implementation-engineer
+    core_skills: [plan-to-patch, test-generation, debugging, dependency-audit]
+    external_skills:
+      - .agents/skills/medusa/medusa-dev-building-with-medusa/SKILL.md
+    orchestrations: [ORCH-13]
+  impl:nos:
+    canonical_agent: implementation-engineer
+    core_skills: [plan-to-patch, test-generation, debugging, regression-attribution]
+    external_skills:
+      - .agents/skills/web-design-guidelines/SKILL.md
+    orchestrations: [ORCH-05]
+    nos_domains: [01-web-runtime, 03-data-contracts-forms, 04-radix-ui, 05-styles-themes-css, 06-interaction-visualization-ux, 08-quality-engineering]
+    contracts: [nos_gallery_first_fold]
+  css:spec:
+    canonical_agent: software-architect
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/bb03-css-spec/agent.md
+    core_skills: [structured-output, repo-map]
+    external_skills: [.agents/skills/web-design-guidelines/SKILL.md]
+    orchestrations: [ORCH-05]
+  css:impl:
+    canonical_agent: implementation-engineer
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/bb03-css-implementer/agent.md
+    core_skills: [plan-to-patch, test-generation]
+    external_skills: [.agents/skills/web-design-guidelines/SKILL.md]
+    orchestrations: [ORCH-05]
+    writer: true
+  css:validate:
+    canonical_agent: code-reviewer
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/bb03-css-validator/agent.md
+    core_skills: [code-review, regression-attribution]
+    external_skills: [.agents/skills/web-design-guidelines/SKILL.md]
+    mode: read_only
+  visual:audit:
+    canonical_agent: visual-catalog-curator
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/visual-auditor/agent.md
+    core_skills: [media-analysis, product-catalog, regression-attribution]
+    external_skills: [.agents/skills/web-design-guidelines/SKILL.md]
+    orchestrations: [ORCH-05, ORCH-08]
+    nos_domains: [05-styles-themes-css, 06-interaction-visualization-ux, 08-quality-engineering]
+    mode: read_only
+  build:verify:
+    canonical_agent: runtime-verifier
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/build-verifier/agent.md
+    core_skills: [runtime-verification, performance-analysis]
+    mode: read_only
+  qa:nos:
+    canonical_agent: qa-test-lead
+    core_skills: [test-generation, runtime-verification, regression-attribution]
+    external_skills: [.agents/skills/web-design-guidelines/SKILL.md]
+    orchestrations: [ORCH-08, ORCH-12]
+    nos_domains: [06-interaction-visualization-ux, 07-analytics-performance, 08-quality-engineering]
+  regression:nos:
+    canonical_agent: regression-auditor
+    core_skills: [regression-attribution, code-review, runtime-verification]
+    orchestrations: [ORCH-12]
+    nos_domains: [08-quality-engineering]
+  runtime:nos:
+    canonical_agent: runtime-verifier
+    core_skills: [runtime-verification, performance-analysis, debugging, root-cause-analysis]
+    orchestrations: [ORCH-09, ORCH-11, ORCH-22]
+    nos_domains: [01-web-runtime, 06-interaction-visualization-ux, 07-analytics-performance, 08-quality-engineering]
+  security:nos:
+    canonical_agent: security-governor
+    core_skills: [security-review, dependency-audit, test-generation]
+    orchestrations: [ORCH-06, ORCH-18, ORCH-22]
+    nos_domains: [02-identity-auth, 03-data-contracts-forms, 07-analytics-performance, 08-quality-engineering]
+  release:nos:
+    canonical_agent: release-operator
+    specialist_agents:
+      - .agents/fio-vivo-antigravity-rug-pack/.agents/agents/repo-guardian/agent.md
+    core_skills: [release-readiness, git-workflow, structured-output, runtime-verification]
+    orchestrations: [ORCH-12, ORCH-22]
+    contracts: [session_state_ledger]
+  i18n:
+    canonical_agent: localization-editor
+    core_skills: [localization, multilingual-qa]
+    orchestrations: [ORCH-14]
+  admin:medusa:
+    canonical_agent: implementation-engineer
+    core_skills: [plan-to-patch, test-generation, documentation]
+    external_skills:
+      - .agents/skills/medusa/medusa-dev-building-admin-dashboard-customizations/SKILL.md
+      - .agents/skills/medusa/medusa-dev-building-with-medusa/SKILL.md
+  debug:incident:
+    canonical_agent: incident-debugger
+    core_skills: [debugging, root-cause-analysis, structured-output]
+  admin:agent:
+    canonical_agent: software-architect
+    supporting_agents: [implementation-engineer, security-governor]
+    external_skills:
+      - .agents/skills/medusa/medusa-dev-creating-internal-agents/SKILL.md
+      - .agents/skills/medusa/medusa-dev-building-with-medusa/SKILL.md
+    orchestrations: [ORCH-04, ORCH-06, ORCH-18]
+issue_bindings:
+  NOS-001: {lead: architect:nos, orchestrator: orchestrate:nos, reviewers: [repo:guard, visual:audit]}
+  NOS-002: {lead: css:spec, writer: css:impl, reviewers: [css:validate, visual:audit, repo:guard]}
+  NOS-003: {lead: impl:nos, reviewers: [visual:audit, regression:nos, runtime:nos]}
+  NOS-004: {lead: impl:nos, reviewers: [architect:nos, qa:nos, visual:audit]}
+  NOS-005: {lead: impl:nos, reviewers: [qa:nos, regression:nos, runtime:nos]}
+  NOS-006: {lead: impl:nos, reviewers: [qa:nos, runtime:nos, regression:nos]}
+  NOS-007: {lead: impl:nos, reviewers: [visual:audit, runtime:nos, qa:nos]}
+  NOS-008: {lead: architect:nos, writer: impl:nos, reviewers: [qa:nos, security:nos, regression:nos]}
+  NOS-009: {lead: architect:nos, writer: impl:medusa, reviewers: [security:nos, qa:nos]}
+  NOS-010: {lead: architect:nos, writer: impl:medusa, reviewers: [security:nos, qa:nos, regression:nos]}
+  NOS-011: {lead: impl:storefront, reviewers: [i18n, qa:nos, runtime:nos]}
+  NOS-012: {lead: qa:nos, supporting: [impl:storefront, visual:audit, runtime:nos]}
+  NOS-013: {lead: regression:nos, supporting: [visual:audit, qa:nos, runtime:nos]}
+  NOS-014: {lead: runtime:nos, supporting: [qa:nos, architect:nos, regression:nos]}
+  NOS-015: {lead: release:nos, supporting: [repo:guard, security:nos, runtime:nos, qa:nos]}
+  NOS-016: {lead: orchestrate:nos, supporting: [release:nos, visual:audit, security:nos, qa:nos, repo:guard, build:verify]}
+  NOS-017: {lead: architect:nos, writer: impl:storefront, reviewers: [runtime:nos, qa:nos, security:nos, repo:guard]}
+  NOS-018: {lead: qa:nos, reviewers: [runtime:nos, regression:nos, visual:audit, repo:guard]}
+  NOS-019: {lead: runtime:nos, supporting: [debug:incident], reviewers: [release:nos, security:nos]}
+  NOS-020: {lead: security:nos, supporting: [architect:nos, qa:nos], reviewers: [release:nos, repo:guard]}

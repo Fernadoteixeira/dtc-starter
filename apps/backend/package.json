@@ -34,7 +34,6 @@
     "@medusajs/medusa": "2.18.0",
     "@medusajs/ui": "4.2.0",
     "@tanstack/react-query": "5.101.4",
-    "react-i18next": "17.0.11",
     "react-router-dom": "7.18.2",
     "zod": "4.4.3"
   },
