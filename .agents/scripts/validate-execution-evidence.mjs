@@ -404,7 +404,43 @@ export function validateExecutionEvidence(evidence, context = {}) {
   const canonicalEvidencePath = canonicalRepoPath(evidencePath)
   if (canonicalEvidencePath !== evidencePath) throw new Error("Validation evidence path must be canonical")
   const evidenceSha256 = hashFile(evidencePath)
-  const status = review.verdict === "PASS" ? "VALIDATED" : "REMEDIATION_REQUIRED"
+  let trustLevel = "structural_integrity_only"
+  let platformAttestationVerified = false
+
+  if (agentRun.provenance || review.provenance) {
+    if (!agentRun.provenance || !review.provenance) {
+      throw new Error("Partial host provenance is invalid: both worker and reviewer must supply host provenance")
+    }
+    const workerProv = agentRun.provenance
+    const reviewerProv = review.provenance
+    if (workerProv.authority !== "antigravity-host" || reviewerProv.authority !== "antigravity-host") {
+      throw new Error("Invalid provenance authority: expected antigravity-host")
+    }
+    if (workerProv.execution_kind !== "worker" || reviewerProv.execution_kind !== "reviewer") {
+      throw new Error("Provenance execution_kind mismatch")
+    }
+    assertUuid(workerProv.host_session_id, "worker provenance host_session_id")
+    assertUuid(reviewerProv.host_session_id, "reviewer provenance host_session_id")
+    assertUuid(workerProv.invocation_id, "worker provenance invocation_id")
+    assertUuid(reviewerProv.invocation_id, "reviewer provenance invocation_id")
+
+    if (workerProv.host_session_id === reviewerProv.host_session_id) {
+      throw new Error("Worker and reviewer must not reuse the same host session id")
+    }
+    if (workerProv.invocation_id === reviewerProv.invocation_id) {
+      throw new Error("Worker and reviewer must not reuse the same host invocation id")
+    }
+    if (workerProv.invocation_id !== agentRun.invocation_id) {
+      throw new Error("Worker invocation id does not match host provenance invocation id")
+    }
+    if (reviewerProv.invocation_id !== review.invocation_id) {
+      throw new Error("Reviewer invocation id does not match host provenance invocation id")
+    }
+
+    trustLevel = "host_provenance_verified"
+    platformAttestationVerified = true
+  }
+
   return {
     schema_version: 1,
     kind: "canonical-execution-validation-evidence",
@@ -421,8 +457,8 @@ export function validateExecutionEvidence(evidence, context = {}) {
     verdict: review.verdict,
     blocking_findings: blockingFindings.length,
     validated_receipt_count: validatedReceiptCount,
-    trust_level: "structural_integrity_only",
-    platform_attestation_verified: false
+    trust_level: trustLevel,
+    platform_attestation_verified: platformAttestationVerified
   }
 }
 
