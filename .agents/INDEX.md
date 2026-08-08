@@ -10,9 +10,17 @@
 ```
 .agents/
 ├── hooks.json                              # PreToolUse firewall + Stop gate config
+├── canonical-agent-shortcuts.yaml          # Canonical shortcut and issue-binding registry
+├── canonical-execution-protocol.yaml       # Load/run/review receipt contract
 ├── scripts/
 │   ├── pretool-firewall.ps1                 # Blocks unauthorized git ops, protects paths
-│   └── stop-gate.ps1                       # Checks for uncommitted protected files
+│   ├── stop-gate.ps1                       # Checks for uncommitted protected files
+│   ├── canonical-execution-lib.mjs         # Strict resolver/hash/path-confinement runtime
+│   ├── resolve-agent-shortcut.mjs          # Emits ROUTE-E and AGENT-LOAD-E
+│   ├── resolve-agent-skills.mjs            # Emits exact load receipts by category
+│   ├── validate-execution-loads.mjs        # Preflight route/load validation
+│   ├── validate-execution-evidence.mjs     # Final AGENT-RUN/REVIEW-E validation
+│   └── __tests__/canonical-execution-fabric.test.mjs
 ├── skills/
 │   ├── web-design-guidelines/SKILL.md      # Vercel web interface guidelines review
 │   └── medusa/                             # 18 Copilot-discoverable Medusa skills (canonical tree)
@@ -48,7 +56,7 @@
 ├── templates/
 │   └── session-state-ledger.yaml           # Blank ledger instance
 ├── medusa-agent-skills/                    # Clone Git de referência (boldfernando/medusa-agent-skills, commit c584f79, read-only)
-├── fio-vivo-antigravity-rug-pack/           # 7 agents (RUG orchestrator + BB03 specialists)
+├── fio-vivo-antigravity-rug-pack/           # RUG dispatcher, canonical worker/reviewer + BB03 specialists
 ├── ollama-superpowers-pack-v1.0.0/         # 18 agents, 28 skills, 15 tools (multilingual)
 ├── nos-gallery-canonical-skills-205/       # 205 atomic skills across 8 domains
 └── product-lifecycle-canonical-skills-315/  # 315 atomic skills across 22 domains

@@ -1,9 +1,10 @@
 import assert from "node:assert/strict"
 import { randomUUID } from "node:crypto"
-import { mkdtempSync, rmSync } from "node:fs"
+import { mkdtempSync, readFileSync, rmSync } from "node:fs"
 import path from "node:path"
 import { after, test } from "node:test"
 import {
+  DISPATCHER_PATH,
   PHASE_FILENAMES,
   PROTOCOL_PATH,
   REGISTRY_PATH,
@@ -92,6 +93,26 @@ test("PHASE_FILENAMES exposes only the canonical phase names", () => {
     evidence: "execution-evidence.json",
     validation: "validation-evidence.json"
   })
+})
+
+test("protocol and dispatcher documentation stay aligned with PHASE_FILENAMES", () => {
+  const protocol = readFileSync(path.join(REPO_ROOT, PROTOCOL_PATH), "utf8")
+  const dispatcher = readFileSync(path.join(REPO_ROOT, DISPATCHER_PATH), "utf8")
+  const phaseNames = Object.values(PHASE_FILENAMES)
+  const documentaryCorpus = `${protocol}\n${dispatcher}`
+
+  for (const phaseName of phaseNames) {
+    assert.ok(protocol.includes(phaseName), `protocol must reference canonical phase ${phaseName}`)
+    assert.ok(documentaryCorpus.includes(phaseName), `documentation must reference canonical phase ${phaseName}`)
+  }
+
+  const documentedPhasePattern = /(?:worker|review|execution|validation)-[a-z0-9-]+\.json/g
+  const dispatcherPhaseNames = [...new Set(dispatcher.match(documentedPhasePattern) ?? [])]
+  assert.ok(dispatcherPhaseNames.length > 0, "dispatcher must reference canonical phase filenames")
+  for (const documentedName of dispatcherPhaseNames) {
+    assert.ok(phaseNames.includes(documentedName), `dispatcher uses unknown phase filename ${documentedName}`)
+    assert.ok(protocol.includes(documentedName), `dispatcher phase ${documentedName} must match the protocol`)
+  }
 })
 
 test("canonical helpers accept stable JSON and strict shortcut YAML", () => {
