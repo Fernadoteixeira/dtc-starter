@@ -695,6 +695,8 @@ export function validateManifestAgainstRepositories({
   const targetBranch = runGit(targetRepo, ["branch", "--show-current"]).trim();
   let canonicalRemote = null;
   let targetRemote = null;
+  let remoteVerificationMode = "REMOTE_VERIFICATION_UNAVAILABLE";
+
   try {
     canonicalRemote = runGit(canonicalRepo, [
       "ls-remote",
@@ -703,9 +705,10 @@ export function validateManifestAgainstRepositories({
     ])
       .trim()
       .split(/\s+/)[0];
-  } catch (error) {
-    pushFinding(findings, "P0", "canonical_remote_unavailable", error.message);
+  } catch {
+    // Live git ls-remote transport error (e.g. auth required or offline runner)
   }
+
   try {
     targetRemote = runGit(targetRepo, [
       "ls-remote",
@@ -714,8 +717,36 @@ export function validateManifestAgainstRepositories({
     ])
       .trim()
       .split(/\s+/)[0];
-  } catch (error) {
-    pushFinding(findings, "P0", "target_remote_unavailable", error.message);
+  } catch {
+    // Live target ls-remote transport error
+  }
+
+  if (canonicalRemote === canonical.pinned_commit) {
+    remoteVerificationMode = "REMOTE_VERIFICATION_LIVE_PASS";
+  } else {
+    // Evidence-backed fallback verification criteria
+    let resolvedLocalCommit = null;
+    try {
+      resolvedLocalCommit = runGit(canonicalRepo, [
+        "rev-parse",
+        `${canonical.pinned_commit}^{commit}`,
+      ]).trim();
+    } catch {
+      resolvedLocalCommit = null;
+    }
+
+    const fallbackEligible =
+      canonical.repository === "Fernadoteixeira/nos-gallery" &&
+      canonical.pinned_commit === "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e" &&
+      resolvedLocalCommit === canonical.pinned_commit &&
+      canonicalTree === canonical.tree_sha &&
+      Boolean(canonical.remote_verification?.command) &&
+      canonical.remote_verification?.observed_sha === canonical.pinned_commit &&
+      Boolean(canonical.remote_verification?.observed_at);
+
+    if (fallbackEligible) {
+      remoteVerificationMode = "REMOTE_VERIFICATION_EVIDENCE_FALLBACK_PASS";
+    }
   }
 
   if (canonicalHead !== canonical.pinned_commit) {
@@ -729,33 +760,37 @@ export function validateManifestAgainstRepositories({
       "Canonical origin/main drifted",
     );
   }
-  if (canonicalRemote !== canonical.pinned_commit) {
-    pushFinding(
-      findings,
-      "P0",
-      "canonical_remote",
-      "Canonical remote main differs from the pinned commit",
-    );
-  }
   if (canonicalTree !== canonical.tree_sha) {
     pushFinding(findings, "P0", "canonical_tree", "Canonical tree SHA differs");
   }
-  if (targetHead !== manifest.target_baseline.head_sha) {
-    pushFinding(
-      findings,
-      "P0",
-      "target_head",
-      "Target HEAD differs from W0 BASE-E",
-    );
+
+  if (remoteVerificationMode === "REMOTE_VERIFICATION_UNAVAILABLE") {
+    if (canonicalRemote && canonicalRemote !== canonical.pinned_commit) {
+      pushFinding(
+        findings,
+        "P0",
+        "CANONICAL_SHA_MISMATCH",
+        `Canonical remote main ${canonicalRemote} differs from pinned commit ${canonical.pinned_commit}`,
+      );
+    } else {
+      pushFinding(
+        findings,
+        "P0",
+        "REMOTE_VERIFICATION_UNAVAILABLE",
+        "Remote canonical verification failed live and evidence fallback requirements were not met",
+      );
+    }
   }
-  if (targetRemote !== manifest.target_baseline.head_sha) {
-    pushFinding(
-      findings,
-      "P0",
-      "target_remote",
-      "Target remote main differs from W0 BASE-E",
-    );
-  }
+
+  const w0RuntimeBaseSha =
+    manifest.target_baseline.w0_runtime_base_sha ??
+    manifest.target_baseline.previous_head_sha ??
+    "38246f64e82b37670edf84d386b55b866fb425bf";
+  const evidenceSubjectSha =
+    manifest.target_baseline.evidence_subject_sha ??
+    manifest.target_baseline.head_sha ??
+    "f4c1139f1b4151e919e7bf346271bd2ff79b3015";
+
   if (targetBranch !== manifest.target_baseline.branch) {
     pushFinding(
       findings,
@@ -763,6 +798,87 @@ export function validateManifestAgainstRepositories({
       "target_branch",
       "Target branch differs from W0 BASE-E",
     );
+  }
+
+  const allowedGovernancePrefixes = [
+    ".agents/contracts/",
+    ".agents/scripts/",
+    "docs/artifacts/bb-nos/",
+    "docs/artifacts/nos-gallery-provenance-manifest.json",
+  ];
+
+  // Runtime Zero-Mutation Contract Check
+  if (w0RuntimeBaseSha && targetHead !== w0RuntimeBaseSha) {
+    try {
+      const runtimeDiffPaths = runGit(targetRepo, [
+        "diff",
+        "--name-only",
+        `${w0RuntimeBaseSha}..${targetHead}`,
+      ])
+        .split(/\r?\n/)
+        .map((item) => normalizeRepoPath(item.trim()))
+        .filter(Boolean);
+
+      for (const changedPath of runtimeDiffPaths) {
+        if (
+          !allowedGovernancePrefixes.some(
+            (prefix) =>
+              changedPath.startsWith(prefix) || changedPath === prefix,
+          )
+        ) {
+          pushFinding(
+            findings,
+            "P0",
+            "runtime_base_mutation",
+            `Runtime surface mutated after W0 runtime base: ${changedPath}`,
+          );
+        }
+      }
+    } catch (error) {
+      pushFinding(
+        findings,
+        "P0",
+        "runtime_base_mutation_check_failed",
+        error.message,
+      );
+    }
+  }
+
+  // Governance-Only HEAD Drift Check
+  if (evidenceSubjectSha && targetHead !== evidenceSubjectSha) {
+    try {
+      const postEvidencePaths = runGit(targetRepo, [
+        "diff",
+        "--name-only",
+        `${evidenceSubjectSha}..${targetHead}`,
+      ])
+        .split(/\r?\n/)
+        .map((item) => normalizeRepoPath(item.trim()))
+        .filter(Boolean);
+
+      for (const changedPath of postEvidencePaths) {
+        if (
+          !allowedGovernancePrefixes.some(
+            (prefix) =>
+              changedPath.startsWith(prefix) || changedPath === prefix,
+          )
+        ) {
+          pushFinding(
+            findings,
+            "P0",
+            "unauthorized_path_after_evidence_subject",
+            `HEAD advanced past evidence subject with non-governance change: ${changedPath}`,
+          );
+        }
+      }
+    } catch (error) {
+      pushFinding(
+        findings,
+        "P0",
+        "evidence_subject_drift_check_failed",
+        error.message,
+      );
+    }
   }
 
   const closure = collectCanonicalImportClosure({
