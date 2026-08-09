@@ -1,6 +1,6 @@
 ---
 name: medusa-cloud-auth
-description: Execute mcloud authentication and context commands: login, logout, whoami, use, version, and signup. Use when setting up the CLI, switching accounts, verifying auth state, setting the active org/project/environment context, or checking the CLI version. Auth and context commands (login, logout, use, signup) modify local credentials and active scope — require explicit human confirmation before execution.
+description: "Execute mcloud authentication and context commands: login, logout, whoami, use, version, and signup. Use when setting up the CLI, switching accounts, verifying auth state, setting the active org/project/environment context, or checking the CLI version. Auth and context commands (login, logout, use, signup) modify local credentials and active scope — require explicit human confirmation before execution."
 ---
 
 # Cloud CLI: Auth and Context Commands
