@@ -195,27 +195,16 @@ export async function handleGatewayRequest({ method, path: reqPath, headers = {}
       }
 
       const stored = TASK_STORE.get(taskId)
-      if (!stored) {
+      // CALLER MAY ONLY READ ITS OWN TASKS (Principal Isolation Gate)
+      // Option B: Conceal task existence across principals to prevent task ID probing
+      if (!stored || stored.principal_id !== authResult.principal_id) {
         return {
           statusCode: 404,
           headers: jsonHeaders,
           body: {
             jsonrpc: "2.0",
             id: rpcId,
-            error: { code: -32004, message: `Task not found: ${taskId}` },
-          },
-        }
-      }
-
-      // CALLER MAY ONLY READ ITS OWN TASKS (Principal Isolation Gate)
-      if (stored.principal_id !== authResult.principal_id) {
-        return {
-          statusCode: 403,
-          headers: jsonHeaders,
-          body: {
-            jsonrpc: "2.0",
-            id: rpcId,
-            error: { code: -32003, message: "Forbidden: Task belongs to a different principal" },
+            error: { code: -32001, message: `Task not found: ${taskId}` },
           },
         }
       }

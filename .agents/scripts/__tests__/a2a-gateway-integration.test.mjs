@@ -267,7 +267,7 @@ test("W3 #41 TENANCY: Task owner can query GetTask, but a different principal re
   assert.equal(getP1Res.statusCode, 200)
   assert.equal(getP1Res.body.result.task.id, taskId)
 
-  // 3. Principal 2 attempts to query Principal 1's task -> 403 Forbidden
+  // 3. Principal 2 attempts to query Principal 1's task -> Option B: 404 TaskNotFoundError (-32001)
   const getP2Res = await handleGatewayRequest({
     method: "POST",
     path: "/a2a/v1",
@@ -280,7 +280,7 @@ test("W3 #41 TENANCY: Task owner can query GetTask, but a different principal re
     },
   })
 
-  assert.equal(getP2Res.statusCode, 403)
-  assert.equal(getP2Res.body.error.code, -32003)
-  assert.match(getP2Res.body.error.message, /belongs to a different principal/i)
+  assert.equal(getP2Res.statusCode, 404)
+  assert.equal(getP2Res.body.error.code, -32001)
+  assert.match(getP2Res.body.error.message, /Task not found/i)
 })
