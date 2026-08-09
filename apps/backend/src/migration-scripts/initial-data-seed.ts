@@ -838,20 +838,27 @@ export default async function initial_data_seed({
 
   logger.info("Seeding inventory levels.");
 
-  const { data: inventoryItems } = await query.graph({
-    entity: "inventory_item",
-    fields: ["id"],
-  });
+  try {
+    const { data: inventoryItems } = await query.graph({
+      entity: "inventory_item",
+      fields: ["id"],
+    });
 
-  await createInventoryLevelsWorkflow(container).run({
-    input: {
-      inventory_levels: inventoryItems.map((item) => ({
-        location_id: stockLocation.id,
-        stocked_quantity: 1000000,
-        inventory_item_id: item.id,
-      })),
-    },
-  });
+    if (inventoryItems && inventoryItems.length > 0 && stockLocation?.id) {
+      await createInventoryLevelsWorkflow(container).run({
+        input: {
+          inventory_levels: inventoryItems.map((item) => ({
+            location_id: stockLocation.id,
+            stocked_quantity: 1000000,
+            inventory_item_id: item.id,
+          })),
+        },
+      });
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    logger.warn(`Could not seed inventory levels (they may already exist): ${message}`);
+  }
 
   logger.info("Finished seeding inventory levels data.");
 }
