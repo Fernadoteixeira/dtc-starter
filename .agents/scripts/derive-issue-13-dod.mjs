@@ -76,6 +76,11 @@ const DEFAULT_PATHS = Object.freeze({
     "github",
     "issue-13-completion-record.json",
   ),
+  completionVerification: path.join(
+    ISSUE_DIR,
+    "github",
+    "issue-13-completion-verification.json",
+  ),
   validator: path.join(
     REPO_ROOT,
     ".agents",
@@ -247,6 +252,7 @@ export function evaluateIssue13DoD(evidence) {
     programState,
     provenance,
     completionRecord,
+    completionVerification,
     semanticSubjectSha256,
     validatorSha256,
     validatorTestsSha256,
@@ -365,7 +371,13 @@ export function evaluateIssue13DoD(evidence) {
       completionRecord.semantic_subject_sha256 === semanticSubjectSha256 &&
       typeof completionRecord.url === "string" &&
       completionRecord.url ===
-        `https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-${completionRecord.comment_id}`,
+        `https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-${completionRecord.comment_id}` &&
+      completionVerification?.remote_verified === true &&
+      completionVerification.repository === "Fernadoteixeira/dtc-starter" &&
+      completionVerification.issue_number === 13 &&
+      completionVerification.comment_id === completionRecord.comment_id &&
+      completionVerification.comment_url === completionRecord.url &&
+      completionVerification.semantic_subject_sha256 === semanticSubjectSha256,
   );
 
   const criteria = [
@@ -595,6 +607,9 @@ export function deriveIssue13DoD(options = {}) {
     provenance: options.provenance ?? readJsonIfPresent(paths.provenance),
     completionRecord:
       options.completionRecord ?? readJsonIfPresent(paths.completionRecord),
+    completionVerification:
+      options.completionVerification ??
+      readJsonIfPresent(paths.completionVerification),
     semanticSubjectSha256,
     validatorSha256: hashFile(paths.validator),
     validatorTestsSha256: hashFile(paths.validatorTests),
