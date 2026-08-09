@@ -78,6 +78,8 @@ protocols:
     sanitizer: .agents/scripts/a2a-evidence-sanitizer.mjs
     projection: .agents/scripts/a2a-discovery-projection.mjs
     adversarial_suite: .agents/scripts/__tests__/a2a-adversarial-corpus.test.mjs
+    conformance_status: REMOTE-CERTIFIED
+    certification_evidence: .agents/scripts/__tests__/W4-E/
 
 authorization_classes:
   AUTH-0: "Information (Read/Search/Analyze)"

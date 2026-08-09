@@ -43,7 +43,7 @@
 | **H3** | **Host-Derived Delta (H3.8)** | 🟢 CLOSED | `captureHostMutationDelta` git status delta verification active |
 | **H3** | **Escape Recovery (H3.9)** | 🟢 CLOSED | `verifyAndEnforceMutationPostcondition` & `quarantineMutationEscape` active |
 | **H3** | **Receipt Chain (H3.10-11)** | 🟢 CLOSED | Complete 6-phase receipt chain (`POLICY-E` .. `POSTCONDITION-E`) verified |
-| **H4** | **A2A Interoperability Gateway** | 🟢 CLOSED | Official A2A v1.0.1 normative wire, JSON-RPC, `apiKey` auth, `ExternalPrincipal` isolation, 12/12 adversarial tests PASS |
+| **H4** | **A2A Interoperability Gateway** | 🟢 REMOTE-CERTIFIED | Official A2A v1.0.1 normative wire, JSON-RPC, `apiKey` auth, `ExternalPrincipal` isolation, 12/12 adversarial PASS, TCK MUST Gate PASS, ADK v2.1.0 Interop PASS, 196/196 test discovery PASS |
 | **H5** | **Knowledge Fabric (LlamaCloud)** | 🟢 CLOSED | Knowledge Ingestion Substrate behind AP2, 5 evidence families (`INGEST-E` .. `RETRIEVAL-E`), 8/8 knowledge security tests PASS |
 
 ---
