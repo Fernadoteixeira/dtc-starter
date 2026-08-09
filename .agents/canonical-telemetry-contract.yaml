@@ -2,21 +2,25 @@
 # H6.1 / W5 #46 — FIO-VIVO Canonical OpenTelemetry Substrate Contract
 # ──────────────────────────────────────────────────────────────────────────────
 #
-# LAW: TELEMETRY TRACKS EXECUTION; TELEMETRY NEVER EXPOSES SECRETS
-# Vendor-neutral OpenTelemetry contract for trace, metric, and event logging
-# across all FIO-VIVO Agentic Fabric execution planes.
+# LAWS & INVARIANTS:
+#   1. TELEMETRY TRACKS EXECUTION; TELEMETRY NEVER CONCEDES AUTH
+#   2. TELEMETRY LOSS != BEHAVIOR CHANGE (EXPORTER OUTAGE IS FAIL-SAFE)
+#   3. OBSERVABILITY != EVIDENCE != AUTH
 # ──────────────────────────────────────────────────────────────────────────────
 
-version: 1
+version: 2
 kind: canonical-telemetry-contract
 status: active
 fabric: FIO-VIVO Agentic Fabric
-specification: Issue #46 OpenTelemetry Telemetry Substrate
+specification: Issue #46 OpenTelemetry Neutral Telemetry Substrate
 
 vendor_neutrality:
   protocol: OpenTelemetry v1.3.0
   export_format: OTLP/gRPC & OTLP/HTTP-JSON
   schema_url: "https://opentelemetry.io/schemas/1.21.0"
+  backend_independence:
+    adapters_supported: [otlp_collector, langfuse_optional, langsmith_optional, phoenix_optional]
+    core_lockin: none
 
 tracing:
   tracer_name: "fio-vivo.agentic-fabric"
@@ -45,18 +49,45 @@ tracing:
         - a2a.principal_id
         - a2a.auth_ceiling
 
-metrics:
-  meter_name: "fio-vivo.agentic-fabric.metrics"
-  counters:
-    - name: "fabric_capsules_total"
-      unit: "{capsule}"
-      description: "Total task capsules executed by status"
-    - name: "fabric_lease_contentions_total"
-      unit: "{conflict}"
-      description: "Total lease acquisition conflicts"
-    - name: "fabric_a2a_requests_total"
-      unit: "{request}"
-      description: "Total external A2A gateway requests"
+# ──────────────────────────────────────────────────────────────────────────────
+# Operation Taxonomy (#46 FV-060)
+# ──────────────────────────────────────────────────────────────────────────────
+
+operation_taxonomy:
+  categories:
+    - llm: "Model inference calls"
+    - tool: "Execution of internal/external tools"
+    - retrieval: "Knowledge retrieval queries"
+    - agent: "Agent sub-task orchestrations"
+    - review: "Independent verification and review steps"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Correlation Architecture (#46 FV-061)
+# ──────────────────────────────────────────────────────────────────────────────
+
+correlation:
+  mapping: "Task Capsule ↔ execution ↔ evidence refs"
+  primary_keys:
+    - fabric.task_id
+    - fabric.execution_trace_id
+    - fabric.evidence_receipt_ref
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Resilience & Failure Isolation (#46 FV-062, FV-063)
+# ──────────────────────────────────────────────────────────────────────────────
+
+resilience:
+  exporter_outage_policy: FAIL_SAFE_CONTINUE_EXECUTION
+  telemetry_failure_behavior:
+    halts_execution: false
+    behavior_change: false
+  invariants:
+    - OBSERVABILITY != EVIDENCE != AUTH
+    - TELEMETRY LOSS != BEHAVIOR CHANGE
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Privacy, Security & Cardinality Budget (#46 FV-058, FV-059)
+# ──────────────────────────────────────────────────────────────────────────────
 
 privacy_and_security:
   forbidden_attributes:
@@ -66,3 +97,8 @@ privacy_and_security:
     - "raw_prompt"
     - "internal_stack_trace"
   sanitization_rule: "ALL_ATTRIBUTES_SANITIZED_VIA_ALLOWLIST"
+
+cardinality_budget:
+  max_custom_attributes_per_span: 16
+  max_attribute_string_length: 256
+  unbounded_dimensions: FORBIDDEN

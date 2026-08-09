@@ -1,5 +1,5 @@
 # ──────────────────────────────────────────────────────────────────────────────
-# H5.0 — FIO-VIVO Knowledge Authority Model
+# H5.0 — FIO-VIVO Knowledge Authority Model (#43 Hardened Governance)
 # ──────────────────────────────────────────────────────────────────────────────
 #
 # LAW:
@@ -9,10 +9,11 @@
 #   LLAMACLOUD IS A SUBSTRATE, NOT SSOT
 # ──────────────────────────────────────────────────────────────────────────────
 
-version: 1
+version: 2
 kind: knowledge-authority-model
 status: active
 fabric: FIO-VIVO Agentic Fabric
+specification: Issue #43 Knowledge Authority Governance Contract
 
 positioning:
   role: Knowledge Ingestion & Document Intelligence Substrate
@@ -31,6 +32,8 @@ invariants:
   - KNOWLEDGE BUNDLE MUST CROSS FIO-VIVO-AP2 BEFORE AGENT CONSUMPTION
   - AGENT ACCESS LIMITED TO MINIMUM SUFFICIENT CONTEXT
   - ALL KNOWLEDGE REASONING MUST BE BACKED BY P5 PROOF (INGEST-E .. RETRIEVAL-E)
+  - MUTABLE SOURCE WITHOUT IMMUTABLE VERSION REFERENCE IS FORBIDDEN
+  - UNRESTRICTED SENSITIVE SOURCE DISCLOSURE IS FORBIDDEN BY DEFAULT
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Evidence Family (P5 Knowledge Proofs)
@@ -58,7 +61,7 @@ evidence_family:
     required_fields: [query_hash, chunk_ids, relevance_scores, retrieved_at]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Knowledge Access Control
+# Knowledge Access Control Envelopes
 # ──────────────────────────────────────────────────────────────────────────────
 
 access_control:
@@ -78,3 +81,13 @@ access_control:
     auth_ceiling: AUTH-0
     retrieval_mode: governed_query
     requires_ap2_validation: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Lifecycle & Revocation Rules
+# ──────────────────────────────────────────────────────────────────────────────
+
+lifecycle_governance:
+  status_values: [ACTIVE, DEPRECATED, REVOKED]
+  revocation_policy:
+    action_on_revocation: IMMEDIATE_INDEX_PURGE_AND_QUERY_BLOCK
+    fail_closed: true
