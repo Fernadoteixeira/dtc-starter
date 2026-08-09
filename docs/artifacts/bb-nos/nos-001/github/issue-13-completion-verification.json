@@ -7,6 +7,7 @@
   "comment_url": null,
   "remote_verified": false,
   "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
+  "remote_comment_body_sha256": null,
   "canonical_commit": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
   "verified_at": null,
   "verification_channel": "github_api_readback",

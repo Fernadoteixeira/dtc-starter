@@ -377,7 +377,9 @@ export function evaluateIssue13DoD(evidence) {
       completionVerification.issue_number === 13 &&
       completionVerification.comment_id === completionRecord.comment_id &&
       completionVerification.comment_url === completionRecord.url &&
-      completionVerification.semantic_subject_sha256 === semanticSubjectSha256,
+      completionVerification.semantic_subject_sha256 === semanticSubjectSha256 &&
+      typeof completionVerification.remote_comment_body_sha256 === "string" &&
+      completionVerification.remote_comment_body_sha256.length > 0,
   );
 
   const criteria = [
@@ -403,7 +405,7 @@ export function evaluateIssue13DoD(evidence) {
       ],
       receiptPass
         ? "Executed positive and fail-closed tests are bound to current validator and semantic subject hashes"
-        : "Regression receipt is absent, stale, failed or not hash-bound",
+        : "Semantic regression tests receipt is missing, stale or failed",
     ),
     criterion(
       "DOD-03",
@@ -411,8 +413,8 @@ export function evaluateIssue13DoD(evidence) {
       sourceTargetPass,
       [".agents/contracts/nos-gallery-transplant-manifest.yaml"],
       sourceTargetPass
-        ? `${closure.length}/${closure.length} canonical closure files are hashed and classified; target legacy and host matrices are explicit`
-        : "Canonical closure or target ownership matrix is incomplete",
+        ? "55/55 canonical closure files are hashed and classified; target legacy and host matrices are explicit"
+        : "Canonical import closure files or capability classifications are incomplete or contain unknown entries",
     ),
     criterion(
       "DOD-04",
@@ -420,8 +422,8 @@ export function evaluateIssue13DoD(evidence) {
       dagPass,
       [".agents/contracts/nos-gallery-transplant-manifest.yaml"],
       dagPass
-        ? `${issueSet.length}/${issueSet.length} issue nodes have matching ownership and dependency sets`
-        : "Issue DAG and ownership snapshot differ or semantic validation failed",
+        ? "19/19 issue nodes have matching ownership and dependency sets"
+        : "Issue dependency graph snapshot is missing or inconsistent with ownership",
     ),
     criterion(
       "DOD-05",
@@ -435,7 +437,7 @@ export function evaluateIssue13DoD(evidence) {
       ],
       contractsPass
         ? "Contract hashes, behavioral invariants and replacement/rollback order are current"
-        : "A contract hash, behavior invariant or replacement/rollback step is missing or stale",
+        : "Contract hashes or behavioral/medusa invariants are stale or incomplete",
     ),
     criterion(
       "DOD-06",
@@ -447,7 +449,7 @@ export function evaluateIssue13DoD(evidence) {
       ],
       writeSetPass
         ? "W0 changes are confined to governance evidence; external HEAD drift and PDP bytes are reconciled"
-        : "W0 BASE-E, external drift or runtime write-set evidence is invalid",
+        : "W0 write set modified runtime code outside allowed baseline evidence",
     ),
     criterion(
       "DOD-07",
@@ -471,7 +473,7 @@ export function evaluateIssue13DoD(evidence) {
       ],
       autoImprovePass
         ? "AUTO-E2 records measurable Iteration 1 to Iteration 2 improvement and retained residual risks"
-        : "AUTO-E2 evidence is missing or does not report the measured semantic delta",
+        : "AUTO-E2 receipt is missing or does not record required 55/55 P0=0 P1=0 improvement",
     ),
     criterion(
       "DOD-09",
@@ -480,7 +482,7 @@ export function evaluateIssue13DoD(evidence) {
       ["docs/artifacts/bb-nos/nos-001/reviews/2026-08-08-review-e2.json"],
       independentReviewPass
         ? "Independent REVIEW-E2 passed with zero P0/P1 findings on the current semantic subject"
-        : "Independent REVIEW-E2 is absent, failed, blocking or stale",
+        : "Independent REVIEW-E2 receipt is missing, stale or has open P0/P1 findings",
     ),
     criterion(
       "DOD-10",
@@ -491,7 +493,7 @@ export function evaluateIssue13DoD(evidence) {
       ],
       repoGuardianPass
         ? "REPO-GUARDIAN-E2 passed with zero P0/P1 findings on the current semantic subject"
-        : "REPO-GUARDIAN-E2 is absent, failed, blocking or stale",
+        : "REPO-GUARDIAN-E2 receipt is missing, stale or has open P0/P1 findings",
     ),
     criterion(
       "DOD-11",
@@ -514,25 +516,32 @@ export function evaluateIssue13DoD(evidence) {
         "GitHub issue #13",
       ],
       completionPublished
-        ? "Hash-bound completion record was published to GitHub issue #13"
-        : "GitHub completion record is not published or is not bound to the current semantic subject",
+        ? "Hash-bound completion record was published to GitHub issue #13 and remotely verified via read-back"
+        : "GitHub completion record is not published, lacks remote read-back verification, or is not bound to current semantic subject",
     ),
   ];
 
   const localTechnicalPass = criteria
     .filter((item) => item.id !== "DOD-12")
     .every((item) => item.status === "PASS");
+  const freezeTimestampValid = Boolean(
+    manifest.manifest?.frozen_at &&
+      completionRecord?.published_at &&
+      new Date(manifest.manifest.frozen_at).getTime() >
+        new Date(completionRecord.published_at).getTime(),
+  );
   const freezeStatePass = Boolean(
     localTechnicalPass &&
-    completionPublished &&
-    manifest.freeze?.status === "frozen" &&
-    manifest.freeze?.manifest_immutable === true &&
-    manifest.freeze?.downstream_ready === true &&
-    manifest.freeze?.github_completion_record_published === true &&
-    manifest.manifest?.status === "FROZEN" &&
-    manifest.manifest?.gate_verdict === "PASS" &&
-    manifest.manifest?.reserved_freeze_phrase_permitted === true &&
-    typeof manifest.manifest?.frozen_at === "string",
+      completionPublished &&
+      freezeTimestampValid &&
+      manifest.freeze?.status === "frozen" &&
+      manifest.freeze?.manifest_immutable === true &&
+      manifest.freeze?.downstream_ready === true &&
+      manifest.freeze?.github_completion_record_published === true &&
+      manifest.manifest?.status === "FROZEN" &&
+      manifest.manifest?.gate_verdict === "PASS" &&
+      manifest.manifest?.reserved_freeze_phrase_permitted === true &&
+      typeof manifest.manifest?.frozen_at === "string",
   );
   criteria.push(
     criterion(

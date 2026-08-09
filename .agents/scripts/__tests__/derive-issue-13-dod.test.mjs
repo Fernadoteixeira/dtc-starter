@@ -11,7 +11,7 @@ function makeEvidence() {
     manifest: {
       status: "FROZEN",
       gate_verdict: "PASS",
-      frozen_at: "2026-08-08T23:30:00.000Z",
+      frozen_at: "2026-08-08T23:35:00.000Z",
       runtime_code_changes_since_w0_base: "none",
       reserved_freeze_phrase_permitted: true,
     },
@@ -154,6 +154,7 @@ function makeEvidence() {
       comment_id: 1,
       comment_url: "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-1",
       semantic_subject_sha256: semanticSubjectSha256,
+      remote_comment_body_sha256: "body-sha256-hash",
       verified_at: "2026-08-08T23:31:00.000Z",
       verification_channel: "github_api_readback",
     },
@@ -404,5 +405,42 @@ test("rejects completion record when completionVerification comment_url mismatch
     "FAIL",
   );
 });
+
+test("rejects freeze when frozen_at is equal to published_at", () => {
+  const evidence = makeEvidence();
+  evidence.manifest.manifest.frozen_at = "2026-08-08T23:30:00.000Z";
+  evidence.completionRecord.published_at = "2026-08-08T23:30:00.000Z";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-13").status,
+    "FAIL",
+  );
+});
+
+test("rejects freeze when frozen_at is earlier than published_at", () => {
+  const evidence = makeEvidence();
+  evidence.manifest.manifest.frozen_at = "2026-08-08T23:25:00.000Z";
+  evidence.completionRecord.published_at = "2026-08-08T23:30:00.000Z";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-13").status,
+    "FAIL",
+  );
+});
+
+test("passes freeze when frozen_at is strictly greater than published_at", () => {
+  const evidence = makeEvidence();
+  evidence.manifest.manifest.frozen_at = "2026-08-08T23:35:00.000Z";
+  evidence.completionRecord.published_at = "2026-08-08T23:30:00.000Z";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-13").status,
+    "PASS",
+  );
+});
+
 
 
