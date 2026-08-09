@@ -1,0 +1,86 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# H5.1 — FIO-VIVO Canonical Source Registry
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# LAW: CONNECTOR AVAILABLE != SOURCE AUTHORIZED
+# Only sources explicitly registered here are allowed for knowledge ingestion.
+# ──────────────────────────────────────────────────────────────────────────────
+
+version: 1
+kind: canonical-source-registry
+status: active
+fabric: FIO-VIVO Agentic Fabric
+
+sources:
+
+  medusa-official-docs:
+    source_id: SRC-MEDUSA-DOCS-001
+    name: Medusa Official Documentation
+    type: markdown_repository
+    path: docs/medusa/
+    mcp_server_ref: medusa-docs
+    authority: PUBLIC_OPEN
+    allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    indexing:
+      chunk_size: 512
+      chunk_overlap: 64
+      parser: markdown
+
+  plc-315-canonical-skills:
+    source_id: SRC-PLC-315-001
+    name: Product Lifecycle Canonical Skills (315)
+    type: skill_pack
+    path: .agents/product-lifecycle-canonical-skills-315/
+    authority: FIO_VIVO_INTERNAL
+    allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    indexing:
+      chunk_size: 512
+      chunk_overlap: 64
+      parser: skill_frontmatter
+
+  nos-205-canonical-skills:
+    source_id: SRC-NOS-205-001
+    name: NOS Gallery Canonical Skills (205)
+    type: skill_pack
+    path: .agents/nos-gallery-canonical-skills-205/
+    authority: FIO_VIVO_INTERNAL
+    allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    indexing:
+      chunk_size: 512
+      chunk_overlap: 64
+      parser: skill_frontmatter
+
+  fio-vivo-360-docs:
+    source_id: SRC-FIO-VIVO-360-001
+    name: FIO-VIVO 360 Program Documentation
+    type: Strategic_docs
+    path: docs/fio-vivo/
+    authority: FIO_VIVO_RESTRICTED
+    allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    indexing:
+      chunk_size: 1024
+      chunk_overlap: 128
+      parser: llamaparse_pdf_md
+
+  commercial-contracts:
+    source_id: SRC-CONTRACTS-001
+    name: FIO-VIVO Commercial Contracts & PRDs
+    type: structured_contracts
+    path: docs/artifacts/contracts/
+    authority: FIO_VIVO_CONFIDENTIAL
+    allowed_access_levels: [AUTH-1, AUTH-2]
+    indexing:
+      chunk_size: 1024
+      chunk_overlap: 128
+      parser: llamaparse_schema_extractor
+      schema_required: true
+
+denied_sources:
+  - path_pattern: "**/node_modules/**"
+    reason: Dependency code bloat
+  - path_pattern: "**/.env*"
+    reason: Security secret protection
+  - path_pattern: "**/.git/**"
+    reason: Git database internals
+  - path_pattern: "**/apps/backend/.medusa/**"
+    reason: Build output exclusion

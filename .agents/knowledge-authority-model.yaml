@@ -1,0 +1,80 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# H5.0 — FIO-VIVO Knowledge Authority Model
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# LAW:
+#   RETRIEVAL REQUEST != DATA AUTHORIZATION
+#   CONNECTOR AVAILABLE != SOURCE AUTHORIZED
+#   EXTRACTION != AUTHORIZATION
+#   LLAMACLOUD IS A SUBSTRATE, NOT SSOT
+# ──────────────────────────────────────────────────────────────────────────────
+
+version: 1
+kind: knowledge-authority-model
+status: active
+fabric: FIO-VIVO Agentic Fabric
+
+positioning:
+  role: Knowledge Ingestion & Document Intelligence Substrate
+  provider: LlamaCloud / LlamaParse
+  authority_boundary: FIO-VIVO-AP2
+  description: >
+    LlamaCloud and LlamaParse provide document parsing, schema extraction,
+    indexing, and retrieval capabilities. They act as provider-level
+    substrates BEHIND FIO-VIVO-AP2. They do NOT hold authority over data,
+    access control, or platform effects.
+
+invariants:
+  - RETRIEVAL REQUEST != DATA AUTHORIZATION
+  - CONNECTOR AVAILABLE != SOURCE AUTHORIZED
+  - EXTRACTION != AUTHORIZATION
+  - KNOWLEDGE BUNDLE MUST CROSS FIO-VIVO-AP2 BEFORE AGENT CONSUMPTION
+  - AGENT ACCESS LIMITED TO MINIMUM SUFFICIENT CONTEXT
+  - ALL KNOWLEDGE REASONING MUST BE BACKED BY P5 PROOF (INGEST-E .. RETRIEVAL-E)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Evidence Family (P5 Knowledge Proofs)
+# ──────────────────────────────────────────────────────────────────────────────
+
+evidence_family:
+  INGEST-E:
+    description: Proof of document ingestion (source URI, source SHA-256 hash, ingestion timestamp)
+    required_fields: [source_id, source_uri, source_hash, ingested_at]
+
+  PARSE-E:
+    description: Proof of document parsing (LlamaParse job ID, status, parser version, parse receipt hash)
+    required_fields: [job_id, status, parser_version, parse_receipt_hash, parsed_at]
+
+  EXTRACT-E:
+    description: Proof of schema extraction (schema_id, extracted_data_hash, validation_status)
+    required_fields: [schema_id, extracted_data_hash, validation_status, extracted_at]
+
+  INDEX-E:
+    description: Proof of indexation (index_id, chunking_strategy, chunk_count, index_hash)
+    required_fields: [index_id, chunking_strategy, chunk_count, index_hash, indexed_at]
+
+  RETRIEVAL-E:
+    description: Proof of knowledge retrieval (query_hash, retrieved_chunk_ids, relevance_scores, retrieval_timestamp)
+    required_fields: [query_hash, chunk_ids, relevance_scores, retrieved_at]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Knowledge Access Control
+# ──────────────────────────────────────────────────────────────────────────────
+
+access_control:
+  external_a2a:
+    auth_ceiling: AUTH-0
+    retrieval_mode: sanitized_summary_only
+    raw_document_access: forbidden
+    source_code_indexing_access: forbidden
+
+  internal_agents:
+    auth_ceiling: AUTH-1
+    retrieval_mode: bounded_context_bundle
+    max_chunks_per_task: 20
+    max_documents_per_task: 5
+
+  mcp_tools:
+    auth_ceiling: AUTH-0
+    retrieval_mode: governed_query
+    requires_ap2_validation: true
