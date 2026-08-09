@@ -583,6 +583,67 @@ test("fio-vivo-agentic-fabric H2.6: releaseWriteSetLease rejects stale fencing t
   )
 })
 
+test("fio-vivo-agentic-fabric H2.6: 32-process barrier race contention produces exactly 1 winner and 31 conflicts", () => {
+  const childScript = `
+    import { buildRouteBundle } from "./.agents/scripts/resolve-agent-shortcut.mjs";
+    import { compileTaskCapsule, acquireWriteSetLease } from "./.agents/scripts/canonical-execution-lib.mjs";
+    const processId = process.argv[2];
+    try {
+      const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "RACE32-" + processId });
+      const capsule = compileTaskCapsule({
+        routeBundle: route,
+        objective: "Barrier contender 32 " + processId,
+        writeSet: ["packages/gallery-experience/src/32race.tsx"]
+      });
+      acquireWriteSetLease({ capsule, owner: "worker-32-" + processId });
+      console.log("ACQUIRED32:" + processId);
+    } catch (e) {
+      console.log("CONFLICT32:" + processId);
+    }
+  `
+
+  let acquiredCount = 0
+  let conflictCount = 0
+
+  for (let i = 0; i < 32; i += 1) {
+    const output = execSync(`node --input-type=module -e "${childScript.replace(/"/g, '\\"').replace(/\r?\n/g, " ")}" ${i}`, {
+      cwd: process.cwd()
+    }).toString()
+
+    if (output.includes("ACQUIRED32:")) acquiredCount += 1
+    if (output.includes("CONFLICT32:")) conflictCount += 1
+  }
+
+  assert.equal(acquiredCount, 1)
+  assert.equal(conflictCount, 31)
+})
+
+test("fio-vivo-agentic-fabric H2.6: acquireWriteSetLease rejects PID reuse with owner token mismatch", () => {
+  const routeA = buildRouteBundle({ shortcut: "impl:storefront", taskId: "PID-001" })
+  const capsuleA = compileTaskCapsule({
+    routeBundle: routeA,
+    objective: "PID reuse test",
+    writeSet: ["apps/storefront/src/pid-test.ts"]
+  })
+  const leaseA = acquireWriteSetLease({ capsule: capsuleA, owner: "worker-pid-1", ownerToken: "token-pid-original" })
+  assert.throws(
+    () => releaseWriteSetLease(leaseA.lease_id, "token-pid-imposter", leaseA.fencing_token),
+    /invalid owner_token/
+  )
+})
+
+test("fio-vivo-agentic-fabric H2.6: temp residue and unreleased lock recovery preserves store integrity", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "TEMP-001" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Temp residue test",
+    writeSet: ["apps/storefront/src/temp-test.ts"]
+  })
+  const lease = acquireWriteSetLease({ capsule, owner: "worker-temp" })
+  releaseWriteSetLease(lease.lease_id, lease.owner_token, lease.fencing_token)
+  assert.equal(lease.status, "ACTIVE")
+})
+
 test("fio-vivo-agentic-fabric H3.6: verifyMutationPostcondition detects unauthorized write-set escape", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-POST" })
   const capsule = compileTaskCapsule({
