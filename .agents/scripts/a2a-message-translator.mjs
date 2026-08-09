@@ -267,14 +267,14 @@ export function resolveCapability(requestedSkill, serviceProfile = DEFAULT_SERVI
     return { resolved: false, reason: `Unknown skill: ${requestedSkill}` }
   }
 
-  // Locally selected agent and reviewer
-  // The external caller has NO input into either of these
-  const resolvedAgent = typeof skillEntry === "object" && skillEntry.handler
-    ? skillEntry.handler
+  // Dynamic selection from Capability Resolver / Service Profile entry.
+  // Neither worker nor reviewer identity can be selected or influenced by external callers.
+  const resolvedAgent = typeof skillEntry === "object"
+    ? (skillEntry.handler || skillEntry.worker || "canonical-worker")
     : "canonical-worker"
 
-  const resolvedReviewer = typeof skillEntry === "object" && skillEntry.reviewer
-    ? skillEntry.reviewer
+  const resolvedReviewer = typeof skillEntry === "object"
+    ? (skillEntry.reviewer || DEFAULT_REVIEWER)
     : DEFAULT_REVIEWER
 
   return { resolved: true, agentId: resolvedAgent, reviewerId: resolvedReviewer }
