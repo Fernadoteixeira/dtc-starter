@@ -360,3 +360,49 @@ test("rejects completion record with wrong semantic hash", () => {
   );
 });
 
+test("rejects completion record when remote completionVerification is missing", () => {
+  const evidence = makeEvidence();
+  evidence.completionVerification = null;
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record when completionVerification remote_verified is false", () => {
+  const evidence = makeEvidence();
+  evidence.completionVerification.remote_verified = false;
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record when completionVerification comment_id mismatches", () => {
+  const evidence = makeEvidence();
+  evidence.completionVerification.comment_id = 999;
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record when completionVerification comment_url mismatches", () => {
+  const evidence = makeEvidence();
+  evidence.completionVerification.comment_url =
+    "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-999";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+
