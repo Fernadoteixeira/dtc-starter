@@ -10,14 +10,17 @@ const VALID_HEADERS = {
 
 test("A2A BOUNDARY #39: Valid A2A message compiles ExternalPrincipal task capsule with AUTH-0 and write_set=[]", () => {
   const sendMessageRequest = {
-    id: "msg-valid-101",
-    role: "user",
-    parts: [
-      {
-        kind: "text",
-        text: "Query fabric capabilities and architecture guidelines",
-      },
-    ],
+    id: "req-valid-101",
+    message: {
+      id: "msg-valid-101",
+      role: "user",
+      parts: [
+        {
+          kind: "text",
+          text: "Query fabric capabilities and architecture guidelines",
+        },
+      ],
+    },
   }
 
   const result = translateMessage({
