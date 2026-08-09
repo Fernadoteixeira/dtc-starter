@@ -1,11 +1,16 @@
 import assert from "node:assert/strict"
 import { execSync } from "node:child_process"
+import { existsSync, mkdirSync, readFileSync, writeFileSync, unlinkSync } from "node:fs"
+import path from "node:path"
 import { test, beforeEach } from "node:test"
 import {
   AGENT_REGISTRY_PATH,
   AUTHORITY_REGISTRY_PATH,
   CAPABILITY_REGISTRY_PATH,
   PROTOCOL_REGISTRY_PATH,
+  REPO_ROOT,
+  EPHEMERAL_LEASE_STORE_PATH,
+  loadDurableLeasesState,
   acquireWriteSetLease,
   authorizePlatformToolCall,
   authorizeTaskCapsule,
@@ -278,6 +283,40 @@ test("fio-vivo-agentic-fabric: acquireWriteSetLease rejects parent-child directo
   assert.throws(() => acquireWriteSetLease({ capsule: capsuleB, owner: "lane-B-worker" }), /Write-set collision detected/)
 })
 
+test("fio-vivo-agentic-fabric: loadDurableLeasesState throws LEASE_STORE_CORRUPT on invalid JSON", () => {
+  const storePath = path.resolve(REPO_ROOT, EPHEMERAL_LEASE_STORE_PATH)
+  const storeDir = path.dirname(storePath)
+  if (!existsSync(storeDir)) mkdirSync(storeDir, { recursive: true })
+  const backup = existsSync(storePath) ? readFileSync(storePath, "utf-8") : null
+
+  try {
+    writeFileSync(storePath, "{ corrupt json ...", "utf-8")
+    assert.throws(() => loadDurableLeasesState(), /LEASE_STORE_CORRUPT/)
+  } finally {
+    if (backup !== null) {
+      writeFileSync(storePath, backup, "utf-8")
+    } else {
+      try { unlinkSync(storePath) } catch {}
+    }
+  }
+})
+
+test("fio-vivo-agentic-fabric: fencing_high_water_mark increases monotonically across lease acquisitions", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-HWM" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Testing fencing HWM",
+    writeSet: ["apps/storefront/src/lib/hwm.ts"]
+  })
+
+  const lease1 = acquireWriteSetLease({ capsule, owner: "worker-1" })
+  releaseWriteSetLease(lease1.lease_id, lease1.owner_token, lease1.fencing_token)
+
+  const lease2 = acquireWriteSetLease({ capsule, owner: "worker-2" })
+  assert.ok(lease2.fencing_token > lease1.fencing_token)
+  releaseWriteSetLease(lease2.lease_id, lease2.owner_token, lease2.fencing_token)
+})
+
 test("fio-vivo-agentic-fabric: releaseWriteSetLease rejects release with invalid owner_token", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-013" })
   const capsule = compileTaskCapsule({
@@ -436,7 +475,7 @@ test("fio-vivo-agentic-fabric: authorizePlatformToolCall blocks financial transa
   })
   assert.throws(
     () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "payment purchase mandate" }),
-    /requires AP2 mandate verification/
+    /requires ap2-payments mandate verification/
   )
 })
 
