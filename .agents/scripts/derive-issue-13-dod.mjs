@@ -378,8 +378,12 @@ export function evaluateIssue13DoD(evidence) {
       completionVerification.comment_id === completionRecord.comment_id &&
       completionVerification.comment_url === completionRecord.url &&
       completionVerification.semantic_subject_sha256 === semanticSubjectSha256 &&
+      typeof completionRecord.expected_comment_body_sha256 === "string" &&
+      completionRecord.expected_comment_body_sha256.length > 0 &&
       typeof completionVerification.remote_comment_body_sha256 === "string" &&
-      completionVerification.remote_comment_body_sha256.length > 0,
+      completionVerification.remote_comment_body_sha256.length > 0 &&
+      completionVerification.remote_comment_body_sha256 ===
+        completionRecord.expected_comment_body_sha256,
   );
 
   const criteria = [

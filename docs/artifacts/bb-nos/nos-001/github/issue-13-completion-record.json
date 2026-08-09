@@ -5,6 +5,7 @@
   "published": false,
   "url": null,
   "published_at": null,
+  "expected_comment_body_sha256": null,
   "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
   "validator_sha256": "5a1e0fbd1f7b6e360e8d8941cd4f132d1e5a540dd2f0773ccbad5c1c33c6a513",
   "validator_tests_sha256": "7d85c281e969dff3be80d9a9eb518a92f8acfd8546be9cf87d01c522a92b475f",

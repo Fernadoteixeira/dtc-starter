@@ -144,6 +144,7 @@ function makeEvidence() {
       repository: "Fernadoteixeira/dtc-starter",
       comment_id: 1,
       published_at: "2026-08-08T23:30:00.000Z",
+      expected_comment_body_sha256: "body-sha256-hash",
       semantic_subject_sha256: semanticSubjectSha256,
       url: "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-1",
     },
@@ -441,6 +442,30 @@ test("passes freeze when frozen_at is strictly greater than published_at", () =>
     "PASS",
   );
 });
+
+test("rejects completion verification when remote_comment_body_sha256 differs from expected_comment_body_sha256", () => {
+  const evidence = makeEvidence();
+  evidence.completionVerification.remote_comment_body_sha256 = "different-body-hash";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("passes completion verification when remote_comment_body_sha256 matches expected_comment_body_sha256 exactly", () => {
+  const evidence = makeEvidence();
+  evidence.completionRecord.expected_comment_body_sha256 = "exact-body-hash";
+  evidence.completionVerification.remote_comment_body_sha256 = "exact-body-hash";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "PASS",
+  );
+});
+
 
 
 
