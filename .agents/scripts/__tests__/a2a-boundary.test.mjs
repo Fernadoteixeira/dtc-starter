@@ -27,6 +27,7 @@ test("A2A BOUNDARY #39: Valid A2A message compiles ExternalPrincipal task capsul
     requestedSkill: "architecture-query",
   })
 
+  if (!result.success) console.log("TRANSLATE RESULT ERROR:", result.error)
   assert.equal(result.success, true)
   const capsule = result.capsule
 
