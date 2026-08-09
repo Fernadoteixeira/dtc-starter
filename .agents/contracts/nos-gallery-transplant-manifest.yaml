@@ -4,11 +4,11 @@
     "id": "nos-gallery-transplant-manifest",
     "issue": "#13 / NOS-001",
     "iteration": 2,
-    "status": "FROZEN",
-    "frozen_at": "2026-08-08T23:55:00.000Z",
-    "gate_verdict": "PASS",
+    "status": "ITERATION_2_CLOSURE_REMEDIATION",
+    "frozen_at": null,
+    "gate_verdict": "EXTERNAL_EVIDENCE_REMEDIATION_REQUIRED",
     "runtime_code_changes_since_w0_base": "none",
-    "reserved_freeze_phrase_permitted": true
+    "reserved_freeze_phrase_permitted": false
   },
   "canonical_source": {
     "repository": "Fernadoteixeira/nos-gallery",
@@ -1701,11 +1701,11 @@
     "Visual, accessibility, performance, resilience, observability, security, rollout and human gates remain open."
   ],
   "freeze": {
-    "status": "frozen",
+    "status": "closure_remediation",
     "canonical_source_immutable_for_slice": true,
-    "manifest_immutable": true,
-    "downstream_ready": true,
-    "github_completion_record_published": true
+    "manifest_immutable": false,
+    "downstream_ready": false,
+    "github_completion_record_published": false
   },
   "acceptance_checklist": {
     "canonical_sha_and_tree_proven": {
@@ -1757,7 +1757,7 @@
       "derived_by": "REPO-GUARDIAN-E2"
     },
     "github_completion_record_published": {
-      "status": "pass",
+      "status": "pending_external_authorization",
       "derived_by": "GitHub issue #13"
     }
   }

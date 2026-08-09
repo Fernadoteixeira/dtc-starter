@@ -25,8 +25,8 @@
     "schema_version": 2,
     "iteration": 2,
     "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
-    "status": "FROZEN",
-    "frozen": true
+    "status": "ITERATION_2_CLOSURE_REMEDIATION",
+    "frozen": false
   },
   "capability_summary": {
     "total": 33,
@@ -54,8 +54,8 @@
     "iteration_1_repo_guardian": "FAIL_SUPERSEDED",
     "independent_review": "PASS",
     "repo_guardian": "PASS",
-    "github_completion_record": "PUBLISHED",
-    "manifest": "FROZEN",
+    "github_completion_record": "INVALIDATED",
+    "manifest": "NOT_FROZEN",
     "commercial_truth": "FAIL",
     "canonical_port": "FAIL_NOT_EXECUTED",
     "visual_parity": "FAIL_NOT_EXECUTED",

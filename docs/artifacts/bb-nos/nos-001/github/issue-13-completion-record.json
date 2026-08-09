@@ -2,9 +2,9 @@
   "schema_version": 1,
   "kind": "nos-001-github-completion-record",
   "issue": "#13",
-  "published": true,
-  "url": "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-bb-nos-w0-freeze",
-  "published_at": "2026-08-08T23:55:00.000Z",
+  "published": false,
+  "url": null,
+  "published_at": null,
   "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
   "validator_sha256": "5a1e0fbd1f7b6e360e8d8941cd4f132d1e5a540dd2f0773ccbad5c1c33c6a513",
   "validator_tests_sha256": "7d85c281e969dff3be80d9a9eb518a92f8acfd8546be9cf87d01c522a92b475f",
@@ -21,5 +21,6 @@
     "closure": "55/55",
     "capabilities": "33 (PORT: 2, ADAPT: 25, DEFER: 3, REJECT: 3)",
     "runtime_mutation": "none"
-  }
+  },
+  "status_note": "PRE_PUBLICATION_DRAFT_PENDING_EXTERNAL_GITHUB_MUTATION"
 }

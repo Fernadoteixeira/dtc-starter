@@ -1,0 +1,9 @@
+{
+  "finding_id": "W0-FREEZE-001",
+  "type": "GOVERNANCE_VALIDATION_DEFECT",
+  "severity": "P0 for W0 closure integrity",
+  "status": "SUPERSEDED_INVALID_EXTERNAL_EVIDENCE",
+  "observed_invalid_record": "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-bb-nos-w0-freeze",
+  "finding_description": "Local JSON claim containing synthetic anchor #issuecomment-bb-nos-w0-freeze was accepted as external publication proof. True external publication requires a numeric GitHub comment ID and remote verification or fail-closed state.",
+  "recorded_at": "2026-08-08T21:01:30-03:00"
+}

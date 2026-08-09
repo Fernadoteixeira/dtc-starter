@@ -141,8 +141,11 @@ function makeEvidence() {
     completionRecord: {
       published: true,
       issue: "#13",
+      repository: "Fernadoteixeira/dtc-starter",
+      comment_id: 1,
+      published_at: "2026-08-08T23:30:00.000Z",
       semantic_subject_sha256: semanticSubjectSha256,
-      url: "https://github.com/example/repo/issues/13#issuecomment-1",
+      url: "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-1",
     },
     semanticSubjectSha256,
     validatorSha256,
@@ -266,3 +269,84 @@ test("does not accept an early freeze before publication", () => {
   );
   assert.equal(result.freeze_eligible, false);
 });
+
+test("rejects completion record with nonnumeric anchor URL", () => {
+  const evidence = makeEvidence();
+  evidence.completionRecord.url =
+    "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-bb-nos-w0-freeze";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record with arbitrary github.com URL", () => {
+  const evidence = makeEvidence();
+  evidence.completionRecord.url = "https://github.com/some/other/path";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record with numeric URL but missing comment_id", () => {
+  const evidence = makeEvidence();
+  delete evidence.completionRecord.comment_id;
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record with comment_id and URL mismatch", () => {
+  const evidence = makeEvidence();
+  evidence.completionRecord.comment_id = 999;
+  evidence.completionRecord.url =
+    "https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-123";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record with wrong issue number", () => {
+  const evidence = makeEvidence();
+  evidence.completionRecord.issue = "#14";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record with wrong repository", () => {
+  const evidence = makeEvidence();
+  evidence.completionRecord.repository = "other/repo";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+
+test("rejects completion record with wrong semantic hash", () => {
+  const evidence = makeEvidence();
+  evidence.completionRecord.semantic_subject_sha256 = "wrong-hash";
+
+  const result = evaluateIssue13DoD(evidence);
+  assert.equal(
+    result.criteria.find((item) => item.id === "DOD-12").status,
+    "FAIL",
+  );
+});
+

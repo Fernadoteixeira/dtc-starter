@@ -356,10 +356,16 @@ export function evaluateIssue13DoD(evidence) {
   );
   const completionPublished = Boolean(
     completionRecord?.published === true &&
-    completionRecord.issue === "#13" &&
-    completionRecord.semantic_subject_sha256 === semanticSubjectSha256 &&
-    typeof completionRecord.url === "string" &&
-    completionRecord.url.startsWith("https://github.com/"),
+      completionRecord.issue === "#13" &&
+      completionRecord.repository === "Fernadoteixeira/dtc-starter" &&
+      typeof completionRecord.comment_id === "number" &&
+      completionRecord.comment_id > 0 &&
+      typeof completionRecord.published_at === "string" &&
+      completionRecord.published_at.length > 0 &&
+      completionRecord.semantic_subject_sha256 === semanticSubjectSha256 &&
+      typeof completionRecord.url === "string" &&
+      completionRecord.url ===
+        `https://github.com/Fernadoteixeira/dtc-starter/issues/13#issuecomment-${completionRecord.comment_id}`,
   );
 
   const criteria = [
