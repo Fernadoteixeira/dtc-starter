@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "kind": "nos-001-github-completion-verification",
+  "repository": "Fernadoteixeira/dtc-starter",
+  "issue_number": 13,
+  "comment_id": null,
+  "comment_url": null,
+  "remote_verified": false,
+  "semantic_subject_sha256": "71d3d84fed9f1c4bf0790fc84bd3e78b3dcb476308f2c0c3e8e1e4fa65703f7b",
+  "canonical_commit": "2b6eb782c5df5e78ed63fc4ad58d66487f2a7f6e",
+  "verified_at": null,
+  "verification_channel": "github_api_readback",
+  "status_note": "PRE_VERIFICATION_DRAFT_PENDING_EXTERNAL_REMOTE_READBACK"
+}
