@@ -852,6 +852,7 @@ export default async function initial_data_seed({
 } catch (err) {
   logger.warn(`Product creation skipped: ${err}`);
 }
+}
   logger.info("Finished seeding product data.");
 
   logger.info("Seeding fio-vivo collection...");
