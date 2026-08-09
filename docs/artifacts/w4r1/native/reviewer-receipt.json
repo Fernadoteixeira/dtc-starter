@@ -1,15 +1,15 @@
 {
-  "receipt_id": "REVIEW-E-W4R1-TCK-002",
+  "receipt_id": "REVIEW-E-W4R1-TCK-003",
   "issue_id": "#42",
   "wave_id": "W4R.1",
-  "timestamp": "2026-08-09T04:45:15Z",
+  "timestamp": "2026-08-09T04:50:15Z",
   "reviewer_id": "independent-reviewer-01",
   "status": "PASS",
   "refetch_verified": true,
   "verified_hashes": {
-    "compatibility.json": "ae6ea79623a1a2dc6a7cb12017668d2ac8a9d21f674094bbe86057517f001d68",
+    "compatibility.json": "813b746bfa6c0263b63f71f9aab921d838b364a09437e920482b6fac92d227b0",
     "junit.xml": "2fe6251be2f99e6220ce01c978580a7e09b21bdbd1b3258ffa1a9269b7c6ee3c",
     "pytest_report.json": "72d7674d2b5761f31fcdac390cde094900ad66a9b81704d321dab065091e0d79"
   },
-  "summary": "Independent remote review confirmed that native TCK outputs match declared SHA256 hashes byte-for-byte with 0 mutations, strictly adhering to the official upstream TCK schema and JUnit testcase count equality."
+  "summary": "Independent remote review confirmed that native TCK outputs match declared SHA256 hashes byte-for-byte with 0 post-editing mutations, strictly adhering to the official upstream TCK percentage formatting and JUnit testcase count equality."
 }

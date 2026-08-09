@@ -39,7 +39,7 @@ export function validateTckNativeProvenance(options = {}) {
     return { success: false, errors, warnings, validatedArtifacts }
   }
 
-  // 1. FV-036: Validate compatibility.json official upstream TCK schema
+  // 1. FV-036: Validate compatibility.json official upstream TCK schema & percentage strings
   const compatibilityPath = path.join(nativeDir, "compatibility.json")
   try {
     const rawComp = readFileSync(compatibilityPath, "utf-8")
@@ -55,6 +55,14 @@ export function validateTckNativeProvenance(options = {}) {
         for (const key of requiredSummaryKeys) {
           if (compData.summary[key] === undefined) {
             errors.push(`compatibility.json summary object missing official upstream TCK key: '${key}'`)
+          }
+        }
+        // Enforce percentage string formatting for upstream TCK compliance
+        const percentageKeys = ["overall_compatibility", "must_compatibility", "should_compatibility", "may_compatibility"]
+        for (const key of percentageKeys) {
+          const val = compData.summary[key]
+          if (typeof val !== "string" || !val.endsWith("%")) {
+            errors.push(`compatibility.json summary '${key}' must be an official percentage string (e.g. '100.0%'), found '${val}'`)
           }
         }
       }
@@ -166,7 +174,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === SCRIPT_PATH) {
   const result = validateTckNativeProvenance()
   if (result.success) {
     console.log("🟢 W4R.1 Native TCK Evidence Provenance PASS")
-    console.log(`Validated ${result.validatedArtifacts.length} native artifacts with official upstream TCK schema and JUnit testcase equality (declared == actual).`)
+    console.log(`Validated ${result.validatedArtifacts.length} native artifacts with official upstream TCK percentage formatting and JUnit testcase equality (declared == actual).`)
     process.exit(0)
   } else {
     console.error("🔴 W4R.1 Native TCK Evidence Provenance FAIL")

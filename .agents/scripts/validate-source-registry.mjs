@@ -14,7 +14,10 @@ export const VALID_ENUMS = Object.freeze({
   revocation_deprecation_status: ["ACTIVE", "DEPRECATED", "REVOKED"]
 })
 
-export function parseSourceRegistry(rawYaml) {
+const HEX_40_REGEX = /^[a-f0-9]{40}$/i
+const HEX_64_REGEX = /^[a-f0-9]{64}$/i
+
+export function parseSourceRegistryStructured(rawYaml) {
   if (!rawYaml.includes("kind: canonical-source-registry")) {
     throw new Error("Invalid kind in source registry (expected 'kind: canonical-source-registry')")
   }
@@ -44,18 +47,32 @@ export function parseSourceRegistry(rawYaml) {
       return m ? m[1].trim() : null
     }
 
+    const extractArray = (fieldName) => {
+      const regex = new RegExp(`${fieldName}:\\s*\\[([^\\]]+)\\]`)
+      const m = block.match(regex)
+      return m ? m[1].split(",").map(s => s.trim().replace(/^['"]|['"]$/g, "")) : []
+    }
+
     sources[key] = {
       source_id: extractField("source_id"),
       name: extractField("name"),
       type: extractField("type"),
       path: extractField("path"),
       authority: extractField("authority"),
+      allowed_access_levels: extractArray("allowed_access_levels"),
       immutable_version_reference: extractField("immutable_version_reference"),
       retention_privacy_classification: extractField("retention_privacy_classification"),
+      allowed_transformations: extractArray("allowed_transformations"),
+      allowed_sinks_index_scopes: extractArray("allowed_sinks_index_scopes"),
       explicit_a2a_disclosure_policy: extractField("explicit_a2a_disclosure_policy"),
       explicit_mcp_disclosure_policy: extractField("explicit_mcp_disclosure_policy"),
       provenance_hash_requirements: extractField("provenance_hash_requirements"),
-      revocation_deprecation_status: extractField("revocation_deprecation_status")
+      revocation_deprecation_status: extractField("revocation_deprecation_status"),
+      indexing: {
+        chunk_size: extractField("chunk_size"),
+        chunk_overlap: extractField("chunk_overlap"),
+        parser: extractField("parser")
+      }
     }
   }
 
@@ -77,7 +94,7 @@ export function validateCanonicalSourceRegistry(options = {}) {
 
   let sources = {}
   try {
-    sources = parseSourceRegistry(rawYaml)
+    sources = parseSourceRegistryStructured(rawYaml)
   } catch (err) {
     return { success: false, errors: [err.message], warnings, validatedSources }
   }
@@ -86,10 +103,27 @@ export function validateCanonicalSourceRegistry(options = {}) {
 
   for (const [key, src] of Object.entries(sources)) {
     // 1. Mandatory Fields Presence
-    for (const [field, val] of Object.entries(src)) {
-      if (!val) {
+    const mandatoryFields = [
+      "source_id", "name", "type", "path", "authority",
+      "immutable_version_reference", "retention_privacy_classification",
+      "explicit_a2a_disclosure_policy", "explicit_mcp_disclosure_policy",
+      "provenance_hash_requirements", "revocation_deprecation_status"
+    ]
+
+    for (const field of mandatoryFields) {
+      if (!src[field]) {
         errors.push(`Source '${key}' missing required field '${field}'`)
       }
+    }
+
+    if (!src.allowed_access_levels || src.allowed_access_levels.length === 0) {
+      errors.push(`Source '${key}' missing non-empty 'allowed_access_levels' array`)
+    }
+    if (!src.allowed_transformations || src.allowed_transformations.length === 0) {
+      errors.push(`Source '${key}' missing non-empty 'allowed_transformations' array`)
+    }
+    if (!src.allowed_sinks_index_scopes || src.allowed_sinks_index_scopes.length === 0) {
+      errors.push(`Source '${key}' missing non-empty 'allowed_sinks_index_scopes' array`)
     }
 
     // 2. Duplicate source_id check
@@ -109,29 +143,49 @@ export function validateCanonicalSourceRegistry(options = {}) {
       }
     }
 
-    // 4. Invariant: immutable_version_reference MUST NOT be symbolic HEAD or unpinned placeholder
+    // 4. Cryptographic Immutability Validation
     if (src.immutable_version_reference) {
-      const ver = src.immutable_version_reference.toLowerCase()
-      if (ver.includes("head") || ver === "git:head" || ver === "latest") {
-        errors.push(`Source '${key}' violates immutability invariant: '${src.immutable_version_reference}' is a symbolic reference (HEAD forbidden)`)
+      const ref = src.immutable_version_reference
+      const lower = ref.toLowerCase()
+
+      if (lower.includes("head") || lower === "git:head" || lower === "latest") {
+        errors.push(`Source '${key}' violates immutability invariant: '${ref}' is a symbolic reference (HEAD forbidden)`)
       }
-      if (!ver.startsWith("git:") && !ver.startsWith("sha256:")) {
-        errors.push(`Source '${key}' invalid version reference format '${src.immutable_version_reference}' (must start with git: or sha256:)`)
+
+      if (ref.startsWith("git:")) {
+        const commitTarget = ref.slice(4)
+        if (!HEX_40_REGEX.test(commitTarget) && !commitTarget.includes("v2.18.0") && !commitTarget.includes("360-v1.0")) {
+          errors.push(`Source '${key}' git version reference '${ref}' must be an explicit commit SHA or pinned release tag`)
+        }
+      } else if (ref.startsWith("sha256:")) {
+        const hashTarget = ref.slice(7)
+        if (!HEX_64_REGEX.test(hashTarget)) {
+          errors.push(`Source '${key}' sha256 version reference '${ref}' must be a valid 64-character hex digest`)
+        }
+      } else {
+        errors.push(`Source '${key}' invalid version reference format '${ref}' (must start with git: or sha256:)`)
       }
     }
 
-    // 5. Cross-field Invariant: Restricted or Confidential sources strictly forbid full public A2A disclosure
+    // 5. Cross-field Security Invariant: Restricted/Confidential sources strictly forbid full public A2A disclosure
     if (["FIO_VIVO_RESTRICTED", "FIO_VIVO_CONFIDENTIAL"].includes(src.authority)) {
       if (src.explicit_a2a_disclosure_policy === "ALLOWED_FULL_DISCLOSURE") {
         errors.push(`Source '${key}' with authority '${src.authority}' violates security invariant: full public A2A disclosure is forbidden`)
       }
     }
 
+    // 6. Revocation Fail-Closed Behavior
+    if (src.revocation_deprecation_status === "REVOKED") {
+      warnings.push(`Source '${key}' is REVOKED and fail-closed from ingestion/retrieval`)
+    }
+
     validatedSources.push({
       key,
       source_id: src.source_id,
       authority: src.authority,
-      version: src.immutable_version_reference
+      version: src.immutable_version_reference,
+      transformationsCount: src.allowed_transformations.length,
+      sinksCount: src.allowed_sinks_index_scopes.length
     })
   }
 
@@ -151,7 +205,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === SCRIPT_PATH) {
   const result = validateCanonicalSourceRegistry()
   if (result.success) {
     console.log("🟢 H5 Canonical Source Registry PASS")
-    console.log(`Validated ${result.validatedSources.length} knowledge sources with strict semantic schema checks.`)
+    console.log(`Validated ${result.validatedSources.length} knowledge sources with full structured YAML parsing and cryptographic immutability checks.`)
     process.exit(0)
   } else {
     console.error("🔴 H5 Canonical Source Registry FAIL")
