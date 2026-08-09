@@ -1,0 +1,471 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-evidence",
+  "task_id": "ATTACK-06",
+  "execution": {
+    "route": {
+      "schema_version": 1,
+      "kind": "canonical-agent-route",
+      "status": "LOADED",
+      "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+      "task_id": "ATTACK-06",
+      "shortcut": "repo:guard",
+      "canonical_agent": "repo-cartographer",
+      "core_skills": [
+        "repo-map",
+        "dependency-audit"
+      ],
+      "external_skills": [],
+      "orchestrations": [],
+      "contracts": [],
+      "contract_paths": {},
+      "specialist_agents": [
+        ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/repo-guardian/agent.md"
+      ],
+      "nos_domains": [],
+      "mode": "read_only",
+      "writer": false,
+      "receipts": [
+        {
+          "type": "ROUTE-E",
+          "receipt_id": "06647e48-84f2-45bb-a9a2-d7a27a398805",
+          "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+          "timestamp": "2026-08-09T03:25:11.327Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06",
+          "shortcut": "repo:guard",
+          "path": ".agents/canonical-agent-shortcuts.yaml",
+          "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+        },
+        {
+          "type": "AGENT-LOAD-E",
+          "receipt_id": "acdf350e-66ac-40f2-a5f2-e8e85a2e27d8",
+          "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+          "timestamp": "2026-08-09T03:25:11.327Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06",
+          "agent_id": "repo-cartographer",
+          "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/repo-cartographer/agent.json",
+          "sha256": "2bb723bd643492a785e4edd8d9c0fbfc52cda22d44f82dd46bb1354908cb8cb8"
+        }
+      ]
+    },
+    "load_bundle": {
+      "schema_version": 1,
+      "kind": "canonical-execution-load-bundle",
+      "status": "LOADED",
+      "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+      "task_id": "ATTACK-06",
+      "route_path": ".agents/scripts/__tests__/adversarial-KokR8v/base-KHwt77/worker-route.json",
+      "route_sha256": "859d1ae70539e0fb8c7e1ae55fe24e433a80de1303fce84ae38ec3bab5be64a7",
+      "route": {
+        "schema_version": 1,
+        "kind": "canonical-agent-route",
+        "status": "LOADED",
+        "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+        "task_id": "ATTACK-06",
+        "shortcut": "repo:guard",
+        "canonical_agent": "repo-cartographer",
+        "core_skills": [
+          "repo-map",
+          "dependency-audit"
+        ],
+        "external_skills": [],
+        "orchestrations": [],
+        "contracts": [],
+        "contract_paths": {},
+        "specialist_agents": [
+          ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/repo-guardian/agent.md"
+        ],
+        "nos_domains": [],
+        "mode": "read_only",
+        "writer": false,
+        "receipts": [
+          {
+            "type": "ROUTE-E",
+            "receipt_id": "06647e48-84f2-45bb-a9a2-d7a27a398805",
+            "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+            "timestamp": "2026-08-09T03:25:11.327Z",
+            "status": "LOADED",
+            "task_id": "ATTACK-06",
+            "shortcut": "repo:guard",
+            "path": ".agents/canonical-agent-shortcuts.yaml",
+            "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+          },
+          {
+            "type": "AGENT-LOAD-E",
+            "receipt_id": "acdf350e-66ac-40f2-a5f2-e8e85a2e27d8",
+            "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+            "timestamp": "2026-08-09T03:25:11.327Z",
+            "status": "LOADED",
+            "task_id": "ATTACK-06",
+            "agent_id": "repo-cartographer",
+            "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/repo-cartographer/agent.json",
+            "sha256": "2bb723bd643492a785e4edd8d9c0fbfc52cda22d44f82dd46bb1354908cb8cb8"
+          }
+        ]
+      },
+      "instructions_acknowledged": false,
+      "receipts": [
+        {
+          "type": "PROTOCOL-LOAD-E",
+          "receipt_id": "fb2ed6c2-14d4-4ea3-a83c-9fbf3cd15065",
+          "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+          "timestamp": "2026-08-09T03:25:11.331Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06",
+          "instructions_acknowledged": false,
+          "protocol_id": "canonical-execution-protocol",
+          "path": ".agents/canonical-execution-protocol.yaml",
+          "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+        },
+        {
+          "type": "DISPATCHER-LOAD-E",
+          "receipt_id": "ce8133ba-9471-436b-bec7-c5bbe2ec9cfc",
+          "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+          "timestamp": "2026-08-09T03:25:11.331Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06",
+          "instructions_acknowledged": false,
+          "dispatcher_id": "fio-vivo-rug",
+          "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+          "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+        },
+        {
+          "type": "ADAPTER-LOAD-E",
+          "receipt_id": "554db179-19f5-4e29-9e9c-05123edeb3b1",
+          "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+          "timestamp": "2026-08-09T03:25:11.332Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06",
+          "instructions_acknowledged": false,
+          "adapter_id": "canonical-worker",
+          "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md",
+          "sha256": "e73ba72c0b0ecb60560067662aa88db5ef23f5639824225a844228b22dcbd647"
+        },
+        {
+          "type": "SKILL-LOAD-E",
+          "receipt_id": "3aa367c4-f083-47c5-b7b6-031f53388abd",
+          "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+          "timestamp": "2026-08-09T03:25:11.334Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06",
+          "instructions_acknowledged": false,
+          "source": "core",
+          "skill_id": "repo-map",
+          "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/repo-map/skill.json",
+          "sha256": "ffe6a38959f3b3d1edfdcc9f1ee8bb33414a96795ada8586f721582633e1abe5"
+        },
+        {
+          "type": "SKILL-LOAD-E",
+          "receipt_id": "bba1c675-4d1a-46ed-9c76-e8130ec1a85c",
+          "invocation_id": "aa433b1a-12b8-458f-a199-fe5a729f8c9f",
+          "timestamp": "2026-08-09T03:25:11.335Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06",
+          "instructions_acknowledged": false,
+          "source": "core",
+          "skill_id": "dependency-audit",
+          "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/dependency-audit/skill.json",
+          "sha256": "d6d1718cd5620686cfbedc9682d0d61d7915b1d3d8c0aacecf1841180a9ed0b4"
+        }
+      ]
+    },
+    "agent_run": {
+      "type": "AGENT-RUN",
+      "receipt_id": "694c8e72-29c2-4a72-ba65-d93bd566c672",
+      "invocation_id": "69a2192e-4d44-471c-83da-66ceec5e8b6c",
+      "timestamp": "2026-08-09T03:25:11.356Z",
+      "status": "COMPLETED",
+      "task_id": "ATTACK-06",
+      "adapter": "canonical-worker",
+      "canonical_identity": "repo-cartographer",
+      "route_receipt_ref": "06647e48-84f2-45bb-a9a2-d7a27a398805",
+      "agent_load_receipt_ref": "acdf350e-66ac-40f2-a5f2-e8e85a2e27d8",
+      "protocol_receipt_ref": "fb2ed6c2-14d4-4ea3-a83c-9fbf3cd15065",
+      "dispatcher_receipt_ref": "ce8133ba-9471-436b-bec7-c5bbe2ec9cfc",
+      "adapter_receipt_ref": "554db179-19f5-4e29-9e9c-05123edeb3b1",
+      "skill_receipt_refs": [
+        "3aa367c4-f083-47c5-b7b6-031f53388abd",
+        "bba1c675-4d1a-46ed-9c76-e8130ec1a85c"
+      ],
+      "orchestration_receipt_refs": [],
+      "contract_receipt_refs": [],
+      "instructions_acknowledged": true,
+      "task": "Execute repository guardian audit under @repo:guard",
+      "task_sha256": "5404e084fd9673fb0dd5be178534d649f1680a0e70b7b781052a92133c06bd34",
+      "input_bundle_sha256": "5f3e4e595a697cafeb12354bc82b2d6d3b692563337c2454c8ebe52bf5690ff7",
+      "artifact_refs": [
+        ".agents/canonical-agent-shortcuts.yaml"
+      ],
+      "self_critique": "Repository boundary and confinement verified.",
+      "auto_improve_iterations": 0,
+      "validation": [
+        {
+          "command": "node --test",
+          "status": "PASS",
+          "output": "passed"
+        }
+      ],
+      "stop_condition_satisfied": true,
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "241b4231-e083-40e2-bc58-f7db19c6e9e8",
+        "host_trajectory_id": "92b4a81f-ddec-4eb6-96ab-4834b139dbc2",
+        "host_project_id": "57ebe5ad-0775-4127-98ce-4159aacb69e3",
+        "invocation_id": "69a2192e-4d44-471c-83da-66ceec5e8b6c",
+        "execution_kind": "worker",
+        "issued_at": "2026-08-09T03:25:11.356Z"
+      }
+    },
+    "artifacts": [
+      {
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+      }
+    ]
+  },
+  "review_execution": {
+    "route": {
+      "schema_version": 1,
+      "kind": "canonical-agent-route",
+      "status": "LOADED",
+      "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+      "task_id": "ATTACK-06:review",
+      "shortcut": "review:canonical",
+      "canonical_agent": "code-reviewer",
+      "core_skills": [
+        "code-review",
+        "regression-attribution",
+        "structured-output"
+      ],
+      "external_skills": [],
+      "orchestrations": [
+        "ORCH-12"
+      ],
+      "contracts": [],
+      "contract_paths": {},
+      "specialist_agents": [],
+      "nos_domains": [],
+      "mode": "read_only",
+      "writer": false,
+      "receipts": [
+        {
+          "type": "ROUTE-E",
+          "receipt_id": "26ad64da-73eb-4205-b4bc-e84f6609711d",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.341Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "shortcut": "review:canonical",
+          "path": ".agents/canonical-agent-shortcuts.yaml",
+          "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+        },
+        {
+          "type": "AGENT-LOAD-E",
+          "receipt_id": "5055c005-7ae6-49c7-802a-3d21f64c8b12",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.341Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "agent_id": "code-reviewer",
+          "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
+          "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
+        }
+      ]
+    },
+    "load_bundle": {
+      "schema_version": 1,
+      "kind": "canonical-execution-load-bundle",
+      "status": "LOADED",
+      "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+      "task_id": "ATTACK-06:review",
+      "route_path": ".agents/scripts/__tests__/adversarial-KokR8v/base-KHwt77/review-route.json",
+      "route_sha256": "e71d3da43e584ea4b534a81c315331e0ea83bae2cedae6295330eb085a2bfb62",
+      "route": {
+        "schema_version": 1,
+        "kind": "canonical-agent-route",
+        "status": "LOADED",
+        "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+        "task_id": "ATTACK-06:review",
+        "shortcut": "review:canonical",
+        "canonical_agent": "code-reviewer",
+        "core_skills": [
+          "code-review",
+          "regression-attribution",
+          "structured-output"
+        ],
+        "external_skills": [],
+        "orchestrations": [
+          "ORCH-12"
+        ],
+        "contracts": [],
+        "contract_paths": {},
+        "specialist_agents": [],
+        "nos_domains": [],
+        "mode": "read_only",
+        "writer": false,
+        "receipts": [
+          {
+            "type": "ROUTE-E",
+            "receipt_id": "26ad64da-73eb-4205-b4bc-e84f6609711d",
+            "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+            "timestamp": "2026-08-09T03:25:11.341Z",
+            "status": "LOADED",
+            "task_id": "ATTACK-06:review",
+            "shortcut": "review:canonical",
+            "path": ".agents/canonical-agent-shortcuts.yaml",
+            "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+          },
+          {
+            "type": "AGENT-LOAD-E",
+            "receipt_id": "5055c005-7ae6-49c7-802a-3d21f64c8b12",
+            "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+            "timestamp": "2026-08-09T03:25:11.341Z",
+            "status": "LOADED",
+            "task_id": "ATTACK-06:review",
+            "agent_id": "code-reviewer",
+            "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/code-reviewer/agent.json",
+            "sha256": "b064ac64a4815be5b61c188698a296ea264838aa475126902b8169df8a283200"
+          }
+        ]
+      },
+      "instructions_acknowledged": false,
+      "receipts": [
+        {
+          "type": "PROTOCOL-LOAD-E",
+          "receipt_id": "c4ae3f77-4d93-4de6-8d9d-da0e0dace1a6",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.345Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "instructions_acknowledged": false,
+          "protocol_id": "canonical-execution-protocol",
+          "path": ".agents/canonical-execution-protocol.yaml",
+          "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+        },
+        {
+          "type": "DISPATCHER-LOAD-E",
+          "receipt_id": "43774d88-bb25-4c6d-af4e-ab6d45fd3329",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.346Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "instructions_acknowledged": false,
+          "dispatcher_id": "fio-vivo-rug",
+          "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+          "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+        },
+        {
+          "type": "ADAPTER-LOAD-E",
+          "receipt_id": "f6948d5c-6e03-4dd8-ba94-6e04173ec4c1",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.347Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "instructions_acknowledged": false,
+          "adapter_id": "canonical-reviewer",
+          "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md",
+          "sha256": "4c8b69310a18c1217700e3e08e50242ff4f2b3a30dab6eba0a403b291004bf49"
+        },
+        {
+          "type": "SKILL-LOAD-E",
+          "receipt_id": "4a032a4f-a935-4683-9e7b-940be33d3675",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.348Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "instructions_acknowledged": false,
+          "source": "core",
+          "skill_id": "code-review",
+          "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/code-review/skill.json",
+          "sha256": "001d6ab6fe102372bf97cef5cbe08ea845e2897c9d9a5ac91c9eab3587e2018f"
+        },
+        {
+          "type": "SKILL-LOAD-E",
+          "receipt_id": "9cc56d35-a2a5-4920-bcb7-80a1a90bff72",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.350Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "instructions_acknowledged": false,
+          "source": "core",
+          "skill_id": "regression-attribution",
+          "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/regression-attribution/skill.json",
+          "sha256": "288ddcfa18966e94f2726fc5410b674cf0178e54b7fa9278a7d684f811eabfcc"
+        },
+        {
+          "type": "SKILL-LOAD-E",
+          "receipt_id": "5cc88db7-bfc6-4214-a60f-d27961ba7545",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.351Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "instructions_acknowledged": false,
+          "source": "core",
+          "skill_id": "structured-output",
+          "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/structured-output/skill.json",
+          "sha256": "ead16e89b9e87a72a6f2e7234dbe177ddc5f4c8018d03c952f0b87a0ef3a63a4"
+        },
+        {
+          "type": "ORCHESTRATION-LOAD-E",
+          "receipt_id": "ec2e80a9-03bc-4fa5-9e4a-a73c8f0093f4",
+          "invocation_id": "ba02f8a7-108d-4fff-9a31-3609b3f242bb",
+          "timestamp": "2026-08-09T03:25:11.353Z",
+          "status": "LOADED",
+          "task_id": "ATTACK-06:review",
+          "instructions_acknowledged": false,
+          "orchestration_id": "ORCH-12",
+          "path": ".agents/product-lifecycle-canonical-skills-315/orchestrations/release-readiness/SKILL.md",
+          "sha256": "b33dc44575cee95d42bb384c87ea2e3aecc1e91c7897161b3d3481cef2f6574d",
+          "manifest_path": ".agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json",
+          "manifest_sha256": "2803247141d4fe8b14bd51d71ed6b5f0f2d306c4b40050e5312ac458e1b3f24f"
+        }
+      ]
+    },
+    "review": {
+      "type": "REVIEW-E",
+      "receipt_id": "740a0af6-bea7-4620-be2e-c7c4c6434fd1",
+      "invocation_id": "678995f6-e55b-4959-b332-fd18a6c09e49",
+      "timestamp": "2026-08-09T03:25:11.356Z",
+      "status": "COMPLETED",
+      "task_id": "ATTACK-06:review",
+      "adapter": "canonical-reviewer",
+      "canonical_identity": "code-reviewer",
+      "review_target": "694c8e72-29c2-4a72-ba65-d93bd566c672",
+      "route_receipt_ref": "26ad64da-73eb-4205-b4bc-e84f6609711d",
+      "agent_load_receipt_ref": "5055c005-7ae6-49c7-802a-3d21f64c8b12",
+      "protocol_receipt_ref": "c4ae3f77-4d93-4de6-8d9d-da0e0dace1a6",
+      "dispatcher_receipt_ref": "43774d88-bb25-4c6d-af4e-ab6d45fd3329",
+      "adapter_receipt_ref": "f6948d5c-6e03-4dd8-ba94-6e04173ec4c1",
+      "skill_receipt_refs": [
+        "4a032a4f-a935-4683-9e7b-940be33d3675",
+        "9cc56d35-a2a5-4920-bcb7-80a1a90bff72",
+        "5cc88db7-bfc6-4214-a60f-d27961ba7545"
+      ],
+      "orchestration_receipt_refs": [
+        "ec2e80a9-03bc-4fa5-9e4a-a73c8f0093f4"
+      ],
+      "contract_receipt_refs": [],
+      "instructions_acknowledged": true,
+      "reviewed_artifacts": [
+        {
+          "path": ".agents/canonical-agent-shortcuts.yaml",
+          "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+        }
+      ],
+      "findings": [],
+      "verdict": "PASS",
+      "pass_justification": "Zero blocking findings verified.",
+      "provenance": {
+        "authority": "antigravity-host",
+        "host_session_id": "20f645d3-ced0-4f5a-8394-f027d5c71c23",
+        "host_trajectory_id": "fbd8d762-830b-43e9-a02c-7023e30af0b7",
+        "host_project_id": "0d59a1c3-534a-41e2-8dca-603e015336da",
+        "invocation_id": "678995f6-e55b-4959-b332-fd18a6c09e49",
+        "execution_kind": "reviewer",
+        "issued_at": "2026-08-09T03:25:11.356Z"
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-execution-load-bundle",
+  "status": "LOADED",
+  "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+  "task_id": "ATTACK-09",
+  "route_path": ".agents/scripts/__tests__/adversarial-KokR8v/base-z4K9yT/worker-route.json",
+  "route_sha256": "eda69718a1b4869117a70cf5613566efb2c7df3db0e7e65f9e398ada47b91183",
+  "route": {
+    "schema_version": 1,
+    "kind": "canonical-agent-route",
+    "status": "LOADED",
+    "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+    "task_id": "ATTACK-09",
+    "shortcut": "repo:guard",
+    "canonical_agent": "repo-cartographer",
+    "core_skills": [
+      "repo-map",
+      "dependency-audit"
+    ],
+    "external_skills": [],
+    "orchestrations": [],
+    "contracts": [],
+    "contract_paths": {},
+    "specialist_agents": [
+      ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/repo-guardian/agent.md"
+    ],
+    "nos_domains": [],
+    "mode": "read_only",
+    "writer": false,
+    "receipts": [
+      {
+        "type": "ROUTE-E",
+        "receipt_id": "34cc0aad-cf9b-4272-963a-2534dd1d682c",
+        "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+        "timestamp": "2026-08-09T03:25:11.433Z",
+        "status": "LOADED",
+        "task_id": "ATTACK-09",
+        "shortcut": "repo:guard",
+        "path": ".agents/canonical-agent-shortcuts.yaml",
+        "sha256": "99b0d986fa55c81cb690f69e0f1672811250cae4a69bbaed67d0ce4166b77ee3"
+      },
+      {
+        "type": "AGENT-LOAD-E",
+        "receipt_id": "3bac6e30-7ed3-42d2-89af-5f83e1ec6bd1",
+        "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+        "timestamp": "2026-08-09T03:25:11.433Z",
+        "status": "LOADED",
+        "task_id": "ATTACK-09",
+        "agent_id": "repo-cartographer",
+        "path": ".agents/ollama-superpowers-pack-v1.0.0/agents/repo-cartographer/agent.json",
+        "sha256": "2bb723bd643492a785e4edd8d9c0fbfc52cda22d44f82dd46bb1354908cb8cb8"
+      }
+    ]
+  },
+  "instructions_acknowledged": false,
+  "receipts": [
+    {
+      "type": "PROTOCOL-LOAD-E",
+      "receipt_id": "c0e899f5-996a-4f5f-bd62-0dd04a1c0a6c",
+      "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+      "timestamp": "2026-08-09T03:25:11.437Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-09",
+      "instructions_acknowledged": false,
+      "protocol_id": "canonical-execution-protocol",
+      "path": ".agents/canonical-execution-protocol.yaml",
+      "sha256": "e9c307f2202013fbb1756b45eda9be1cfe86aa0d742400f9e03253329713da58"
+    },
+    {
+      "type": "DISPATCHER-LOAD-E",
+      "receipt_id": "b717aca8-db9d-4951-9fa3-56cdf63ace95",
+      "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+      "timestamp": "2026-08-09T03:25:11.438Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-09",
+      "instructions_acknowledged": false,
+      "dispatcher_id": "fio-vivo-rug",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md",
+      "sha256": "633aae0028b03d66679d05f36679a906a9eb780607a165ca152f4dae83f6d1e5"
+    },
+    {
+      "type": "ADAPTER-LOAD-E",
+      "receipt_id": "38071e11-e5fa-48be-baec-990f55ae5d6e",
+      "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+      "timestamp": "2026-08-09T03:25:11.438Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-09",
+      "instructions_acknowledged": false,
+      "adapter_id": "canonical-worker",
+      "path": ".agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md",
+      "sha256": "e73ba72c0b0ecb60560067662aa88db5ef23f5639824225a844228b22dcbd647"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "0b04d47d-dcb0-4812-a878-c0951bd4aab5",
+      "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+      "timestamp": "2026-08-09T03:25:11.440Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-09",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "repo-map",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/repo-map/skill.json",
+      "sha256": "ffe6a38959f3b3d1edfdcc9f1ee8bb33414a96795ada8586f721582633e1abe5"
+    },
+    {
+      "type": "SKILL-LOAD-E",
+      "receipt_id": "de024dce-a729-41be-8edd-280ce23a026f",
+      "invocation_id": "9135df23-9a18-4032-9783-7517b8ed18a5",
+      "timestamp": "2026-08-09T03:25:11.442Z",
+      "status": "LOADED",
+      "task_id": "ATTACK-09",
+      "instructions_acknowledged": false,
+      "source": "core",
+      "skill_id": "dependency-audit",
+      "path": ".agents/ollama-superpowers-pack-v1.0.0/skills/dependency-audit/skill.json",
+      "sha256": "d6d1718cd5620686cfbedc9682d0d61d7915b1d3d8c0aacecf1841180a9ed0b4"
+    }
+  ]
+}
