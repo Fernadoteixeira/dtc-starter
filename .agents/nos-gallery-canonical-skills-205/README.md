@@ -9,8 +9,10 @@ This package contains **205 atomic canonical skills** derived from the direct de
 - 8 capability domains
 - No assumption of prior incorporation
 - One `SKILL.md` per capability
+- One `REFERENCES.md` companion per capability
 - JSON and CSV manifests with checksums
 - Package and domain indexes
+- Fail-closed reference policy and package reference registry
 
 ## Directory structure
 
@@ -29,9 +31,33 @@ manifest/
   skills.csv
   domain-summary.json
   package-summary.json
+  reference-policy.md
+  package-reference-registry.md
+scripts/
+  validate-references.mjs
 templates/
   orchestration-skill-template.md
 ```
+
+Every capability directory contains:
+
+```text
+<capability>/
+  SKILL.md
+  REFERENCES.md
+```
+
+`SKILL.md` remains the executable capability contract. `REFERENCES.md` is the canonical reference entrypoint and evidence contract for documentation consulted during execution. A listed reference is not proof of consumption.
+
+## Reference validation
+
+Run:
+
+```bash
+node .agents/nos-gallery-canonical-skills-205/scripts/validate-references.mjs
+```
+
+The validator fails closed if any manifest-backed skill lacks its `REFERENCES.md` companion or the required reference-governance markers.
 
 ## Canonical counting rule
 
