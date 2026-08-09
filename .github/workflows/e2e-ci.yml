@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: read
+
 jobs:
   lint-and-unit:
     name: Lint & Unit Tests
@@ -42,7 +45,7 @@ jobs:
 
       - name: Run Backend Unit Tests
         id: run-unit-tests
-        if: ${{ steps.discover-unit-tests.outputs.unit_test_count != "0" }}
+        if: ${{ steps.discover-unit-tests.outputs.unit_test_count != '0' }}
         continue-on-error: true
         run: cd apps/backend && pnpm run test:unit
 
