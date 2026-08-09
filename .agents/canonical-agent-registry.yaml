@@ -3,7 +3,7 @@ kind: canonical-agent-registry
 status: active
 repository: Fernadoteixeira/dtc-starter
 description: |
-  L3 Agent Identity & Archetype SSOT for the DTC Agentic Fabric.
+  P3 Agent Identity & Archetype SSOT for the DTC Agentic Fabric.
   Separates agent archetypes (execution roles) from agent identities (concrete personas).
   Enforces archetype governance, mutation permissions, self-review prohibitions, and reviewer topologies.
 

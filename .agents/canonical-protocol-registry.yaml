@@ -3,7 +3,7 @@ kind: canonical-protocol-registry
 status: active
 repository: Fernadoteixeira/dtc-starter
 description: |
-  L7/L8 Protocol Boundaries SSOT for the DTC Agentic Fabric.
+  P4 Protocols & DTC-AP2 Boundary SSOT for the DTC Agentic Fabric.
   Disambiguates DTC-AP2 (Internal Agent-to-Platform Protocol) from AP2-Payments (External Agent Payments Protocol).
 
 laws:
