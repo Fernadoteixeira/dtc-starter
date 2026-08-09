@@ -845,11 +845,12 @@ export default async function initial_data_seed({
           ],
         },
       ],
-      createdProducts = products;
-    } catch (err) {
-      logger.warn(`Product creation skipped: ${err}`);
-    }
-  }
+    },
+  });
+  createdProducts = products;
+} catch (err) {
+  logger.warn(`Product creation skipped: ${err}`);
+}
   logger.info("Finished seeding product data.");
 
   logger.info("Seeding fio-vivo collection...");
