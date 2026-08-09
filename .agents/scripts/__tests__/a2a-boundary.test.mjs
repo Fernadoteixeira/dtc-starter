@@ -1,0 +1,56 @@
+import test from "node:test"
+import assert from "node:assert/strict"
+import { handleGatewayRequest } from "../a2a-gateway.mjs"
+import { translateA2AMessageToTaskCapsule } from "../a2a-message-translator.mjs"
+
+const VALID_HEADERS = {
+  "A2A-Version": "1.0",
+  "X-FIO-VIVO-A2A-Key": "fio-vivo-a2a-key-demo-12345",
+}
+
+test("A2A BOUNDARY #39: Valid A2A message compiles ExternalPrincipal task capsule with AUTH-0 and write_set=[]", () => {
+  const message = {
+    id: "msg-valid-101",
+    role: "user",
+    parts: [
+      {
+        kind: "text",
+        text: "Query fabric capabilities and architecture guidelines",
+      },
+    ],
+  }
+
+  const capsule = translateA2AMessageToTaskCapsule(message, {
+    remoteKey: "remote-agent-client-alpha",
+  })
+
+  // 1. Verify ExternalPrincipal mapping & authority ceiling
+  assert.equal(capsule.authorization.principal, "ExternalPrincipal:remote-agent-client-alpha")
+  assert.deepEqual(capsule.authorization.grants, ["AUTH-0"])
+  assert.deepEqual(capsule.authorization.write_set, [])
+
+  // 2. Verify local capability & worker/reviewer selection
+  assert.equal(capsule.capabilities[0], "architecture-query")
+  assert.equal(capsule.agent.worker, "repo-cartographer")
+  assert.equal(capsule.agent.reviewer, "code-reviewer")
+  assert.notEqual(capsule.agent.worker, capsule.agent.reviewer)
+})
+
+test("A2A BOUNDARY #39: Invalid A2A message fails closed without compiling capsule or executing tools", async () => {
+  // Unsupported RPC method
+  const invalidRes = await handleGatewayRequest({
+    method: "POST",
+    path: "/a2a/v1",
+    headers: VALID_HEADERS,
+    body: {
+      jsonrpc: "2.0",
+      id: "99",
+      method: "ExecuteUnauthorizedWrite",
+      params: {},
+    },
+  })
+
+  assert.equal(invalidRes.statusCode, 400)
+  assert.equal(invalidRes.body.error.code, -32601)
+  assert.equal(invalidRes.body.result, undefined)
+})

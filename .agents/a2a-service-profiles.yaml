@@ -1,0 +1,40 @@
+version: 1
+kind: a2a-service-profiles
+status: active
+fabric: FIO-VIVO Agentic Fabric
+
+normative:
+  project: a2aproject/A2A
+  release: "v1.0.1"
+  published_spec_page: "1.0.0"
+  sdk: "@a2a-js/sdk"
+  binding: JSONRPC
+  protocolVersion: "1.0"
+
+service_profile:
+  name: "FIO-VIVO A2A Gateway"
+  description: "FIO-VIVO Agentic Fabric sovereign read-mostly A2A gateway"
+  version: "1.0.0"
+  serverUrl: "http://localhost:9000"
+  endpointUrl: "http://localhost:9000/a2a/v1"
+  supportedInterfaces:
+    - protocolBinding: "JSONRPC"
+      protocolVersion: "1.0"
+      url: "http://localhost:9000/a2a/v1"
+  advertisedSkills:
+    - id: "architecture-query"
+      name: "architecture-query"
+      description: "Query FIO-VIVO architecture, governance layers, and fabric capabilities"
+      tags: ["system", "architecture"]
+    - id: "capability-query"
+      name: "capability-query"
+      description: "Query available public skills and service profile endpoints"
+      tags: ["capabilities", "discovery"]
+    - id: "evidence-summary"
+      name: "evidence-summary"
+      description: "Retrieve bounded P5 evidence summaries for completed tasks"
+      tags: ["evidence", "assurance"]
+    - id: "task-status"
+      name: "task-status"
+      description: "Check task execution state, status, and safe public deliverables"
+      tags: ["tasks", "status"]
