@@ -20,7 +20,13 @@ import {
   toCanonicalLeasePath,
   validateTaskCapsule,
   validateTaskCapsuleReferences,
-  verifyMutationPostcondition
+  verifyMutationPostcondition,
+  buildCompleteReceiptChain,
+  captureHostMutationDelta,
+  exportSubprocessContext,
+  quarantineMutationEscape,
+  validateSubprocessAuthority,
+  verifyAndEnforceMutationPostcondition
 } from "../canonical-execution-lib.mjs"
 import { buildRouteBundle } from "../resolve-agent-shortcut.mjs"
 
@@ -497,4 +503,121 @@ test("dtc-agentic-fabric H3.6: verifyMutationPostcondition detects unauthorized 
     }),
     /WRITE_SET_ESCAPE: Observed unauthorized mutation on path: package\.json/
   )
+})
+
+test("dtc-agentic-fabric H3.7: validateSubprocessAuthority blocks grant elevation and write-set escape", () => {
+  const parentRoute = buildRouteBundle({ shortcut: "impl:storefront", taskId: "PARENT-001" })
+  const parentCapsule = compileTaskCapsule({
+    routeBundle: parentRoute,
+    objective: "Parent task",
+    writeSet: ["apps/storefront/src/**"],
+    grants: ["AUTH-0", "AUTH-1"]
+  })
+
+  // Valid confined child -> PASS
+  const childRoute = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CHILD-001" })
+  const childCapsule = compileTaskCapsule({
+    routeBundle: childRoute,
+    objective: "Child task",
+    writeSet: ["apps/storefront/src/modules/home/hero.tsx"],
+    grants: ["AUTH-0", "AUTH-1"]
+  })
+  const confRes = validateSubprocessAuthority({ parentCapsule, childCapsule })
+  assert.equal(confRes.status, "CONFINED")
+
+  // Child attempting to elevate grant to AUTH-2 -> DENIED
+  const elevatedGrantCapsule = compileTaskCapsule({
+    routeBundle: childRoute,
+    objective: "Elevated grant child",
+    writeSet: ["apps/storefront/src/modules/home/hero.tsx"],
+    grants: ["AUTH-0", "AUTH-1", "AUTH-2"]
+  })
+  assert.throws(
+    () => validateSubprocessAuthority({ parentCapsule, childCapsule: elevatedGrantCapsule }),
+    /SUBPROCESS_ELEVATION_DENIED: Child task attempted to elevate grant: AUTH-2/
+  )
+
+  // Child attempting to expand write-set to package.json -> DENIED
+  const elevatedWriteSetCapsule = compileTaskCapsule({
+    routeBundle: childRoute,
+    objective: "Elevated write-set child",
+    writeSet: ["package.json"],
+    grants: ["AUTH-0", "AUTH-1"]
+  })
+  assert.throws(
+    () => validateSubprocessAuthority({ parentCapsule, childCapsule: elevatedWriteSetCapsule }),
+    /SUBPROCESS_ELEVATION_DENIED: Child task write-set escape beyond parent bounds: package\.json/
+  )
+})
+
+test("dtc-agentic-fabric H3.7: exportSubprocessContext formats environment context cleanly", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "ENV-001" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Subprocess env test",
+    writeSet: ["apps/storefront/src/lib/config.ts"],
+    grants: ["AUTH-0", "AUTH-1"]
+  })
+  const lease = acquireWriteSetLease({ capsule, owner: "worker-A" })
+  const envCtx = exportSubprocessContext({ capsule, leaseRecord: lease })
+
+  assert.equal(envCtx.DTC_LEASE_ID, lease.lease_id)
+  assert.equal(envCtx.DTC_FENCING_TOKEN, String(lease.fencing_token))
+  assert.ok(envCtx.DTC_TASK_CAPSULE_SHA256)
+  assert.ok(envCtx.DTC_AUTHORIZATION_GRANTS.includes("AUTH-1"))
+})
+
+test("dtc-agentic-fabric H3.8: captureHostMutationDelta captures filesystem git delta", () => {
+  const delta = captureHostMutationDelta(() => {
+    // Read-only action -> empty delta
+    return "ok"
+  })
+  assert.equal(delta.result, "ok")
+  assert.ok(Array.isArray(delta.observed_write_set))
+})
+
+test("dtc-agentic-fabric H3.9: verifyAndEnforceMutationPostcondition produces quarantine record on escape", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-QUAR" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Quarantine test",
+    writeSet: ["apps/storefront/src/modules/home/hero.tsx"]
+  })
+
+  try {
+    verifyAndEnforceMutationPostcondition({
+      capsule,
+      observedPaths: ["apps/storefront/src/modules/home/hero.tsx", "apps/backend/src/unauthorized.ts"]
+    })
+    assert.fail("Should have thrown WRITE_SET_ESCAPE")
+  } catch (err) {
+    assert.ok(err.message.includes("WRITE_SET_ESCAPE"))
+    assert.equal(err.quarantine.status, "QUARANTINED")
+    assert.equal(err.quarantine.task_id, "CERT-QUAR")
+  }
+})
+
+test("dtc-agentic-fabric H3.10: buildCompleteReceiptChain builds full 6-phase receipt chain", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CHAIN-001" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Receipt chain test",
+    writeSet: ["apps/storefront/src/lib/config.ts"]
+  })
+  const lease = acquireWriteSetLease({ capsule, owner: "worker-A" })
+  const chain = buildCompleteReceiptChain({
+    capsule,
+    toolName: "replace_file_content",
+    requiredGrant: "AUTH-1",
+    leaseRecord: lease,
+    observedWriteSet: ["apps/storefront/src/lib/config.ts"],
+    status: "PASS"
+  })
+
+  assert.equal(chain["POLICY-E"].status, "PASS")
+  assert.equal(chain["AUTH-E"].required_grant, "AUTH-1")
+  assert.equal(chain["LEASE-E"].lease_id, lease.lease_id)
+  assert.equal(chain["TOOL-E"].tool_name, "replace_file_content")
+  assert.deepEqual(chain["MUTATION-E"].observed_write_set, ["apps/storefront/src/lib/config.ts"])
+  assert.equal(chain["POSTCONDITION-E"].status, "PASS")
 })

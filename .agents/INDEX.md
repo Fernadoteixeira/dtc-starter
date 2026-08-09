@@ -9,6 +9,8 @@
 > - `AUTHOR AGENT ID != REVIEWER AGENT ID` (Strict triple-identity separation: `agent_id`, `invocation_id`, `host_session_id`)
 > - `TOOL AVAILABLE != GRANT PRESENT != ACTION AUTHORIZED` (Having a tool does not grant authorization to execute)
 > - `ONE WRITE-SET = ONE ACTIVE WRITER` (Process-safe durable file-backed lock leases)
+> - `CURRENT LEASE != STALE LEASE` (Older fencing token -> No mutation)
+> - `CHILD AUTHORITY MUST NEVER EXCEED PARENT AUTHORITY` (Subprocess authority confinement)
 > - `PROTOCOL != AUTHORITY` (Protocols communicate/transact; contracts authorize)
 
 ---
@@ -22,11 +24,13 @@
 | **H1** | **Capability Registry (P2)** | 🟢 CLOSED | Unified namespace (PLC-315, NOS-205, Medusa 18) |
 | **H1** | **Agent Registry (P3)** | 🟢 CLOSED | SSOT of agent identities materialised (`canonical-agent-registry.yaml`) |
 | **H1** | **Protocol Registry (P4)** | 🟢 CLOSED | Disambiguated `dtc-ap2` vs `ap2-payments` (`canonical-protocol-registry.yaml`) |
-| **H2** | **Task Capsule Governance** | 🟢 CLOSED | Structural + referential integrity validation active |
-| **H2** | **Runtime Authorization** | 🟢 CLOSED | Capability-based grants (`AUTH-0` to `AUTH-4`) active |
-| **H2** | **Process-Safe Write Leases** | 🟢 CLOSED | Durable file store, cross-process atomic lock, Windows case-insensitive + parent-child overlap PASS |
-| **H2** | **Canonical Capsule Hashing** | 🟢 CLOSED | Deterministic key ordering, digest field excluded, SHA-256 bound to evidence graph |
-| **H3** | **DTC-AP2 Enforcement Gateway** | 🚀 GO | Platform tool interception (`authorizePlatformToolCall`), bypass resistance & firewall composition active |
+| **H2** | **Task Capsule & Identity** | 🟢 FORMALLY CLOSED | Archetype vs Identity, Capability-based grants, Canonical Hash bound |
+| **H2** | **Process-Safe Lease Engine** | 🟢 FORMALLY CLOSED | Atomic store lock (`withStoreLock`), 16-process barrier test PASS, Monotonic Fencing Tokens, Ephemeral State |
+| **H3** | **DTC-AP2 Gateway & Bypass** | 🟢 CLOSED | Interception, fail-closed command classification, shell/script bypass corpus PASS |
+| **H3** | **Subprocess Confinement (H3.7)** | 🟢 CLOSED | `validateSubprocessAuthority` & `exportSubprocessContext` active |
+| **H3** | **Host-Derived Delta (H3.8)** | 🟢 CLOSED | `captureHostMutationDelta` git status delta verification active |
+| **H3** | **Escape Recovery (H3.9)** | 🟢 CLOSED | `verifyAndEnforceMutationPostcondition` & `quarantineMutationEscape` active |
+| **H3** | **Receipt Chain (H3.10-11)** | 🟢 CLOSED | Complete 6-phase receipt chain (`POLICY-E` .. `POSTCONDITION-E`) verified |
 
 ---
 

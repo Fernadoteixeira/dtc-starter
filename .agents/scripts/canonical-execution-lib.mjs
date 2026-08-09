@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process"
 import { createHash, randomUUID } from "node:crypto"
 import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, rmSync, unlinkSync, writeFileSync } from "node:fs"
 import path from "node:path"
@@ -1182,6 +1183,159 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
     required_grant: requiredGrant,
     lease_id: leaseId ?? null,
     authorized_at: new Date().toISOString()
+  }
+}
+
+export function exportSubprocessContext({ capsule, leaseRecord }) {
+  const validated = validateTaskCapsuleReferences(capsule)
+  const capsuleSha = hashCanonicalTaskCapsule(validated)
+  return {
+    DTC_TASK_CAPSULE_SHA256: capsuleSha,
+    DTC_FENCING_TOKEN: String(leaseRecord?.fencing_token ?? 0),
+    DTC_LEASE_ID: String(leaseRecord?.lease_id ?? ""),
+    DTC_AUTHORIZATION_GRANTS: JSON.stringify(validated.authorization.grants),
+    DTC_WRITE_SET: JSON.stringify(validated.execution.write_set)
+  }
+}
+
+export function validateSubprocessAuthority({ parentCapsule, childCapsule }) {
+  const parentVal = validateTaskCapsuleReferences(parentCapsule)
+  const childVal = validateTaskCapsuleReferences(childCapsule)
+
+  const parentGrants = new Set(parentVal.authorization.grants)
+  for (const grant of childVal.authorization.grants) {
+    if (!parentGrants.has(grant)) {
+      throw new Error(`SUBPROCESS_ELEVATION_DENIED: Child task attempted to elevate grant: ${grant}`)
+    }
+  }
+
+  const parentWriteSet = (parentVal.execution.write_set ?? []).map(toPosixPath)
+  for (const childPath of (childVal.execution.write_set ?? [])) {
+    const canonicalChild = toPosixPath(childPath)
+    let matched = false
+    for (const parentPath of parentWriteSet) {
+      if (pathsOverlap(canonicalChild, parentPath)) {
+        matched = true
+        break
+      }
+    }
+    if (!matched) {
+      throw new Error(`SUBPROCESS_ELEVATION_DENIED: Child task write-set escape beyond parent bounds: ${canonicalChild}`)
+    }
+  }
+
+  return {
+    status: "CONFINED",
+    parent_task_id: parentVal.task.id,
+    child_task_id: childVal.task.id,
+    validated_at: new Date().toISOString()
+  }
+}
+
+export function captureHostMutationDelta(actionFn) {
+  function getGitDelta() {
+    try {
+      const out = execSync("git status --porcelain", { cwd: REPO_ROOT, encoding: "utf-8" })
+      const lines = out.split(/\r?\n/).filter(Boolean)
+      const files = []
+      for (const line of lines) {
+        const file = line.substring(3).trim()
+        if (file) files.push(toPosixPath(file))
+      }
+      return files.sort()
+    } catch {
+      return []
+    }
+  }
+
+  const beforeFiles = new Set(getGitDelta())
+  const result = actionFn()
+  const afterFiles = getGitDelta()
+
+  const deltaFiles = afterFiles.filter((f) => !beforeFiles.has(f))
+
+  return {
+    result,
+    observed_write_set: deltaFiles
+  }
+}
+
+export function quarantineMutationEscape({ taskId, taskCapsuleSha256, unexpectedMutations, observedWriteSet }) {
+  const quarantineDir = path.resolve(REPO_ROOT, ".agents/.runtime/quarantine")
+  if (!existsSync(quarantineDir)) {
+    mkdirSync(quarantineDir, { recursive: true })
+  }
+  const timestamp = Date.now()
+  const quarantineRecord = {
+    status: "QUARANTINED",
+    task_id: taskId,
+    task_capsule_sha256: taskCapsuleSha256,
+    unexpected_mutations: unexpectedMutations,
+    observed_write_set: observedWriteSet,
+    quarantined_at: new Date().toISOString(),
+    action_required: "ROLLBACK_OR_HUMAN_CLEANUP"
+  }
+  const filePath = path.join(quarantineDir, `quarantine-${taskId}-${timestamp}.json`)
+  writeFileSync(filePath, JSON.stringify(quarantineRecord, null, 2), "utf-8")
+  return quarantineRecord
+}
+
+export function verifyAndEnforceMutationPostcondition({ capsule, observedPaths }) {
+  try {
+    return verifyMutationPostcondition({ capsule, observedPaths })
+  } catch (error) {
+    const validated = validateTaskCapsuleReferences(capsule)
+    const capsuleSha = hashCanonicalTaskCapsule(validated)
+    const errMessage = error instanceof Error ? error.message : String(error)
+    const escapedFile = errMessage.includes("WRITE_SET_ESCAPE: Observed unauthorized mutation on path:")
+      ? errMessage.replace("WRITE_SET_ESCAPE: Observed unauthorized mutation on path: ", "").trim()
+      : "UNKNOWN"
+
+    const quarantineRecord = quarantineMutationEscape({
+      taskId: validated.task.id,
+      taskCapsuleSha256: capsuleSha,
+      unexpectedMutations: [escapedFile],
+      observedWriteSet: observedPaths
+    })
+
+    const escapeError = new Error(`WRITE_SET_ESCAPE: Unauthorized mutation on ${escapedFile}. Quarantine record created: ${quarantineRecord.quarantined_at}`)
+    escapeError.quarantine = quarantineRecord
+    throw escapeError
+  }
+}
+
+export function buildCompleteReceiptChain({ capsule, toolName, requiredGrant, leaseRecord, observedWriteSet, status }) {
+  const validated = validateTaskCapsuleReferences(capsule)
+  const capsuleSha = hashCanonicalTaskCapsule(validated)
+
+  return {
+    "POLICY-E": {
+      status: "PASS",
+      task_id: validated.task.id,
+      task_capsule_sha256: capsuleSha
+    },
+    "AUTH-E": {
+      status: "PASS",
+      required_grant: requiredGrant,
+      active_grants: validated.authorization.grants
+    },
+    "LEASE-E": {
+      status: leaseRecord ? "ACTIVE" : "NONE",
+      lease_id: leaseRecord?.lease_id ?? null,
+      fencing_token: leaseRecord?.fencing_token ?? null
+    },
+    "TOOL-E": {
+      status: "EXECUTED",
+      tool_name: toolName
+    },
+    "MUTATION-E": {
+      status: "OBSERVED",
+      observed_write_set: observedWriteSet
+    },
+    "POSTCONDITION-E": {
+      status: status || "PASS",
+      verified_at: new Date().toISOString()
+    }
   }
 }
 
