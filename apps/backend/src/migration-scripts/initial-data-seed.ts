@@ -457,7 +457,8 @@ export default async function initial_data_seed({
     createdProducts = existingProducts;
     logger.info(`Found ${existingProducts.length} existing products in database.`);
   } else if (primaryCategory && editionOption) {
-    const { result: products } = await createProductsWorkflow(container).run({
+    try {
+      const { result: products } = await createProductsWorkflow(container).run({
     input: {
       products: [
         {
