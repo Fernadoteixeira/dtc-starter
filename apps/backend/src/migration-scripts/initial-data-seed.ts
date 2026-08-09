@@ -231,151 +231,154 @@ export default async function initial_data_seed({
   });
   const shippingProfile = shippingProfileResult[0];
 
-  const fulfillmentSet = await fulfillmentModuleService.createFulfillmentSets({
-    name: "European Warehouse delivery",
-    type: "shipping",
-    service_zones: [
-      {
-        name: "Europe",
-        geo_zones: [
+  let fulfillmentSet: any;
+  try {
+    const { data: existingFulfillmentSets } = await query.graph({
+      entity: "fulfillment_set",
+      fields: ["id", "name"],
+    });
+    fulfillmentSet = existingFulfillmentSets?.find((f: any) => f.name === "European Warehouse delivery");
+    if (!fulfillmentSet) {
+      fulfillmentSet = await fulfillmentModuleService.createFulfillmentSets({
+        name: "European Warehouse delivery",
+        type: "shipping",
+        service_zones: [
           {
-            country_code: "gb",
-            type: "country",
-          },
-          {
-            country_code: "de",
-            type: "country",
-          },
-          {
-            country_code: "dk",
-            type: "country",
-          },
-          {
-            country_code: "se",
-            type: "country",
-          },
-          {
-            country_code: "fr",
-            type: "country",
-          },
-          {
-            country_code: "es",
-            type: "country",
-          },
-          {
-            country_code: "it",
-            type: "country",
+            name: "Europe",
+            geo_zones: [
+              { country_code: "gb", type: "country" },
+              { country_code: "de", type: "country" },
+              { country_code: "dk", type: "country" },
+              { country_code: "se", type: "country" },
+              { country_code: "fr", type: "country" },
+              { country_code: "es", type: "country" },
+              { country_code: "it", type: "country" },
+            ],
           },
         ],
-      },
-    ],
-  });
+      });
 
-  await link.create({
-    [Modules.STOCK_LOCATION]: {
-      stock_location_id: stockLocation.id,
-    },
-    [Modules.FULFILLMENT]: {
-      fulfillment_set_id: fulfillmentSet.id,
-    },
-  });
+      if (stockLocation) {
+        await link.create({
+          [Modules.STOCK_LOCATION]: {
+            stock_location_id: stockLocation.id,
+          },
+          [Modules.FULFILLMENT]: {
+            fulfillment_set_id: fulfillmentSet.id,
+          },
+        });
+      }
+    }
+  } catch (err) {
+    logger.warn(`Fulfillment set creation skipped: ${err}`);
+  }
 
-  await createShippingOptionsWorkflow(container).run({
-    input: [
-      {
-        name: "Envio Padrão Brasil",
-        price_type: "flat",
-        provider_id: "manual_manual",
-        service_zone_id: fulfillmentSet.service_zones[0].id,
-        shipping_profile_id: shippingProfile.id,
-        type: {
-          label: "Padrão",
-          description: "Entrega em 3 a 5 dias úteis.",
-          code: "standard_br",
-        },
-        prices: [
+  if (fulfillmentSet?.service_zones?.[0]?.id) {
+    try {
+      await createShippingOptionsWorkflow(container).run({
+        input: [
           {
-            currency_code: "brl",
-            amount: 25,
+            name: "Envio Padrão Brasil",
+            price_type: "flat",
+            provider_id: "manual_manual",
+            service_zone_id: fulfillmentSet.service_zones[0].id,
+            shipping_profile_id: shippingProfile.id,
+            type: {
+              label: "Padrão",
+              description: "Entrega em 3 a 5 dias úteis.",
+              code: "standard_br",
+            },
+            prices: [
+              {
+                currency_code: "brl",
+                amount: 25,
+              },
+              {
+                currency_code: "usd",
+                amount: 10,
+              },
+              {
+                currency_code: "eur",
+                amount: 10,
+              },
+              {
+                region_id: region.id,
+                amount: 25,
+              },
+            ],
+            rules: [
+              {
+                attribute: "enabled_in_store",
+                value: "true",
+                operator: "eq",
+              },
+              {
+                attribute: "is_return",
+                value: "false",
+                operator: "eq",
+              },
+            ],
           },
           {
-            currency_code: "usd",
-            amount: 10,
-          },
-          {
-            currency_code: "eur",
-            amount: 10,
-          },
-          {
-            region_id: region.id,
-            amount: 25,
+            name: "Envio Expresso Brasil",
+            price_type: "flat",
+            provider_id: "manual_manual",
+            service_zone_id: fulfillmentSet.service_zones[0].id,
+            shipping_profile_id: shippingProfile.id,
+            type: {
+              label: "Expresso",
+              description: "Entrega em 24 a 48 horas.",
+              code: "express_br",
+            },
+            prices: [
+              {
+                currency_code: "brl",
+                amount: 45,
+              },
+              {
+                currency_code: "usd",
+                amount: 15,
+              },
+              {
+                currency_code: "eur",
+                amount: 15,
+              },
+              {
+                region_id: region.id,
+                amount: 45,
+              },
+            ],
+            rules: [
+              {
+                attribute: "enabled_in_store",
+                value: "true",
+                operator: "eq",
+              },
+              {
+                attribute: "is_return",
+                value: "false",
+                operator: "eq",
+              },
+            ],
           },
         ],
-        rules: [
-          {
-            attribute: "enabled_in_store",
-            value: "true",
-            operator: "eq",
-          },
-          {
-            attribute: "is_return",
-            value: "false",
-            operator: "eq",
-          },
-        ],
-      },
-      {
-        name: "Envio Expresso Brasil",
-        price_type: "flat",
-        provider_id: "manual_manual",
-        service_zone_id: fulfillmentSet.service_zones[0].id,
-        shipping_profile_id: shippingProfile.id,
-        type: {
-          label: "Expresso",
-          description: "Entrega em 24 a 48 horas.",
-          code: "express_br",
-        },
-        prices: [
-          {
-            currency_code: "brl",
-            amount: 45,
-          },
-          {
-            currency_code: "usd",
-            amount: 15,
-          },
-          {
-            currency_code: "eur",
-            amount: 15,
-          },
-          {
-            region_id: region.id,
-            amount: 45,
-          },
-        ],
-        rules: [
-          {
-            attribute: "enabled_in_store",
-            value: "true",
-            operator: "eq",
-          },
-          {
-            attribute: "is_return",
-            value: "false",
-            operator: "eq",
-          },
-        ],
-      },
-    ],
-  });
+      });
+    } catch (err) {
+      logger.warn(`Shipping options creation skipped: ${err}`);
+    }
+  }
   logger.info("Finished seeding fulfillment data.");
 
-  await linkSalesChannelsToStockLocationWorkflow(container).run({
-    input: {
-      id: stockLocation.id,
-      add: [defaultSalesChannel.id],
-    },
-  });
+  try {
+    await linkSalesChannelsToStockLocationWorkflow(container).run({
+      input: {
+        id: stockLocation.id,
+        add: [defaultSalesChannel.id],
+      },
+    });
+  } catch (err) {
+    logger.warn(`Link sales channels to stock location skipped: ${err}`);
+  }
   logger.info("Finished seeding stock location data.");
 
   logger.info("Seeding product data...");
