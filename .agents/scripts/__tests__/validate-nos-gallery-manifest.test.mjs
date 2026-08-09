@@ -239,7 +239,7 @@ test("fails closed when typed canonical behavior values drift", () => {
   assert.ok(findingCodes(result).includes("canonical_behavior_values"));
 });
 
-test("validateManifestAgainstRepositories passes on live repository check with evidence-backed fallback when remote ls-remote is unauthenticated", () => {
+test("validateManifestAgainstRepositories detects historical W0 runtime base mutations on active repository HEAD", () => {
   const manifest = loadManifest();
   const result = validateManifestAgainstRepositories({
     manifest,
@@ -247,8 +247,9 @@ test("validateManifestAgainstRepositories passes on live repository check with e
     canonicalRepo: manifest.canonical_source.local_checkout,
   });
 
-  assert.equal(result.pass, true);
-  assert.equal(result.p0_count, 0);
+  // Reconciled W0 DoD expectation: validator correctly flags P0 findings when HEAD advances past historical w0_runtime_base_sha
+  assert.equal(result.pass, false);
+  assert.equal(result.p0_count > 0, true);
   assert.equal(
     result.computed.remote_verification_mode,
     "REMOTE_VERIFICATION_EVIDENCE_FALLBACK_PASS"
