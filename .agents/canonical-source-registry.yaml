@@ -1,15 +1,16 @@
 # ──────────────────────────────────────────────────────────────────────────────
-# H5.1 — FIO-VIVO Canonical Source Registry
+# H5.1 / W5 #43 — FIO-VIVO Canonical Source Registry (Hardened #43 Governance)
 # ──────────────────────────────────────────────────────────────────────────────
 #
 # LAW: CONNECTOR AVAILABLE != SOURCE AUTHORIZED
 # Only sources explicitly registered here are allowed for knowledge ingestion.
 # ──────────────────────────────────────────────────────────────────────────────
 
-version: 1
+version: 2
 kind: canonical-source-registry
 status: active
 fabric: FIO-VIVO Agentic Fabric
+governance_specification: Issue #43 Knowledge Source Governance Contract
 
 sources:
 
@@ -21,6 +22,14 @@ sources:
     mcp_server_ref: medusa-docs
     authority: PUBLIC_OPEN
     allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    immutable_version_reference: "git:v2.18.0"
+    retention_privacy_classification: PUBLIC_UNRESTRICTED
+    allowed_transformations: [tokenize, chunk, summarize, embed]
+    allowed_sinks_index_scopes: [mcp_docs_index, public_search_index]
+    explicit_a2a_disclosure_policy: ALLOWED_FULL_DISCLOSURE
+    explicit_mcp_disclosure_policy: ALLOWED_FULL_DISCLOSURE
+    provenance_hash_requirements: SHA256_MANDATORY
+    revocation_deprecation_status: ACTIVE
     indexing:
       chunk_size: 512
       chunk_overlap: 64
@@ -33,6 +42,14 @@ sources:
     path: .agents/product-lifecycle-canonical-skills-315/
     authority: FIO_VIVO_INTERNAL
     allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    immutable_version_reference: "git:head"
+    retention_privacy_classification: INTERNAL_GOVERNED
+    allowed_transformations: [parse_frontmatter, chunk_skills, embed]
+    allowed_sinks_index_scopes: [internal_skill_index, agent_router_index]
+    explicit_a2a_disclosure_policy: ALLOWED_WITH_ALLOWLIST_SANIZATION
+    explicit_mcp_disclosure_policy: ALLOWED_INTERNAL_ONLY
+    provenance_hash_requirements: SHA256_MANDATORY
+    revocation_deprecation_status: ACTIVE
     indexing:
       chunk_size: 512
       chunk_overlap: 64
@@ -45,6 +62,14 @@ sources:
     path: .agents/nos-gallery-canonical-skills-205/
     authority: FIO_VIVO_INTERNAL
     allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    immutable_version_reference: "git:head"
+    retention_privacy_classification: INTERNAL_GOVERNED
+    allowed_transformations: [parse_frontmatter, chunk_skills, embed]
+    allowed_sinks_index_scopes: [internal_skill_index, nos_gallery_index]
+    explicit_a2a_disclosure_policy: ALLOWED_WITH_ALLOWLIST_SANIZATION
+    explicit_mcp_disclosure_policy: ALLOWED_INTERNAL_ONLY
+    provenance_hash_requirements: SHA256_MANDATORY
+    revocation_deprecation_status: ACTIVE
     indexing:
       chunk_size: 512
       chunk_overlap: 64
@@ -57,6 +82,14 @@ sources:
     path: docs/fio-vivo/
     authority: FIO_VIVO_RESTRICTED
     allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
+    immutable_version_reference: "git:360-v1.0"
+    retention_privacy_classification: RESTRICTED_BUSINESS
+    allowed_transformations: [pdf_to_markdown, chunk, embed]
+    allowed_sinks_index_scopes: [executive_knowledge_index]
+    explicit_a2a_disclosure_policy: DISCLOSURE_FORBIDDEN_EXTERNAL
+    explicit_mcp_disclosure_policy: ALLOWED_AUTHENTICATED_INTERNAL
+    provenance_hash_requirements: SHA256_MANDATORY
+    revocation_deprecation_status: ACTIVE
     indexing:
       chunk_size: 1024
       chunk_overlap: 128
@@ -69,6 +102,14 @@ sources:
     path: docs/artifacts/contracts/
     authority: FIO_VIVO_CONFIDENTIAL
     allowed_access_levels: [AUTH-1, AUTH-2]
+    immutable_version_reference: "sha256:contracts-v1"
+    retention_privacy_classification: STRICT_CONFIDENTIAL
+    allowed_transformations: [schema_extraction_only]
+    allowed_sinks_index_scopes: [isolated_contracts_vault]
+    explicit_a2a_disclosure_policy: DISCLOSURE_FORBIDDEN_EXTERNAL
+    explicit_mcp_disclosure_policy: DISCLOSURE_FORBIDDEN_MCP
+    provenance_hash_requirements: SHA256_MANDATORY_STRICT
+    revocation_deprecation_status: ACTIVE
     indexing:
       chunk_size: 1024
       chunk_overlap: 128

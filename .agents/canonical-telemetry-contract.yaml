@@ -1,0 +1,68 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# H6.1 / W5 #46 — FIO-VIVO Canonical OpenTelemetry Substrate Contract
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# LAW: TELEMETRY TRACKS EXECUTION; TELEMETRY NEVER EXPOSES SECRETS
+# Vendor-neutral OpenTelemetry contract for trace, metric, and event logging
+# across all FIO-VIVO Agentic Fabric execution planes.
+# ──────────────────────────────────────────────────────────────────────────────
+
+version: 1
+kind: canonical-telemetry-contract
+status: active
+fabric: FIO-VIVO Agentic Fabric
+specification: Issue #46 OpenTelemetry Telemetry Substrate
+
+vendor_neutrality:
+  protocol: OpenTelemetry v1.3.0
+  export_format: OTLP/gRPC & OTLP/HTTP-JSON
+  schema_url: "https://opentelemetry.io/schemas/1.21.0"
+
+tracing:
+  tracer_name: "fio-vivo.agentic-fabric"
+  spans:
+    - name: "fabric.task_capsule.execute"
+      description: "Traces complete task capsule execution lifecycle"
+      required_attributes:
+        - fabric.task_id
+        - fabric.worker_agent_id
+        - fabric.reviewer_agent_id
+        - fabric.max_grant
+        - fabric.lease_id
+
+    - name: "fabric.lease.acquire"
+      description: "Traces atomic process-safe lease acquisition"
+      required_attributes:
+        - fabric.lease_id
+        - fabric.target_path
+        - fabric.fencing_token
+
+    - name: "fabric.a2a.gateway_request"
+      description: "Traces incoming A2A external gateway request"
+      required_attributes:
+        - a2a.rpc_method
+        - a2a.protocol_version
+        - a2a.principal_id
+        - a2a.auth_ceiling
+
+metrics:
+  meter_name: "fio-vivo.agentic-fabric.metrics"
+  counters:
+    - name: "fabric_capsules_total"
+      unit: "{capsule}"
+      description: "Total task capsules executed by status"
+    - name: "fabric_lease_contentions_total"
+      unit: "{conflict}"
+      description: "Total lease acquisition conflicts"
+    - name: "fabric_a2a_requests_total"
+      unit: "{request}"
+      description: "Total external A2A gateway requests"
+
+privacy_and_security:
+  forbidden_attributes:
+    - "raw_secret"
+    - "api_key"
+    - "private_key"
+    - "raw_prompt"
+    - "internal_stack_trace"
+  sanitization_rule: "ALL_ATTRIBUTES_SANITIZED_VIA_ALLOWLIST"
