@@ -19,7 +19,8 @@ import {
   resetWriteSetLeases,
   toCanonicalLeasePath,
   validateTaskCapsule,
-  validateTaskCapsuleReferences
+  validateTaskCapsuleReferences,
+  verifyMutationPostcondition
 } from "../canonical-execution-lib.mjs"
 import { buildRouteBundle } from "../resolve-agent-shortcut.mjs"
 
@@ -423,5 +424,77 @@ test("dtc-agentic-fabric: authorizePlatformToolCall blocks indirect shell/script
   assert.throws(
     () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "echo 'hack' >> apps/storefront/src/lib/config.ts" }),
     /DTC-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
+  )
+})
+
+test("dtc-agentic-fabric H2.6: 16-process barrier race contention produces exactly 1 winner and 15 conflicts", () => {
+  const childScript = `
+    import { buildRouteBundle } from "./.agents/scripts/resolve-agent-shortcut.mjs";
+    import { compileTaskCapsule, acquireWriteSetLease } from "./.agents/scripts/canonical-execution-lib.mjs";
+    const processId = process.argv[2];
+    try {
+      const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "RACE-" + processId });
+      const capsule = compileTaskCapsule({
+        routeBundle: route,
+        objective: "Barrier contender " + processId,
+        writeSet: ["packages/gallery-experience/**"]
+      });
+      acquireWriteSetLease({ capsule, owner: "worker-" + processId });
+      console.log("ACQUIRED:" + processId);
+    } catch (e) {
+      console.log("CONFLICT:" + processId);
+    }
+  `
+
+  let acquiredCount = 0
+  let conflictCount = 0
+
+  for (let i = 0; i < 16; i += 1) {
+    const output = execSync(`node --input-type=module -e "${childScript.replace(/"/g, '\\"').replace(/\r?\n/g, " ")}" ${i}`, {
+      cwd: process.cwd()
+    }).toString()
+
+    if (output.includes("ACQUIRED:")) acquiredCount += 1
+    if (output.includes("CONFLICT:")) conflictCount += 1
+  }
+
+  assert.equal(acquiredCount, 1)
+  assert.equal(conflictCount, 15)
+})
+
+test("dtc-agentic-fabric H2.6: releaseWriteSetLease rejects stale fencing token", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-FENCE" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Fencing token test",
+    writeSet: ["apps/storefront/src/lib/config.ts"]
+  })
+  const lease = acquireWriteSetLease({ capsule, owner: "worker-A" })
+  const staleFencingToken = lease.fencing_token - 1
+  assert.throws(
+    () => releaseWriteSetLease(lease.lease_id, lease.owner_token, staleFencingToken),
+    /STALE_LEASE_OWNER/
+  )
+})
+
+test("dtc-agentic-fabric H3.6: verifyMutationPostcondition detects unauthorized write-set escape", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-POST" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Postcondition test",
+    writeSet: ["apps/storefront/src/modules/home/hero.tsx"]
+  })
+
+  // Authorized write-set matches -> PASS
+  const validRes = verifyMutationPostcondition({ capsule, observedPaths: ["apps/storefront/src/modules/home/hero.tsx"] })
+  assert.equal(validRes.status, "PASS")
+
+  // Unauthorized write-set escape -> THROWS WRITE_SET_ESCAPE
+  assert.throws(
+    () => verifyMutationPostcondition({
+      capsule,
+      observedPaths: ["apps/storefront/src/modules/home/hero.tsx", "package.json"]
+    }),
+    /WRITE_SET_ESCAPE: Observed unauthorized mutation on path: package\.json/
   )
 })

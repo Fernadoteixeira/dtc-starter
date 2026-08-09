@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto"
-import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from "node:fs"
+import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, rmSync, unlinkSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -922,18 +922,67 @@ export function authorizeTaskCapsule(capsule, requestedGrant = "AUTH-1") {
   return { authorized: true, grant: requestedGrant, capsule: validated }
 }
 
-export const DURABLE_LEASE_STORE_PATH = ".agents/scripts/active-leases.json"
+export const EPHEMERAL_LEASE_STORE_PATH = ".agents/.runtime/leases/active-leases.json"
+export const STORE_LOCK_DIR = ".agents/.runtime/leases/store.lock"
 
-export function loadDurableLeases() {
-  const storePath = resolveRepoPath(DURABLE_LEASE_STORE_PATH, { mustExist: false })
-  if (!existsSync(storePath)) return new Map()
+function acquireStoreLock(timeoutMs = 5000) {
+  const lockDir = path.resolve(REPO_ROOT, STORE_LOCK_DIR)
+  const lockParent = path.dirname(lockDir)
+  if (!existsSync(lockParent)) {
+    mkdirSync(lockParent, { recursive: true })
+  }
+  const startTime = Date.now()
+  while (true) {
+    try {
+      mkdirSync(lockDir)
+      return true
+    } catch {
+      try {
+        const stat = lstatSync(lockDir)
+        if (Date.now() - stat.mtimeMs > 3000) {
+          rmSync(lockDir, { recursive: true, force: true })
+          continue
+        }
+      } catch {}
+
+      if (Date.now() - startTime > timeoutMs) {
+        throw new Error(`Timed out waiting for lease store lock after ${timeoutMs}ms`)
+      }
+      const end = Date.now() + 10
+      while (Date.now() < end) {}
+    }
+  }
+}
+
+function releaseStoreLock() {
+  const lockDir = path.resolve(REPO_ROOT, STORE_LOCK_DIR)
+  if (existsSync(lockDir)) {
+    try {
+      rmSync(lockDir, { recursive: true, force: true })
+    } catch {}
+  }
+}
+
+export function withStoreLock(fn) {
+  acquireStoreLock()
   try {
-    const raw = readUtf8(DURABLE_LEASE_STORE_PATH)
+    return fn()
+  } finally {
+    releaseStoreLock()
+  }
+}
+
+export function loadDurableLeasesState() {
+  const storePath = path.resolve(REPO_ROOT, EPHEMERAL_LEASE_STORE_PATH)
+  if (!existsSync(storePath)) return { last_fencing_token: 100, leases: new Map() }
+  try {
+    const raw = readFileSync(storePath, "utf-8")
     const json = JSON.parse(raw)
     const map = new Map()
     const now = Date.now()
-    if (Array.isArray(json)) {
-      for (const item of json) {
+    const lastFencingToken = json.last_fencing_token ?? 100
+    if (Array.isArray(json.leases)) {
+      for (const item of json.leases) {
         if (item && item.lease_id && item.status === "ACTIVE") {
           const acquiredAt = new Date(item.acquired_at).getTime()
           const ttlMs = item.ttl_ms ?? 1800000
@@ -943,85 +992,131 @@ export function loadDurableLeases() {
         }
       }
     }
-    return map
+    return { last_fencing_token: lastFencingToken, leases: map }
   } catch {
-    return new Map()
+    return { last_fencing_token: 100, leases: new Map() }
   }
 }
 
-export function saveDurableLeases(leasesMap) {
-  const storePath = resolveRepoPath(DURABLE_LEASE_STORE_PATH, { mustExist: false })
+export function saveDurableLeasesState({ last_fencing_token, leases }) {
+  const storePath = path.resolve(REPO_ROOT, EPHEMERAL_LEASE_STORE_PATH)
   const storeDir = path.dirname(storePath)
   if (!existsSync(storeDir)) {
     mkdirSync(storeDir, { recursive: true })
   }
-  const items = Array.from(leasesMap.values())
-  const jsonStr = JSON.stringify(items, null, 2)
+  const items = Array.from(leases.values())
+  const jsonStr = JSON.stringify({ last_fencing_token, leases: items }, null, 2)
   const tmpPath = `${storePath}.${process.pid}.${Date.now()}.tmp`
   writeFileSync(tmpPath, jsonStr, "utf-8")
   renameSync(tmpPath, storePath)
 }
 
-export function acquireWriteSetLease({ capsule, owner = "canonical-worker", ownerToken = randomUUID(), ttlMs = 1800000 }) {
-  const validated = validateTaskCapsuleReferences(capsule)
-  const writeSet = validated.execution.write_set
-  if (!Array.isArray(writeSet) || writeSet.length === 0) {
-    throw new Error("Acquire write-set lease requires non-empty write_set in Task Capsule")
-  }
-
-  const leases = loadDurableLeases()
-
-  for (const [, lease] of leases.entries()) {
-    assertWriteSetNoConflict(writeSet, lease.write_set)
-  }
-
-  const leaseId = `lease-${validated.task.id}-${randomUUID()}`
-  const leaseRecord = {
-    lease_id: leaseId,
-    task_id: validated.task.id,
-    task_capsule_sha256: hashCanonicalTaskCapsule(validated),
-    invocation_id: validated.execution.invocation_id,
-    owner,
-    owner_token: ownerToken,
-    write_set: [...writeSet],
-    status: "ACTIVE",
-    acquired_at: new Date().toISOString(),
-    ttl_ms: ttlMs
-  }
-  leases.set(leaseId, leaseRecord)
-  activeLeases.set(leaseId, leaseRecord)
-  saveDurableLeases(leases)
-  return leaseRecord
+export function loadDurableLeases() {
+  return loadDurableLeasesState().leases
 }
 
-export function releaseWriteSetLease(leaseId, ownerToken = null) {
+export function saveDurableLeases(leasesMap) {
+  saveDurableLeasesState({ last_fencing_token: 100, leases: leasesMap })
+}
+
+export function acquireWriteSetLease({ capsule, owner = "canonical-worker", ownerToken = randomUUID(), ttlMs = 1800000 }) {
+  return withStoreLock(() => {
+    const validated = validateTaskCapsuleReferences(capsule)
+    const writeSet = validated.execution.write_set
+    if (!Array.isArray(writeSet) || writeSet.length === 0) {
+      throw new Error("Acquire write-set lease requires non-empty write_set in Task Capsule")
+    }
+
+    const { last_fencing_token, leases } = loadDurableLeasesState()
+
+    for (const [, lease] of leases.entries()) {
+      assertWriteSetNoConflict(writeSet, lease.write_set)
+    }
+
+    const fencingToken = last_fencing_token + 1
+    const leaseId = `lease-${validated.task.id}-${randomUUID()}`
+    const leaseRecord = {
+      lease_id: leaseId,
+      task_id: validated.task.id,
+      task_capsule_sha256: hashCanonicalTaskCapsule(validated),
+      invocation_id: validated.execution.invocation_id,
+      owner,
+      owner_token: ownerToken,
+      fencing_token: fencingToken,
+      write_set: [...writeSet],
+      status: "ACTIVE",
+      acquired_at: new Date().toISOString(),
+      ttl_ms: ttlMs
+    }
+    leases.set(leaseId, leaseRecord)
+    activeLeases.set(leaseId, leaseRecord)
+    saveDurableLeasesState({ last_fencing_token: fencingToken, leases })
+    return leaseRecord
+  })
+}
+
+export function releaseWriteSetLease(leaseId, ownerToken = null, fencingToken = null) {
   assertNonEmptyString(leaseId, "lease_id")
-  const leases = loadDurableLeases()
-  if (!leases.has(leaseId) && !activeLeases.has(leaseId)) {
+  return withStoreLock(() => {
+    const { last_fencing_token, leases } = loadDurableLeasesState()
+    if (!leases.has(leaseId) && !activeLeases.has(leaseId)) {
+      return true
+    }
+    const lease = leases.get(leaseId) || activeLeases.get(leaseId)
+    if (ownerToken && lease.owner_token && lease.owner_token !== ownerToken) {
+      throw new Error(`Cannot release lease ${leaseId}: invalid owner_token`)
+    }
+    if (fencingToken !== null && lease.fencing_token && lease.fencing_token !== fencingToken) {
+      throw new Error(`STALE_LEASE_OWNER: Cannot release lease ${leaseId} with stale fencing token ${fencingToken}`)
+    }
+    leases.delete(leaseId)
+    activeLeases.delete(leaseId)
+    saveDurableLeasesState({ last_fencing_token, leases })
     return true
-  }
-  const lease = leases.get(leaseId) || activeLeases.get(leaseId)
-  if (ownerToken && lease.owner_token && lease.owner_token !== ownerToken) {
-    throw new Error(`Cannot release lease ${leaseId}: invalid owner_token`)
-  }
-  leases.delete(leaseId)
-  activeLeases.delete(leaseId)
-  saveDurableLeases(leases)
-  return true
+  })
 }
 
 export function resetWriteSetLeases() {
-  activeLeases.clear()
-  const storePath = resolveRepoPath(DURABLE_LEASE_STORE_PATH, { mustExist: false })
-  if (existsSync(storePath)) {
-    try {
-      unlinkSync(storePath)
-    } catch {}
-  }
+  withStoreLock(() => {
+    activeLeases.clear()
+    const storePath = path.resolve(REPO_ROOT, EPHEMERAL_LEASE_STORE_PATH)
+    if (existsSync(storePath)) {
+      try {
+        unlinkSync(storePath)
+      } catch {}
+    }
+  })
 }
 
 export function hashTaskCapsule(capsule) {
   return hashCanonicalTaskCapsule(capsule)
+}
+
+export function verifyMutationPostcondition({ capsule, observedPaths }) {
+  assertStringArray(observedPaths, "observedPaths")
+  const validated = validateTaskCapsuleReferences(capsule)
+  const authorizedSet = (validated.execution.write_set ?? []).map(toPosixPath)
+
+  for (const obsPath of observedPaths) {
+    const canonicalObs = toPosixPath(obsPath)
+    let matched = false
+    for (const authPath of authorizedSet) {
+      if (pathsOverlap(canonicalObs, authPath)) {
+        matched = true
+        break
+      }
+    }
+    if (!matched) {
+      throw new Error(`WRITE_SET_ESCAPE: Observed unauthorized mutation on path: ${canonicalObs}`)
+    }
+  }
+
+  return {
+    status: "PASS",
+    task_id: validated.task.id,
+    observed_count: observedPaths.length,
+    verified_at: new Date().toISOString()
+  }
 }
 
 export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPath, commandLine }) {
@@ -1032,20 +1127,22 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
   let requiredGrant = "AUTH-0"
   const isDirectMutation = ["write_to_file", "replace_file_content", "multi_replace_file_content", "edit"].includes(toolName)
 
-  const isIndirectMutation = toolName === "run_command" && commandLine && (
-    />>|\bOut-File\b|\bSet-Content\b|\bAdd-Content\b|\bTee-Object\b|fs\.writeFileSync|python.*open\(|node.*fs\./i.test(commandLine)
+  const hasRedirection = />>|>/i.test(commandLine || "")
+  const isKnownReadOnlyCommand = toolName === "run_command" && commandLine && !hasRedirection && (
+    /^(?:git\s+status|git\s+log|git\s+diff|node\s+--test|pnpm\s+run\s+lint|dir|ls|whoami|pwd|(?:echo\s+[^>]*$))/i.test(commandLine.trim())
   )
 
-  const isMutation = isDirectMutation || isIndirectMutation
-  const isScm = commandLine && /(?:git\s+commit|git\s+push|git\s+merge|git\s+rebase|git\s+reset)/i.test(commandLine)
-  const isRelease = commandLine && /(?:deploy|release)/i.test(commandLine)
-  const isFinancial = commandLine && /(?:payment|purchase|buy|mandate)/i.test(commandLine)
+  const isKnownScm = commandLine && /(?:git\s+commit|git\s+push|git\s+merge|git\s+rebase|git\s+reset)/i.test(commandLine)
+  const isKnownRelease = commandLine && /(?:deploy|release)/i.test(commandLine)
+  const isKnownFinancial = commandLine && /(?:payment|purchase|buy|mandate)/i.test(commandLine)
 
-  if (isFinancial) {
+  const isMutation = isDirectMutation || (toolName === "run_command" && !isKnownReadOnlyCommand && !isKnownScm && !isKnownRelease && !isKnownFinancial)
+
+  if (isKnownFinancial) {
     requiredGrant = "AUTH-4"
-  } else if (isRelease) {
+  } else if (isKnownRelease) {
     requiredGrant = "AUTH-3"
-  } else if (isScm) {
+  } else if (isKnownScm) {
     requiredGrant = "AUTH-2"
   } else if (isMutation) {
     requiredGrant = "AUTH-1"
@@ -1057,7 +1154,7 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
     if (!leaseId) {
       throw new Error(`DTC-AP2 Execution Blocked: Tool ${toolName} requires an active write-set lease`)
     }
-    const leases = loadDurableLeases()
+    const { leases } = loadDurableLeasesState()
     const lease = leases.get(leaseId) || activeLeases.get(leaseId)
     if (!lease || lease.status !== "ACTIVE") {
       throw new Error(`DTC-AP2 Execution Blocked: Active lease ${leaseId} not found`)
