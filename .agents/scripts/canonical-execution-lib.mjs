@@ -1,4 +1,4 @@
-﻿import { execSync } from "node:child_process"
+import { execSync } from "node:child_process"
 import { createHash, randomUUID } from "node:crypto"
 import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, rmSync, unlinkSync, writeFileSync } from "node:fs"
 import path from "node:path"
@@ -912,8 +912,27 @@ export function authorizeTaskCapsule(capsule, requestedGrant = "AUTH-1") {
   }
 
   if (requestedGrant === "AUTH-4") {
-    if (validated.protocols["ap2-payments"] !== "mandate_verified" && validated.protocols.fio_vivo_ap2 !== "mandate_verified" && validated.protocols.dtc_ap2 !== "mandate_verified") {
-      throw new Error(`Authorization grant rejected: ${requestedGrant} requires AP2 mandate verification`)
+    const ap2PaymentsVerdict = validated.protocols?.["ap2-payments"]
+    if (ap2PaymentsVerdict !== "mandate_verified") {
+      throw new Error(`Authorization grant rejected: ${requestedGrant} requires ap2-payments mandate verification`)
+    }
+
+    const mandate = validated.mandate || capsule.mandate || capsule.execution?.mandate
+    if (mandate) {
+      if (mandate.verification?.protocol && mandate.verification.protocol !== "ap2-payments") {
+        throw new Error("Authorization grant rejected: mandate protocol must be ap2-payments")
+      }
+      if (mandate.validity?.expires_at) {
+        const expiresAt = new Date(mandate.validity.expires_at).getTime()
+        if (Number.isNaN(expiresAt) || Date.now() > expiresAt) {
+          throw new Error("Authorization grant rejected: ap2-payments mandate has expired")
+        }
+      }
+      if (mandate.transaction?.amount !== undefined) {
+        if (typeof mandate.transaction.amount !== "string" || !/^\d+(\.\d+)?$/.test(mandate.transaction.amount)) {
+          throw new Error("Authorization grant rejected: mandate transaction amount must be a canonical decimal string")
+        }
+      }
     }
   }
 
@@ -923,29 +942,78 @@ export function authorizeTaskCapsule(capsule, requestedGrant = "AUTH-1") {
     }
   }
 
-  return { authorized: true, grant: requestedGrant, capsule: validated }
+  return { authorized: true, grant: requestedGrant, status: requestedGrant === "AUTH-4" ? "MAY_ADVANCE" : "AUTHORIZED", capsule: validated }
 }
 
 export const EPHEMERAL_LEASE_STORE_PATH = ".agents/.runtime/leases/active-leases.json"
 export const STORE_LOCK_DIR = ".agents/.runtime/leases/store.lock"
+export const STORE_LOCK_META_PATH = ".agents/.runtime/leases/store.lock/lock-metadata.json"
+
+function isProcessAlive(pid) {
+  if (typeof pid !== "number" || pid <= 0) return false
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch (error) {
+    if (error.code === "EPERM") return true
+    if (error.code === "ESRCH") return false
+    return null
+  }
+}
 
 function acquireStoreLock(timeoutMs = 5000) {
   const lockDir = path.resolve(REPO_ROOT, STORE_LOCK_DIR)
+  const lockMetaPath = path.resolve(REPO_ROOT, STORE_LOCK_META_PATH)
   const lockParent = path.dirname(lockDir)
   if (!existsSync(lockParent)) {
     mkdirSync(lockParent, { recursive: true })
   }
+  const ownerToken = randomUUID()
   const startTime = Date.now()
+
   while (true) {
     try {
       mkdirSync(lockDir)
-      return true
+      const meta = {
+        pid: process.pid,
+        owner_token: ownerToken,
+        host_id: "canonical-host",
+        acquired_at: new Date().toISOString(),
+        heartbeat_at: new Date().toISOString(),
+      }
+      try {
+        writeFileSync(lockMetaPath, JSON.stringify(meta, null, 2), "utf-8")
+      } catch {}
+      return ownerToken
     } catch {
       try {
+        let lockMeta = null
+        if (existsSync(lockMetaPath)) {
+          try {
+            lockMeta = JSON.parse(readFileSync(lockMetaPath, "utf-8"))
+          } catch {}
+        }
         const stat = lstatSync(lockDir)
-        if (Date.now() - stat.mtimeMs > 3000) {
-          rmSync(lockDir, { recursive: true, force: true })
-          continue
+        const heartbeatTime = lockMeta?.heartbeat_at ? new Date(lockMeta.heartbeat_at).getTime() : stat.mtimeMs
+        const heartbeatAge = Date.now() - heartbeatTime
+
+        if (heartbeatAge < 3000) {
+          // Heartbeat fresh: OWNER PRESUMED LIVE -> NEVER STEAL
+        } else {
+          const ownerPid = lockMeta?.pid
+          if (typeof ownerPid === "number") {
+            const alive = isProcessAlive(ownerPid)
+            if (alive === true) {
+              // PID is confirmed live -> DO NOT STEAL
+            } else if (alive === false) {
+              // PID confirmed dead -> Bounded Recovery
+              rmSync(lockDir, { recursive: true, force: true })
+              continue
+            }
+          } else {
+            rmSync(lockDir, { recursive: true, force: true })
+            continue
+          }
         }
       } catch {}
 
@@ -978,38 +1046,53 @@ export function withStoreLock(fn) {
 
 export function loadDurableLeasesState() {
   const storePath = path.resolve(REPO_ROOT, EPHEMERAL_LEASE_STORE_PATH)
-  if (!existsSync(storePath)) return { last_fencing_token: 100, leases: new Map() }
+  if (!existsSync(storePath)) return { fencing_high_water_mark: 100, last_fencing_token: 100, leases: new Map() }
+  
+  let raw
   try {
-    const raw = readFileSync(storePath, "utf-8")
-    const json = JSON.parse(raw)
-    const map = new Map()
-    const now = Date.now()
-    const lastFencingToken = json.last_fencing_token ?? 100
-    if (Array.isArray(json.leases)) {
-      for (const item of json.leases) {
-        if (item && item.lease_id && item.status === "ACTIVE") {
-          const acquiredAt = new Date(item.acquired_at).getTime()
-          const ttlMs = item.ttl_ms ?? 1800000
-          if (now - acquiredAt < ttlMs) {
-            map.set(item.lease_id, item)
-          }
+    raw = readFileSync(storePath, "utf-8")
+  } catch (error) {
+    throw new Error(`LEASE_STORE_UNREADABLE: Unable to read lease store file: ${error.message}`)
+  }
+
+  let json
+  try {
+    json = JSON.parse(raw)
+  } catch (error) {
+    throw new Error(`LEASE_STORE_CORRUPT: Lease store JSON is invalid or corrupt: ${error.message}`)
+  }
+
+  if (typeof json !== "object" || json === null) {
+    throw new Error("LEASE_STORE_CORRUPT: Lease store content is not a valid JSON object")
+  }
+
+  const map = new Map()
+  const now = Date.now()
+  const fencingHighWaterMark = json.fencing_high_water_mark ?? json.last_fencing_token ?? 100
+
+  if (Array.isArray(json.leases)) {
+    for (const item of json.leases) {
+      if (item && item.lease_id && item.status === "ACTIVE") {
+        const acquiredAt = new Date(item.acquired_at).getTime()
+        const ttlMs = item.ttl_ms ?? 1800000
+        if (now - acquiredAt < ttlMs) {
+          map.set(item.lease_id, item)
         }
       }
     }
-    return { last_fencing_token: lastFencingToken, leases: map }
-  } catch {
-    return { last_fencing_token: 100, leases: new Map() }
   }
+  return { fencing_high_water_mark: fencingHighWaterMark, last_fencing_token: fencingHighWaterMark, leases: map }
 }
 
-export function saveDurableLeasesState({ last_fencing_token, leases }) {
+export function saveDurableLeasesState({ fencing_high_water_mark, last_fencing_token, leases }) {
   const storePath = path.resolve(REPO_ROOT, EPHEMERAL_LEASE_STORE_PATH)
   const storeDir = path.dirname(storePath)
   if (!existsSync(storeDir)) {
     mkdirSync(storeDir, { recursive: true })
   }
+  const hwm = fencing_high_water_mark ?? last_fencing_token ?? 100
   const items = Array.from(leases.values())
-  const jsonStr = JSON.stringify({ last_fencing_token, leases: items }, null, 2)
+  const jsonStr = JSON.stringify({ fencing_high_water_mark: hwm, last_fencing_token: hwm, leases: items }, null, 2)
   const tmpPath = `${storePath}.${process.pid}.${Date.now()}.tmp`
   writeFileSync(tmpPath, jsonStr, "utf-8")
   renameSync(tmpPath, storePath)
@@ -1020,7 +1103,7 @@ export function loadDurableLeases() {
 }
 
 export function saveDurableLeases(leasesMap) {
-  saveDurableLeasesState({ last_fencing_token: 100, leases: leasesMap })
+  saveDurableLeasesState({ fencing_high_water_mark: 100, last_fencing_token: 100, leases: leasesMap })
 }
 
 export function acquireWriteSetLease({ capsule, owner = "canonical-worker", ownerToken = randomUUID(), ttlMs = 1800000 }) {
@@ -1031,13 +1114,13 @@ export function acquireWriteSetLease({ capsule, owner = "canonical-worker", owne
       throw new Error("Acquire write-set lease requires non-empty write_set in Task Capsule")
     }
 
-    const { last_fencing_token, leases } = loadDurableLeasesState()
+    const { fencing_high_water_mark, leases } = loadDurableLeasesState()
 
     for (const [, lease] of leases.entries()) {
       assertWriteSetNoConflict(writeSet, lease.write_set)
     }
 
-    const fencingToken = last_fencing_token + 1
+    const fencingToken = fencing_high_water_mark + 1
     const leaseId = `lease-${validated.task.id}-${randomUUID()}`
     const leaseRecord = {
       lease_id: leaseId,
@@ -1054,7 +1137,7 @@ export function acquireWriteSetLease({ capsule, owner = "canonical-worker", owne
     }
     leases.set(leaseId, leaseRecord)
     activeLeases.set(leaseId, leaseRecord)
-    saveDurableLeasesState({ last_fencing_token: fencingToken, leases })
+    saveDurableLeasesState({ fencing_high_water_mark: fencingToken, leases })
     return leaseRecord
   })
 }
@@ -1062,7 +1145,7 @@ export function acquireWriteSetLease({ capsule, owner = "canonical-worker", owne
 export function releaseWriteSetLease(leaseId, ownerToken = null, fencingToken = null) {
   assertNonEmptyString(leaseId, "lease_id")
   return withStoreLock(() => {
-    const { last_fencing_token, leases } = loadDurableLeasesState()
+    const { fencing_high_water_mark, leases } = loadDurableLeasesState()
     if (!leases.has(leaseId) && !activeLeases.has(leaseId)) {
       return true
     }
@@ -1075,7 +1158,7 @@ export function releaseWriteSetLease(leaseId, ownerToken = null, fencingToken = 
     }
     leases.delete(leaseId)
     activeLeases.delete(leaseId)
-    saveDurableLeasesState({ last_fencing_token, leases })
+    saveDurableLeasesState({ fencing_high_water_mark, leases })
     return true
   })
 }

@@ -137,14 +137,76 @@ test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects grant not included i
   assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-1"), /requested grant AUTH-1 is not in capsule authorization grants/)
 })
 
-test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects AUTH-4 financial escalation without AP2 mandate", () => {
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects AUTH-4 financial escalation without ap2-payments mandate", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-009" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
     objective: "Testing auth tier 4",
     grants: ["AUTH-4"]
   })
-  assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-4"), /Authorization grant rejected: AUTH-4 requires AP2 mandate verification/)
+  assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-4"), /Authorization grant rejected: AUTH-4 requires ap2-payments mandate verification/)
+})
+
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects fio_vivo_ap2 and dtc_ap2 as sole mandate authority for AUTH-4", () => {
+  const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-009B" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Testing channel isolation",
+    grants: ["AUTH-4"]
+  })
+  capsule.protocols.fio_vivo_ap2 = "mandate_verified"
+  assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-4"), /Authorization grant rejected: AUTH-4 requires ap2-payments mandate verification/)
+
+  capsule.protocols.fio_vivo_ap2 = undefined
+  capsule.protocols.dtc_ap2 = "mandate_verified"
+  assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-4"), /Authorization grant rejected: AUTH-4 requires ap2-payments mandate verification/)
+})
+
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule grants AUTH-4 MAY_ADVANCE with valid ap2-payments mandate object", () => {
+  const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-009C" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Testing ap2-payments mandate",
+    grants: ["AUTH-4"]
+  })
+  capsule.protocols["ap2-payments"] = "mandate_verified"
+  capsule.mandate = {
+    mandate_id: "man-001",
+    principal: "principal-001",
+    transaction: {
+      amount: "100.50",
+      currency: "USD",
+      payee: "vendor-001",
+      operation: "purchase"
+    },
+    validity: {
+      expires_at: new Date(Date.now() + 60000).toISOString(),
+      nonce: "nonce-xyz-123"
+    },
+    verification: {
+      protocol: "ap2-payments",
+      verdict: "mandate_verified"
+    }
+  }
+
+  const res = authorizeTaskCapsule(capsule, "AUTH-4")
+  assert.equal(res.authorized, true)
+  assert.equal(res.grant, "AUTH-4")
+  assert.equal(res.status, "MAY_ADVANCE")
+})
+
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects mandate with non-canonical floating point amount", () => {
+  const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-009D" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Testing floating point rejection",
+    grants: ["AUTH-4"]
+  })
+  capsule.protocols["ap2-payments"] = "mandate_verified"
+  capsule.mandate = {
+    transaction: { amount: 100.50 }
+  }
+  assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-4"), /mandate transaction amount must be a canonical decimal string/)
 })
 
 test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects AUTH-2/3 without human approval", () => {
