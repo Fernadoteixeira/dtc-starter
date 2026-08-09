@@ -716,7 +716,7 @@ export function compileTaskCapsule({ routeBundle, objective = "Bounded task exec
     },
     authority: {
       contracts: route.contracts ?? [],
-      source_refs: [route.path],
+      source_refs: [route.path ?? REGISTRY_PATH],
       immutable_refs: ["Fernadoteixeira/dtc-starter"]
     },
     capabilities: {
