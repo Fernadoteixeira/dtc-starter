@@ -165,7 +165,7 @@ test("W3 #41 BOUNDARY: Rejects file:// and remote URL SSRF attempts in Part", as
   })
 
   assert.equal(res.statusCode, 400)
-  assert.match(res.body.error.message, /Unsupported part kind/i)
+  assert.match(res.body.error.message, /No supported Parts/i)
 })
 
 test("W3 #41 BOUNDARY: Rejects malformed RPC method and unsupported version header", async () => {
