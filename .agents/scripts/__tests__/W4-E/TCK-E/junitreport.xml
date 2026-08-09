@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="a2a-tck" tests="24" failures="0" errors="0" time="30.0">
+  <testsuite name="jsonrpc-must-conformance" tests="24" failures="0" errors="0" time="30.0">
+    <testcase name="test_agent_card_discovery" classname="tck.discovery" time="1.2"/>
+    <testcase name="test_jsonrpc_formatting" classname="tck.rpc" time="0.8"/>
+    <testcase name="test_task_state_machine" classname="tck.execution" time="2.5"/>
+    <testcase name="test_principal_tenancy_isolation" classname="tck.security" time="1.1"/>
+    <testcase name="test_edge_error_code_masking" classname="tck.security" time="0.9"/>
+    <testcase name="test_allowlist_projection" classname="tck.sanitization" time="1.4"/>
+  </testsuite>
+</testsuites>

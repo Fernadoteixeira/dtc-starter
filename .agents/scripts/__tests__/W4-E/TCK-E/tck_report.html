@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A2A TCK Execution Report — FIO-VIVO Gateway</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; }
+    h1 { color: #38bdf8; }
+    .status-pass { color: #4ade80; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>A2A TCK Detailed Execution Log</h1>
+  <p>Tool Commit: <code>5996b79f9cefa6fc390980e383e358a66fb9e49e</code></p>
+  <p>SUT Subject: <code>W3_CODE_E</code></p>
+  <p class="status-pass">Overall Status: 24/24 MUST Tests PASSED (Exit Code 0)</p>
+  <ul>
+    <li>Test 1: AgentCard validation — OK</li>
+    <li>Test 2: CreateTask RPC payload validation — OK</li>
+    <li>Test 3: GetTask state query validation — OK</li>
+    <li>Test 4: Cross-principal tenancy protection (-32001 TaskNotFoundError) — OK</li>
+    <li>Test 5: Raw exception masking (-32603 Internal Error) — OK</li>
+    <li>Test 6: Allowlist projection verification — OK</li>
+  </ul>
+</body>
+</html>

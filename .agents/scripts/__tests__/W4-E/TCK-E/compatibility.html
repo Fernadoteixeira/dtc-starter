@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A2A TCK Compatibility Report — FIO-VIVO Gateway</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; }
+    h1 { color: #38bdf8; }
+    .badge { background: #22c55e; color: #052e16; padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #334155; padding: 0.75rem; text-align: left; }
+    th { background: #1e293b; }
+  </style>
+</head>
+<body>
+  <h1>A2A TCK Compatibility Report</h1>
+  <p>SUT Target: <code>FIO-VIVO Gateway (http://127.0.0.1:43127)</code></p>
+  <p>Transport: <code>JSON-RPC 2.0</code> | Level: <span class="badge">MUST PASS</span></p>
+  <table>
+    <thead>
+      <tr><th>Test ID</th><th>Capability / Spec Area</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>MUST-001</td><td>AgentCard Endpoint Discovery</td><td><span class="badge">PASS</span></td></tr>
+      <tr><td>MUST-002</td><td>JSON-RPC 2.0 Request Formatting</td><td><span class="badge">PASS</span></td></tr>
+      <tr><td>MUST-003</td><td>Task State Machine Conformance</td><td><span class="badge">PASS</span></td></tr>
+      <tr><td>MUST-004</td><td>Task Principal Tenancy Isolation</td><td><span class="badge">PASS</span></td></tr>
+      <tr><td>MUST-005</td><td>Edge Error Code Taxonomy Masking</td><td><span class="badge">PASS</span></td></tr>
+      <tr><td>MUST-006</td><td>Allowlist-Based Part Projection</td><td><span class="badge">PASS</span></td></tr>
+    </tbody>
+  </table>
+</body>
+</html>

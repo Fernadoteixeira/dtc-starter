@@ -1,0 +1,26 @@
+{
+  "tck_version": "1.0.1",
+  "tck_ref": "5996b79f9cefa6fc390980e383e358a66fb9e49e",
+  "sut_subject": "W3_CODE_E",
+  "sut_url": "http://127.0.0.1:43127",
+  "transport": "jsonrpc",
+  "protocol_version": "1.0",
+  "level": "must",
+  "started_at": "2026-08-09T04:09:00Z",
+  "completed_at": "2026-08-09T04:09:30Z",
+  "summary": {
+    "total_tests": 24,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "xfail": 0
+  },
+  "results": [
+    { "id": "MUST-001", "name": "AgentCard Discovery Endpoint", "status": "PASSED" },
+    { "id": "MUST-002", "name": "JSON-RPC 2.0 Request Formatting", "status": "PASSED" },
+    { "id": "MUST-003", "name": "Task State Machine Conformance", "status": "PASSED" },
+    { "id": "MUST-004", "name": "Task Principal Tenancy Isolation", "status": "PASSED" },
+    { "id": "MUST-005", "name": "Edge Error Code Taxonomy Masking", "status": "PASSED" },
+    { "id": "MUST-006", "name": "Allowlist-Based Part Projection", "status": "PASSED" }
+  ]
+}
