@@ -6,7 +6,7 @@ import { GalleryHeroFallback } from "./gallery-hero-fallback";
 import { GalleryHeroClient } from "./gallery-hero-client";
 
 export default async function GalleryHero({
-  countryCode = "dk",
+  countryCode = "br",
 }: {
   countryCode?: string;
 }) {
