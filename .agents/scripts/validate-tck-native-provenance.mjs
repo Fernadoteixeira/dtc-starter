@@ -39,7 +39,7 @@ export function validateTckNativeProvenance(options = {}) {
     return { success: false, errors, warnings, validatedArtifacts }
   }
 
-  // 1. FV-036: Validate compatibility.json native schema
+  // 1. FV-036: Validate compatibility.json official upstream TCK schema
   const compatibilityPath = path.join(nativeDir, "compatibility.json")
   try {
     const rawComp = readFileSync(compatibilityPath, "utf-8")
@@ -50,6 +50,13 @@ export function validateTckNativeProvenance(options = {}) {
     } else {
       if (!compData.summary || typeof compData.summary !== "object") {
         errors.push("compatibility.json missing required top-level key: 'summary'")
+      } else {
+        const requiredSummaryKeys = ["timestamp", "sut_url", "spec_version", "overall_compatibility", "must_compatibility", "should_compatibility", "may_compatibility"]
+        for (const key of requiredSummaryKeys) {
+          if (compData.summary[key] === undefined) {
+            errors.push(`compatibility.json summary object missing official upstream TCK key: '${key}'`)
+          }
+        }
       }
       if (!compData.per_requirement || typeof compData.per_requirement !== "object") {
         errors.push("compatibility.json missing required top-level key: 'per_requirement'")
@@ -62,16 +69,22 @@ export function validateTckNativeProvenance(options = {}) {
     errors.push(`Failed to parse compatibility.json: ${err.message}`)
   }
 
-  // 2. FV-037: Validate JUnit XML structural coherence
+  // 2. FV-037: Validate JUnit XML structural coherence (declared == actual testcases)
   const junitPath = path.join(nativeDir, "junit.xml")
   try {
     const rawJunit = readFileSync(junitPath, "utf-8")
     if (!rawJunit.includes("<testsuite") && !rawJunit.includes("<testsuites")) {
       errors.push("junit.xml missing valid <testsuite> or <testsuites> XML tags")
     }
-    const testcaseMatches = (rawJunit.match(/<testcase/g) || []).length
-    if (testcaseMatches === 0) {
-      errors.push("junit.xml contains zero <testcase> elements")
+
+    const testMatch = rawJunit.match(/tests="(\d+)"/)
+    const declaredTests = testMatch ? Number.parseInt(testMatch[1], 10) : null
+    const actualTestcaseCount = (rawJunit.match(/<testcase/g) || []).length
+
+    if (declaredTests === null) {
+      errors.push("junit.xml missing declared 'tests=\"N\"' attribute")
+    } else if (declaredTests !== actualTestcaseCount) {
+      errors.push(`junit.xml structural mismatch: declared tests (${declaredTests}) != actual <testcase> count (${actualTestcaseCount})`)
     }
   } catch (err) {
     errors.push(`Failed to read junit.xml: ${err.message}`)
@@ -153,7 +166,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === SCRIPT_PATH) {
   const result = validateTckNativeProvenance()
   if (result.success) {
     console.log("🟢 W4R.1 Native TCK Evidence Provenance PASS")
-    console.log(`Validated ${result.validatedArtifacts.length} native artifacts.`)
+    console.log(`Validated ${result.validatedArtifacts.length} native artifacts with official upstream TCK schema and JUnit testcase equality (declared == actual).`)
     process.exit(0)
   } else {
     console.error("🔴 W4R.1 Native TCK Evidence Provenance FAIL")

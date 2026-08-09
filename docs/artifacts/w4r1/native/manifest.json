@@ -2,17 +2,17 @@
   "provenance_version": "1.0.0",
   "issue_id": "#42",
   "wave_id": "W4R.1",
-  "execution_timestamp": "2026-08-09T04:30:00Z",
+  "execution_timestamp": "2026-08-09T04:45:00Z",
   "artifacts": {
     "compatibility.json": {
-      "sha256": "a3bb34986d3dd995a5edd180dbacd88645750ddcec04ae9d5b11d622ad45a9e2",
-      "sizeBytes": 1279,
+      "sha256": "ae6ea79623a1a2dc6a7cb12017668d2ac8a9d21f674094bbe86057517f001d68",
+      "sizeBytes": 1443,
       "format": "JSON",
       "nature": "RAW_TOOL_OUTPUT"
     },
     "junit.xml": {
-      "sha256": "a067e74e3e0bb8efa3996686399eb088d21cc97bcc709a1cd4eccfc2451ccfe5",
-      "sizeBytes": 1115,
+      "sha256": "2fe6251be2f99e6220ce01c978580a7e09b21bdbd1b3258ffa1a9269b7c6ee3c",
+      "sizeBytes": 4745,
       "format": "XML",
       "nature": "RAW_TOOL_OUTPUT"
     },

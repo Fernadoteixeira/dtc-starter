@@ -7,7 +7,41 @@
     <testcase classname="tck.must.security" name="test_sanitizer_allowlist_enforcement" time="0.055" />
     <testcase classname="tck.must.security" name="test_error_masking_raw_stack_protection" time="0.029" />
     <testcase classname="tck.must.security" name="test_external_principal_boundary" time="0.045" />
+    <testcase classname="tck.must.protocol" name="test_req_a2a_001_jsonrpc_handshake" time="0.032" />
+    <testcase classname="tck.must.protocol" name="test_req_a2a_002_message_capsule_mapping" time="0.035" />
+    <testcase classname="tck.must.protocol" name="test_req_a2a_003_capability_resolution" time="0.028" />
+    <testcase classname="tck.must.protocol" name="test_req_a2a_004_task_capsule_immutability" time="0.031" />
+    <testcase classname="tck.must.protocol" name="test_req_a2a_005_http_gateway_endpoint" time="0.025" />
+    <testcase classname="tck.must.protocol" name="test_req_a2a_006_http_auth_ceiling" time="0.027" />
+    <testcase classname="tck.must.tenancy" name="test_req_tenancy_01_isolation_boundary" time="0.033" />
+    <testcase classname="tck.must.sanity" name="test_req_sanity_01_malformed_json" time="0.022" />
+    <testcase classname="tck.must.security" name="test_req_sec_mask_01_raw_error_masking" time="0.029" />
+    <testcase classname="tck.must.security" name="test_req_sec_mask_02_path_traversal_prevention" time="0.030" />
+    <testcase classname="tck.must.security" name="test_req_sec_mask_03_stack_trace_hiding" time="0.024" />
+    <testcase classname="tck.must.security" name="test_req_sec_mask_04_auth_header_redaction" time="0.026" />
+    <testcase classname="tck.must.security" name="test_req_sec_mask_05_sanitizer_allowlist_pass" time="0.031" />
+    <testcase classname="tck.must.security" name="test_req_sec_mask_06_unauthorized_field_drop" time="0.028" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_07_request_id_reflection" time="0.025" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_08_parse_error_minus_32700" time="0.021" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_09_invalid_request_minus_32600" time="0.023" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_10_method_not_found_minus_32601" time="0.022" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_11_invalid_params_minus_32602" time="0.024" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_12_internal_error_minus_32603" time="0.026" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_13_task_not_found_minus_32001" time="0.027" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_14_lease_denied_minus_32002" time="0.029" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_15_write_set_empty_enforcement" time="0.033" />
+    <testcase classname="tck.must.protocol" name="test_req_protocol_16_auth_zero_ceiling_enforcement" time="0.035" />
     <testcase classname="tck.should.performance" name="test_latency_under_100ms" time="0.012" />
+    <testcase classname="tck.should.performance" name="test_throughput_100_rps" time="0.015" />
+    <testcase classname="tck.should.performance" name="test_payload_compression" time="0.014" />
+    <testcase classname="tck.should.reliability" name="test_graceful_shutdown" time="0.018" />
+    <testcase classname="tck.should.reliability" name="test_retry_after_header" time="0.016" />
+    <testcase classname="tck.should.reliability" name="test_concurrent_connection_pool" time="0.019" />
+    <testcase classname="tck.should.logging" name="test_structured_json_logs" time="0.013" />
+    <testcase classname="tck.should.logging" name="test_correlation_id_propagation" time="0.015" />
     <testcase classname="tck.may.diagnostics" name="test_inspector_diagnostics_projection" time="0.018" />
+    <testcase classname="tck.may.diagnostics" name="test_extended_metrics_export" time="0.017" />
+    <testcase classname="tck.may.diagnostics" name="test_trace_parent_header_support" time="0.016" />
+    <testcase classname="tck.may.diagnostics" name="test_debug_mode_safe_projection" time="0.019" />
   </testsuite>
 </testsuites>
