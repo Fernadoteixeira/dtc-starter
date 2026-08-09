@@ -183,7 +183,7 @@ export default async function initial_data_seed({
     fields: ["id", "name"],
   });
 
-  let stockLocation = existingStockLocations?.[0];
+  let stockLocation: any = existingStockLocations?.[0];
   if (!stockLocation) {
     const { result: stockLocationResult } = await createStockLocationsWorkflow(
       container

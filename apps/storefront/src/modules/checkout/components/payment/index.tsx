@@ -1,6 +1,8 @@
 "use client"
 import { RadioGroup } from "@headlessui/react"
-import { isStripeLike, paymentInfoMap } from "@lib/constants"
+import { isPix, isStripeLike, paymentInfoMap } from "@lib/constants"
+import PixPaymentDisplay from "@modules/checkout/components/payment-pix"
+import { trackTelemetryEvent } from "@lib/telemetry"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -109,7 +111,18 @@ const Payment = ({
 
   useEffect(() => {
     setError(null)
-  }, [isOpen])
+    if (isOpen && cart) {
+      trackTelemetryEvent({
+        type: "begin_checkout",
+        payload: {
+          cart_id: cart.id,
+          total_amount: cart.total ?? 0,
+          currency: cart.currency_code ?? "brl",
+          item_count: cart.items?.length ?? 0,
+        },
+      })
+    }
+  }, [isOpen, cart])
 
   return (
     <div className="bg-white">
@@ -168,6 +181,13 @@ const Payment = ({
                   </div>
                 ))}
               </RadioGroup>
+              {isPix(selectedPaymentMethod) && (
+                <PixPaymentDisplay
+                  pixCopyPasteKey={(activeSession?.data as Record<string, unknown>)?.pix_copy_paste_key as string | undefined}
+                  qrCodeUrl={(activeSession?.data as Record<string, unknown>)?.qr_code_url as string | undefined}
+                  expiresAt={(activeSession?.data as Record<string, unknown>)?.expires_at as string | undefined}
+                />
+              )}
             </>
           )}
 

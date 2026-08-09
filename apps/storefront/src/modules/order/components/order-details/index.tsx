@@ -1,5 +1,9 @@
+"use client"
+
+import { useEffect } from "react"
 import { HttpTypes } from "@medusajs/types"
 import { Text } from "@modules/common/components/ui"
+import { trackTelemetryEvent } from "@lib/telemetry"
 
 type OrderDetailsProps = {
   order: HttpTypes.StoreOrder
@@ -7,6 +11,20 @@ type OrderDetailsProps = {
 }
 
 const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
+  useEffect(() => {
+    if (order.id) {
+      trackTelemetryEvent({
+        type: "purchase",
+        payload: {
+          order_id: order.id,
+          total_amount: order.total ?? 0,
+          currency: order.currency_code ?? "brl",
+          payment_provider: order.payment_collections?.[0]?.payment_sessions?.[0]?.provider_id,
+        },
+      })
+    }
+  }, [order.id])
+
   const formatStatus = (str: string) => {
     const formatted = str.split("_").join(" ")
 

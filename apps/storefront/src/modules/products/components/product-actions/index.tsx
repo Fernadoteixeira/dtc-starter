@@ -1,6 +1,7 @@
 "use client"
 
 import { addToCart } from "@lib/data/cart"
+import { trackTelemetryEvent } from "@lib/telemetry"
 import { useIntersection } from "@lib/hooks/use-in-view"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@modules/common/components/ui"
@@ -120,6 +121,22 @@ export default function ProductActions({
 
   const inView = useIntersection(actionsRef, "0px")
 
+  // Track view_item telemetry event when product loads
+  useEffect(() => {
+    if (product.id) {
+      trackTelemetryEvent({
+        type: "view_item",
+        payload: {
+          item_id: product.id,
+          item_name: product.title ?? "",
+          price: selectedVariant?.calculated_price?.calculated_amount ?? 0,
+          currency: countryCode || "BRL",
+          category: product.categories?.[0]?.name,
+        },
+      })
+    }
+  }, [product.id])
+
   // add the selected variant to the cart
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return null
@@ -130,6 +147,17 @@ export default function ProductActions({
       variantId: selectedVariant.id,
       quantity: 1,
       countryCode,
+    })
+
+    trackTelemetryEvent({
+      type: "add_to_cart",
+      payload: {
+        item_id: product.id,
+        item_name: product.title ?? "",
+        quantity: 1,
+        price: selectedVariant?.calculated_price?.calculated_amount ?? 0,
+        currency: countryCode || "BRL",
+      },
     })
 
     setIsAdding(false)

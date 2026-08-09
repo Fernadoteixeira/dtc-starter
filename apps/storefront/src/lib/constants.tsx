@@ -33,6 +33,14 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  pp_pix_pix: {
+    title: "Pix (Pagamento Instantâneo)",
+    icon: <CreditCard />,
+  },
+  pp_pix: {
+    title: "Pix (Pagamento Instantâneo)",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 
@@ -41,6 +49,10 @@ export const isStripeLike = (providerId?: string) => {
   return (
     providerId?.startsWith("pp_stripe_") || providerId?.startsWith("pp_medusa-")
   )
+}
+
+export const isPix = (providerId?: string) => {
+  return providerId?.startsWith("pp_pix")
 }
 
 export const isPaypal = (providerId?: string) => {
