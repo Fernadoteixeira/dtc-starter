@@ -1,0 +1,14 @@
+INTEROP_E:
+  interop_peer:
+    project: google/adk-python
+    tag: v2.1.0
+    ref: "6d15e19f057ee4035960ba5984499cb1eaf943ca"
+    role: reference_peer
+    a2a_support_status: experimental
+  suites:
+    INTEROP_E_01:
+      description: "ADK reference client -> FIO-VIVO Gateway"
+      verdict: PASS
+    INTEROP_E_02:
+      description: "FIO-VIVO A2A client -> ADK-exposed agent"
+      verdict: PASS

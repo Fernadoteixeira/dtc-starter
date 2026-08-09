@@ -1,0 +1,12 @@
+INSPECTOR_E:
+  tool_ref: "8aa064639af106ff771d60428ef6d460f5454743"
+  sut_subject: "W3_CODE_E"
+  role: diagnostic_only
+  verifications:
+    agent_card_fetched: PASS
+    jsonrpc_interface_recognized: PASS
+    message_round_trip: PASS
+    task_response_rendered: PASS
+    sanitized_artifacts_inspected: PASS
+    zero_raw_internal_data_visible: PASS
+    safe_error_visible: PASS
