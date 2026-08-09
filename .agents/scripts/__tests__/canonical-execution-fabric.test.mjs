@@ -11,11 +11,14 @@ import {
   REPO_ROOT,
   VALIDATOR_PATH,
   assertExternalSkillPath,
+  assertWriteSetNoConflict,
+  compileTaskCapsule,
   hashCanonicalValue,
   hashFile,
   parseShortcutRegistry,
   resolveEvidenceOutputPath,
   validateRouteBundle,
+  validateTaskCapsule,
   writeJsonExclusive
 } from "../canonical-execution-lib.mjs"
 import { buildRouteBundle } from "../resolve-agent-shortcut.mjs"
@@ -658,3 +661,51 @@ test("emitReviewerReview rejects worker and reviewer session reuse", () => {
     /Reviewer must not reuse the worker host session and invocation identity/
   )
 })
+
+test("compileTaskCapsule creates a valid schema_version 1 task capsule from route", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "TEST-CAPSULE-01" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Implement Medusa adapter",
+    writeSet: ["apps/storefront/src/modules/home/gallery-hero/medusa-adapter.ts"],
+    forbiddenPaths: ["packages/unrelated/**"]
+  })
+  assert.equal(capsule.schema_version, 1)
+  assert.equal(capsule.kind, "task-capsule")
+  assert.equal(capsule.task.id, "TEST-CAPSULE-01")
+  assert.equal(capsule.task.objective, "Implement Medusa adapter")
+  assert.equal(capsule.agent.worker, "implementation-engineer")
+  assert.equal(capsule.agent.reviewer, "canonical-reviewer")
+  assert.deepEqual(capsule.execution.write_set, ["apps/storefront/src/modules/home/gallery-hero/medusa-adapter.ts"])
+  assert.deepEqual(capsule.protocols.mcp, ["medusa-docs"])
+})
+
+test("validateTaskCapsule rejects identical worker and reviewer archetypes", () => {
+  const route = buildRouteBundle({ shortcut: "impl", taskId: "TEST-CAPSULE-02" })
+  const capsule = compileTaskCapsule({ routeBundle: route, objective: "Testing archetypes" })
+  capsule.agent.reviewer = capsule.agent.worker
+  assert.throws(() => validateTaskCapsule(capsule), /worker and reviewer archetypes must be distinct/)
+})
+
+test("validateTaskCapsule rejects write-set entries that match forbidden paths", () => {
+  const route = buildRouteBundle({ shortcut: "impl", taskId: "TEST-CAPSULE-03" })
+  assert.throws(
+    () => compileTaskCapsule({
+      routeBundle: route,
+      objective: "Testing forbidden write",
+      writeSet: ["packages/unrelated/src/index.ts"],
+      forbiddenPaths: ["packages/unrelated/**"]
+    }),
+    /collides with forbidden path pattern/
+  )
+})
+
+test("assertWriteSetNoConflict detects single-writer write-set collisions between parallel lanes", () => {
+  const laneA = ["apps/storefront/src/modules/nos-gallery/components/hero.tsx", "apps/storefront/src/styles/nos.css"]
+  const laneB = ["apps/storefront/src/styles/nos.css", "apps/storefront/src/lib/utils.ts"]
+  const laneC = ["apps/storefront/src/lib/config.ts"]
+
+  assert.throws(() => assertWriteSetNoConflict(laneA, laneB), /Write-set collision detected on path: apps\/storefront\/src\/styles\/nos\.css/)
+  assert.doesNotThrow(() => assertWriteSetNoConflict(laneA, laneC))
+})
+

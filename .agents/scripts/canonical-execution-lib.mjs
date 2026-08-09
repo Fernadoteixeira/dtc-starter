@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url"
 
 export const ROUTE_KIND = "canonical-agent-route"
 export const LOAD_KIND = "canonical-execution-load-bundle"
+export const TASK_CAPSULE_KIND = "task-capsule"
 export const REGISTRY_PATH = ".agents/canonical-agent-shortcuts.yaml"
 export const PROTOCOL_PATH = ".agents/canonical-execution-protocol.yaml"
 export const VALIDATOR_PATH = ".agents/scripts/validate-execution-evidence.mjs"
@@ -639,8 +640,131 @@ export function validateHostCorrelationReceipt(receipt, label = "HOST-EXECUTION-
   return value
 }
 
+export function validateTaskCapsule(capsule) {
+  const value = assertObject(capsule, "task capsule")
+  if (value.schema_version !== 1 || value.kind !== TASK_CAPSULE_KIND) {
+    throw new Error("Task Capsule must be schema version 1 and kind task-capsule")
+  }
+  const task = assertObject(value.task, "capsule.task")
+  assertNonEmptyString(task.id, "capsule.task.id")
+  if (typeof task.objective === "string") {
+    assertNonEmptyString(task.objective, "capsule.task.objective")
+  } else {
+    assertObject(task.objective, "capsule.task.objective")
+  }
+
+  const authority = assertObject(value.authority, "capsule.authority")
+  assertStringArray(authority.contracts ?? [], "capsule.authority.contracts")
+  assertStringArray(authority.source_refs ?? [], "capsule.authority.source_refs")
+  assertStringArray(authority.immutable_refs ?? [], "capsule.authority.immutable_refs")
+
+  const capabilities = assertObject(value.capabilities, "capsule.capabilities")
+  assertStringArray(capabilities.lifecycle ?? [], "capsule.capabilities.lifecycle")
+  assertStringArray(capabilities.canonical_technical ?? [], "capsule.capabilities.canonical_technical")
+  assertStringArray(capabilities.target_platform ?? [], "capsule.capabilities.target_platform")
+
+  const agent = assertObject(value.agent, "capsule.agent")
+  assertNonEmptyString(agent.worker, "capsule.agent.worker")
+  assertNonEmptyString(agent.reviewer, "capsule.agent.reviewer")
+  if (agent.worker === agent.reviewer) {
+    throw new Error("Capsule worker and reviewer archetypes must be distinct")
+  }
+
+  const execution = assertObject(value.execution, "capsule.execution")
+  assertStringArray(execution.write_set ?? [], "capsule.execution.write_set")
+  assertStringArray(execution.read_set ?? [], "capsule.execution.read_set")
+  assertStringArray(execution.forbidden_paths ?? [], "capsule.execution.forbidden_paths")
+  assertStringArray(execution.tools_allowed ?? [], "capsule.execution.tools_allowed")
+
+  const forbidden = execution.forbidden_paths ?? []
+  for (const writePath of (execution.write_set ?? [])) {
+    for (const forbiddenPattern of forbidden) {
+      if (forbiddenPattern.endsWith("/**")) {
+        const prefix = forbiddenPattern.slice(0, -3)
+        if (writePath === prefix || writePath.startsWith(`${prefix}/`)) {
+          throw new Error(`Write-set path ${writePath} collides with forbidden path pattern ${forbiddenPattern}`)
+        }
+      } else if (writePath === forbiddenPattern) {
+        throw new Error(`Write-set path ${writePath} is forbidden`)
+      }
+    }
+  }
+
+  const protocols = assertObject(value.protocols, "capsule.protocols")
+  assertNonEmptyString(protocols.a2a ?? "internal", "capsule.protocols.a2a")
+  assertNonEmptyString(protocols.dtc_ap2 ?? "enabled", "capsule.protocols.dtc_ap2")
+  assertStringArray(protocols.mcp ?? [], "capsule.protocols.mcp")
+
+  const evidence = assertObject(value.evidence, "capsule.evidence")
+  assertStringArray(evidence.required_receipts ?? [], "capsule.evidence.required_receipts")
+
+  const governance = assertObject(value.governance, "capsule.governance")
+  assertNonEmptyString(governance.dor ?? "PASS", "capsule.governance.dor")
+  assertNonEmptyString(governance.dod ?? "PENDING", "capsule.governance.dod")
+
+  return value
+}
+
+export function compileTaskCapsule({ routeBundle, objective = "Bounded task execution", writeSet = [], readSet = [], forbiddenPaths = [], toolsAllowed = ["read", "write"] }) {
+  const route = validateRouteBundle(routeBundle).bundle
+  return validateTaskCapsule({
+    schema_version: 1,
+    kind: TASK_CAPSULE_KIND,
+    task: {
+      id: route.task_id,
+      objective
+    },
+    authority: {
+      contracts: route.contracts ?? [],
+      source_refs: [route.path],
+      immutable_refs: ["Fernadoteixeira/dtc-starter"]
+    },
+    capabilities: {
+      lifecycle: route.orchestrations ?? [],
+      canonical_technical: route.nos_domains ?? [],
+      target_platform: [...(route.core_skills ?? []), ...(route.external_skills ?? [])]
+    },
+    agent: {
+      worker: route.canonical_agent,
+      reviewer: route.shortcut === "review:canonical" ? "code-reviewer" : "canonical-reviewer"
+    },
+    execution: {
+      invocation_id: route.invocation_id,
+      tools_allowed: toolsAllowed,
+      write_set: writeSet,
+      read_set: readSet,
+      forbidden_paths: forbiddenPaths
+    },
+    protocols: {
+      a2a: "internal",
+      dtc_ap2: "enabled",
+      mcp: ["medusa-docs"]
+    },
+    evidence: {
+      required_receipts: ["ROUTE-E", "AGENT-LOAD-E", "SKILL-LOAD-E", "AGENT-RUN", "REVIEW-E"]
+    },
+    governance: {
+      dor: "PASS",
+      dod: "PENDING",
+      human_gate: "NOT_REQUIRED"
+    }
+  })
+}
+
+export function assertWriteSetNoConflict(laneAWriteSet, laneBWriteSet) {
+  assertStringArray(laneAWriteSet, "lane A write-set")
+  assertStringArray(laneBWriteSet, "lane B write-set")
+  const setA = new Set(laneAWriteSet.map(toPosixPath))
+  for (const pathB of laneBWriteSet.map(toPosixPath)) {
+    if (setA.has(pathB)) {
+      throw new Error(`Write-set collision detected on path: ${pathB}`)
+    }
+  }
+}
+
 export function failCli(error) {
   const message = error instanceof Error ? error.message : String(error)
   process.stderr.write(`ERROR: ${message}\n`)
   process.exitCode = 1
 }
+
