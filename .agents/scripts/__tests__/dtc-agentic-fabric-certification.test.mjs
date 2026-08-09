@@ -1,4 +1,5 @@
 import assert from "node:assert/strict"
+import { execSync } from "node:child_process"
 import { test, beforeEach } from "node:test"
 import {
   AGENT_REGISTRY_PATH,
@@ -368,5 +369,59 @@ test("dtc-agentic-fabric: authorizePlatformToolCall blocks financial transaction
   assert.throws(
     () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "payment purchase mandate" }),
     /requires AP2 mandate verification/
+  )
+})
+
+test("dtc-agentic-fabric: cross-process atomic write-set lease contention blocks Process B when Process A holds lease", () => {
+  const childScript = `
+    import { buildRouteBundle } from "./.agents/scripts/resolve-agent-shortcut.mjs";
+    import { compileTaskCapsule, acquireWriteSetLease } from "./.agents/scripts/canonical-execution-lib.mjs";
+    const routeA = buildRouteBundle({ shortcut: "impl:storefront", taskId: "XPROC-001A" });
+    const capsuleA = compileTaskCapsule({
+      routeBundle: routeA,
+      objective: "Process A execution",
+      writeSet: ["packages/gallery-experience/**"]
+    });
+    acquireWriteSetLease({ capsule: capsuleA, owner: "process-A-worker" });
+  `
+  execSync(`node --input-type=module -e "${childScript.replace(/"/g, '\\"').replace(/\r?\n/g, " ")}"`, {
+    cwd: process.cwd()
+  })
+
+  const routeB = buildRouteBundle({ shortcut: "impl:nos", taskId: "XPROC-001B" })
+  const capsuleB = compileTaskCapsule({
+    routeBundle: routeB,
+    objective: "Process B execution",
+    writeSet: ["packages/gallery-experience/src/components/card.tsx"]
+  })
+
+  assert.throws(
+    () => acquireWriteSetLease({ capsule: capsuleB, owner: "process-B-worker" }),
+    /Write-set collision detected/
+  )
+})
+
+test("dtc-agentic-fabric: authorizePlatformToolCall blocks indirect shell/script file write bypasses in run_command", () => {
+  const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-023" })
+  const capsule = compileTaskCapsule({
+    routeBundle: route,
+    objective: "Indirect write bypass test",
+    writeSet: ["apps/storefront/src/lib/config.ts"],
+    grants: ["AUTH-0", "AUTH-1"]
+  })
+
+  assert.throws(
+    () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "Set-Content -Path apps/storefront/src/lib/config.ts -Value 'hack'" }),
+    /DTC-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
+  )
+
+  assert.throws(
+    () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "node -e \"fs.writeFileSync('apps/storefront/src/lib/config.ts', 'hack')\"" }),
+    /DTC-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
+  )
+
+  assert.throws(
+    () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "echo 'hack' >> apps/storefront/src/lib/config.ts" }),
+    /DTC-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
   )
 })

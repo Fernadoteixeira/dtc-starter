@@ -4,9 +4,31 @@
 > Auto-generated catalog of all agents, skills, hooks, contracts, and packs
 > in the `.agents/` directory. Last verified: 2026-08-09.
 
+> **Core Fabric Invariants**:
+> - `AGENT ARCHETYPE != AGENT IDENTITY` (Archetypes define execution roles; identities define concrete agents)
+> - `AUTHOR AGENT ID != REVIEWER AGENT ID` (Strict triple-identity separation: `agent_id`, `invocation_id`, `host_session_id`)
+> - `TOOL AVAILABLE != GRANT PRESENT != ACTION AUTHORIZED` (Having a tool does not grant authorization to execute)
+> - `ONE WRITE-SET = ONE ACTIVE WRITER` (Process-safe durable file-backed lock leases)
+> - `PROTOCOL != AUTHORITY` (Protocols communicate/transact; contracts authorize)
+
 ---
 
-## Architecture Planes
+## Fabric Execution Status Matrix
+
+| Horizon | Component | State | Certification Details |
+|---|---|---:|---|
+| **H0** | **Semantic Overlay** | 🟢 CLOSED | 6 planes documented, zero physical displacement |
+| **H1** | **Authority Registry (P0)** | 🟢 CLOSED | SSOT of provenance materialised (`canonical-authority-registry.yaml`) |
+| **H1** | **Capability Registry (P2)** | 🟢 CLOSED | Unified namespace (PLC-315, NOS-205, Medusa 18) |
+| **H1** | **Agent Registry (P3)** | 🟢 CLOSED | SSOT of agent identities materialised (`canonical-agent-registry.yaml`) |
+| **H1** | **Protocol Registry (P4)** | 🟢 CLOSED | Disambiguated `dtc-ap2` vs `ap2-payments` (`canonical-protocol-registry.yaml`) |
+| **H2** | **Task Capsule Governance** | 🟢 CLOSED | Structural + referential integrity validation active |
+| **H2** | **Runtime Authorization** | 🟢 CLOSED | Capability-based grants (`AUTH-0` to `AUTH-4`) active |
+| **H2** | **Process-Safe Write Leases** | 🟢 CLOSED | Durable file store, cross-process atomic lock, Windows case-insensitive + parent-child overlap PASS |
+| **H2** | **Canonical Capsule Hashing** | 🟢 CLOSED | Deterministic key ordering, digest field excluded, SHA-256 bound to evidence graph |
+| **H3** | **DTC-AP2 Enforcement Gateway** | 🚀 GO | Platform tool interception (`authorizePlatformToolCall`), bypass resistance & firewall composition active |
+
+---
 
 The `.agents` ecosystem is organized into a **6-Plane Logical Information Architecture** governing 2,302 physical entries without physical path displacement:
 

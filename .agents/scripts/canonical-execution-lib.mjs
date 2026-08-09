@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto"
-import { existsSync, lstatSync, readFileSync, realpathSync, writeFileSync } from "node:fs"
+import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -922,14 +922,56 @@ export function authorizeTaskCapsule(capsule, requestedGrant = "AUTH-1") {
   return { authorized: true, grant: requestedGrant, capsule: validated }
 }
 
-export function acquireWriteSetLease({ capsule, owner = "canonical-worker", ownerToken = randomUUID() }) {
+export const DURABLE_LEASE_STORE_PATH = ".agents/scripts/active-leases.json"
+
+export function loadDurableLeases() {
+  const storePath = resolveRepoPath(DURABLE_LEASE_STORE_PATH, { mustExist: false })
+  if (!existsSync(storePath)) return new Map()
+  try {
+    const raw = readUtf8(DURABLE_LEASE_STORE_PATH)
+    const json = JSON.parse(raw)
+    const map = new Map()
+    const now = Date.now()
+    if (Array.isArray(json)) {
+      for (const item of json) {
+        if (item && item.lease_id && item.status === "ACTIVE") {
+          const acquiredAt = new Date(item.acquired_at).getTime()
+          const ttlMs = item.ttl_ms ?? 1800000
+          if (now - acquiredAt < ttlMs) {
+            map.set(item.lease_id, item)
+          }
+        }
+      }
+    }
+    return map
+  } catch {
+    return new Map()
+  }
+}
+
+export function saveDurableLeases(leasesMap) {
+  const storePath = resolveRepoPath(DURABLE_LEASE_STORE_PATH, { mustExist: false })
+  const storeDir = path.dirname(storePath)
+  if (!existsSync(storeDir)) {
+    mkdirSync(storeDir, { recursive: true })
+  }
+  const items = Array.from(leasesMap.values())
+  const jsonStr = JSON.stringify(items, null, 2)
+  const tmpPath = `${storePath}.${process.pid}.${Date.now()}.tmp`
+  writeFileSync(tmpPath, jsonStr, "utf-8")
+  renameSync(tmpPath, storePath)
+}
+
+export function acquireWriteSetLease({ capsule, owner = "canonical-worker", ownerToken = randomUUID(), ttlMs = 1800000 }) {
   const validated = validateTaskCapsuleReferences(capsule)
   const writeSet = validated.execution.write_set
   if (!Array.isArray(writeSet) || writeSet.length === 0) {
     throw new Error("Acquire write-set lease requires non-empty write_set in Task Capsule")
   }
 
-  for (const [, lease] of activeLeases.entries()) {
+  const leases = loadDurableLeases()
+
+  for (const [, lease] of leases.entries()) {
     assertWriteSetNoConflict(writeSet, lease.write_set)
   }
 
@@ -943,27 +985,39 @@ export function acquireWriteSetLease({ capsule, owner = "canonical-worker", owne
     owner_token: ownerToken,
     write_set: [...writeSet],
     status: "ACTIVE",
-    acquired_at: new Date().toISOString()
+    acquired_at: new Date().toISOString(),
+    ttl_ms: ttlMs
   }
+  leases.set(leaseId, leaseRecord)
   activeLeases.set(leaseId, leaseRecord)
+  saveDurableLeases(leases)
   return leaseRecord
 }
 
 export function releaseWriteSetLease(leaseId, ownerToken = null) {
   assertNonEmptyString(leaseId, "lease_id")
-  if (!activeLeases.has(leaseId)) {
+  const leases = loadDurableLeases()
+  if (!leases.has(leaseId) && !activeLeases.has(leaseId)) {
     return true
   }
-  const lease = activeLeases.get(leaseId)
+  const lease = leases.get(leaseId) || activeLeases.get(leaseId)
   if (ownerToken && lease.owner_token && lease.owner_token !== ownerToken) {
     throw new Error(`Cannot release lease ${leaseId}: invalid owner_token`)
   }
+  leases.delete(leaseId)
   activeLeases.delete(leaseId)
+  saveDurableLeases(leases)
   return true
 }
 
 export function resetWriteSetLeases() {
   activeLeases.clear()
+  const storePath = resolveRepoPath(DURABLE_LEASE_STORE_PATH, { mustExist: false })
+  if (existsSync(storePath)) {
+    try {
+      unlinkSync(storePath)
+    } catch {}
+  }
 }
 
 export function hashTaskCapsule(capsule) {
@@ -976,7 +1030,13 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
   const capsuleDigest = hashCanonicalTaskCapsule(validatedCapsule)
 
   let requiredGrant = "AUTH-0"
-  const isMutation = ["write_to_file", "replace_file_content", "multi_replace_file_content", "edit"].includes(toolName)
+  const isDirectMutation = ["write_to_file", "replace_file_content", "multi_replace_file_content", "edit"].includes(toolName)
+
+  const isIndirectMutation = toolName === "run_command" && commandLine && (
+    />>|\bOut-File\b|\bSet-Content\b|\bAdd-Content\b|\bTee-Object\b|fs\.writeFileSync|python.*open\(|node.*fs\./i.test(commandLine)
+  )
+
+  const isMutation = isDirectMutation || isIndirectMutation
   const isScm = commandLine && /(?:git\s+commit|git\s+push|git\s+merge|git\s+rebase|git\s+reset)/i.test(commandLine)
   const isRelease = commandLine && /(?:deploy|release)/i.test(commandLine)
   const isFinancial = commandLine && /(?:payment|purchase|buy|mandate)/i.test(commandLine)
@@ -997,7 +1057,8 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
     if (!leaseId) {
       throw new Error(`DTC-AP2 Execution Blocked: Tool ${toolName} requires an active write-set lease`)
     }
-    const lease = activeLeases.get(leaseId)
+    const leases = loadDurableLeases()
+    const lease = leases.get(leaseId) || activeLeases.get(leaseId)
     if (!lease || lease.status !== "ACTIVE") {
       throw new Error(`DTC-AP2 Execution Blocked: Active lease ${leaseId} not found`)
     }
