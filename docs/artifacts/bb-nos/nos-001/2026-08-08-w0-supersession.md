@@ -11,6 +11,7 @@ This record preserves the historical evidence while invalidating conclusions tha
 | `t21/13-cross-agent-review.md` semantic PASS | `SUPERSEDED_FALSE_NEGATIVE` | The review missed five nonexistent canonical paths, inconsistent counts and a stale target inventory. |
 | `t22` and `t22-r1` DoD PASS | `SUPERSEDED_INVALID_DERIVATION` | The derivation used existence checks, hardcoded `DOD-13 = PASS`, hardcoded zero P0/P1 counts and did not execute semantic source validation. |
 | `t23` and `t23-r1` completion records | `SUPERSEDED_PREMATURE` | Their inputs were invalid and the required final GitHub completion record was not published. |
+| synthetic URL `issue-13-completion-record.json` | `SUPERSEDED_INVALID_EXTERNAL_EVIDENCE` | The completion record used a synthetic URL (`#issuecomment-bb-nos-w0-freeze`) instead of a real numeric GitHub comment ID. |
 | `program-state` release candidate and frozen manifest | `SUPERSEDED_PREMATURE` | The live issue remained open with DoD not passed and the current contract itself remained mutable. |
 | `95/95` as canonical parity | `HISTORICAL_TARGET_EVIDENCE_ONLY` | The suite exercised the parallel `GalleryExperience` implementation; it did not compare a faithful canonical transplant. |
 

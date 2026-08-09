@@ -8,7 +8,7 @@ execution:
   current_bb: BB-NOS
   current_task: GOV-01..06 then DAT-01..06
   current_round: W0 Iteration 2 independent review
-  current_gate: W0_ITERATION_2_REVIEW_PENDING
+  current_gate: W0_CLOSURE_REMEDIATION
   status: in_progress
 
 human_decisions:
