@@ -37,7 +37,7 @@ test("A2A BOUNDARY #39: Valid A2A message compiles ExternalPrincipal task capsul
   // 1. Verify ExternalPrincipal mapping & authority ceiling
   assert.equal(capsule.external_principal.principal_id, "remote-agent-client-alpha")
   assert.deepEqual(capsule.authorization.grants, ["AUTH-0"])
-  assert.deepEqual(capsule.authorization.write_set, [])
+  assert.deepEqual(capsule.execution.write_set, [])
 
   // 2. Verify local worker/reviewer selection
   assert.equal(capsule.worker, "repo-cartographer")
