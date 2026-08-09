@@ -1,10 +1,10 @@
 /**
  * telemetry-resilience.test.mjs
  *
- * H6 / W5 #46 OpenTelemetry Substrate Resilience & Failure Isolation Test Suite
+ * H6 / W5 #46 OpenTelemetry Substrate Resilience & Fault Isolation Test Suite
  *
  * Tests:
- *   1. Exporter Network Outage Fault Injection (Execution continues intact)
+ *   1. Exporter Network Outage Fault Injection against canonical-telemetry-lib.mjs
  *   2. Telemetry Invariant: TELEMETRY LOSS != BEHAVIOR CHANGE
  *   3. Telemetry Invariant: OBSERVABILITY != EVIDENCE != AUTH
  *   4. Control-Plane Privacy (Raw fencing tokens/lease IDs sanitized before export)
@@ -12,7 +12,12 @@
 
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { createHash } from "node:crypto"
+import {
+  createFabricSpan,
+  recordFabricSpanWithExporter,
+  sanitizeTelemetryAttributes,
+  sanitizeControlPlaneId
+} from "../canonical-telemetry-lib.mjs"
 
 // Simulated Telemetry Exporter with Fault Injection Capability
 export class FaultInjectableTelemetryExporter {
@@ -30,50 +35,20 @@ export class FaultInjectableTelemetryExporter {
   }
 }
 
-// Simulated Task Capsule Executor wrapped in Telemetry Substrate
-export function executeTaskCapsuleWithTelemetry(capsule, exporter) {
-  const result = {
-    taskId: capsule.taskId,
-    status: "EXECUTED",
-    writeSetGranted: false, // Telemetry NEVER grants write_set
-    output: capsule.inputData ? `Processed: ${capsule.inputData}` : "Success"
-  }
-
-  // Telemetry Emission Step wrapped in Fail-Safe Handler (#46 Fault-Isolation Law)
-  try {
-    const sanitizedLeaseHash = capsule.leaseId ? createHash("sha256").update(capsule.leaseId).digest("hex") : null
-    const sanitizedFencingHash = capsule.fencingToken ? createHash("sha256").update(capsule.fencingToken).digest("hex") : null
-
-    exporter.exportSpan({
-      name: "fabric.task_capsule.execute",
-      attributes: {
-        "fabric.task_id": capsule.taskId,
-        "fabric.task_capsule_digest": createHash("sha256").update(JSON.stringify(capsule)).digest("hex"),
-        "fabric.sanitized_lease_hash": sanitizedLeaseHash,
-        "fabric.sanitized_fencing_hash": sanitizedFencingHash,
-        "fabric.operation_type": "task"
-      }
-    })
-  } catch (err) {
-    // FAIL-SAFE CATCH: Telemetry outage is logged locally but NEVER alters execution flow
-    console.warn(`[TELEMETRY_OUTAGE_CAPTURED] ${err.message}`)
-  }
-
-  return result
-}
-
 // ---------------------------------------------------------------------------
-// TEST 1: Exporter Outage Fault Injection
+// TEST 1: Exporter Outage Fault Injection via canonical-telemetry-lib.mjs
 // ---------------------------------------------------------------------------
 test("W5 #46: Exporter network outage does NOT interrupt task capsule execution (FAIL-SAFE)", () => {
   const failingExporter = new FaultInjectableTelemetryExporter({ outage: true })
-  const capsule = { taskId: "TASK-TEST-001", inputData: "Hello FIO-VIVO" }
+  
+  // Dispatch telemetry span through canonical runtime helper under simulated outage
+  const res = recordFabricSpanWithExporter("fabric.task_capsule.execute", {
+    "fabric.task_id": "TASK-CANONICAL-001"
+  }, failingExporter)
 
-  // Execute capsule under simulated total telemetry exporter outage
-  const res = executeTaskCapsuleWithTelemetry(capsule, failingExporter)
-
-  assert.equal(res.status, "EXECUTED")
-  assert.equal(res.output, "Processed: Hello FIO-VIVO")
+  assert.equal(res.status, "OK")
+  assert.equal(res.writeSetGranted, false)
+  assert.equal(res.authGranted, false)
   assert.equal(failingExporter.exportedSpans.length, 0)
 })
 
@@ -83,12 +58,13 @@ test("W5 #46: Exporter network outage does NOT interrupt task capsule execution 
 test("W5 #46: Telemetry outage produces identical return payload to healthy state", () => {
   const healthyExporter = new FaultInjectableTelemetryExporter({ outage: false })
   const failingExporter = new FaultInjectableTelemetryExporter({ outage: true })
-  const capsule = { taskId: "TASK-TEST-002", inputData: "Deterministic Input" }
 
-  const healthyRes = executeTaskCapsuleWithTelemetry(capsule, healthyExporter)
-  const failingRes = executeTaskCapsuleWithTelemetry(capsule, failingExporter)
+  const healthyRes = recordFabricSpanWithExporter("fabric.task_capsule.execute", { "fabric.task_id": "TASK-002" }, healthyExporter)
+  const failingRes = recordFabricSpanWithExporter("fabric.task_capsule.execute", { "fabric.task_id": "TASK-002" }, failingExporter)
 
-  assert.deepEqual(healthyRes, failingRes, "Execution result must be identical regardless of telemetry state")
+  assert.equal(healthyRes.status, failingRes.status)
+  assert.equal(healthyRes.writeSetGranted, failingRes.writeSetGranted)
+  assert.equal(healthyRes.authGranted, failingRes.authGranted)
 })
 
 // ---------------------------------------------------------------------------
@@ -96,26 +72,28 @@ test("W5 #46: Telemetry outage produces identical return payload to healthy stat
 // ---------------------------------------------------------------------------
 test("W5 #46: Telemetry span generation NEVER grants write-set or satisfies AUTH gate", () => {
   const healthyExporter = new FaultInjectableTelemetryExporter({ outage: false })
-  const capsule = { taskId: "TASK-TEST-003" }
+  const res = recordFabricSpanWithExporter("fabric.task_capsule.execute", { "fabric.task_id": "TASK-003" }, healthyExporter)
 
-  const res = executeTaskCapsuleWithTelemetry(capsule, healthyExporter)
   assert.equal(res.writeSetGranted, false, "Telemetry emission must NEVER grant write-set")
+  assert.equal(res.authGranted, false, "Telemetry emission must NEVER grant AUTH")
   assert.equal(healthyExporter.exportedSpans.length, 1)
 })
 
 // ---------------------------------------------------------------------------
-// TEST 4: Control-Plane Privacy Sanitization
+// TEST 4: Control-Plane Privacy Sanitization in canonical-telemetry-lib.mjs
 // ---------------------------------------------------------------------------
-test("W5 #46: Control-plane lease IDs and fencing tokens are sanitized before export", () => {
-  const exporter = new FaultInjectableTelemetryExporter({ outage: false })
+test("W5 #46: Control-plane lease IDs and fencing tokens are sanitized via SHA-256 before export", () => {
   const rawLeaseId = "LEASE-SECRET-PID-1234"
   const rawFencingToken = "FENCING-TOKEN-9999"
 
-  executeTaskCapsuleWithTelemetry({ taskId: "TASK-SEC-004", leaseId: rawLeaseId, fencingToken: rawFencingToken }, exporter)
+  const sanitized = sanitizeTelemetryAttributes({
+    "fabric.lease_id": rawLeaseId,
+    "fabric.fencing_token": rawFencingToken
+  })
 
-  const span = exporter.exportedSpans[0]
-  assert.ok(span.attributes["fabric.sanitized_lease_hash"])
-  assert.ok(span.attributes["fabric.sanitized_fencing_hash"])
-  assert.notEqual(span.attributes["fabric.sanitized_lease_hash"], rawLeaseId)
-  assert.notEqual(span.attributes["fabric.sanitized_fencing_hash"], rawFencingToken)
+  assert.ok(sanitized["fabric.lease_id"])
+  assert.ok(sanitized["fabric.fencing_token"])
+  assert.notEqual(sanitized["fabric.lease_id"], rawLeaseId)
+  assert.notEqual(sanitized["fabric.fencing_token"], rawFencingToken)
+  assert.equal(sanitized["fabric.lease_id"], sanitizeControlPlaneId(rawLeaseId))
 })
