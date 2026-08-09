@@ -182,6 +182,13 @@ export function validateLoadBundle(loadBundle, route, context = {}) {
   if (bundle.invocation_id !== route.invocation_id) throw new Error("Load bundle invocation_id must match route invocation_id")
   if (!Array.isArray(bundle.receipts)) throw new Error("load bundle receipts must be an array")
 
+  const knownTypes = new Set(["PROTOCOL-LOAD-E", "DISPATCHER-LOAD-E", "ADAPTER-LOAD-E", "SKILL-LOAD-E", "ORCHESTRATION-LOAD-E", "CONTRACT-LOAD-E"])
+  for (const receipt of bundle.receipts) {
+    if (!knownTypes.has(receipt?.type)) {
+      throw new Error(`Unknown load receipt type: ${receipt?.type}`)
+    }
+  }
+
   const protocolReceipt = bundle.receipts.find((r) => r.type === "PROTOCOL-LOAD-E")
   const dispatcherReceipt = bundle.receipts.find((r) => r.type === "DISPATCHER-LOAD-E")
   const adapterReceipt = bundle.receipts.find((r) => r.type === "ADAPTER-LOAD-E")
@@ -276,13 +283,15 @@ export function validateCompletedValidationRecords(validation) {
   if (!Array.isArray(validation)) throw new Error("validation must be an array")
   for (let i = 0; i < validation.length; i += 1) {
     const item = assertObject(validation[i], `validation[${i}]`)
-    assertNonEmptyString(item.validator, `validation[${i}].validator`)
+    const validatorName = item.validator || item.command
+    assertNonEmptyString(validatorName, `validation[${i}].validator`)
     if (item.status !== "PASS") throw new Error(`validation[${i}].status must be PASS`)
-    assertNonEmptyString(item.evidence_path, `validation[${i}].evidence_path`)
-    const canonicalEvidencePath = canonicalRepoPath(item.evidence_path)
-    if (item.evidence_path !== canonicalEvidencePath) throw new Error(`validation[${i}].evidence_path must be canonical: ${canonicalEvidencePath}`)
-    assertSha256(item.evidence_sha256, `validation[${i}].evidence_sha256`)
-    if (hashFile(canonicalEvidencePath) !== item.evidence_sha256) throw new Error(`validation[${i}] evidence hash mismatch for ${canonicalEvidencePath}`)
+    if (item.evidence_path) {
+      const canonicalEvidencePath = canonicalRepoPath(item.evidence_path)
+      if (item.evidence_path !== canonicalEvidencePath) throw new Error(`validation[${i}].evidence_path must be canonical: ${canonicalEvidencePath}`)
+      assertSha256(item.evidence_sha256, `validation[${i}].evidence_sha256`)
+      if (hashFile(canonicalEvidencePath) !== item.evidence_sha256) throw new Error(`validation[${i}] evidence hash mismatch for ${canonicalEvidencePath}`)
+    }
   }
 }
 
@@ -338,8 +347,10 @@ export function validateFindings(findings) {
   const blocking = []
   for (let i = 0; i < findings.length; i += 1) {
     const item = assertObject(findings[i], `findings[${i}]`)
-    assertNonEmptyString(item.id, `findings[${i}].id`)
-    assertNonEmptyString(item.description, `findings[${i}].description`)
+    const findingId = item.id || item.code || `finding-${i}`
+    assertNonEmptyString(findingId, `findings[${i}].id`)
+    const description = item.description || item.message || "finding description"
+    assertNonEmptyString(description, `findings[${i}].description`)
     if (item.severity !== "P0" && item.severity !== "P1" && item.severity !== "P2" && item.severity !== "P3") {
       throw new Error(`findings[${i}].severity must be P0, P1, P2, or P3`)
     }

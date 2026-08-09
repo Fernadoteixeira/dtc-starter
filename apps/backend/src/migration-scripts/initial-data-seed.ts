@@ -758,20 +758,20 @@ export default async function initial_data_seed({
   });
   logger.info("Finished seeding product data.");
 
-  logger.info("Seeding Bolsas Autorais collection...");
+  logger.info("Seeding fio-vivo collection...");
   try {
     await createCollectionsWorkflow(container).run({
       input: {
         collections: [
           {
-            title: "Bolsas Autorais — Coleção Fio Vivo",
-            handle: "bolsas-autorais",
+            title: "Coleção Fio Vivo",
+            handle: "fio-vivo",
             product_ids: createdProducts.map((product) => product.id),
           },
         ],
       },
     });
-    logger.info("Finished seeding Bolsas Autorais collection.");
+    logger.info("Finished seeding fio-vivo collection.");
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logger.warn(
