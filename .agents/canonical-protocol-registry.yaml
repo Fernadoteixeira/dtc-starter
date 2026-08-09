@@ -84,7 +84,16 @@ authorization_classes:
   AUTH-1: "Workspace Mutation (Code/CSS/Files — requires write-set lease)"
   AUTH-2: "SCM (Commit/Push/PR — requires explicit human authorization)"
   AUTH-3: "Release (Deploy/Staging — requires release authorization)"
-  AUTH-4: "Financial & Transactional (ap2-payments mandates required)"
+  AUTH-4: "EXTERNAL_CONSEQUENCE (External side-effects: financial, publication, notification)"
+
+external_consequence_subtypes:
+  financial_transaction:
+    mandate_protocol: ap2-payments
+    mandate_required: true
+  external_publication:
+    policy_required: true
+  external_notification:
+    policy_required: true
 
 legacy_compatibility:
   id: protocols.dtc_ap2
