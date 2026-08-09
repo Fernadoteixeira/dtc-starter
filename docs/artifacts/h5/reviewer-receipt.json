@@ -1,20 +1,23 @@
 {
-  "receipt_id": "REVIEW-E-H5-SECURITY-001",
+  "receipt_id": "REVIEW-E-H5-SECURITY-002",
   "issue_id": "#43",
-  "wave_id": "W5",
-  "timestamp": "2026-08-09T04:31:40Z",
+  "wave_id": "W5C.1",
+  "timestamp": "2026-08-09T04:43:10Z",
   "reviewer_id": "security-governor-01",
   "status": "PASS",
   "verdict": "H5 KNOWLEDGE AUTHORITY BOUNDARY ESTABLISHED",
-  "validated_contracts": [
-    ".agents/knowledge-authority-model.yaml",
-    ".agents/canonical-source-registry.yaml"
-  ],
+  "artifact_hashes": {
+    ".agents/knowledge-authority-model.yaml": "7757d39307d11c20e8416498816fe3fccb72d306803029627d48c82b11db84e5",
+    ".agents/canonical-source-registry.yaml": "0cc5598fa9a48446432167b633e4a2b5af3266229bc06d8da54cb797b4c0d2e4",
+    ".agents/scripts/validate-source-registry.mjs": "92b79127a2f0ed5f0d8dcdd3ec9af981858bdb8d1a0ab9a36a3b9cae6a3f255b"
+  },
   "verification_details": {
     "zero_duplicate_ssot": true,
     "retrieval_request_not_data_authorization": true,
     "connector_available_not_source_authorized": true,
-    "immutable_version_references_enforced": true,
+    "symbolic_head_references_forbidden": true,
+    "immutable_commit_shas_pinned": true,
+    "semantic_enum_schema_validation_passed": true,
     "a2a_mcp_disclosure_policies_enforced": true
   }
 }

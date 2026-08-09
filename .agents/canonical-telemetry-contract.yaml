@@ -22,35 +22,65 @@ vendor_neutrality:
     adapters_supported: [otlp_collector, langfuse_optional, langsmith_optional, phoenix_optional]
     core_lockin: none
 
-tracing:
-  tracer_name: "fio-vivo.agentic-fabric"
-  spans:
-    - name: "fabric.task_capsule.execute"
-      description: "Traces complete task capsule execution lifecycle"
-      required_attributes:
-        - fabric.task_id
-        - fabric.worker_agent_id
-        - fabric.reviewer_agent_id
-        - fabric.max_grant
-        - fabric.lease_id
+# ──────────────────────────────────────────────────────────────────────────────
+# Canonical Identifier Coverage (#46 Complete Identifier Set)
+# ──────────────────────────────────────────────────────────────────────────────
 
-    - name: "fabric.lease.acquire"
-      description: "Traces atomic process-safe lease acquisition"
-      required_attributes:
-        - fabric.lease_id
-        - fabric.target_path
-        - fabric.fencing_token
-
-    - name: "fabric.a2a.gateway_request"
-      description: "Traces incoming A2A external gateway request"
-      required_attributes:
-        - a2a.rpc_method
-        - a2a.protocol_version
-        - a2a.principal_id
-        - a2a.auth_ceiling
+canonical_identifiers:
+  task_layer:
+    - fabric.task_id
+    - fabric.task_capsule_digest
+  execution_layer:
+    - fabric.execution_id
+    - fabric.invocation_id
+  identity_layer:
+    - fabric.principal_id
+    - fabric.session_id
+    - fabric.agent_id
+    - fabric.agent_archetype
+  capability_layer:
+    - fabric.capability_id
+    - fabric.model_id
+    - fabric.provider_id
+  operation_layer:
+    - fabric.operation_type
+  artifact_layer:
+    - fabric.artifact_id
+    - fabric.output_digest
+  evidence_auth_layer:
+    - fabric.auth_verdict
+    - fabric.evidence_receipt_ref
+    - fabric.review_verdict
+  metrics_cost_layer:
+    - fabric.latency_ms
+    - fabric.token_count
+    - fabric.cost_usd
+    - fabric.retries
+    - fabric.error_type
+  outcome_layer:
+    - fabric.outcome_correlation_id
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Operation Taxonomy (#46 FV-060)
+# Measurement Hierarchy (#46 6-Layer Hierarchy)
+# ──────────────────────────────────────────────────────────────────────────────
+
+measurement_hierarchy:
+  layers:
+    - name: signal
+      description: Raw event log and trace span signals
+    - name: step
+      description: Bounded execution step telemetry
+    - name: execution
+      description: Full invocation trace context
+    - name: task
+      description: Complete task capsule execution metrics
+    - name: capability_product
+      description: Capability performance and resource consumption
+    - name: outcome
+      description: Business and verified functional outcome metrics
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Tracing & Operation Taxonomy (#46 FV-060)
 # ──────────────────────────────────────────────────────────────────────────────
 
 operation_taxonomy:
@@ -61,19 +91,38 @@ operation_taxonomy:
     - agent: "Agent sub-task orchestrations"
     - review: "Independent verification and review steps"
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Correlation Architecture (#46 FV-061)
-# ──────────────────────────────────────────────────────────────────────────────
+tracing:
+  tracer_name: "fio-vivo.agentic-fabric"
+  spans:
+    - name: "fabric.task_capsule.execute"
+      description: "Traces complete task capsule execution lifecycle"
+      required_attributes:
+        - fabric.task_id
+        - fabric.task_capsule_digest
+        - fabric.execution_id
+        - fabric.invocation_id
+        - fabric.agent_id
+        - fabric.agent_archetype
+        - fabric.auth_verdict
+        - fabric.evidence_receipt_ref
 
-correlation:
-  mapping: "Task Capsule ↔ execution ↔ evidence refs"
-  primary_keys:
-    - fabric.task_id
-    - fabric.execution_trace_id
-    - fabric.evidence_receipt_ref
+    - name: "fabric.lease.acquire"
+      description: "Traces atomic process-safe lease acquisition"
+      required_attributes:
+        - fabric.task_id
+        - fabric.sanitized_lease_hash
+        - fabric.sanitized_fencing_hash
+
+    - name: "fabric.a2a.gateway_request"
+      description: "Traces incoming A2A external gateway request"
+      required_attributes:
+        - fabric.principal_id
+        - fabric.session_id
+        - fabric.capability_id
+        - fabric.auth_verdict
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Resilience & Failure Isolation (#46 FV-062, FV-063)
+# Resilience, Control-Plane Privacy & Fault Isolation (#46 FV-058, FV-062, FV-063)
 # ──────────────────────────────────────────────────────────────────────────────
 
 resilience:
@@ -85,20 +134,22 @@ resilience:
     - OBSERVABILITY != EVIDENCE != AUTH
     - TELEMETRY LOSS != BEHAVIOR CHANGE
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Privacy, Security & Cardinality Budget (#46 FV-058, FV-059)
-# ──────────────────────────────────────────────────────────────────────────────
-
-privacy_and_security:
+privacy_and_control_plane_security:
   forbidden_attributes:
     - "raw_secret"
     - "api_key"
     - "private_key"
     - "raw_prompt"
     - "internal_stack_trace"
-  sanitization_rule: "ALL_ATTRIBUTES_SANITIZED_VIA_ALLOWLIST"
+  control_plane_id_policy:
+    raw_fencing_token_export: FORBIDDEN
+    raw_lease_id_export: FORBIDDEN
+    sanitization_method: SHA256_HASH_BEFORE_EXPORT
 
-cardinality_budget:
+cardinality_budget_policy:
+  high_cardinality_rule:
+    span_attributes: ALLOWED_UNDER_BOUNDED_RETENTION
+    metric_dimensions_labels: STRICTLY_FORBIDDEN
   max_custom_attributes_per_span: 16
   max_attribute_string_length: 256
   unbounded_dimensions: FORBIDDEN
