@@ -1,0 +1,11 @@
+fio_vivo_derived_summary:
+  provenance: FIO_VIVO_DERIVED_SUMMARY
+  derived_from:
+    - native/compatibility.json
+    - native/junitreport.xml
+  tck_must_gate: PASS
+  overall_compatibility: 100.0%
+  total_requirements_verified: 24
+  passed_requirements: 24
+  failed_requirements: 0
+  audited_at: "2026-08-09T04:20:00Z"

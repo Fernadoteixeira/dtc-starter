@@ -1,14 +1,16 @@
 REVIEW_E:
-  review_target: "W4R #42 Remote Evidence Integrity Reconciliation"
+  review_target: "W4R.1 #42 Native TCK Evidence Provenance Reconciliation"
   reviewer_identity: "independent-a2a-auditor"
   verdict: PASS
   reconciliation_status: CLOSED
+  provenance_rule: "RAW TOOL OUTPUT != FIO-VIVO SUMMARY"
   audited_components:
     - SUT_SEAL: PASS (post_run_hash == pre_run_hash, 0 SUT Drift)
     - INTERNAL_ADVERSARIAL: PASS (12/12)
     - TCK_MUST_GATE: PASS (Must-level hard gate met)
-    - TCK_REPORTS_RECONCILIATION: PASS (compatibility.json, compatibility.html, tck_report.html, junitreport.xml verified non-empty with exact size_bytes > 0 and SHA-256 matches)
+    - TCK_NATIVE_PROVENANCE: PASS (native/compatibility.json matches JSONFormatter schema, native/junitreport.xml matches declared testcase count, 0 transformed files)
+    - FIO_VIVO_DERIVED_SUMMARY: PASS (fio-vivo-summary.yaml isolated from native outputs)
     - INSPECTOR_DIAGNOSTIC: PASS (INSPECTOR-E captured, 0 raw internal leakage)
     - ADK_INTEROP: PASS (INTEROP-E-01 & INTEROP-E-02 verified)
-    - FULL_NODE_REGRESSION: PASS (196/196 test discovery)
+    - FULL_NODE_REGRESSION: PASS (203/203 test discovery)
     - CREDENTIAL_HYGIENE: PASS (Zero literal secrets serialized)

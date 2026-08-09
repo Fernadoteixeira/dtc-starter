@@ -1,0 +1,30 @@
+{
+  "summary": {
+    "timestamp": "2026-08-09T04:09:00Z",
+    "sut_url": "http://127.0.0.1:43127",
+    "spec_version": "1.0.1",
+    "overall_compatibility": 100.0,
+    "must_compatibility": 100.0,
+    "should_compatibility": 100.0,
+    "may_compatibility": 100.0
+  },
+  "per_requirement": {
+    "MUST-001": true,
+    "MUST-002": true,
+    "MUST-003": true,
+    "MUST-004": true,
+    "MUST-005": true,
+    "MUST-006": true
+  },
+  "per_transport": {
+    "jsonrpc": {
+      "passed": 24,
+      "failed": 0,
+      "total": 24
+    }
+  },
+  "agent_card": {
+    "name": "FIO-VIVO Sovereign Gateway",
+    "version": "1.0.0"
+  }
+}

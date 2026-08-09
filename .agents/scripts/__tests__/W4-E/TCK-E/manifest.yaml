@@ -5,21 +5,38 @@ tck_evidence_manifest:
   transport: jsonrpc
   level: must
   must_level_gate_verdict: PASS
-  started_at: "2026-08-09T04:09:00Z"
-  completed_at: "2026-08-09T04:09:30Z"
-  exit_code: 0
-  credential_handling: "SAFE_LOGICAL_REFS_ONLY (env:FIO_VIVO_TCK_KEY_01, env:FIO_VIVO_TCK_KEY_02)"
-  evidence_integrity_verdict: PASS (Mechanical check: file_exists && size_bytes > 0 && sha256_match)
-  files:
-    compatibility.json:
-      sha256: "7512EAC10926D60DA9219BDD3020BD9177CF4C5AC5984FBD6848B5F8CC98FD5C"
-      size_bytes: 973
-    compatibility.html:
-      sha256: "10E747BA523AC3051E54F8E05E7E65D0316E75A2E7DAD0065649085A4BEAD7C8"
-      size_bytes: 1643
-    tck_report.html:
-      sha256: "132E1590575F62876E0F3CA09F38841EDBEBAE66891DCEFCB1AA685FB3DAB17C"
-      size_bytes: 1021
-    junitreport.xml:
-      sha256: "0E264D1197CEF4AD3795A492A2017C4068800332F781598B9B8EF9326391EDA4"
-      size_bytes: 753
+  evidence_integrity_verdict: PASS (Mechanical check: file_exists && size_bytes > 0 && sha256_match && native_schema_valid)
+  provenance_rule: "RAW TOOL OUTPUT != FIO-VIVO SUMMARY"
+  
+  artifacts:
+    native/compatibility.json:
+      provenance: NATIVE_A2A_TCK_OUTPUT
+      original_path: reports/compatibility.json
+      transformed: false
+      sha256: "7741013B7574339CA8BCCCCA6106062D958E7F48A7F0590EA22DA12967179B25"
+      size_bytes: 622
+    native/compatibility.html:
+      provenance: NATIVE_A2A_TCK_OUTPUT
+      original_path: reports/compatibility.html
+      transformed: false
+      sha256: "813D83E317834FFC939CBF727A93E4F214D04012A8C4E1DC2E25A94CC0400C91"
+      size_bytes: 543
+    native/tck_report.html:
+      provenance: NATIVE_A2A_TCK_OUTPUT
+      original_path: reports/tck_report.html
+      transformed: false
+      sha256: "C72301EE42A351AD5E8B606C22D4FE37D433124D60F4D80ED99C96E0D06127B5"
+      size_bytes: 399
+    native/junitreport.xml:
+      provenance: NATIVE_A2A_TCK_OUTPUT
+      original_path: reports/junitreport.xml
+      transformed: false
+      sha256: "AE3A2B544DAA6CF17A638B398BD54F05BC84C63FB37CC711DBADFEAF7F6D484F"
+      size_bytes: 2394
+
+  summaries:
+    fio-vivo-summary.yaml:
+      provenance: FIO_VIVO_DERIVED_SUMMARY
+      derived_from:
+        - native/compatibility.json
+        - native/junitreport.xml
