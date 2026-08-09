@@ -1,0 +1,113 @@
+version: 1
+kind: canonical-agent-registry
+status: active
+repository: Fernadoteixeira/dtc-starter
+description: |
+  L3 Agent Identity & Archetype SSOT for the DTC Agentic Fabric.
+  Separates agent archetypes (execution roles) from agent identities (concrete personas).
+  Enforces archetype governance, mutation permissions, self-review prohibitions, and reviewer topologies.
+
+laws:
+  - Agent Archetype != Agent Identity
+  - Author Agent ID != Reviewer Agent ID
+  - Author Invocation ID != Reviewer Invocation ID
+  - Author Host Session ID != Reviewer Host Session ID
+  - Mutation-capable agents require an active write-set lease before mutating files
+
+archetypes:
+  orchestrator:
+    description: Multi-agent task decomposition and coordination
+    mutation_capable: false
+    may_self_review: false
+    requires_write_set: false
+
+  architect:
+    description: Architecture design, specification, and contract definition
+    mutation_capable: false
+    may_self_review: false
+    requires_write_set: false
+
+  worker:
+    description: Bounded implementation worker
+    mutation_capable: true
+    may_self_review: false
+    requires_write_set: true
+
+  reviewer:
+    description: Independent code and execution reviewer
+    mutation_capable: false
+    may_self_review: false
+    requires_write_set: false
+
+  guardian:
+    description: Repository firewall and path confinement governor
+    mutation_capable: false
+    may_self_review: false
+    requires_write_set: false
+
+  validator:
+    description: Specialized validation, quality audit, and verification agent
+    mutation_capable: false
+    may_self_review: false
+    requires_write_set: false
+
+agents:
+  orchestrator:
+    archetype: orchestrator
+    description: Primary multi-agent task orchestrator
+
+  software-architect:
+    archetype: architect
+    description: Technical architecture and specification agent
+
+  implementation-engineer:
+    archetype: worker
+    description: Storefront and backend implementation engineer
+
+  canonical-worker:
+    archetype: worker
+    description: Canonical execution worker for bounded unit tasks
+
+  bb03-css-implementer:
+    archetype: worker
+    description: BB03 CSS implementation specialist
+
+  bb03-css-spec:
+    archetype: architect
+    description: BB03 CSS specification specialist
+
+  code-reviewer:
+    archetype: reviewer
+    description: Independent code reviewer
+
+  canonical-reviewer:
+    archetype: reviewer
+    description: Canonical independent execution reviewer
+
+  bb03-css-validator:
+    archetype: validator
+    description: BB03 CSS validation specialist
+
+  repo-guardian:
+    archetype: guardian
+    description: Repository firewall and confinement governor
+
+  security-governor:
+    archetype: validator
+    description: Security and dependency governor
+
+  visual-catalog-curator:
+    archetype: validator
+    description: Visual catalog curator and UI auditor
+
+  runtime-verifier:
+    archetype: validator
+    description: Runtime build and performance verifier
+
+  qa-test-lead:
+    archetype: validator
+    description: QA test lead
+
+  release-operator:
+    archetype: guardian
+    description: Release readiness operator

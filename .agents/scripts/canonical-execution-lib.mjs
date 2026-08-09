@@ -7,6 +7,10 @@ export const ROUTE_KIND = "canonical-agent-route"
 export const LOAD_KIND = "canonical-execution-load-bundle"
 export const TASK_CAPSULE_KIND = "task-capsule"
 export const REGISTRY_PATH = ".agents/canonical-agent-shortcuts.yaml"
+export const AUTHORITY_REGISTRY_PATH = ".agents/canonical-authority-registry.yaml"
+export const CAPABILITY_REGISTRY_PATH = ".agents/canonical-capability-registry.yaml"
+export const AGENT_REGISTRY_PATH = ".agents/canonical-agent-registry.yaml"
+export const PROTOCOL_REGISTRY_PATH = ".agents/canonical-protocol-registry.yaml"
 export const PROTOCOL_PATH = ".agents/canonical-execution-protocol.yaml"
 export const VALIDATOR_PATH = ".agents/scripts/validate-execution-evidence.mjs"
 export const AGENT_ROOT = ".agents/ollama-superpowers-pack-v1.0.0/agents"
@@ -759,6 +763,171 @@ export function assertWriteSetNoConflict(laneAWriteSet, laneBWriteSet) {
     if (setA.has(pathB)) {
       throw new Error(`Write-set collision detected on path: ${pathB}`)
     }
+  }
+}
+
+const activeLeases = new Map()
+
+export function parseAgentRegistry(source) {
+  if (typeof source !== "string") throw new Error("Agent registry source must be a string")
+  const lines = source.replace(/^\uFEFF/, "").split(/\r?\n/)
+  const archetypesLine = lines.findIndex((line) => line === "archetypes:")
+  if (archetypesLine === -1) throw new Error("Agent registry missing top-level archetypes: section")
+  const archetypes = new Set()
+  for (let index = archetypesLine + 1; index < lines.length; index += 1) {
+    const match = /^  ([a-z0-9-]+):$/.exec(lines[index])
+    if (match) {
+      archetypes.add(match[1])
+    }
+  }
+  return archetypes
+}
+
+export function loadAgentRegistry() {
+  if (!existsSync(resolveRepoPath(AGENT_REGISTRY_PATH, { mustExist: false }))) {
+    return new Set(["canonical-worker", "canonical-reviewer", "implementation-engineer", "code-reviewer", "software-architect", "orchestrator"])
+  }
+  return parseAgentRegistry(readUtf8(AGENT_REGISTRY_PATH))
+}
+
+export function validateTaskCapsuleReferences(capsule) {
+  const validated = validateTaskCapsule(capsule)
+  const knownAgents = loadAgentRegistry()
+
+  if (!knownAgents.has(validated.agent.worker)) {
+    throw new Error(`Task Capsule references unknown worker agent: ${validated.agent.worker}`)
+  }
+  if (!knownAgents.has(validated.agent.reviewer)) {
+    throw new Error(`Task Capsule references unknown reviewer agent: ${validated.agent.reviewer}`)
+  }
+
+  for (const ref of validated.authority.source_refs) {
+    if (!existsSync(resolveRepoPath(ref, { mustExist: false }))) {
+      throw new Error(`Task Capsule references non-existent authority source ref: ${ref}`)
+    }
+  }
+
+  return validated
+}
+
+export function authorizeTaskCapsule(capsule, requestedTier = "AUTH-1") {
+  const validated = validateTaskCapsuleReferences(capsule)
+  const validTiers = new Set(["AUTH-0", "AUTH-1", "AUTH-2", "AUTH-3", "AUTH-4"])
+  if (!validTiers.has(requestedTier)) {
+    throw new Error(`Invalid authorization tier requested: ${requestedTier}`)
+  }
+
+  if (requestedTier === "AUTH-1" || requestedTier === "AUTH-2" || requestedTier === "AUTH-3" || requestedTier === "AUTH-4") {
+    if (validated.execution.tools_allowed.includes("forbidden")) {
+      throw new Error(`Task Capsule execution tools forbidden for requested tier ${requestedTier}`)
+    }
+  }
+
+  if (requestedTier === "AUTH-4") {
+    if (validated.protocols.dtc_ap2 !== "mandate_verified") {
+      throw new Error(`Authorization tier escalation rejected: ${requestedTier} requires AP2 mandate verification`)
+    }
+  }
+
+  if (requestedTier === "AUTH-2" || requestedTier === "AUTH-3") {
+    if (validated.governance.human_gate !== "HUMAN_APPROVED") {
+      throw new Error(`Authorization tier escalation rejected: ${requestedTier} requires human approval`)
+    }
+  }
+
+  return { authorized: true, tier: requestedTier, capsule: validated }
+}
+
+export function acquireWriteSetLease({ capsule, owner = "canonical-worker" }) {
+  const validated = validateTaskCapsuleReferences(capsule)
+  const writeSet = validated.execution.write_set
+  if (!Array.isArray(writeSet) || writeSet.length === 0) {
+    throw new Error("Acquire write-set lease requires non-empty write_set in Task Capsule")
+  }
+
+  for (const [, lease] of activeLeases.entries()) {
+    assertWriteSetNoConflict(writeSet, lease.write_set)
+  }
+
+  const leaseId = `lease-${validated.task.id}-${randomUUID()}`
+  const leaseRecord = {
+    lease_id: leaseId,
+    task_id: validated.task.id,
+    invocation_id: validated.execution.invocation_id,
+    owner,
+    write_set: [...writeSet],
+    status: "ACTIVE",
+    acquired_at: new Date().toISOString()
+  }
+  activeLeases.set(leaseId, leaseRecord)
+  return leaseRecord
+}
+
+export function releaseWriteSetLease(leaseId) {
+  assertNonEmptyString(leaseId, "lease_id")
+  if (!activeLeases.has(leaseId)) {
+    throw new Error(`Cannot release non-existent lease_id: ${leaseId}`)
+  }
+  activeLeases.delete(leaseId)
+  return true
+}
+
+export function resetWriteSetLeases() {
+  activeLeases.clear()
+}
+
+export function hashTaskCapsule(capsule) {
+  return hashCanonicalValue(validateTaskCapsule(capsule), "task capsule")
+}
+
+export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPath, commandLine }) {
+  assertNonEmptyString(toolName, "toolName")
+  const validatedCapsule = validateTaskCapsuleReferences(capsule)
+  const capsuleDigest = hashTaskCapsule(validatedCapsule)
+
+  let requiredTier = "AUTH-0"
+  const isMutation = ["write_to_file", "replace_file_content", "multi_replace_file_content", "edit"].includes(toolName)
+  const isScm = commandLine && /(?:git\s+commit|git\s+push|git\s+merge|git\s+rebase|git\s+reset)/i.test(commandLine)
+  const isRelease = commandLine && /(?:deploy|release)/i.test(commandLine)
+  const isFinancial = commandLine && /(?:payment|purchase|buy|mandate)/i.test(commandLine)
+
+  if (isFinancial) {
+    requiredTier = "AUTH-4"
+  } else if (isRelease) {
+    requiredTier = "AUTH-3"
+  } else if (isScm) {
+    requiredTier = "AUTH-2"
+  } else if (isMutation) {
+    requiredTier = "AUTH-1"
+  }
+
+  authorizeTaskCapsule(validatedCapsule, requiredTier)
+
+  if (isMutation) {
+    if (!leaseId) {
+      throw new Error(`DTC-AP2 Execution Blocked: Tool ${toolName} requires an active write-set lease`)
+    }
+    const lease = activeLeases.get(leaseId)
+    if (!lease || lease.status !== "ACTIVE") {
+      throw new Error(`DTC-AP2 Execution Blocked: Active lease ${leaseId} not found`)
+    }
+    if (targetPath) {
+      const canonicalTarget = toPosixPath(targetPath)
+      const leasePaths = new Set(lease.write_set.map(toPosixPath))
+      if (!leasePaths.has(canonicalTarget)) {
+        throw new Error(`DTC-AP2 Execution Blocked: Target path ${canonicalTarget} is not in lease write-set`)
+      }
+    }
+  }
+
+  return {
+    status: "AUTHORIZED",
+    task_id: validatedCapsule.task.id,
+    task_capsule_sha256: capsuleDigest,
+    tool_name: toolName,
+    required_tier: requiredTier,
+    lease_id: leaseId ?? null,
+    authorized_at: new Date().toISOString()
   }
 }
 
