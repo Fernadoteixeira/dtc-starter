@@ -101,73 +101,127 @@ export default async function initial_data_seed({
   });
 
   logger.info("Seeding region data...");
-  const { result: regionResult } = await createRegionsWorkflow(container).run({
-    input: {
-      regions: [
-        {
-          name: "Brasil",
-          currency_code: "brl",
-          countries: ["br"],
-          payment_providers: ["pp_system_default"],
-        },
-        {
-          name: "Europe",
-          currency_code: "eur",
-          countries,
-          payment_providers: ["pp_system_default"],
-        },
-      ],
-    },
+  const { data: existingRegions } = await query.graph({
+    entity: "region",
+    fields: ["id", "name", "currency_code"],
   });
-  const brazilRegion = regionResult.find((r) => r.currency_code === "brl") || regionResult[0];
-  const europeRegion = regionResult.find((r) => r.currency_code === "eur") || regionResult[1] || regionResult[0];
-  const region = brazilRegion;
+
+  let regionResult = (existingRegions || []) as Array<{ id: string; name: string; currency_code: string }>;
+  let brazilRegion = regionResult.find((r) => r.currency_code === "brl");
+  let europeRegion = regionResult.find((r) => r.currency_code === "eur");
+
+  if (!brazilRegion) {
+    try {
+      const { result: created } = await createRegionsWorkflow(container).run({
+        input: {
+          regions: [
+            {
+              name: "Brasil",
+              currency_code: "brl",
+              countries: ["br"],
+              payment_providers: ["pp_system_default"],
+            },
+          ],
+        },
+      });
+      brazilRegion = created[0];
+      regionResult.push(brazilRegion);
+    } catch (err) {
+      logger.warn(`Region Brasil creation skipped or failed: ${err}`);
+    }
+  }
+
+  if (!europeRegion) {
+    try {
+      const { result: created } = await createRegionsWorkflow(container).run({
+        input: {
+          regions: [
+            {
+              name: "Europe",
+              currency_code: "eur",
+              countries,
+              payment_providers: ["pp_system_default"],
+            },
+          ],
+        },
+      });
+      europeRegion = created[0];
+      regionResult.push(europeRegion);
+    } catch (err) {
+      logger.warn(`Region Europe creation skipped or failed: ${err}`);
+    }
+  }
+
+  const region = brazilRegion || europeRegion || regionResult[0];
   logger.info("Finished seeding regions.");
 
   logger.info("Seeding tax regions...");
-  await createTaxRegionsWorkflow(container).run({
-    input: allCountries.map((country_code) => ({
-      country_code,
-      provider_id: "tp_system",
-    })),
+  const { data: existingTaxRegions } = await query.graph({
+    entity: "tax_region",
+    fields: ["id", "country_code"],
   });
+  const existingTaxCodes = new Set((existingTaxRegions || []).map((t: any) => t.country_code));
+  const missingTaxCodes = allCountries.filter((c) => !existingTaxCodes.has(c));
+
+  if (missingTaxCodes.length > 0) {
+    try {
+      await createTaxRegionsWorkflow(container).run({
+        input: missingTaxCodes.map((country_code) => ({
+          country_code,
+          provider_id: "tp_system",
+        })),
+      });
+    } catch (err) {
+      logger.warn(`Tax region creation skipped: ${err}`);
+    }
+  }
   logger.info("Finished seeding tax regions.");
 
   logger.info("Seeding stock location data...");
-  const { result: stockLocationResult } = await createStockLocationsWorkflow(
-    container
-  ).run({
-    input: {
-      locations: [
-        {
-          name: "Atelier Fio Vivo São Paulo",
-          address: {
-            city: "São Paulo",
-            country_code: "BR",
-            address_1: "Rua Harmonia, Vila Madalena",
-          },
-        },
-        {
-          name: "European Warehouse",
-          address: {
-            city: "Copenhagen",
-            country_code: "DK",
-            address_1: "",
-          },
-        },
-      ],
-    },
+  const { data: existingStockLocations } = await query.graph({
+    entity: "stock_location",
+    fields: ["id", "name"],
   });
-  const stockLocation = stockLocationResult[0];
 
-  await link.create({
-    [Modules.STOCK_LOCATION]: {
-      stock_location_id: stockLocation.id,
-    },
-    [Modules.FULFILLMENT]: {
-      fulfillment_provider_id: "manual_manual",
-    },
-  });
+  let stockLocation = existingStockLocations?.[0];
+  if (!stockLocation) {
+    const { result: stockLocationResult } = await createStockLocationsWorkflow(
+      container
+    ).run({
+      input: {
+        locations: [
+          {
+            name: "Atelier Fio Vivo São Paulo",
+            address: {
+              city: "São Paulo",
+              country_code: "BR",
+              address_1: "Rua Harmonia, Vila Madalena",
+            },
+          },
+          {
+            name: "European Warehouse",
+            address: {
+              city: "Copenhagen",
+              country_code: "DK",
+              address_1: "",
+            },
+          },
+        ],
+      },
+    });
+    stockLocation = stockLocationResult[0];
+
+    try {
+      await link.create({
+        [Modules.STOCK_LOCATION]: {
+          stock_location_id: stockLocation.id,
+        },
+        [Modules.FULFILLMENT]: {
+          fulfillment_provider_id: "manual_manual",
+        },
+      });
+    } catch {}
+  }
 
   logger.info("Seeding fulfillment data...");
   // This is created by a migration script in core.
