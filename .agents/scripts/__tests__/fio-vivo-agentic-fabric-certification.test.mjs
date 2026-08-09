@@ -38,7 +38,7 @@ beforeEach(() => {
 // CATEGORY 1: REGISTRY SSOT (4 REGISTRIES)
 // ==========================================
 
-test("dtc-agentic-fabric: loadAgentRegistry resolves both archetypes and agents maps", () => {
+test("fio-vivo-agentic-fabric: loadAgentRegistry resolves both archetypes and agents maps", () => {
   const registry = loadAgentRegistry()
   assert.ok(registry.agents.has("canonical-worker"))
   assert.ok(registry.agents.has("canonical-reviewer"))
@@ -47,7 +47,7 @@ test("dtc-agentic-fabric: loadAgentRegistry resolves both archetypes and agents 
   assert.ok(registry.agents.has("repo-guardian"))
 })
 
-test("dtc-agentic-fabric: validateTaskCapsuleReferences resolves known agents from agent registry", () => {
+test("fio-vivo-agentic-fabric: validateTaskCapsuleReferences resolves known agents from agent registry", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-001" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -59,28 +59,28 @@ test("dtc-agentic-fabric: validateTaskCapsuleReferences resolves known agents fr
   assert.equal(validated.agent.reviewer.agent_id, "canonical-reviewer")
 })
 
-test("dtc-agentic-fabric: rejects unknown worker agent reference", () => {
+test("fio-vivo-agentic-fabric: rejects unknown worker agent reference", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-002" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Testing unknown worker" })
   capsule.agent.worker = { agent_id: "fake-unknown-worker", archetype: "worker" }
   assert.throws(() => validateTaskCapsuleReferences(capsule), /references unknown worker agent: fake-unknown-worker/)
 })
 
-test("dtc-agentic-fabric: rejects unknown reviewer agent reference", () => {
+test("fio-vivo-agentic-fabric: rejects unknown reviewer agent reference", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-003" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Testing unknown reviewer" })
   capsule.agent.reviewer = { agent_id: "fake-unknown-reviewer", archetype: "reviewer" }
   assert.throws(() => validateTaskCapsuleReferences(capsule), /references unknown reviewer agent: fake-unknown-reviewer/)
 })
 
-test("dtc-agentic-fabric: rejects non-existent authority source ref", () => {
+test("fio-vivo-agentic-fabric: rejects non-existent authority source ref", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-004" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Testing fake source ref" })
   capsule.authority.source_refs = [".agents/fake-non-existent-source-ref.json"]
   assert.throws(() => validateTaskCapsuleReferences(capsule), /references non-existent authority source ref/)
 })
 
-test("dtc-agentic-fabric: parseAgentRegistry fails when archetypes: section is missing", () => {
+test("fio-vivo-agentic-fabric: parseAgentRegistry fails when archetypes: section is missing", () => {
   assert.throws(() => parseAgentRegistry("invalid: yaml"), /Agent registry missing archetypes: or agents: section/)
 })
 
@@ -88,7 +88,7 @@ test("dtc-agentic-fabric: parseAgentRegistry fails when archetypes: section is m
 // CATEGORY 2: AGENT SEPARATION & IDENTITIES
 // ==========================================
 
-test("dtc-agentic-fabric: validateTaskCapsule rejects worker identity == reviewer identity", () => {
+test("fio-vivo-agentic-fabric: validateTaskCapsule rejects worker identity == reviewer identity", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-005" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Testing identity separation" })
   capsule.agent.worker = { agent_id: "canonical-worker", archetype: "worker" }
@@ -96,7 +96,7 @@ test("dtc-agentic-fabric: validateTaskCapsule rejects worker identity == reviewe
   assert.throws(() => validateTaskCapsule(capsule), /Capsule worker and reviewer agent identities must be distinct/)
 })
 
-test("dtc-agentic-fabric: validateTaskCapsule accepts distinct worker and reviewer identities", () => {
+test("fio-vivo-agentic-fabric: validateTaskCapsule accepts distinct worker and reviewer identities", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-006" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Distinct identities" })
   capsule.agent.worker = { agent_id: "implementation-engineer", archetype: "worker" }
@@ -110,7 +110,7 @@ test("dtc-agentic-fabric: validateTaskCapsule accepts distinct worker and review
 // CATEGORY 3: CAPABILITY-BASED AUTH GRANTS
 // ==========================================
 
-test("dtc-agentic-fabric: authorizeTaskCapsule grants AUTH-0 and AUTH-1 when explicitly listed", () => {
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule grants AUTH-0 and AUTH-1 when explicitly listed", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-007" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -127,7 +127,7 @@ test("dtc-agentic-fabric: authorizeTaskCapsule grants AUTH-0 and AUTH-1 when exp
   assert.equal(res1.grant, "AUTH-1")
 })
 
-test("dtc-agentic-fabric: authorizeTaskCapsule rejects grant not included in capsule grants (no implicit tier inheritance)", () => {
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects grant not included in capsule grants (no implicit tier inheritance)", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-008" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -137,7 +137,7 @@ test("dtc-agentic-fabric: authorizeTaskCapsule rejects grant not included in cap
   assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-1"), /requested grant AUTH-1 is not in capsule authorization grants/)
 })
 
-test("dtc-agentic-fabric: authorizeTaskCapsule rejects AUTH-4 financial escalation without AP2 mandate", () => {
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects AUTH-4 financial escalation without AP2 mandate", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-009" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -147,7 +147,7 @@ test("dtc-agentic-fabric: authorizeTaskCapsule rejects AUTH-4 financial escalati
   assert.throws(() => authorizeTaskCapsule(capsule, "AUTH-4"), /Authorization grant rejected: AUTH-4 requires AP2 mandate verification/)
 })
 
-test("dtc-agentic-fabric: authorizeTaskCapsule rejects AUTH-2/3 without human approval", () => {
+test("fio-vivo-agentic-fabric: authorizeTaskCapsule rejects AUTH-2/3 without human approval", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-010" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -165,17 +165,17 @@ test("dtc-agentic-fabric: authorizeTaskCapsule rejects AUTH-2/3 without human ap
 // CATEGORY 4: PROCESS-SAFE LEASES & PATH NORMALIZATION
 // ==========================================
 
-test("dtc-agentic-fabric: pathsOverlap detects parent-child directory overlap", () => {
+test("fio-vivo-agentic-fabric: pathsOverlap detects parent-child directory overlap", () => {
   assert.equal(pathsOverlap("packages/gallery/**", "packages/gallery/src/card.tsx"), true)
   assert.equal(pathsOverlap("packages/gallery/src/card.tsx", "packages/gallery"), true)
   assert.equal(pathsOverlap("apps/storefront/src/styles/theme.css", "apps/storefront/src/modules/home"), false)
 })
 
-test("dtc-agentic-fabric: pathsOverlap detects Windows case-insensitive collision", () => {
+test("fio-vivo-agentic-fabric: pathsOverlap detects Windows case-insensitive collision", () => {
   assert.equal(pathsOverlap("apps/storefront/src/styles/theme.css", "APPS/STOREFRONT/SRC/STYLES/THEME.CSS"), true)
 })
 
-test("dtc-agentic-fabric: acquireWriteSetLease grants active lease for disjoint paths", () => {
+test("fio-vivo-agentic-fabric: acquireWriteSetLease grants active lease for disjoint paths", () => {
   const routeA = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-011A" })
   const capsuleA = compileTaskCapsule({
     routeBundle: routeA,
@@ -198,7 +198,7 @@ test("dtc-agentic-fabric: acquireWriteSetLease grants active lease for disjoint 
   assert.equal(leaseB.task_id, "CERT-011B")
 })
 
-test("dtc-agentic-fabric: acquireWriteSetLease rejects parent-child directory write-set overlap", () => {
+test("fio-vivo-agentic-fabric: acquireWriteSetLease rejects parent-child directory write-set overlap", () => {
   const routeA = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-012A" })
   const capsuleA = compileTaskCapsule({
     routeBundle: routeA,
@@ -216,7 +216,7 @@ test("dtc-agentic-fabric: acquireWriteSetLease rejects parent-child directory wr
   assert.throws(() => acquireWriteSetLease({ capsule: capsuleB, owner: "lane-B-worker" }), /Write-set collision detected/)
 })
 
-test("dtc-agentic-fabric: releaseWriteSetLease rejects release with invalid owner_token", () => {
+test("fio-vivo-agentic-fabric: releaseWriteSetLease rejects release with invalid owner_token", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-013" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -227,7 +227,7 @@ test("dtc-agentic-fabric: releaseWriteSetLease rejects release with invalid owne
   assert.throws(() => releaseWriteSetLease(lease.lease_id, "wrong-token-456"), /invalid owner_token/)
 })
 
-test("dtc-agentic-fabric: releaseWriteSetLease allows re-acquisition of write-set path", () => {
+test("fio-vivo-agentic-fabric: releaseWriteSetLease allows re-acquisition of write-set path", () => {
   const routeA = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-014A" })
   const capsuleA = compileTaskCapsule({
     routeBundle: routeA,
@@ -253,12 +253,11 @@ test("dtc-agentic-fabric: releaseWriteSetLease allows re-acquisition of write-se
 // CATEGORY 5: CANONICAL TASK CAPSULE HASHING
 // ==========================================
 
-test("dtc-agentic-fabric: hashCanonicalTaskCapsule produces consistent SHA-256 digest regardless of key order", () => {
+test("fio-vivo-agentic-fabric: hashCanonicalTaskCapsule produces consistent SHA-256 digest regardless of key order", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-015" })
   const capsule1 = compileTaskCapsule({ routeBundle: route, objective: "Testing digest" })
   const capsule2 = structuredClone(capsule1)
 
-  // Reorder keys manually
   const reordered = {
     governance: capsule2.governance,
     schema_version: capsule2.schema_version,
@@ -279,7 +278,7 @@ test("dtc-agentic-fabric: hashCanonicalTaskCapsule produces consistent SHA-256 d
   assert.match(hash1, /^[a-f0-9]{64}$/)
 })
 
-test("dtc-agentic-fabric: hashCanonicalTaskCapsule excludes task_capsule_sha256 digest field from calculation", () => {
+test("fio-vivo-agentic-fabric: hashCanonicalTaskCapsule excludes task_capsule_sha256 digest field from calculation", () => {
   const route = buildRouteBundle({ shortcut: "impl", taskId: "CERT-016" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Testing digest exclusion" })
   const hashBefore = hashCanonicalTaskCapsule(capsule)
@@ -289,10 +288,10 @@ test("dtc-agentic-fabric: hashCanonicalTaskCapsule excludes task_capsule_sha256 
 })
 
 // ==========================================
-// CATEGORY 6: PLATFORM TOOL EXECUTION GATEWAY (DTC-AP2)
+// CATEGORY 6: PLATFORM TOOL EXECUTION GATEWAY (FIO-VIVO-AP2)
 // ==========================================
 
-test("dtc-agentic-fabric: authorizePlatformToolCall authorizes read-only tool under AUTH-0", () => {
+test("fio-vivo-agentic-fabric: authorizePlatformToolCall authorizes read-only tool under AUTH-0", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-017" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Read-only test" })
   const auth = authorizePlatformToolCall({ capsule, toolName: "view_file", targetPath: "apps/storefront/src/lib/config.ts" })
@@ -300,7 +299,7 @@ test("dtc-agentic-fabric: authorizePlatformToolCall authorizes read-only tool un
   assert.equal(auth.required_grant, "AUTH-0")
 })
 
-test("dtc-agentic-fabric: authorizePlatformToolCall authorizes mutation tool under AUTH-1 with valid lease", () => {
+test("fio-vivo-agentic-fabric: authorizePlatformToolCall authorizes mutation tool under AUTH-1 with valid lease", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-018" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -319,7 +318,7 @@ test("dtc-agentic-fabric: authorizePlatformToolCall authorizes mutation tool und
   assert.equal(auth.required_grant, "AUTH-1")
 })
 
-test("dtc-agentic-fabric: authorizePlatformToolCall blocks mutation tool call without active write-set lease", () => {
+test("fio-vivo-agentic-fabric: authorizePlatformToolCall blocks mutation tool call without active write-set lease", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-019" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -329,11 +328,11 @@ test("dtc-agentic-fabric: authorizePlatformToolCall blocks mutation tool call wi
   })
   assert.throws(
     () => authorizePlatformToolCall({ capsule, toolName: "replace_file_content", targetPath: "apps/storefront/src/lib/config.ts" }),
-    /DTC-AP2 Execution Blocked: Tool replace_file_content requires an active write-set lease/
+    /FIO-VIVO-AP2 Execution Blocked: Tool replace_file_content requires an active write-set lease/
   )
 })
 
-test("dtc-agentic-fabric: authorizePlatformToolCall blocks mutation tool call when target path is outside lease write-set", () => {
+test("fio-vivo-agentic-fabric: authorizePlatformToolCall blocks mutation tool call when target path is outside lease write-set", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-020" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -347,13 +346,13 @@ test("dtc-agentic-fabric: authorizePlatformToolCall blocks mutation tool call wh
       capsule,
       leaseId: lease.lease_id,
       toolName: "replace_file_content",
-      targetPath: "apps/storefront/src/app/page.tsx" // Not in lease write-set!
+      targetPath: "apps/storefront/src/app/page.tsx"
     }),
-    /DTC-AP2 Execution Blocked: Target path apps\/storefront\/src\/app\/page\.tsx is not in lease write-set/
+    /FIO-VIVO-AP2 Execution Blocked: Target path apps\/storefront\/src\/app\/page\.tsx is not in lease write-set/
   )
 })
 
-test("dtc-agentic-fabric: authorizePlatformToolCall blocks SCM operations under AUTH-2 without human gate approval", () => {
+test("fio-vivo-agentic-fabric: authorizePlatformToolCall blocks SCM operations under AUTH-2 without human gate approval", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-021" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -366,7 +365,7 @@ test("dtc-agentic-fabric: authorizePlatformToolCall blocks SCM operations under 
   )
 })
 
-test("dtc-agentic-fabric: authorizePlatformToolCall blocks financial transaction under AUTH-4 without AP2 mandate", () => {
+test("fio-vivo-agentic-fabric: authorizePlatformToolCall blocks financial transaction under AUTH-4 without AP2 mandate", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-022" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -379,7 +378,7 @@ test("dtc-agentic-fabric: authorizePlatformToolCall blocks financial transaction
   )
 })
 
-test("dtc-agentic-fabric: cross-process atomic write-set lease contention blocks Process B when Process A holds lease", () => {
+test("fio-vivo-agentic-fabric: cross-process atomic write-set lease contention blocks Process B when Process A holds lease", () => {
   const childScript = `
     import { buildRouteBundle } from "./.agents/scripts/resolve-agent-shortcut.mjs";
     import { compileTaskCapsule, acquireWriteSetLease } from "./.agents/scripts/canonical-execution-lib.mjs";
@@ -408,7 +407,7 @@ test("dtc-agentic-fabric: cross-process atomic write-set lease contention blocks
   )
 })
 
-test("dtc-agentic-fabric: authorizePlatformToolCall blocks indirect shell/script file write bypasses in run_command", () => {
+test("fio-vivo-agentic-fabric: authorizePlatformToolCall blocks indirect shell/script file write bypasses in run_command", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-023" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -419,21 +418,21 @@ test("dtc-agentic-fabric: authorizePlatformToolCall blocks indirect shell/script
 
   assert.throws(
     () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "Set-Content -Path apps/storefront/src/lib/config.ts -Value 'hack'" }),
-    /DTC-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
+    /FIO-VIVO-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
   )
 
   assert.throws(
     () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "node -e \"fs.writeFileSync('apps/storefront/src/lib/config.ts', 'hack')\"" }),
-    /DTC-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
+    /FIO-VIVO-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
   )
 
   assert.throws(
     () => authorizePlatformToolCall({ capsule, toolName: "run_command", commandLine: "echo 'hack' >> apps/storefront/src/lib/config.ts" }),
-    /DTC-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
+    /FIO-VIVO-AP2 Execution Blocked: Tool run_command requires an active write-set lease/
   )
 })
 
-test("dtc-agentic-fabric H2.6: 16-process barrier race contention produces exactly 1 winner and 15 conflicts", () => {
+test("fio-vivo-agentic-fabric H2.6: 16-process barrier race contention produces exactly 1 winner and 15 conflicts", () => {
   const childScript = `
     import { buildRouteBundle } from "./.agents/scripts/resolve-agent-shortcut.mjs";
     import { compileTaskCapsule, acquireWriteSetLease } from "./.agents/scripts/canonical-execution-lib.mjs";
@@ -468,7 +467,7 @@ test("dtc-agentic-fabric H2.6: 16-process barrier race contention produces exact
   assert.equal(conflictCount, 15)
 })
 
-test("dtc-agentic-fabric H2.6: releaseWriteSetLease rejects stale fencing token", () => {
+test("fio-vivo-agentic-fabric H2.6: releaseWriteSetLease rejects stale fencing token", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-FENCE" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -483,7 +482,7 @@ test("dtc-agentic-fabric H2.6: releaseWriteSetLease rejects stale fencing token"
   )
 })
 
-test("dtc-agentic-fabric H3.6: verifyMutationPostcondition detects unauthorized write-set escape", () => {
+test("fio-vivo-agentic-fabric H3.6: verifyMutationPostcondition detects unauthorized write-set escape", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-POST" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -505,7 +504,7 @@ test("dtc-agentic-fabric H3.6: verifyMutationPostcondition detects unauthorized 
   )
 })
 
-test("dtc-agentic-fabric H3.7: validateSubprocessAuthority blocks grant elevation and write-set escape", () => {
+test("fio-vivo-agentic-fabric H3.7: validateSubprocessAuthority blocks grant elevation and write-set escape", () => {
   const parentRoute = buildRouteBundle({ shortcut: "impl:storefront", taskId: "PARENT-001" })
   const parentCapsule = compileTaskCapsule({
     routeBundle: parentRoute,
@@ -550,7 +549,7 @@ test("dtc-agentic-fabric H3.7: validateSubprocessAuthority blocks grant elevatio
   )
 })
 
-test("dtc-agentic-fabric H3.7: exportSubprocessContext formats environment context cleanly", () => {
+test("fio-vivo-agentic-fabric H3.7: exportSubprocessContext formats environment context cleanly", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "ENV-001" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -561,13 +560,13 @@ test("dtc-agentic-fabric H3.7: exportSubprocessContext formats environment conte
   const lease = acquireWriteSetLease({ capsule, owner: "worker-A" })
   const envCtx = exportSubprocessContext({ capsule, leaseRecord: lease })
 
-  assert.equal(envCtx.DTC_LEASE_ID, lease.lease_id)
-  assert.equal(envCtx.DTC_FENCING_TOKEN, String(lease.fencing_token))
-  assert.ok(envCtx.DTC_TASK_CAPSULE_SHA256)
-  assert.ok(envCtx.DTC_AUTHORIZATION_GRANTS.includes("AUTH-1"))
+  assert.equal(envCtx.FIO_VIVO_LEASE_ID, lease.lease_id)
+  assert.equal(envCtx.FIO_VIVO_FENCING_TOKEN, String(lease.fencing_token))
+  assert.ok(envCtx.FIO_VIVO_TASK_CAPSULE_SHA256)
+  assert.ok(envCtx.FIO_VIVO_AUTHORIZATION_GRANTS.includes("AUTH-1"))
 })
 
-test("dtc-agentic-fabric H3.8: captureHostMutationDelta captures filesystem git delta", () => {
+test("fio-vivo-agentic-fabric H3.8: captureHostMutationDelta captures filesystem git delta", () => {
   const delta = captureHostMutationDelta(() => {
     // Read-only action -> empty delta
     return "ok"
@@ -576,7 +575,7 @@ test("dtc-agentic-fabric H3.8: captureHostMutationDelta captures filesystem git 
   assert.ok(Array.isArray(delta.observed_write_set))
 })
 
-test("dtc-agentic-fabric H3.9: verifyAndEnforceMutationPostcondition produces quarantine record on escape", () => {
+test("fio-vivo-agentic-fabric H3.9: verifyAndEnforceMutationPostcondition produces quarantine record on escape", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CERT-QUAR" })
   const capsule = compileTaskCapsule({
     routeBundle: route,
@@ -597,7 +596,7 @@ test("dtc-agentic-fabric H3.9: verifyAndEnforceMutationPostcondition produces qu
   }
 })
 
-test("dtc-agentic-fabric H3.10: buildCompleteReceiptChain builds full 6-phase receipt chain", () => {
+test("fio-vivo-agentic-fabric H3.10: buildCompleteReceiptChain builds full 6-phase receipt chain", () => {
   const route = buildRouteBundle({ shortcut: "impl:storefront", taskId: "CHAIN-001" })
   const capsule = compileTaskCapsule({
     routeBundle: route,

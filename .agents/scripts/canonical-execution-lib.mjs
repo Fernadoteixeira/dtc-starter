@@ -736,7 +736,7 @@ export function validateTaskCapsule(capsule) {
 
   const protocols = assertObject(value.protocols, "capsule.protocols")
   assertNonEmptyString(protocols.a2a ?? "internal", "capsule.protocols.a2a")
-  assertNonEmptyString(protocols.dtc_ap2 ?? "enabled", "capsule.protocols.dtc_ap2")
+  assertNonEmptyString(protocols.fio_vivo_ap2 ?? protocols.dtc_ap2 ?? "enabled", "capsule.protocols.fio_vivo_ap2")
   assertStringArray(protocols.mcp ?? [], "capsule.protocols.mcp")
 
   const evidence = assertObject(value.evidence, "capsule.evidence")
@@ -791,7 +791,7 @@ export function compileTaskCapsule({ routeBundle, objective = "Bounded task exec
     },
     protocols: {
       a2a: "internal",
-      dtc_ap2: "enabled",
+      fio_vivo_ap2: "enabled",
       mcp: ["medusa-docs"]
     },
     evidence: {
@@ -909,7 +909,7 @@ export function authorizeTaskCapsule(capsule, requestedGrant = "AUTH-1") {
   }
 
   if (requestedGrant === "AUTH-4") {
-    if (validated.protocols["ap2-payments"] !== "mandate_verified" && validated.protocols.dtc_ap2 !== "mandate_verified") {
+    if (validated.protocols["ap2-payments"] !== "mandate_verified" && validated.protocols.fio_vivo_ap2 !== "mandate_verified" && validated.protocols.dtc_ap2 !== "mandate_verified") {
       throw new Error(`Authorization grant rejected: ${requestedGrant} requires AP2 mandate verification`)
     }
   }
@@ -1153,12 +1153,12 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
 
   if (isMutation) {
     if (!leaseId) {
-      throw new Error(`DTC-AP2 Execution Blocked: Tool ${toolName} requires an active write-set lease`)
+      throw new Error(`FIO-VIVO-AP2 Execution Blocked: Tool ${toolName} requires an active write-set lease`)
     }
     const { leases } = loadDurableLeasesState()
     const lease = leases.get(leaseId) || activeLeases.get(leaseId)
     if (!lease || lease.status !== "ACTIVE") {
-      throw new Error(`DTC-AP2 Execution Blocked: Active lease ${leaseId} not found`)
+      throw new Error(`FIO-VIVO-AP2 Execution Blocked: Active lease ${leaseId} not found`)
     }
     if (targetPath) {
       const canonicalTarget = toPosixPath(targetPath)
@@ -1170,7 +1170,7 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
         }
       }
       if (!matched) {
-        throw new Error(`DTC-AP2 Execution Blocked: Target path ${canonicalTarget} is not in lease write-set`)
+        throw new Error(`FIO-VIVO-AP2 Execution Blocked: Target path ${canonicalTarget} is not in lease write-set`)
       }
     }
   }
@@ -1190,11 +1190,11 @@ export function exportSubprocessContext({ capsule, leaseRecord }) {
   const validated = validateTaskCapsuleReferences(capsule)
   const capsuleSha = hashCanonicalTaskCapsule(validated)
   return {
-    DTC_TASK_CAPSULE_SHA256: capsuleSha,
-    DTC_FENCING_TOKEN: String(leaseRecord?.fencing_token ?? 0),
-    DTC_LEASE_ID: String(leaseRecord?.lease_id ?? ""),
-    DTC_AUTHORIZATION_GRANTS: JSON.stringify(validated.authorization.grants),
-    DTC_WRITE_SET: JSON.stringify(validated.execution.write_set)
+    FIO_VIVO_TASK_CAPSULE_SHA256: capsuleSha,
+    FIO_VIVO_FENCING_TOKEN: String(leaseRecord?.fencing_token ?? 0),
+    FIO_VIVO_LEASE_ID: String(leaseRecord?.lease_id ?? ""),
+    FIO_VIVO_AUTHORIZATION_GRANTS: JSON.stringify(validated.authorization.grants),
+    FIO_VIVO_WRITE_SET: JSON.stringify(validated.execution.write_set)
   }
 }
 

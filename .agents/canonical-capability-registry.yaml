@@ -3,7 +3,7 @@ kind: canonical-capability-registry
 status: active
 repository: Fernadoteixeira/dtc-starter
 description: |
-  P2 Capability Intelligence SSOT for the DTC Agentic Fabric.
+  P2 Capability Intelligence SSOT for the FIO-VIVO Agentic Fabric.
   Unifies Product Lifecycle (315), NOS Canonical Technical (205),
   Medusa Platform Skills (18), and Web Design Guidelines.
 

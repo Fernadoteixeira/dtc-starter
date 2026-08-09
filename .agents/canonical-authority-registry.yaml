@@ -3,7 +3,7 @@ kind: canonical-authority-registry
 status: active
 repository: Fernadoteixeira/dtc-starter
 description: |
-  P0 Authority & Provenance SSOT for the DTC Agentic Fabric.
+  P0 Authority & Provenance SSOT for the FIO-VIVO Agentic Fabric.
   Establishes source truth, pinned commit SHAs, gitlinks, and immutability rules.
   Rule: Knowledge may interpret authority, but knowledge may NEVER override authority.
 

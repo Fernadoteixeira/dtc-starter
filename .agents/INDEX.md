@@ -1,6 +1,6 @@
-# .agents/ DTC Agentic Fabric Index
+# .agents/ FIO-VIVO Agentic Fabric Index
 
-> **DTC Agentic Fabric (Logical Information Architecture / Agentic OS)**
+> **FIO-VIVO Agentic Fabric (Logical Information Architecture / Agentic OS)**
 > Canonical control-plane index and operational certification baseline for the `.agents/` ecosystem.
 > Last verified: 2026-08-09.
 
@@ -15,7 +15,7 @@
 
 > [!IMPORTANT]
 > **FABRIC GREEN ≠ PRODUCT GREEN**
-> DTC Agentic Fabric certification proves the governance and execution containment substrate.
+> FIO-VIVO Agentic Fabric certification proves the governance and execution containment substrate.
 > It does not implicitly certify:
 > - BB-NOS commercial truth
 > - Canonical visual parity
@@ -33,10 +33,10 @@
 | **H1** | **Authority Registry (P0)** | 🟢 CLOSED | SSOT of provenance materialised (`canonical-authority-registry.yaml`) |
 | **H1** | **Capability Registry (P2)** | 🟢 CLOSED | Unified namespace (PLC-315, NOS-205, Medusa 18) |
 | **H1** | **Agent Registry (P3)** | 🟢 CLOSED | SSOT of agent identities materialised (`canonical-agent-registry.yaml`) |
-| **H1** | **Protocol Registry (P4)** | 🟢 CLOSED | Disambiguated `dtc-ap2` vs `ap2-payments` (`canonical-protocol-registry.yaml`) |
+| **H1** | **Protocol Registry (P4)** | 🟢 CLOSED | Disambiguated `fio-vivo-ap2` vs `ap2-payments` (`canonical-protocol-registry.yaml`) |
 | **H2** | **Task Capsule & Identity** | 🟢 FORMALLY CLOSED | Archetype vs Identity, Capability-based grants, Canonical Hash bound |
 | **H2** | **Process-Safe Lease Engine** | 🟢 FORMALLY CLOSED | Atomic store lock (`withStoreLock`), 16-process barrier test PASS, Monotonic Fencing Tokens, Ephemeral State |
-| **H3** | **DTC-AP2 Gateway & Bypass** | 🟢 CLOSED | Interception, fail-closed command classification, shell/script bypass corpus PASS |
+| **H3** | **FIO-VIVO-AP2 Gateway & Bypass** | 🟢 CLOSED | Interception, fail-closed command classification, shell/script bypass corpus PASS |
 | **H3** | **Subprocess Confinement (H3.7)** | 🟢 CLOSED | `validateSubprocessAuthority` & `exportSubprocessContext` active |
 | **H3** | **Host-Derived Delta (H3.8)** | 🟢 CLOSED | `captureHostMutationDelta` git status delta verification active |
 | **H3** | **Escape Recovery (H3.9)** | 🟢 CLOSED | `verifyAndEnforceMutationPostcondition` & `quarantineMutationEscape` active |
@@ -48,14 +48,14 @@
 
 ```text
 ========================================================================
-DTC AGENTIC FABRIC CERTIFICATION BASELINE (72/72 PASS)
+FIO-VIVO AGENTIC FABRIC CERTIFICATION BASELINE (72/72 PASS)
 ========================================================================
-- dtc-agentic-fabric-certification: 36/36 PASS (Barrier race, fencing, bypass, postcondition, confinement)
-- canonical-execution-fabric:       36/36 PASS (Triple-identity, single-writer, provenance, preflight)
-- Medusa Platform Skills Integrity: 18/18 SKILL.md PASS
-- SOURCE Manifest Provenance:       107/107 file hashes PASS
-- Workspace Monorepo Lint (Turbo):  3/3 packages PASS (0 errors)
-- Production Build Verification:    3/3 workspace projects compiled successfully
+- fio-vivo-agentic-fabric-certification: 36/36 PASS (Barrier race, fencing, bypass, postcondition, confinement)
+- canonical-execution-fabric:            36/36 PASS (Triple-identity, single-writer, provenance, preflight)
+- Medusa Platform Skills Integrity:      18/18 SKILL.md PASS
+- SOURCE Manifest Provenance:            107/107 file hashes PASS
+- Workspace Monorepo Lint (Turbo):       3/3 packages PASS (0 errors)
+- Production Build Verification:         3/3 workspace projects compiled successfully
 ========================================================================
 ```
 
@@ -69,7 +69,7 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 | **P1 Governance & Policy** | Podemos fazer isso? Contracts, gates, DoR/DoD, session ledgers | [`session-state-ledger.md`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/contracts/session-state-ledger.md), `nos-gallery-first-fold.yaml`, `hooks.json` |
 | **P2 Capability Intelligence** | O que precisamos saber? Business, technical, and platform skills | [`canonical-capability-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-capability-registry.yaml), PLC-315, NOS-205, Medusa 18 |
 | **P3 Resolution & A2A** | Quem deve executar? Agent identities, routing aliases, resolution seed | [`canonical-agent-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-agent-registry.yaml), [`canonical-agent-shortcuts.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-agent-shortcuts.yaml), RUG dispatcher |
-| **P4 Execution & DTC-AP2** | Como acessar runtime? PreToolUse firewall, Stop gate, MCP, execution shell | [`canonical-protocol-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-protocol-registry.yaml), `scripts/pretool-firewall.ps1`, MCP `medusa-docs` |
+| **P4 Execution & FIO-VIVO-AP2** | Como acessar runtime? PreToolUse firewall, Stop gate, MCP, execution shell | [`canonical-protocol-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-protocol-registry.yaml), `scripts/pretool-firewall.ps1`, MCP `medusa-docs` |
 | **P5 Evidence & Assurance** | Como provamos? Receipts, attestation, independent review, evidence graph | [`canonical-execution-protocol.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-execution-protocol.yaml), `validate-execution-evidence.mjs` |
 
 ---
@@ -82,7 +82,7 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 ├── canonical-authority-registry.yaml       # P0 Authority & Provenance SSOT
 ├── canonical-capability-registry.yaml      # P2 Capability Intelligence SSOT
 ├── canonical-agent-registry.yaml           # P3 Agent Identity & Archetype SSOT
-├── canonical-protocol-registry.yaml        # P4 Protocols & DTC-AP2 Boundary SSOT
+├── canonical-protocol-registry.yaml        # P4 Protocols & FIO-VIVO-AP2 Boundary SSOT
 ├── canonical-agent-shortcuts.yaml          # P3 Routing aliases / issue bindings / resolution seed
 ├── canonical-execution-protocol.yaml       # P5 Execution receipt contract & verification rules
 ├── .runtime/                               # Ephemeral runtime containment state (git-ignored)
@@ -91,7 +91,7 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 │   │   └── store.lock                      # Atomic compare-and-acquire directory lock
 │   └── quarantine/                         # WRITE_SET_ESCAPE quarantine records
 ├── scripts/
-│   ├── pretool-firewall.ps1                # Defensive enforcement layer composed with DTC-AP2
+│   ├── pretool-firewall.ps1                # Defensive enforcement layer composed with FIO-VIVO-AP2
 │   ├── stop-gate.ps1                       # Checks for uncommitted protected files
 │   ├── canonical-execution-lib.mjs         # Strict resolver/hash/lease/confinement runtime
 │   ├── resolve-agent-shortcut.mjs          # Emits ROUTE-E and AGENT-LOAD-E
@@ -99,8 +99,8 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 │   ├── validate-execution-loads.mjs        # Preflight route/load validation
 │   ├── validate-execution-evidence.mjs     # Final AGENT-RUN/REVIEW-E validation
 │   └── __tests__/
-│       ├── canonical-execution-fabric.test.mjs       # Task capsule, identity, load & evidence tests (36/36 PASS)
-│       └── dtc-agentic-fabric-certification.test.mjs # Barrier race, fencing, postcondition & confinement (36/36 PASS)
+│       ├── canonical-execution-fabric.test.mjs             # Task capsule, identity, load & evidence tests (36/36 PASS)
+│       └── fio-vivo-agentic-fabric-certification.test.mjs  # Barrier race, fencing, postcondition & confinement (36/36 PASS)
 ├── skills/
 │   ├── web-design-guidelines/SKILL.md      # Vercel web interface guidelines review
 │   └── medusa/                             # 18 Copilot-discoverable Medusa skills (canonical tree)
@@ -149,7 +149,7 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 ### PreToolUse: `fio-vivo-pretool-firewall`
 
 **Script:** `scripts/pretool-firewall.ps1`
-**Purpose:** Host-side defensive enforcement layer composed with DTC-AP2, authorization grants, and write-set leases.
+**Purpose:** Host-side defensive enforcement layer composed with FIO-VIVO-AP2, authorization grants, and write-set leases.
 
 **Blocked commands** (deny):
 - `git commit`, `git push`, `git reset`, `git rebase`, `git merge`, `git revert`, `git clean`, `git cherry-pick`

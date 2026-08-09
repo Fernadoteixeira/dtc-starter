@@ -3,14 +3,14 @@ kind: canonical-protocol-registry
 status: active
 repository: Fernadoteixeira/dtc-starter
 description: |
-  P4 Protocols & DTC-AP2 Boundary SSOT for the DTC Agentic Fabric.
-  Disambiguates DTC-AP2 (Internal Agent-to-Platform Protocol) from AP2-Payments (External Agent Payments Protocol).
+  P4 Protocols & FIO-VIVO-AP2 Boundary SSOT for the FIO-VIVO Agentic Fabric.
+  Disambiguates FIO-VIVO-AP2 (Internal Agent-to-Platform Protocol) from AP2-Payments (External Agent Payments Protocol).
 
 laws:
   - PROTOCOL != AUTHORITY (Protocols communicate/transact; contracts authorize)
   - A2A does not authorize commits or workspace writes
   - MCP does not authorize payment mandates or releases
-  - DTC-AP2 regulates agent-to-platform interaction with strict PreToolUse firewall and Stop gate
+  - FIO-VIVO-AP2 regulates agent-to-platform interaction with strict PreToolUse firewall and Stop gate
 
 protocols:
   internal_execution:
@@ -29,15 +29,15 @@ protocols:
     usage: Documentation queries for Medusa APIs, modules, workflows, storefront
 
   internal_a2a:
-    canonical_name: DTC Internal Agent-to-Agent Protocol
+    canonical_name: FIO-VIVO Internal Agent-to-Agent Protocol
     scope: agent-collaboration
     orchestrator: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md
     worker: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md
     reviewer: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md
     rule: Author Agent ID != Reviewer Agent ID (Independent review required)
 
-  dtc-ap2:
-    canonical_name: DTC Agent-to-Platform Execution Boundary
+  fio-vivo-ap2:
+    canonical_name: FIO-VIVO Agent-to-Platform Execution Boundary
     scope: internal-platform-governance
     firewall: .agents/scripts/pretool-firewall.ps1
     stop_gate: .agents/scripts/stop-gate.ps1
