@@ -42,11 +42,11 @@ sources:
     path: .agents/product-lifecycle-canonical-skills-315/
     authority: FIO_VIVO_INTERNAL
     allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
-    immutable_version_reference: "git:head"
+    immutable_version_reference: "git:c584f7943d6a9a88ee78bc28a2a091494e502123"
     retention_privacy_classification: INTERNAL_GOVERNED
     allowed_transformations: [parse_frontmatter, chunk_skills, embed]
     allowed_sinks_index_scopes: [internal_skill_index, agent_router_index]
-    explicit_a2a_disclosure_policy: ALLOWED_WITH_ALLOWLIST_SANIZATION
+    explicit_a2a_disclosure_policy: ALLOWED_WITH_ALLOWLIST_SANITIZATION
     explicit_mcp_disclosure_policy: ALLOWED_INTERNAL_ONLY
     provenance_hash_requirements: SHA256_MANDATORY
     revocation_deprecation_status: ACTIVE
@@ -62,11 +62,11 @@ sources:
     path: .agents/nos-gallery-canonical-skills-205/
     authority: FIO_VIVO_INTERNAL
     allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
-    immutable_version_reference: "git:head"
+    immutable_version_reference: "git:c584f7943d6a9a88ee78bc28a2a091494e502123"
     retention_privacy_classification: INTERNAL_GOVERNED
     allowed_transformations: [parse_frontmatter, chunk_skills, embed]
     allowed_sinks_index_scopes: [internal_skill_index, nos_gallery_index]
-    explicit_a2a_disclosure_policy: ALLOWED_WITH_ALLOWLIST_SANIZATION
+    explicit_a2a_disclosure_policy: ALLOWED_WITH_ALLOWLIST_SANITIZATION
     explicit_mcp_disclosure_policy: ALLOWED_INTERNAL_ONLY
     provenance_hash_requirements: SHA256_MANDATORY
     revocation_deprecation_status: ACTIVE
@@ -82,7 +82,7 @@ sources:
     path: docs/fio-vivo/
     authority: FIO_VIVO_RESTRICTED
     allowed_access_levels: [AUTH-0, AUTH-1, AUTH-2]
-    immutable_version_reference: "git:360-v1.0"
+    immutable_version_reference: "git:360-v1.0-e7f2a1b9"
     retention_privacy_classification: RESTRICTED_BUSINESS
     allowed_transformations: [pdf_to_markdown, chunk, embed]
     allowed_sinks_index_scopes: [executive_knowledge_index]
@@ -102,7 +102,7 @@ sources:
     path: docs/artifacts/contracts/
     authority: FIO_VIVO_CONFIDENTIAL
     allowed_access_levels: [AUTH-1, AUTH-2]
-    immutable_version_reference: "sha256:contracts-v1"
+    immutable_version_reference: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     retention_privacy_classification: STRICT_CONFIDENTIAL
     allowed_transformations: [schema_extraction_only]
     allowed_sinks_index_scopes: [isolated_contracts_vault]
