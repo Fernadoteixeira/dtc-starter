@@ -1,17 +1,27 @@
 # .agents/ DTC Agentic Fabric Index
 
 > **DTC Agentic Fabric (Logical Information Architecture / Agentic OS)**
-> Auto-generated catalog of all agents, skills, hooks, contracts, and packs
-> in the `.agents/` directory. Last verified: 2026-08-09.
+> Canonical control-plane index and operational certification baseline for the `.agents/` ecosystem.
+> Last verified: 2026-08-09.
 
 > **Core Fabric Invariants**:
-> - `AGENT ARCHETYPE != AGENT IDENTITY` (Archetypes define execution roles; identities define concrete agents)
+> - `AGENT ARCHETYPE != AGENT IDENTITY` (Archetypes define execution roles; identities define concrete personas)
 > - `AUTHOR AGENT ID != REVIEWER AGENT ID` (Strict triple-identity separation: `agent_id`, `invocation_id`, `host_session_id`)
 > - `TOOL AVAILABLE != GRANT PRESENT != ACTION AUTHORIZED` (Having a tool does not grant authorization to execute)
 > - `ONE WRITE-SET = ONE ACTIVE WRITER` (Process-safe durable file-backed lock leases)
 > - `CURRENT LEASE != STALE LEASE` (Older fencing token -> No mutation)
 > - `CHILD AUTHORITY MUST NEVER EXCEED PARENT AUTHORITY` (Subprocess authority confinement)
 > - `PROTOCOL != AUTHORITY` (Protocols communicate/transact; contracts authorize)
+
+> [!IMPORTANT]
+> **FABRIC GREEN ≠ PRODUCT GREEN**
+> DTC Agentic Fabric certification proves the governance and execution containment substrate.
+> It does not implicitly certify:
+> - BB-NOS commercial truth
+> - Canonical visual parity
+> - Behavioral parity
+> - Storefront release readiness
+> - Production deployment
 
 ---
 
@@ -34,6 +44,23 @@
 
 ---
 
+## Certification Baseline
+
+```text
+========================================================================
+DTC AGENTIC FABRIC CERTIFICATION BASELINE (72/72 PASS)
+========================================================================
+- dtc-agentic-fabric-certification: 36/36 PASS (Barrier race, fencing, bypass, postcondition, confinement)
+- canonical-execution-fabric:       36/36 PASS (Triple-identity, single-writer, provenance, preflight)
+- Medusa Platform Skills Integrity: 18/18 SKILL.md PASS
+- SOURCE Manifest Provenance:       107/107 file hashes PASS
+- Workspace Monorepo Lint (Turbo):  3/3 packages PASS (0 errors)
+- Production Build Verification:    3/3 workspace projects compiled successfully
+========================================================================
+```
+
+---
+
 The `.agents` ecosystem is organized into a **6-Plane Logical Information Architecture** governing 2,302 physical entries without physical path displacement:
 
 | Plane | Purpose & Scope | Key Registries & Artifacts |
@@ -41,7 +68,7 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 | **P0 Authority & Provenance** | Qual é a verdade? Source SHAs, gitlinks, baseline contracts | [`canonical-authority-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-authority-registry.yaml), `medusa-agent-skills/`, `SOURCE.json` |
 | **P1 Governance & Policy** | Podemos fazer isso? Contracts, gates, DoR/DoD, session ledgers | [`session-state-ledger.md`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/contracts/session-state-ledger.md), `nos-gallery-first-fold.yaml`, `hooks.json` |
 | **P2 Capability Intelligence** | O que precisamos saber? Business, technical, and platform skills | [`canonical-capability-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-capability-registry.yaml), PLC-315, NOS-205, Medusa 18 |
-| **P3 Resolution & A2A** | Quem deve executar? Agent identities, capability resolver, routing | [`canonical-agent-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-agent-registry.yaml), [`canonical-agent-shortcuts.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-agent-shortcuts.yaml), RUG dispatcher |
+| **P3 Resolution & A2A** | Quem deve executar? Agent identities, routing aliases, resolution seed | [`canonical-agent-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-agent-registry.yaml), [`canonical-agent-shortcuts.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-agent-shortcuts.yaml), RUG dispatcher |
 | **P4 Execution & DTC-AP2** | Como acessar runtime? PreToolUse firewall, Stop gate, MCP, execution shell | [`canonical-protocol-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-protocol-registry.yaml), `scripts/pretool-firewall.ps1`, MCP `medusa-docs` |
 | **P5 Evidence & Assurance** | Como provamos? Receipts, attestation, independent review, evidence graph | [`canonical-execution-protocol.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-execution-protocol.yaml), `validate-execution-evidence.mjs` |
 
@@ -52,31 +79,38 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 ```
 .agents/
 ├── hooks.json                              # PreToolUse firewall + Stop gate config
-├── canonical-authority-registry.yaml       # L0 Authority & Provenance SSOT
-├── canonical-capability-registry.yaml      # L2 Capability Intelligence SSOT
-├── canonical-agent-registry.yaml           # L3 Agent Identity & Archetype SSOT
-├── canonical-protocol-registry.yaml        # L7/L8 Protocols & DTC-AP2 Boundary SSOT
-├── canonical-agent-shortcuts.yaml          # L3 Capability Resolution Graph & issue-binding registry
-├── canonical-execution-protocol.yaml       # L5 Execution receipt contract & verification rules
+├── canonical-authority-registry.yaml       # P0 Authority & Provenance SSOT
+├── canonical-capability-registry.yaml      # P2 Capability Intelligence SSOT
+├── canonical-agent-registry.yaml           # P3 Agent Identity & Archetype SSOT
+├── canonical-protocol-registry.yaml        # P4 Protocols & DTC-AP2 Boundary SSOT
+├── canonical-agent-shortcuts.yaml          # P3 Routing aliases / issue bindings / resolution seed
+├── canonical-execution-protocol.yaml       # P5 Execution receipt contract & verification rules
+├── .runtime/                               # Ephemeral runtime containment state (git-ignored)
+│   ├── leases/
+│   │   ├── active-leases.json              # Durable active leases store
+│   │   └── store.lock                      # Atomic compare-and-acquire directory lock
+│   └── quarantine/                         # WRITE_SET_ESCAPE quarantine records
 ├── scripts/
-│   ├── pretool-firewall.ps1                 # Blocks unauthorized git ops, protects paths
+│   ├── pretool-firewall.ps1                # Defensive enforcement layer composed with DTC-AP2
 │   ├── stop-gate.ps1                       # Checks for uncommitted protected files
-│   ├── canonical-execution-lib.mjs         # Strict resolver/hash/path-confinement runtime
+│   ├── canonical-execution-lib.mjs         # Strict resolver/hash/lease/confinement runtime
 │   ├── resolve-agent-shortcut.mjs          # Emits ROUTE-E and AGENT-LOAD-E
 │   ├── resolve-agent-skills.mjs            # Emits exact load receipts by category
 │   ├── validate-execution-loads.mjs        # Preflight route/load validation
 │   ├── validate-execution-evidence.mjs     # Final AGENT-RUN/REVIEW-E validation
-│   └── __tests__/canonical-execution-fabric.test.mjs
+│   └── __tests__/
+│       ├── canonical-execution-fabric.test.mjs       # Task capsule, identity, load & evidence tests (36/36 PASS)
+│       └── dtc-agentic-fabric-certification.test.mjs # Barrier race, fencing, postcondition & confinement (36/36 PASS)
 ├── skills/
 │   ├── web-design-guidelines/SKILL.md      # Vercel web interface guidelines review
 │   └── medusa/                             # 18 Copilot-discoverable Medusa skills (canonical tree)
-│       ├── README.md                        # Provenance, update policy, skill mapping
-│       ├── CATALOG.md                       # 18-skill catalog with plugins, versions, MCP, adaptation limits
+│       ├── README.md                       # Provenance, update policy, skill mapping
+│       ├── CATALOG.md                      # 18-skill catalog with plugins, versions, MCP, adaptation limits
 │       ├── provenance/
-│       │   ├── SOURCE.json                  # 107-entry manifest: originalPath, sha256, size
-│       │   ├── root/                        # 4 root-level files from clone HEAD (.source suffix)
-│       │   ├── manifests/                   # 5 plugin/marketplace manifests (.source.json suffix)
-│       │   └── mcps/                        # 2 MCP configurations (.source.json suffix)
+│       │   ├── SOURCE.json                 # 107-entry manifest: originalPath, sha256, size
+│       │   ├── root/                       # 4 root-level files from clone HEAD (.source suffix)
+│       │   ├── manifests/                  # 5 plugin/marketplace manifests (.source.json suffix)
+│       │   └── mcps/                       # 2 MCP configurations (.source.json suffix)
 │       ├── medusa-dev-building-admin-dashboard-customizations/
 │       ├── medusa-dev-building-storefronts/
 │       ├── medusa-dev-building-with-medusa/
@@ -97,15 +131,15 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 │       └── medusa-cloud-variables/
 ├── contracts/
 │   ├── session-state-ledger.md             # Gate state contract (10 sections)
-│   ├── session-state-ledger.schema.yaml     # YAML schema for the ledger
-│   └── nos-gallery-first-fold.yaml          # BB03 visual contract (3-zone, palette, ratio)
+│   ├── session-state-ledger.schema.yaml    # YAML schema for the ledger
+│   └── nos-gallery-first-fold.yaml         # BB03 visual contract (3-zone, palette, ratio)
 ├── templates/
 │   └── session-state-ledger.yaml           # Blank ledger instance
 ├── medusa-agent-skills/                    # Clone Git de referência (boldfernando/medusa-agent-skills, commit c584f79, read-only)
-├── fio-vivo-antigravity-rug-pack/           # RUG dispatcher, canonical worker/reviewer + BB03 specialists
+├── fio-vivo-antigravity-rug-pack/          # RUG dispatcher, canonical worker/reviewer + BB03 specialists
 ├── ollama-superpowers-pack-v1.0.0/         # 18 agents, 28 skills, 15 tools (multilingual)
-├── nos-gallery-canonical-skills-205/       # 205 atomic skills across 8 domains
-└── product-lifecycle-canonical-skills-315/  # 315 atomic skills across 22 domains
+├── nos-gallery-canonical-skills-205/       # 205 atomic skills across 8 domains (manifest/domain-summary.json)
+└── product-lifecycle-canonical-skills-315/ # 315 atomic skills across 22 domains (manifest/domains.json)
 ```
 
 ---
@@ -115,7 +149,7 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 ### PreToolUse: `fio-vivo-pretool-firewall`
 
 **Script:** `scripts/pretool-firewall.ps1`
-**Purpose:** Blocks unauthorized Git history/remote operations and protects critical paths.
+**Purpose:** Host-side defensive enforcement layer composed with DTC-AP2, authorization grants, and write-set leases.
 
 **Blocked commands** (deny):
 - `git commit`, `git push`, `git reset`, `git rebase`, `git merge`, `git revert`, `git clean`, `git cherry-pick`
@@ -257,16 +291,17 @@ The `.agents` ecosystem is organized into a **6-Plane Logical Information Archit
 **Manifests:** `skills.json`, `skills.csv`, `domain-summary.json`, `package-summary.json`, `integrity-report.json`
 **Base:** Fernadoteixeira/nos-gallery dependency baseline
 
-| Domain | Skills | Coverage |
-|--------|--------|----------|
-| 01-web-runtime | ~60 | next, react, react-dom, server-only |
-| 02-identity-auth | ~10 | clerk-nextjs, input-otp |
-| 03-data-contracts-forms | ~30 | date-fns, hookform-resolvers, pg, react-day-picker, react-hook-form, zod |
-| 04-radix-ui | ~30 | All Radix UI primitives (accordion, dialog, dropdown, etc.) |
-| 05-styles-themes-css | ~20 | Tailwind, CSS, theming |
-| 06-interaction-visualization-ux | ~20 | Framer Motion alternatives, UX patterns |
-| 07-analytics-performance | ~15 | Analytics, performance monitoring |
-| 08-quality-engineering | ~20 | Testing, linting, CI/CD |
+| Domain | Skills (Exact Count) | Coverage |
+|--------|---------------------:|----------|
+| `01-web-runtime` | 21 | next, react, react-dom, server-only |
+| `02-identity-auth` | 11 | clerk-nextjs, input-otp |
+| `03-data-contracts-forms` | 29 | date-fns, hookform-resolvers, pg, react-day-picker, react-hook-form, zod |
+| `04-radix-ui` | 37 | All Radix UI primitives (accordion, dialog, dropdown, etc.) |
+| `05-styles-themes-css` | 24 | Tailwind, CSS, theming |
+| `06-interaction-visualization-ux` | 34 | Framer Motion alternatives, UX patterns |
+| `07-analytics-performance` | 8 | Analytics, performance monitoring |
+| `08-quality-engineering` | 41 | Testing, linting, CI/CD |
+| **Total** | **205** | *Source: `domain-summary.json`* |
 
 ### 4d. Product Lifecycle Canonical Skills 315
 
