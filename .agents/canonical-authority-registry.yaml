@@ -1,0 +1,44 @@
+version: 1
+kind: canonical-authority-registry
+status: active
+repository: Fernadoteixeira/dtc-starter
+description: |
+  L0 Authority & Provenance SSOT for the DTC Agentic Fabric.
+  Establishes source truth, pinned commit SHAs, gitlinks, and immutability rules.
+  Rule: Knowledge may interpret authority, but knowledge may NEVER override authority.
+
+laws:
+  - SOURCE > MANIFEST > CAPABILITY > AGENT > MODEL
+  - Immutable gitlink mirrors and provenance manifests are read-only SSOTs
+  - Direct modifications to reference clones are strictly forbidden
+
+authorities:
+  medusa_upstream_skills:
+    type: gitlink_reference
+    path: .agents/medusa-agent-skills
+    origin: boldfernando/medusa-agent-skills
+    upstream: medusajs/medusa-agent-skills
+    pinned_commit: c584f79
+    provenance_manifest: .agents/skills/medusa/provenance/SOURCE.json
+    mode: read_only
+
+  nos_gallery_baseline:
+    type: repository_reference
+    origin: Fernadoteixeira/nos-gallery
+    canonical_skills: .agents/nos-gallery-canonical-skills-205/manifest/skills.json
+    visual_contract: .agents/contracts/nos-gallery-first-fold.yaml
+
+  product_lifecycle_os:
+    type: capability_atlas
+    canonical_manifest: .agents/product-lifecycle-canonical-skills-315/manifest/domains.json
+    orchestrations: .agents/product-lifecycle-canonical-skills-315/manifest/orchestrations.json
+
+  session_state_governance:
+    type: contract_authority
+    contract: .agents/contracts/session-state-ledger.md
+    schema: .agents/contracts/session-state-ledger.schema.yaml
+
+  execution_protocol:
+    type: protocol_authority
+    protocol: .agents/canonical-execution-protocol.yaml
+    shortcuts: .agents/canonical-agent-shortcuts.yaml

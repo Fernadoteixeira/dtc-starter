@@ -1,0 +1,44 @@
+version: 1
+kind: canonical-capability-registry
+status: active
+repository: Fernadoteixeira/dtc-starter
+description: |
+  L2 Capability Intelligence SSOT for the DTC Agentic Fabric.
+  Unifies Product Lifecycle (315), NOS Canonical Technical (205),
+  Medusa Platform Skills (18), and Web Design Guidelines.
+
+tier_architecture:
+  lifecycle_governance:
+    source: .agents/product-lifecycle-canonical-skills-315
+    domains_count: 22
+    skills_count: 315
+    orchestrations_count: 24
+    role: "WHY / WHEN / GOVERN — Business & Lifecycle Intent"
+
+  canonical_technical:
+    source: .agents/nos-gallery-canonical-skills-205
+    domains_count: 8
+    skills_count: 205
+    role: "WHAT — Canonical Technical Behavior & UI Standards"
+
+  target_platform:
+    source: .agents/skills/medusa
+    skills_count: 18
+    mcp_association: medusa-docs
+    role: "HOW ON TARGET PLATFORM — Medusa v2.18 & Cloud Operations"
+
+  design_system_ux:
+    source: .agents/skills/web-design-guidelines/SKILL.md
+    role: "AESTHETICS & ACCESSIBILITY — Vercel Web Interface Guidelines"
+
+  model_execution_runtime:
+    source: .agents/ollama-superpowers-pack-v1.0.0
+    skills_count: 28
+    agents_count: 18
+    tools_count: 15
+    role: "EXECUTION SHELL — Local/Cloud LLM Support (gpt-oss:20b / glm-5.2:cloud)"
+
+model_binding_rule: |
+  Model runtime skills (Ollama pack) must reference and resolve domain intelligence
+  from PLC-315, NOS-205, and Medusa Platform skills dynamically, rather than hardcoding
+  duplicate domain heuristics.

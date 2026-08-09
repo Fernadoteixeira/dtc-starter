@@ -1,0 +1,60 @@
+version: 1
+kind: canonical-protocol-registry
+status: active
+repository: Fernadoteixeira/dtc-starter
+description: |
+  L7/L8 Protocol Boundaries SSOT for the DTC Agentic Fabric.
+  Defines internal execution protocol, MCP integrations, Internal A2A, and DTC-AP2 platform boundaries.
+
+laws:
+  - PROTOCOL != AUTHORITY (Protocols communicate/transact; contracts authorize)
+  - A2A does not authorize commits or workspace writes
+  - MCP does not authorize payment mandates or releases
+  - DTC-AP2 regulates agent-to-platform interaction with strict PreToolUse firewall and Stop gate
+
+protocols:
+  internal_execution:
+    contract: .agents/canonical-execution-protocol.yaml
+    lib: .agents/scripts/canonical-execution-lib.mjs
+    receipts: [ROUTE-E, AGENT-LOAD-E, SKILL-LOAD-E, AGENT-RUN, REVIEW-E, EVID-E]
+
+  mcp_knowledge:
+    server: medusa-docs
+    endpoint: https://docs.medusajs.com/mcp
+    config: .vscode/mcp.json
+    usage: Documentation queries for Medusa APIs, modules, workflows, storefront
+
+  internal_a2a:
+    pattern: Agent-to-Agent bounded collaboration
+    orchestrator: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/fio-vivo-rug/agent.md
+    worker: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-worker/agent.md
+    reviewer: .agents/fio-vivo-antigravity-rug-pack/.agents/agents/canonical-reviewer/agent.md
+    rule: Author invocation ID != Reviewer invocation ID (Independent review required)
+
+  dtc_ap2:
+    boundary: Agent-to-Platform Execution Boundary
+    firewall: .agents/scripts/pretool-firewall.ps1
+    stop_gate: .agents/scripts/stop-gate.ps1
+    protected_paths:
+      - apps/storefront/src/app/globals.css
+      - pnpm-lock.yaml
+      - package.json
+      - .github/workflows/*
+      - playwright.config.*
+      - apps/storefront/src/modules/nos-gallery/*
+    blocked_commands:
+      - git commit
+      - git push
+      - git reset
+      - git rebase
+      - git merge
+      - git revert
+      - git clean
+      - git cherry-pick
+
+authorization_classes:
+  AUTH-0: "Information (Read/Search/Analyze)"
+  AUTH-1: "Workspace Mutation (Code/CSS/Files — requires write-set ownership)"
+  AUTH-2: "SCM (Commit/Push/PR — requires explicit human authorization)"
+  AUTH-3: "Release (Deploy/Staging — requires release authorization)"
+  AUTH-4: "Financial & Transactional (AP2 Mandates/Payments — strictly isolated)"

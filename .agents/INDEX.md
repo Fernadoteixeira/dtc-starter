@@ -1,7 +1,23 @@
-# .agents/ Infrastructure Index
+# .agents/ DTC Agentic Fabric Index
 
+> **DTC Agentic Fabric (Logical Information Architecture / Agentic OS)**
 > Auto-generated catalog of all agents, skills, hooks, contracts, and packs
-> in the `.agents/` directory. Last verified: 2026-08-07.
+> in the `.agents/` directory. Last verified: 2026-08-09.
+
+---
+
+## Architecture Planes
+
+The `.agents` ecosystem is organized into a **6-Plane Logical Information Architecture** governing 2,302 physical entries without physical path displacement:
+
+| Plane | Purpose & Scope | Key Registries & Artifacts |
+|---|---|---|
+| **P0 Authority & Provenance** | Qual é a verdade? Source SHAs, gitlinks, baseline contracts | [`canonical-authority-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-authority-registry.yaml), `medusa-agent-skills/`, `SOURCE.json` |
+| **P1 Governance & Policy** | Podemos fazer isso? Contracts, gates, DoR/DoD, session ledgers | [`session-state-ledger.md`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/contracts/session-state-ledger.md), `nos-gallery-first-fold.yaml`, `hooks.json` |
+| **P2 Capability Intelligence** | O que precisamos saber? Business, technical, and platform skills | [`canonical-capability-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-capability-registry.yaml), PLC-315, NOS-205, Medusa 18 |
+| **P3 Resolution & A2A** | Quem deve executar? Capability resolver, agent routing, internal A2A | [`canonical-agent-shortcuts.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-agent-shortcuts.yaml), RUG dispatcher |
+| **P4 Execution & DTC-AP2** | Como acessar runtime? PreToolUse firewall, Stop gate, MCP, execution shell | [`canonical-protocol-registry.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-protocol-registry.yaml), `scripts/pretool-firewall.ps1`, MCP `medusa-docs` |
+| **P5 Evidence & Assurance** | Como provamos? Receipts, attestation, independent review, evidence graph | [`canonical-execution-protocol.yaml`](file:///c:/Users/fjuni/Documents/GitHub/02-medusa-halls/dtc-starter/.agents/canonical-execution-protocol.yaml), `validate-execution-evidence.mjs` |
 
 ---
 
@@ -10,8 +26,11 @@
 ```
 .agents/
 ├── hooks.json                              # PreToolUse firewall + Stop gate config
-├── canonical-agent-shortcuts.yaml          # Canonical shortcut and issue-binding registry
-├── canonical-execution-protocol.yaml       # Load/run/review receipt contract
+├── canonical-authority-registry.yaml       # L0 Authority & Provenance SSOT
+├── canonical-capability-registry.yaml      # L2 Capability Intelligence SSOT
+├── canonical-protocol-registry.yaml        # L7/L8 Protocols & DTC-AP2 Boundary SSOT
+├── canonical-agent-shortcuts.yaml          # L3 Capability Resolution Graph & issue-binding registry
+├── canonical-execution-protocol.yaml       # L5 Execution receipt contract & verification rules
 ├── scripts/
 │   ├── pretool-firewall.ps1                 # Blocks unauthorized git ops, protects paths
 │   ├── stop-gate.ps1                       # Checks for uncommitted protected files
