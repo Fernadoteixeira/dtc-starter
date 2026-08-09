@@ -5,10 +5,12 @@ import { revalidateTag } from "next/cache"
 export const revalidateCacheTag = (tag: string) => {
   if (!tag) return
   try {
-    (revalidateTag as any)(tag)
+    const fn = revalidateTag as unknown as (t: string, p?: string) => void
+    fn(tag)
   } catch {
     try {
-      (revalidateTag as any)(tag, "max")
+      const fn = revalidateTag as unknown as (t: string, p?: string) => void
+      fn(tag, "max")
     } catch {}
   }
 }
