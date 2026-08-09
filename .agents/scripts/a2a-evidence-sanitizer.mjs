@@ -71,6 +71,9 @@ export function sanitizeText(text) {
     .replace(/lease-[a-f0-9-]+/gi, "[REDACTED_LEASE]")
     .replace(/fence-[a-f0-9-]+/gi, "[REDACTED_FENCE]")
     .replace(/tok_[a-zA-Z0-9_-]+/gi, "[REDACTED_TOKEN]")
+    .replace(/write[_-]?set/gi, "[REDACTED_WRITE_SET]")
+    .replace(/fencing[_-]?token/gi, "[REDACTED_TOKEN]")
+    .replace(/lease[_-]?id/gi, "[REDACTED_LEASE]")
 }
 
 /**
