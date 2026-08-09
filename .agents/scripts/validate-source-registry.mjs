@@ -20,14 +20,14 @@ export function parseSourceRegistry(rawYaml) {
   }
 
   const sourcesSectionIndex = rawYaml.indexOf("sources:\n")
-  const deniedSectionIndex = rawYaml.indexOf("denied_sources:\n")
+  const deniedSectionIndex = rawYaml.indexOf("denied_sources:")
 
   if (sourcesSectionIndex === -1) {
     throw new Error("Missing required top-level 'sources:' section")
   }
 
   const sourcesContent = rawYaml.slice(sourcesSectionIndex + 9, deniedSectionIndex !== -1 ? deniedSectionIndex : undefined)
-  const blockRegex = /\n  ([a-zA-Z0-9_-]+):\n/g
+  const blockRegex = /\n  ([a-zA-Z0-9_-]+):/g
   const matches = [...sourcesContent.matchAll(blockRegex)]
 
   const sources = {}
