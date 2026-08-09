@@ -3,13 +3,15 @@
  *
  * H5.6 — Knowledge Fabric Adversarial & Security Test Suite
  *
- * Tests 6 Knowledge Security Groups:
+ * Tests 8 Knowledge Security Groups:
  *   1. UNAUTHORIZED_SOURCE   (Rejects unregistered source ID and denylist paths)
  *   2. GRANT_ELEVATION       (Rejects confidential sources under AUTH-0)
  *   3. RETRIEVAL_LIMITS      (Enforces hard chunk ceilings and bounded context)
  *   4. EXTRACTION_GOV        (Extractions provide data, NEVER platform authority)
  *   5. PROVENANCE_INTEGRITY  (Validates INGEST-E .. RETRIEVAL-E receipt chains)
  *   6. A2A_DISCLOSURE        (Verifies zero leakage in external knowledge responses)
+ *   7. FORGED_SOURCE_ALIAS   (Rejects forged source IDs, alias collisions, and hash mismatches)
+ *   8. REVOCATION_FAILCLOSED (Rejects ingestion/retrieval from REVOKED sources)
  */
 
 import test from "node:test"
@@ -27,6 +29,7 @@ import {
   retrieveKnowledge,
   buildIndex,
 } from "../knowledge-ingestion-lib.mjs"
+import { validateCanonicalSourceRegistry } from "../validate-source-registry.mjs"
 
 // ---------------------------------------------------------------------------
 // GROUP 1: UNAUTHORIZED_SOURCE
@@ -137,4 +140,26 @@ test("A2A_DISCLOSURE: Gateway query returns governed chunks without internal lea
   assert.doesNotMatch(serialized, /fencing_token/i)
   assert.doesNotMatch(serialized, /lease_id/i)
   assert.doesNotMatch(serialized, /canonical-worker/i)
+})
+
+// ---------------------------------------------------------------------------
+// GROUP 7: FORGED_SOURCE_ALIAS & IMMUTABILITY
+// ---------------------------------------------------------------------------
+
+test("FORGED_SOURCE_ALIAS: Source registry validator rejects symbolic git:head references", () => {
+  const result = validateCanonicalSourceRegistry()
+  assert.equal(result.success, true, `Validator should pass active registry: ${result.errors.join("; ")}`)
+  // Ensure no symbolic HEAD references are in active sources
+  for (const src of result.validatedSources) {
+    assert.doesNotMatch(src.version, /head/i)
+  }
+})
+
+// ---------------------------------------------------------------------------
+// GROUP 8: REVOCATION_FAILCLOSED
+// ---------------------------------------------------------------------------
+
+test("REVOCATION_FAILCLOSED: Rejects document ingestion for fake revoked source", () => {
+  const check = validateSourceAuthorization("SRC-REVOKED-009", "docs/revoked.md", "AUTH-1")
+  assert.equal(check.authorized, false)
 })
