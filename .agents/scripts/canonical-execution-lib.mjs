@@ -644,6 +644,45 @@ export function validateHostCorrelationReceipt(receipt, label = "HOST-EXECUTION-
   return value
 }
 
+export function toCanonicalLeasePath(repoPath) {
+  assertNonEmptyString(repoPath, "repoPath")
+  let normalized = repoPath.split(path.sep).join("/")
+  normalized = path.posix.normalize(normalized)
+  if (normalized.endsWith("/") && normalized.length > 1) {
+    normalized = normalized.slice(0, -1)
+  }
+  return process.platform === "win32" ? normalized.toLowerCase() : normalized
+}
+
+export function pathsOverlap(pathA, pathB) {
+  const normA = toCanonicalLeasePath(pathA)
+  const normB = toCanonicalLeasePath(pathB)
+
+  if (normA === normB) return true
+
+  const globA = normA.endsWith("/**") ? normA.slice(0, -3) : normA.endsWith("/*") ? normA.slice(0, -2) : null
+  const globB = normB.endsWith("/**") ? normB.slice(0, -3) : normB.endsWith("/*") ? normB.slice(0, -2) : null
+
+  if (globA && (normB === globA || normB.startsWith(`${globA}/`))) return true
+  if (globB && (normA === globB || normA.startsWith(`${globB}/`))) return true
+
+  if (normA.startsWith(`${normB}/`) || normB.startsWith(`${normA}/`)) return true
+
+  return false
+}
+
+export function assertWriteSetNoConflict(laneAWriteSet, laneBWriteSet) {
+  assertStringArray(laneAWriteSet, "lane A write-set")
+  assertStringArray(laneBWriteSet, "lane B write-set")
+  for (const pathA of laneAWriteSet) {
+    for (const pathB of laneBWriteSet) {
+      if (pathsOverlap(pathA, pathB)) {
+        throw new Error(`Write-set collision detected on path: ${pathA} vs ${pathB}`)
+      }
+    }
+  }
+}
+
 export function validateTaskCapsule(capsule) {
   const value = assertObject(capsule, "task capsule")
   if (value.schema_version !== 1 || value.kind !== TASK_CAPSULE_KIND) {
@@ -668,11 +707,16 @@ export function validateTaskCapsule(capsule) {
   assertStringArray(capabilities.target_platform ?? [], "capsule.capabilities.target_platform")
 
   const agent = assertObject(value.agent, "capsule.agent")
-  assertNonEmptyString(agent.worker, "capsule.agent.worker")
-  assertNonEmptyString(agent.reviewer, "capsule.agent.reviewer")
-  if (agent.worker === agent.reviewer) {
-    throw new Error("Capsule worker and reviewer archetypes must be distinct")
+  const workerAgentId = typeof agent.worker === "object" ? agent.worker.agent_id : agent.worker
+  const reviewerAgentId = typeof agent.reviewer === "object" ? agent.reviewer.agent_id : agent.reviewer
+  assertNonEmptyString(workerAgentId, "capsule.agent.worker")
+  assertNonEmptyString(reviewerAgentId, "capsule.agent.reviewer")
+  if (workerAgentId === reviewerAgentId) {
+    throw new Error("Capsule worker and reviewer agent identities must be distinct")
   }
+
+  const authorization = assertObject(value.authorization ?? { grants: ["AUTH-0", "AUTH-1"] }, "capsule.authorization")
+  assertStringArray(authorization.grants ?? [], "capsule.authorization.grants")
 
   const execution = assertObject(value.execution, "capsule.execution")
   assertStringArray(execution.write_set ?? [], "capsule.execution.write_set")
@@ -683,13 +727,8 @@ export function validateTaskCapsule(capsule) {
   const forbidden = execution.forbidden_paths ?? []
   for (const writePath of (execution.write_set ?? [])) {
     for (const forbiddenPattern of forbidden) {
-      if (forbiddenPattern.endsWith("/**")) {
-        const prefix = forbiddenPattern.slice(0, -3)
-        if (writePath === prefix || writePath.startsWith(`${prefix}/`)) {
-          throw new Error(`Write-set path ${writePath} collides with forbidden path pattern ${forbiddenPattern}`)
-        }
-      } else if (writePath === forbiddenPattern) {
-        throw new Error(`Write-set path ${writePath} is forbidden`)
+      if (pathsOverlap(writePath, forbiddenPattern)) {
+        throw new Error(`Write-set path ${writePath} collides with forbidden path pattern ${forbiddenPattern}`)
       }
     }
   }
@@ -709,9 +748,16 @@ export function validateTaskCapsule(capsule) {
   return value
 }
 
-export function compileTaskCapsule({ routeBundle, objective = "Bounded task execution", writeSet = [], readSet = [], forbiddenPaths = [], toolsAllowed = ["read", "write"] }) {
+export function hashCanonicalTaskCapsule(capsule) {
+  const validated = validateTaskCapsule(capsule)
+  const copy = structuredClone(validated)
+  delete copy.task_capsule_sha256
+  return hashCanonicalValue(copy, "task capsule")
+}
+
+export function compileTaskCapsule({ routeBundle, objective = "Bounded task execution", writeSet = [], readSet = [], forbiddenPaths = [], toolsAllowed = ["read", "write"], grants = ["AUTH-0", "AUTH-1"] }) {
   const route = validateRouteBundle(routeBundle).bundle
-  return validateTaskCapsule({
+  const capsule = {
     schema_version: 1,
     kind: TASK_CAPSULE_KIND,
     task: {
@@ -729,8 +775,11 @@ export function compileTaskCapsule({ routeBundle, objective = "Bounded task exec
       target_platform: [...(route.core_skills ?? []), ...(route.external_skills ?? [])]
     },
     agent: {
-      worker: route.canonical_agent,
-      reviewer: route.shortcut === "review:canonical" ? "code-reviewer" : "canonical-reviewer"
+      worker: { agent_id: route.canonical_agent, archetype: "worker" },
+      reviewer: { agent_id: route.shortcut === "review:canonical" ? "code-reviewer" : "canonical-reviewer", archetype: "reviewer" }
+    },
+    authorization: {
+      grants
     },
     execution: {
       invocation_id: route.invocation_id,
@@ -752,18 +801,9 @@ export function compileTaskCapsule({ routeBundle, objective = "Bounded task exec
       dod: "PENDING",
       human_gate: "NOT_REQUIRED"
     }
-  })
-}
-
-export function assertWriteSetNoConflict(laneAWriteSet, laneBWriteSet) {
-  assertStringArray(laneAWriteSet, "lane A write-set")
-  assertStringArray(laneBWriteSet, "lane B write-set")
-  const setA = new Set(laneAWriteSet.map(toPosixPath))
-  for (const pathB of laneBWriteSet.map(toPosixPath)) {
-    if (setA.has(pathB)) {
-      throw new Error(`Write-set collision detected on path: ${pathB}`)
-    }
   }
+  capsule.task_capsule_sha256 = hashCanonicalTaskCapsule(capsule)
+  return validateTaskCapsule(capsule)
 }
 
 const activeLeases = new Map()
@@ -771,34 +811,79 @@ const activeLeases = new Map()
 export function parseAgentRegistry(source) {
   if (typeof source !== "string") throw new Error("Agent registry source must be a string")
   const lines = source.replace(/^\uFEFF/, "").split(/\r?\n/)
-  const archetypesLine = lines.findIndex((line) => line === "archetypes:")
-  if (archetypesLine === -1) throw new Error("Agent registry missing top-level archetypes: section")
-  const archetypes = new Set()
-  for (let index = archetypesLine + 1; index < lines.length; index += 1) {
-    const match = /^  ([a-z0-9-]+):$/.exec(lines[index])
-    if (match) {
-      archetypes.add(match[1])
+  const archetypesMap = new Map()
+  const agentsMap = new Map()
+
+  let currentSection = null
+  let currentKey = null
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index]
+    if (line.trim().length === 0 || line.startsWith("#")) continue
+    if (line === "archetypes:") {
+      currentSection = "archetypes"
+      continue
+    }
+    if (line === "agents:") {
+      currentSection = "agents"
+      continue
+    }
+
+    const keyMatch = /^  ([a-z0-9-]+):$/.exec(line)
+    if (keyMatch) {
+      currentKey = keyMatch[1]
+      if (currentSection === "archetypes") {
+        archetypesMap.set(currentKey, {})
+      } else if (currentSection === "agents") {
+        agentsMap.set(currentKey, {})
+      }
+      continue
+    }
+
+    const propMatch = /^    ([a-z_]+):\s*(.+)$/.exec(line)
+    if (propMatch && currentKey) {
+      const [, prop, val] = propMatch
+      const parsedVal = val === "true" ? true : val === "false" ? false : val
+      if (currentSection === "archetypes") {
+        const archetype = archetypesMap.get(currentKey)
+        if (archetype) archetype[prop] = parsedVal
+      } else if (currentSection === "agents") {
+        const agent = agentsMap.get(currentKey)
+        if (agent) agent[prop] = parsedVal
+      }
     }
   }
-  return archetypes
+
+  if (archetypesMap.size === 0 && agentsMap.size === 0) {
+    throw new Error("Agent registry missing archetypes: or agents: section")
+  }
+
+  return { archetypes: archetypesMap, agents: agentsMap }
 }
 
 export function loadAgentRegistry() {
   if (!existsSync(resolveRepoPath(AGENT_REGISTRY_PATH, { mustExist: false }))) {
-    return new Set(["canonical-worker", "canonical-reviewer", "implementation-engineer", "code-reviewer", "software-architect", "orchestrator"])
+    const defaultAgents = new Map()
+    for (const id of ["canonical-worker", "canonical-reviewer", "implementation-engineer", "code-reviewer", "software-architect", "orchestrator", "bb03-css-implementer", "bb03-css-spec", "bb03-css-validator", "repo-guardian", "security-governor", "visual-catalog-curator", "runtime-verifier", "qa-test-lead", "release-operator"]) {
+      defaultAgents.set(id, { archetype: id.includes("reviewer") ? "reviewer" : id.includes("worker") || id.includes("engineer") || id.includes("implementer") ? "worker" : "validator" })
+    }
+    return { archetypes: new Map(), agents: defaultAgents }
   }
   return parseAgentRegistry(readUtf8(AGENT_REGISTRY_PATH))
 }
 
 export function validateTaskCapsuleReferences(capsule) {
   const validated = validateTaskCapsule(capsule)
-  const knownAgents = loadAgentRegistry()
+  const registry = loadAgentRegistry()
 
-  if (!knownAgents.has(validated.agent.worker)) {
-    throw new Error(`Task Capsule references unknown worker agent: ${validated.agent.worker}`)
+  const workerId = typeof validated.agent.worker === "object" ? validated.agent.worker.agent_id : validated.agent.worker
+  const reviewerId = typeof validated.agent.reviewer === "object" ? validated.agent.reviewer.agent_id : validated.agent.reviewer
+
+  if (!registry.agents.has(workerId)) {
+    throw new Error(`Task Capsule references unknown worker agent: ${workerId}`)
   }
-  if (!knownAgents.has(validated.agent.reviewer)) {
-    throw new Error(`Task Capsule references unknown reviewer agent: ${validated.agent.reviewer}`)
+  if (!registry.agents.has(reviewerId)) {
+    throw new Error(`Task Capsule references unknown reviewer agent: ${reviewerId}`)
   }
 
   for (const ref of validated.authority.source_refs) {
@@ -810,35 +895,34 @@ export function validateTaskCapsuleReferences(capsule) {
   return validated
 }
 
-export function authorizeTaskCapsule(capsule, requestedTier = "AUTH-1") {
+export function authorizeTaskCapsule(capsule, requestedGrant = "AUTH-1") {
   const validated = validateTaskCapsuleReferences(capsule)
-  const validTiers = new Set(["AUTH-0", "AUTH-1", "AUTH-2", "AUTH-3", "AUTH-4"])
-  if (!validTiers.has(requestedTier)) {
-    throw new Error(`Invalid authorization tier requested: ${requestedTier}`)
+  const validGrants = new Set(["AUTH-0", "AUTH-1", "AUTH-2", "AUTH-3", "AUTH-4"])
+  if (!validGrants.has(requestedGrant)) {
+    throw new Error(`Invalid authorization grant requested: ${requestedGrant}`)
   }
 
-  if (requestedTier === "AUTH-1" || requestedTier === "AUTH-2" || requestedTier === "AUTH-3" || requestedTier === "AUTH-4") {
-    if (validated.execution.tools_allowed.includes("forbidden")) {
-      throw new Error(`Task Capsule execution tools forbidden for requested tier ${requestedTier}`)
+  const grants = validated.authorization?.grants ?? []
+  if (!grants.includes(requestedGrant)) {
+    throw new Error(`Authorization grant rejected: requested grant ${requestedGrant} is not in capsule authorization grants`)
+  }
+
+  if (requestedGrant === "AUTH-4") {
+    if (validated.protocols["ap2-payments"] !== "mandate_verified" && validated.protocols.dtc_ap2 !== "mandate_verified") {
+      throw new Error(`Authorization grant rejected: ${requestedGrant} requires AP2 mandate verification`)
     }
   }
 
-  if (requestedTier === "AUTH-4") {
-    if (validated.protocols.dtc_ap2 !== "mandate_verified") {
-      throw new Error(`Authorization tier escalation rejected: ${requestedTier} requires AP2 mandate verification`)
-    }
-  }
-
-  if (requestedTier === "AUTH-2" || requestedTier === "AUTH-3") {
+  if (requestedGrant === "AUTH-2" || requestedGrant === "AUTH-3") {
     if (validated.governance.human_gate !== "HUMAN_APPROVED") {
-      throw new Error(`Authorization tier escalation rejected: ${requestedTier} requires human approval`)
+      throw new Error(`Authorization grant rejected: ${requestedGrant} requires human approval`)
     }
   }
 
-  return { authorized: true, tier: requestedTier, capsule: validated }
+  return { authorized: true, grant: requestedGrant, capsule: validated }
 }
 
-export function acquireWriteSetLease({ capsule, owner = "canonical-worker" }) {
+export function acquireWriteSetLease({ capsule, owner = "canonical-worker", ownerToken = randomUUID() }) {
   const validated = validateTaskCapsuleReferences(capsule)
   const writeSet = validated.execution.write_set
   if (!Array.isArray(writeSet) || writeSet.length === 0) {
@@ -853,8 +937,10 @@ export function acquireWriteSetLease({ capsule, owner = "canonical-worker" }) {
   const leaseRecord = {
     lease_id: leaseId,
     task_id: validated.task.id,
+    task_capsule_sha256: hashCanonicalTaskCapsule(validated),
     invocation_id: validated.execution.invocation_id,
     owner,
+    owner_token: ownerToken,
     write_set: [...writeSet],
     status: "ACTIVE",
     acquired_at: new Date().toISOString()
@@ -863,10 +949,14 @@ export function acquireWriteSetLease({ capsule, owner = "canonical-worker" }) {
   return leaseRecord
 }
 
-export function releaseWriteSetLease(leaseId) {
+export function releaseWriteSetLease(leaseId, ownerToken = null) {
   assertNonEmptyString(leaseId, "lease_id")
   if (!activeLeases.has(leaseId)) {
-    throw new Error(`Cannot release non-existent lease_id: ${leaseId}`)
+    return true
+  }
+  const lease = activeLeases.get(leaseId)
+  if (ownerToken && lease.owner_token && lease.owner_token !== ownerToken) {
+    throw new Error(`Cannot release lease ${leaseId}: invalid owner_token`)
   }
   activeLeases.delete(leaseId)
   return true
@@ -877,31 +967,31 @@ export function resetWriteSetLeases() {
 }
 
 export function hashTaskCapsule(capsule) {
-  return hashCanonicalValue(validateTaskCapsule(capsule), "task capsule")
+  return hashCanonicalTaskCapsule(capsule)
 }
 
 export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPath, commandLine }) {
   assertNonEmptyString(toolName, "toolName")
   const validatedCapsule = validateTaskCapsuleReferences(capsule)
-  const capsuleDigest = hashTaskCapsule(validatedCapsule)
+  const capsuleDigest = hashCanonicalTaskCapsule(validatedCapsule)
 
-  let requiredTier = "AUTH-0"
+  let requiredGrant = "AUTH-0"
   const isMutation = ["write_to_file", "replace_file_content", "multi_replace_file_content", "edit"].includes(toolName)
   const isScm = commandLine && /(?:git\s+commit|git\s+push|git\s+merge|git\s+rebase|git\s+reset)/i.test(commandLine)
   const isRelease = commandLine && /(?:deploy|release)/i.test(commandLine)
   const isFinancial = commandLine && /(?:payment|purchase|buy|mandate)/i.test(commandLine)
 
   if (isFinancial) {
-    requiredTier = "AUTH-4"
+    requiredGrant = "AUTH-4"
   } else if (isRelease) {
-    requiredTier = "AUTH-3"
+    requiredGrant = "AUTH-3"
   } else if (isScm) {
-    requiredTier = "AUTH-2"
+    requiredGrant = "AUTH-2"
   } else if (isMutation) {
-    requiredTier = "AUTH-1"
+    requiredGrant = "AUTH-1"
   }
 
-  authorizeTaskCapsule(validatedCapsule, requiredTier)
+  authorizeTaskCapsule(validatedCapsule, requiredGrant)
 
   if (isMutation) {
     if (!leaseId) {
@@ -913,8 +1003,14 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
     }
     if (targetPath) {
       const canonicalTarget = toPosixPath(targetPath)
-      const leasePaths = new Set(lease.write_set.map(toPosixPath))
-      if (!leasePaths.has(canonicalTarget)) {
+      let matched = false
+      for (const leasePath of lease.write_set) {
+        if (pathsOverlap(canonicalTarget, leasePath)) {
+          matched = true
+          break
+        }
+      }
+      if (!matched) {
         throw new Error(`DTC-AP2 Execution Blocked: Target path ${canonicalTarget} is not in lease write-set`)
       }
     }
@@ -925,7 +1021,7 @@ export function authorizePlatformToolCall({ capsule, leaseId, toolName, targetPa
     task_id: validatedCapsule.task.id,
     task_capsule_sha256: capsuleDigest,
     tool_name: toolName,
-    required_tier: requiredTier,
+    required_grant: requiredGrant,
     lease_id: leaseId ?? null,
     authorized_at: new Date().toISOString()
   }

@@ -463,6 +463,11 @@ export function validateExecutionEvidence(evidence, context = {}) {
   if (review.instructions_acknowledged !== true) throw new Error("REVIEW-E.instructions_acknowledged must be true")
   validateExecutionReceiptRefs(review, reviewerRouteValidation, reviewerLoadReceipts, "REVIEW-E")
   if (review.review_target !== agentRun.receipt_id) throw new Error("REVIEW-E.review_target must equal the worker AGENT-RUN receipt_id")
+  const workerTime = new Date(agentRun.timestamp).getTime()
+  const reviewTime = new Date(review.timestamp).getTime()
+  if (reviewTime < workerTime) {
+    throw new Error("REVIEW-E timestamp cannot precede worker AGENT-RUN timestamp")
+  }
 
   const reviewerSkillLoadMap = new Map(reviewerLoadReceipts.skillReceipts.map((r) => [r.receipt_id, r]))
   const reviewerConsumedSkills = new Set()

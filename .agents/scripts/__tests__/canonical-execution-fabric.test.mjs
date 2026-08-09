@@ -674,8 +674,8 @@ test("compileTaskCapsule creates a valid schema_version 1 task capsule from rout
   assert.equal(capsule.kind, "task-capsule")
   assert.equal(capsule.task.id, "TEST-CAPSULE-01")
   assert.equal(capsule.task.objective, "Implement Medusa adapter")
-  assert.equal(capsule.agent.worker, "implementation-engineer")
-  assert.equal(capsule.agent.reviewer, "canonical-reviewer")
+  assert.equal(capsule.agent.worker.agent_id, "implementation-engineer")
+  assert.equal(capsule.agent.reviewer.agent_id, "canonical-reviewer")
   assert.deepEqual(capsule.execution.write_set, ["apps/storefront/src/modules/home/gallery-hero/medusa-adapter.ts"])
   assert.deepEqual(capsule.protocols.mcp, ["medusa-docs"])
 })
@@ -684,7 +684,7 @@ test("validateTaskCapsule rejects identical worker and reviewer archetypes", () 
   const route = buildRouteBundle({ shortcut: "impl", taskId: "TEST-CAPSULE-02" })
   const capsule = compileTaskCapsule({ routeBundle: route, objective: "Testing archetypes" })
   capsule.agent.reviewer = capsule.agent.worker
-  assert.throws(() => validateTaskCapsule(capsule), /worker and reviewer archetypes must be distinct/)
+  assert.throws(() => validateTaskCapsule(capsule), /Capsule worker and reviewer agent identities must be distinct/)
 })
 
 test("validateTaskCapsule rejects write-set entries that match forbidden paths", () => {
