@@ -1,0 +1,332 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# H4.1 — Official A2A Boundary Contract
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Wire objects are official A2A 1.0. Internal objects are FIO-VIVO private.
+# NO custom A2ARequest / A2AResponse envelopes exist at the boundary.
+#
+# LAW:
+#   A2A SPEAKS FOR THE NETWORK.
+#   FIO-VIVO DECIDES FOR FIO-VIVO.
+# ──────────────────────────────────────────────────────────────────────────────
+
+version: 1
+kind: a2a-boundary-contract
+status: active
+fabric: FIO-VIVO Agentic Fabric
+
+normative:
+  project: a2aproject/A2A
+  protocol_series: "1.0"
+  pinned_repository_release: "v1.0.1"
+  published_spec_page_release: "1.0.0"
+  wire_version: "1.0"
+  binding: JSON-RPC 2.0
+  content_type: application/a2a+json
+  version_header: "A2A-Version: 1.0"
+  standards_baseline: .agents/h4-standards-baseline.yaml
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Invariants
+# ──────────────────────────────────────────────────────────────────────────────
+
+invariants:
+  - A2A REQUEST != AUTHORIZATION
+  - OAUTH SCOPE != FIO-VIVO AUTH
+  - AGENTCARD != CANONICAL-AGENT IDENTITY
+  - ARTIFACT != INTERNAL RECEIPT
+  - NETWORK IDENTITY != RUNTIME IDENTITY
+
+laws:
+  - External identity NEVER maps directly to local mutation authority
+  - Remote agent CANNOT select its own AUTH grant
+  - Remote agent CANNOT choose or expand its write-set
+  - Remote agent CANNOT choose its reviewer
+  - Remote agent CANNOT select the local executing agent
+  - Internal prompts and state are NEVER serialized externally
+  - Unsupported required extension FAILS CLOSED
+  - Unsupported protocol version FAILS CLOSED
+  - Untrusted optional metadata NEVER promotes to authority
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Initial scope
+# ──────────────────────────────────────────────────────────────────────────────
+
+initial_scope:
+  mode: read-mostly
+  max_external_grant: AUTH-0
+  external_write_set: "always []"
+  external_reviewer_selection: forbidden
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Wire objects (official A2A 1.0)
+# ──────────────────────────────────────────────────────────────────────────────
+
+wire_objects:
+
+  AgentCard:
+    role: Agent discovery and capability advertisement
+    location: "/.well-known/agent-card.json"
+    note: >
+      Describes the FIO-VIVO A2A service. Does NOT reveal internal
+      agent identities. Generated from service profile, not from
+      marking individual internal agents as public.
+    declared_interfaces:
+      - protocolBinding: JSONRPC
+        protocolVersion: "1.0"
+
+  SendMessageRequest:
+    role: Primary entry point for task initiation
+    carries: Message
+    note: Official A2A request object. No custom envelope.
+
+  SendMessageResponse:
+    role: Response to SendMessageRequest
+    returns: Task or Message
+    note: Official A2A response object. No custom envelope.
+
+  Message:
+    role: Conversational interaction payload
+    contains: "Part[]"
+
+  Part:
+    role: Smallest unit of content
+    allowed:
+      - TextPart (text/plain)
+      - DataPart (application/json, bounded)
+    denied:
+      - FilePart with arbitrary remote URL (SSRF risk)
+      - Raw binary payloads
+
+  Task:
+    role: Stateful unit of work
+    note: >
+      Created by FIO-VIVO server after processing a SendMessageRequest.
+      External caller receives Task with status and Artifacts.
+
+  TaskStatus:
+    role: Task lifecycle state
+    official_values:
+      - TASK_STATE_UNSPECIFIED
+      - TASK_STATE_SUBMITTED
+      - TASK_STATE_WORKING
+      - TASK_STATE_COMPLETED
+      - TASK_STATE_FAILED
+      - TASK_STATE_CANCELED
+      - TASK_STATE_INPUT_REQUIRED
+      - TASK_STATE_REJECTED
+      - TASK_STATE_AUTH_REQUIRED
+    fio_vivo_initial_emission:
+      - TASK_STATE_SUBMITTED
+      - TASK_STATE_WORKING
+      - TASK_STATE_COMPLETED
+      - TASK_STATE_FAILED
+      - TASK_STATE_REJECTED
+
+  Artifact:
+    role: Output payload / result of a completed task
+    contains: "Part[]"
+    constraint: >
+      Artifact = sanitized task deliverable.
+      Artifact != internal receipt.
+      Artifact != Evidence Graph.
+      Artifact != POLICY-E, AUTH-E, LEASE-E, TOOL-E, POSTCONDITION-E.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Internal objects (FIO-VIVO private — never cross the wire)
+# ──────────────────────────────────────────────────────────────────────────────
+
+internal_objects:
+
+  ExternalPrincipal:
+    role: >
+      Authenticated identity derived from API key (initial) or OAuth2
+      credentials (future). The remote caller becomes an ExternalPrincipal.
+      ExternalPrincipal identifies WHO IS ASKING.
+      The capability resolver decides WHO EXECUTES.
+    fields:
+      - principal_id
+      - authenticated_at
+      - auth_method
+
+  NormalizedA2AIntent:
+    role: >
+      Validated and sanitized representation of the external request
+      after Part allowlisting. Handoff from A2A wire to FIO-VIVO
+      capability resolution.
+    fields:
+      - sanitized_text
+      - sanitized_data
+      - requested_skill
+      - external_principal_ref
+
+  TaskCapsule:
+    role: >
+      Standard FIO-VIVO execution unit. Compiled locally with
+      locally-assigned grants, write-set, worker, and reviewer.
+      The external caller has NO input into any of these fields.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Translation pipeline
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# A2A request
+#    |
+#    +-- INVALID -> REJECT (no Task Capsule)
+#    |
+#    +-- ACCEPTED -> Task Capsule -> validate -> AUTH-0
+#
+# EVERY ACCEPTED A2A REQUEST MUST COMPILE TO A VALID TASK CAPSULE.
+# Invalid requests never reach compilation.
+# ──────────────────────────────────────────────────────────────────────────────
+
+translation_pipeline:
+  steps:
+    - name: API key authentication
+      input: X-FIO-VIVO-A2A-Key header
+      output: ExternalPrincipal
+      failure: 401 Unauthorized
+
+    - name: A2A-Version gate
+      input: A2A-Version header
+      output: validated protocol version
+      failure: unsupported version error
+
+    - name: SendMessageRequest validation
+      input: JSON-RPC request body
+      output: validated SendMessageRequest
+      failure: malformed request error
+
+    - name: Part allowlisting
+      input: Message.parts[]
+      output: sanitized Part[]
+      failure: unsupported content type error
+      policy:
+        text/plain: ALLOW
+        bounded application/json: ALLOW
+        arbitrary remote file URL: DENY
+        raw binary: DENY
+
+    - name: NormalizedA2AIntent compilation
+      input: sanitized Parts + ExternalPrincipal
+      output: NormalizedA2AIntent
+
+    - name: Capability resolution
+      input: NormalizedA2AIntent.requested_skill
+      output: locally selected execution agent + capability
+      failure: unknown capability error
+      note: >
+        External caller CANNOT select local executing agent.
+        External credential -> ExternalPrincipal.
+        Requested skill -> Capability Resolver -> locally selected agent.
+
+    - name: Task Capsule compilation
+      input: NormalizedA2AIntent + resolved capability
+      output: TaskCapsule
+      constraints:
+        grants: ["AUTH-0"]
+        write_set: []
+        may_select_auth: false
+        may_select_write_set: false
+        may_select_reviewer: false
+        may_select_local_agent: false
+
+    - name: FIO-VIVO-AP2 authorization
+      input: TaskCapsule
+      output: authorized execution
+
+    - name: Local execution
+      output: execution result + Evidence Graph
+
+    - name: Result / Evidence separation
+      note: >
+        Internal execution RESULT -> sanitized A2A Artifact.
+        Internal Evidence Graph -> assurance decision -> bounded summary.
+        These are separate processes. Evidence Graph is P5 internal.
+
+    - name: Artifact construction
+      output: Task with status + Artifacts (safe Parts only)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Boundary policy
+# ──────────────────────────────────────────────────────────────────────────────
+
+boundary_policy:
+  unsupported_protocol_version: FAIL
+  missing_or_malformed_required_field: FAIL
+  unsupported_required_extension: FAIL
+  unsupported_content_type: FAIL
+  untrusted_optional_metadata: NEVER PROMOTE TO AUTHORITY
+  optional_unknown_extension: DROP
+
+  note: >
+    A2A has formal extension mechanisms. The boundary is rigid about
+    effects and authority, not brittle against optional syntax.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Security
+# ──────────────────────────────────────────────────────────────────────────────
+
+security:
+  authentication:
+    initial:
+      scheme: apiKey
+      location: header
+      name: X-FIO-VIVO-A2A-Key
+    future:
+      - oauth2_client_credentials
+      - mtls
+
+  authorization:
+    model: >
+      A2A requires access to tasks be limited per the server's
+      authorization model. FIO-VIVO uses FIO-VIVO-AP2 and AUTH grants.
+      API key identity and OAuth scope NEVER become FIO-VIVO AUTH.
+
+  input_validation:
+    file_references: DENY (SSRF prevention)
+    payload_limits: enforced
+    media_type_validation: enforced
+
+# ──────────────────────────────────────────────────────────────────────────────
+# A2A service profile
+# ──────────────────────────────────────────────────────────────────────────────
+
+a2a_service_profiles:
+  fio-vivo-read-gateway:
+    externally_visible: true
+    remote_auth_ceiling: AUTH-0
+
+    advertised_skills:
+      - architecture-query
+      - capability-query
+      - evidence-summary
+      - task-status
+
+    disclosure:
+      internal_agent_ids: forbidden
+      archetypes: forbidden
+      skill_paths: forbidden
+      filesystem_paths: forbidden
+      leases: forbidden
+      fencing_tokens: forbidden
+      prompts: forbidden
+      receipt_topology: forbidden
+      reviewer_identities: forbidden
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Stripped fields — never in external output
+# ──────────────────────────────────────────────────────────────────────────────
+
+stripped_from_artifacts:
+  - internal agent IDs (agent_id, invocation_id, host_session_id)
+  - filesystem paths
+  - lease IDs
+  - fencing tokens
+  - internal receipt chain details
+  - reviewer identity
+  - internal prompts / state
+  - write-set configuration
+  - skill paths / skill load details
+  - archetype definitions
+  - Evidence Graph internal structure (POLICY-E, AUTH-E, LEASE-E, TOOL-E, POSTCONDITION-E)

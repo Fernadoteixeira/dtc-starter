@@ -64,9 +64,35 @@ protocols:
     mandate_required: true
     rail: medusa-payment-providers
 
+  external_a2a:
+    canonical_name: FIO-VIVO A2A External Interoperability Boundary
+    scope: external-agent-collaboration
+    normative_spec: A2A Specification v1.0.1 (wire 1.0)
+    binding: JSON-RPC 2.0
+    content_type: application/a2a+json
+    authentication: apiKey (X-FIO-VIVO-A2A-Key)
+    remote_auth_ceiling: AUTH-0
+    boundary_contract: .agents/a2a-boundary-contract.yaml
+    gateway: .agents/scripts/a2a-gateway.mjs
+    translator: .agents/scripts/a2a-message-translator.mjs
+    sanitizer: .agents/scripts/a2a-evidence-sanitizer.mjs
+    projection: .agents/scripts/a2a-discovery-projection.mjs
+    adversarial_suite: .agents/scripts/__tests__/a2a-adversarial-corpus.test.mjs
+
 authorization_classes:
   AUTH-0: "Information (Read/Search/Analyze)"
   AUTH-1: "Workspace Mutation (Code/CSS/Files — requires write-set lease)"
   AUTH-2: "SCM (Commit/Push/PR — requires explicit human authorization)"
   AUTH-3: "Release (Deploy/Staging — requires release authorization)"
   AUTH-4: "Financial & Transactional (ap2-payments mandates required)"
+
+legacy_compatibility:
+  id: protocols.dtc_ap2
+  status: deprecated
+  emission: forbidden
+  read_compatibility: allowed
+  canonical_replacement: protocols.fio_vivo_ap2
+  removal_condition:
+    - zero persisted legacy capsules
+    - zero legacy fixtures
+    - zero legacy consumers

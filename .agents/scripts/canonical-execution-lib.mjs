@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process"
+﻿import { execSync } from "node:child_process"
 import { createHash, randomUUID } from "node:crypto"
 import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, rmSync, unlinkSync, writeFileSync } from "node:fs"
 import path from "node:path"
@@ -736,6 +736,9 @@ export function validateTaskCapsule(capsule) {
 
   const protocols = assertObject(value.protocols, "capsule.protocols")
   assertNonEmptyString(protocols.a2a ?? "internal", "capsule.protocols.a2a")
+  // CAT 2B â€” LEGACY MACHINE IDENTIFIER / COMPATIBILITY SHIM (DEPRECATED):
+  // Write operations emit 'fio_vivo_ap2' exclusively.
+  // Read operations accept 'fio_vivo_ap2' or fallback 'dtc_ap2' during migration window.
   assertNonEmptyString(protocols.fio_vivo_ap2 ?? protocols.dtc_ap2 ?? "enabled", "capsule.protocols.fio_vivo_ap2")
   assertStringArray(protocols.mcp ?? [], "capsule.protocols.mcp")
 
@@ -1338,10 +1341,170 @@ export function buildCompleteReceiptChain({ capsule, toolName, requiredGrant, le
     }
   }
 }
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// H4 A2A Helpers â€” aligned with A2A 1.0 official protocol
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//
+// IDENTITY RULE:
+//   external credential -> ExternalPrincipal  (who is asking)
+//   requested skill     -> Capability Resolver -> locally selected agent
+//
+//   NEVER: network identity -> runtime identity
+//
+// BOUNDARY POLICY:
+//   unsupported protocol version          -> FAIL
+//   missing/malformed required field      -> FAIL
+//   unsupported required extension        -> FAIL
+//   unsupported content type              -> FAIL
+//   untrusted optional metadata           -> NEVER PROMOTE TO AUTHORITY
+//   optional unknown extension            -> DROP
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+const A2A_MAX_REQUEST_SIZE = 131072
+const A2A_MAX_PART_DATA_SIZE = 65536
+
+/**
+ * Validates an incoming A2A SendMessageRequest.
+ *
+ * This validates the OFFICIAL A2A wire object, not a custom envelope.
+ * The SendMessageRequest carries a Message with Parts.
+ *
+ * Boundary policy:
+ * - Missing/malformed required fields -> FAIL
+ * - Oversized payload -> FAIL
+ * - Unknown optional fields -> DROP (not rejected)
+ * - Untrusted metadata -> never promoted to authority
+ *
+ * @param {object} sendMessageRequest - official A2A SendMessageRequest
+ * @returns {{ valid: boolean, reason?: string }}
+ */
+export function validateA2AMessage(sendMessageRequest) {
+  if (!sendMessageRequest || typeof sendMessageRequest !== "object") {
+    return { valid: false, reason: "SendMessageRequest must be a non-null object" }
+  }
+
+  // Check for oversized payload
+  const serialized = JSON.stringify(sendMessageRequest)
+  if (serialized.length > A2A_MAX_REQUEST_SIZE) {
+    return { valid: false, reason: `Request payload exceeds maximum size of ${A2A_MAX_REQUEST_SIZE} bytes` }
+  }
+
+  // Message is required in SendMessageRequest
+  const message = sendMessageRequest.message
+  if (!message || typeof message !== "object") {
+    return { valid: false, reason: "Missing or invalid message in SendMessageRequest" }
+  }
+
+  // Parts are required in Message
+  const parts = message.parts
+  if (!Array.isArray(parts) || parts.length === 0) {
+    return { valid: false, reason: "Message must contain at least one Part" }
+  }
+
+  // Validate each Part has recognized structure
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i]
+    if (!part || typeof part !== "object") {
+      return { valid: false, reason: `Part[${i}] must be a non-null object` }
+    }
+
+    const hasText = part.text !== undefined
+    const hasData = part.data !== undefined
+    const hasFile = part.file !== undefined || part.uri !== undefined || part.url !== undefined
+
+    if (!hasText && !hasData && !hasFile) {
+      // Unknown Part type â€” drop per boundary policy (not rejected)
+      continue
+    }
+
+    // Validate DataPart size
+    if (hasData && part.data !== null) {
+      const dataSize = JSON.stringify(part.data).length
+      if (dataSize > A2A_MAX_PART_DATA_SIZE) {
+        return { valid: false, reason: `Part[${i}] DataPart exceeds maximum size of ${A2A_MAX_PART_DATA_SIZE} bytes` }
+      }
+    }
+  }
+
+  return { valid: true }
+}
+
+/**
+ * Compiles a Task Capsule from a validated A2A message.
+ *
+ * INVARIANTS:
+ * - ExternalPrincipal identifies WHO IS ASKING (audit/scoping only)
+ * - Grants, write-set, worker, and reviewer are ALL locally assigned
+ * - External caller has NO input into any of these fields
+ * - Grant ceiling is always AUTH-0 for external requests
+ * - Write-set is always empty for external requests
+ *
+ * @param {object} params
+ * @param {string} params.requestId
+ * @param {string} params.objective
+ * @param {object} params.input
+ * @param {object} params.externalPrincipal - ExternalPrincipal (audit only)
+ * @param {string} params.resolvedAgentId - locally selected by capability resolver
+ * @param {string} params.reviewer - locally selected reviewer
+ * @param {string} params.maxGrant - always "AUTH-0" for external
+ * @returns {object} Task Capsule
+ */
+export function compileA2ATaskCapsule({
+  requestId,
+  objective,
+  input,
+  externalPrincipal,
+  resolvedAgentId,
+  reviewer = "canonical-reviewer",
+  maxGrant = "AUTH-0",
+}) {
+  assertNonEmptyString(requestId, "requestId")
+  assertNonEmptyString(objective, "objective")
+  assertNonEmptyString(resolvedAgentId, "resolvedAgentId")
+  assertNonEmptyString(reviewer, "reviewer")
+
+  // Enforce grant ceiling: external agents NEVER get mutation authority
+  const grantCeiling = ["AUTH-0"]
+
+  return {
+    schema_version: 1,
+    kind: "a2a-task-capsule",
+    task_id: requestId,
+    source: "a2a_gateway",
+
+    // Locally resolved â€” external caller had no input
+    worker: resolvedAgentId,
+    reviewer,
+
+    // ExternalPrincipal â€” audit reference only, never a local identity
+    external_principal: {
+      principal_id: externalPrincipal?.principal_id || "unknown",
+      auth_method: externalPrincipal?.auth_method || "apiKey",
+    },
+
+    // Authorization â€” always locally assigned, never externally selected
+    authorization: {
+      grants: grantCeiling,
+      may_select_auth: false,
+      may_select_write_set: false,
+      may_select_reviewer: false,
+      may_select_local_agent: false,
+    },
+
+    execution: {
+      write_set: [],
+      read_set: [],
+      tools_allowed: ["read"],
+    },
+
+    objective,
+    input: input || {},
+    timestamp: new Date().toISOString(),
+  }
+}
 
 export function failCli(error) {
   const message = error instanceof Error ? error.message : String(error)
   process.stderr.write(`ERROR: ${message}\n`)
   process.exitCode = 1
 }
-

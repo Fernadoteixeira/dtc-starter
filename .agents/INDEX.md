@@ -12,6 +12,8 @@
 > - `CURRENT LEASE != STALE LEASE` (Older fencing token -> No mutation)
 > - `CHILD AUTHORITY MUST NEVER EXCEED PARENT AUTHORITY` (Subprocess authority confinement)
 > - `PROTOCOL != AUTHORITY` (Protocols communicate/transact; contracts authorize)
+> - `A2A REQUEST != AUTHORIZATION` (Network request does not grant mutation authority)
+> - `RETRIEVAL REQUEST != DATA AUTHORIZATION` (Knowledge retrieval does not bypass AP2)
 
 > [!IMPORTANT]
 > **FABRIC GREEN ≠ PRODUCT GREEN**
@@ -41,6 +43,8 @@
 | **H3** | **Host-Derived Delta (H3.8)** | 🟢 CLOSED | `captureHostMutationDelta` git status delta verification active |
 | **H3** | **Escape Recovery (H3.9)** | 🟢 CLOSED | `verifyAndEnforceMutationPostcondition` & `quarantineMutationEscape` active |
 | **H3** | **Receipt Chain (H3.10-11)** | 🟢 CLOSED | Complete 6-phase receipt chain (`POLICY-E` .. `POSTCONDITION-E`) verified |
+| **H4** | **A2A Interoperability Gateway** | 🟢 CLOSED | Official A2A v1.0.1 normative wire, JSON-RPC, `apiKey` auth, `ExternalPrincipal` isolation, 12/12 adversarial tests PASS |
+| **H5** | **Knowledge Fabric (LlamaCloud)** | 🔵 SPECIFIED | Knowledge Ingestion Substrate behind AP2, 5 new evidence families (`INGEST-E` .. `RETRIEVAL-E`) |
 
 ---
 
@@ -48,16 +52,35 @@
 
 ```text
 ========================================================================
-FIO-VIVO AGENTIC FABRIC CERTIFICATION BASELINE (72/72 PASS)
+FIO-VIVO AGENTIC FABRIC CERTIFICATION BASELINE
 ========================================================================
-- fio-vivo-agentic-fabric-certification: 36/36 PASS (Barrier race, fencing, bypass, postcondition, confinement)
-- canonical-execution-fabric:            36/36 PASS (Triple-identity, single-writer, provenance, preflight)
-- Medusa Platform Skills Integrity:      18/18 SKILL.md PASS
-- SOURCE Manifest Provenance:            107/107 file hashes PASS
-- Workspace Monorepo Lint (Turbo):       3/3 packages PASS (0 errors)
-- Production Build Verification:         3/3 workspace projects compiled successfully
+Core certification tests (Node.js test runner):
+  - fio-vivo-agentic-fabric-certification: 36/36 PASS (Barrier race, fencing, bypass, postcondition, confinement)
+  - canonical-execution-fabric:            36/36 PASS (Triple-identity, single-writer, provenance, preflight)
+  Total core tests:                        72/72 PASS (100%)
+
+Additional integrity & production gates:
+  - Medusa Platform Skills Integrity:      18/18 SKILL.md PASS
+  - SOURCE Manifest Provenance:            107/107 file hashes PASS
+  - Workspace Monorepo Lint (Turbo):       3/3 packages PASS (0 errors)
+  - Production Build Verification:         3/3 workspace projects compiled successfully
 ========================================================================
 ```
+
+---
+
+## Residual Identifier & Legacy Compatibility Governance
+
+All residual occurrences of `DTC` and `dtc` across the repository are governed under strict taxonomic classification:
+
+| Category | Identifier Scope | Status | Canonical Policy & Bounding |
+|---|---|---|---|
+| **CAT 1** | **Institutional / Fabric Branding** | 🟢 MIGRATED | `DTC Agentic Fabric` → `FIO-VIVO Agentic Fabric`; `DTC-AP2` → `FIO-VIVO-AP2`. |
+| **CAT 2A** | **Fabric-Controlled Machine IDs** | 🟢 MIGRATED | `dtc-ap2` → `fio-vivo-ap2`; `DTC_*` env keys → `FIO_VIVO_*`. |
+| **CAT 2B** | **Legacy Machine ID / Compatibility Shim** | 🟡 DEPRECATED (BOUNDED) | `protocols.dtc_ap2`: Write emits `fio_vivo_ap2` exclusively. Read allows `dtc_ap2` fallback only during migration window until legacy fixtures are retired. |
+| **CAT 3** | **Existing Runtime Package Namespace** | 🟢 PRESERVED | `@dtc/gallery-experience`, `@dtc/storefront`, `@dtc/backend`, `--dtc-gallery-*` CSS tokens, `.dtc-gallery__*` BEM classes preserved to prevent breaking workspace & UI runtime. |
+| **CAT 4A** | **Historical Git Provenance** | 🟢 PRESERVED | `Fernadoteixeira/dtc-starter`, `medusajs/dtc-starter` preserved as immutable historical provenance. |
+| **CAT 4B** | **Legacy Canonical Semantic Identifier** | 🟢 PRESERVED | `KEEP_DTC_*` manifest flags preserved for semantic validation and transplant integrity rules. |
 
 ---
 

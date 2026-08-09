@@ -1,0 +1,345 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# H4.0 — Standards & Conformance Baseline
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# LAW:
+#   NETWORK MAY REQUEST.
+#   LOCAL POLICY DECIDES.
+#   FIO-VIVO RETAINS SOVEREIGNTY.
+#
+# RULE: A2A is the standard. ADK is a reference peer. Genkit MCP is a
+# platform integration behind FIO-VIVO-AP2. None of them becomes SSOT
+# for the FIO-VIVO Fabric.
+# ──────────────────────────────────────────────────────────────────────────────
+
+version: 1
+kind: h4-standards-baseline
+status: active
+fabric: FIO-VIVO Agentic Fabric
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Canonical decisions
+# ──────────────────────────────────────────────────────────────────────────────
+
+canonical_decisions:
+  wire_protocol_version: "1.0"
+  initial_binding: JSON-RPC 2.0
+  content_type: application/a2a+json
+  primary_js_implementation: "@a2a-js/sdk"
+  pinned_sdk_release: "1.0.1"
+  external_auth_ceiling: AUTH-0
+  external_write_set: "always []"
+  external_reviewer_selection: forbidden
+  public_network_identity: FIO-VIVO A2A service
+  internal_agent_identities: never exposed
+
+  laws:
+    - A2A REQUEST != AUTHORIZATION
+    - OAUTH SCOPE != FIO-VIVO AUTH
+    - AGENTCARD != CANONICAL-AGENT IDENTITY
+    - ARTIFACT != INTERNAL RECEIPT
+    - MCP TOOL AVAILABLE != ACTION AUTHORIZED
+    - NETWORK IDENTITY != RUNTIME IDENTITY
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Normative authority
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# | Component              | Role in FIO-VIVO                     | Authority                    |
+# |------------------------|--------------------------------------|------------------------------|
+# | A2A Spec / a2aproject  | wire semantics                       | Normative                    |
+# | @a2a-js/sdk            | Node implementation                  | Canonical implementation dep |
+# | Google ADK             | agent framework / interop peer       | Reference                    |
+# | Genkit MCP Server      | MCP runtime/dev bridge               | Optional integration         |
+# | FIO-VIVO-AP2           | local platform authority boundary    | Internal normative           |
+#
+# Key distinction:
+#   A2A  = WHO am I collaborating with?
+#   MCP  = WHAT tools/resources can I use?
+#   AP2  = MAY I cause this platform effect?
+# ──────────────────────────────────────────────────────────────────────────────
+
+authorities:
+
+  a2a:
+    role: normative_standard
+    description: >
+      The A2A Protocol is the normative wire standard for H4.
+      All external agent-to-agent communication MUST conform to this spec.
+
+    normative:
+      project: a2aproject/A2A
+      protocol_series: "1.0"
+      pinned_repository_release: "v1.0.1"
+      published_spec_page_release: "1.0.0"
+      wire_version: "1.0"
+      license: Apache-2.0
+      governance: Linux Foundation
+      note: >
+        The published spec page still identifies 1.0.0 as "Latest Released
+        Version", but the repository published v1.0.1 in May 2026 with
+        corrections including TaskStatus and application/a2a+json preference.
+        A2A-Version uses Major.Minor only; both belong to wire protocol "1.0".
+
+    implementation:
+      primary_sdk: "@a2a-js/sdk"
+      pinned_sdk_release: "1.0.1"
+      language: TypeScript / Node.js
+      role: canonical_implementation_dependency
+      note: >
+        SDK v1.0.0 marked the 1.0 line as GA and implements all three
+        transports (JSON-RPC, HTTP+JSON, gRPC). v1.0.1 is current.
+
+    reference_peer:
+      framework: Google ADK
+      languages: [Python, Go, Java]
+      role: cross_framework_interoperability_validation
+      note: >
+        ADK A2A integration is experimental. ADK is NOT a runtime
+        dependency of the FIO-VIVO gateway. It enters only as a
+        conformance fixture / external test agent.
+
+    validation:
+      inspector: a2aproject/a2a-inspector
+      tck: a2aproject/a2a-tck
+      role: conformance_certification
+
+  fio_vivo_ap2:
+    role: internal_normative
+    description: >
+      FIO-VIVO-AP2 remains the local platform authority boundary.
+      A2A conformance does not bypass AP2 authorization.
+      MCP tool availability does not imply action authorization.
+
+  genkit_mcp:
+    role: optional_integration
+    status: experimental
+    description: >
+      Genkit MCP Server is a platform/tool runtime integration that
+      operates BEHIND FIO-VIVO-AP2, never at the A2A wire boundary.
+    constraint: >
+      Genkit MCP cannot grant AUTH by itself.
+      All Genkit MCP operations MUST cross FIO-VIVO-AP2 before execution.
+    integration_path: |
+      Agent -> FIO-VIVO-AP2 -> MCP policy -> Genkit MCP
+        -> flow/runtime operation -> receipt -> Evidence Graph
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Official A2A TaskState enum
+# ──────────────────────────────────────────────────────────────────────────────
+
+task_state:
+  description: >
+    The boundary contract must know the FULL official enum even if
+    FIO-VIVO initially emits only a subset.
+
+  official_values:
+    - TASK_STATE_UNSPECIFIED
+    - TASK_STATE_SUBMITTED
+    - TASK_STATE_WORKING
+    - TASK_STATE_COMPLETED
+    - TASK_STATE_FAILED
+    - TASK_STATE_CANCELED
+    - TASK_STATE_INPUT_REQUIRED
+    - TASK_STATE_REJECTED
+    - TASK_STATE_AUTH_REQUIRED
+
+  fio_vivo_initial_emission:
+    - TASK_STATE_SUBMITTED
+    - TASK_STATE_WORKING
+    - TASK_STATE_COMPLETED
+    - TASK_STATE_FAILED
+    - TASK_STATE_REJECTED
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Authentication
+# ──────────────────────────────────────────────────────────────────────────────
+
+authentication:
+  initial:
+    scheme: apiKey
+    location: header
+    name: X-FIO-VIVO-A2A-Key
+    note: >
+      Uses A2A's official APIKeySecurityScheme.
+      Keeps H4 initial implementation simple without inventing
+      a proprietary shared_secret mechanism.
+
+  future:
+    - oauth2_client_credentials
+    - mtls
+    note: >
+      OAuth2 Client Credentials is the natural machine-to-machine
+      path. A2A formally supports clientCredentials flow.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Initial binding profile
+# ──────────────────────────────────────────────────────────────────────────────
+
+initial_binding:
+  transport: JSON-RPC 2.0
+  note: >
+    FIO-VIVO H4 initial binding = JSON-RPC 2.0.
+    This is the binding initially chosen by FIO-VIVO, not "the primary
+    binding of A2A". A2A defines functional equivalence between
+    JSON-RPC, HTTP+JSON, and gRPC.
+  content_type: application/a2a+json
+  version_header: "A2A-Version: 1.0"
+
+  agent_card_declaration:
+    supportedInterfaces:
+      - protocolBinding: JSONRPC
+        protocolVersion: "1.0"
+
+  supported_operations:
+    - AgentCard discovery (GET /.well-known/agent-card.json)
+    - SendMessage
+    - GetTask
+
+  explicitly_disabled:
+    - streaming (SSE)
+    - push notifications (webhooks)
+    - extended AgentCard (signed/authenticated)
+    - HTTP+JSON binding (future)
+    - gRPC binding (future)
+
+  supported_part_content:
+    - text/plain
+    - application/json (bounded)
+
+  denied_part_content:
+    - arbitrary remote file URL (SSRF risk)
+    - raw binary payloads
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Boundary policy
+# ──────────────────────────────────────────────────────────────────────────────
+
+boundary_policy:
+  unsupported_protocol_version: FAIL
+  missing_or_malformed_required_field: FAIL
+  unsupported_required_extension: FAIL
+  unsupported_content_type: FAIL
+  untrusted_optional_metadata: NEVER PROMOTE TO AUTHORITY
+  optional_unknown_extension: DROP (do not propagate internally)
+
+  note: >
+    A2A has formal extension mechanisms including optional and required
+    extensions. The boundary must be rigid about EFFECTS AND AUTHORITY,
+    not brittle against any new optional syntax.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Wire objects (official A2A 1.0) vs internal objects
+# ──────────────────────────────────────────────────────────────────────────────
+
+wire_objects:
+  official:
+    - AgentCard
+    - AgentInterface
+    - SendMessageRequest
+    - SendMessageResponse
+    - Message
+    - Part
+    - Task
+    - TaskStatus
+    - Artifact
+
+  internal_only:
+    - NormalizedA2AIntent
+    - ExternalPrincipal
+    - TaskCapsule
+
+  mapping: >
+    SendMessageRequest.message
+      -> validate
+      -> sanitize Parts
+      -> NormalizedA2AIntent
+      -> local capability resolution
+      -> TaskCapsule
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Scope boundaries
+# ──────────────────────────────────────────────────────────────────────────────
+
+scope_boundaries:
+  inside_fio_vivo_process:
+    protocol: RUG / local agents
+    rationale: >
+      Sub-agents sharing state, high frequency, low latency.
+      Do NOT use A2A to transform each internal subagent into
+      a microservice. That creates a latency cathedral.
+
+  outside_process_boundary:
+    protocol: A2A
+    rationale: >
+      Agents separated by service, team, framework, or language.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Validation tools — corrected execution paths
+# ──────────────────────────────────────────────────────────────────────────────
+
+validation_execution:
+
+  tck:
+    project: a2aproject/a2a-tck
+    runtime: Python 3.11+ / uv
+    execution: |
+      git clone https://github.com/a2aproject/a2a-tck.git
+      cd a2a-tck
+      uv venv
+      uv pip install -e .
+      ./run_tck.py --sut-host http://localhost:<port> --transport jsonrpc
+    gates:
+      MUST: hard gate (blocks certification)
+      SHOULD: quality/conformance report (xfail, not blocking)
+      MAY: capability-dependent
+    artifacts:
+      - reports/compatibility.json
+      - reports/compatibility.html
+      - reports/tck_report.html
+      - reports/junitreport.xml
+    evidence_role: P5 Evidence of H4
+    note: >
+      TCK is NOT executed via npx. It is a Python project.
+
+  inspector:
+    project: a2aproject/a2a-inspector
+    runtime: Docker or local FastAPI + TypeScript
+    execution: |
+      git clone https://github.com/a2aproject/a2a-inspector.git
+      cd a2a-inspector
+      docker build -t a2a-inspector .
+      docker run --rm -p 8080:8080 a2a-inspector
+    usage: >
+      Open http://127.0.0.1:8080
+      Provide the FIO-VIVO A2A server URL in the UI
+      Inspector fetches AgentCard, validates, allows interaction
+    role: interactive/manual diagnostic evidence
+    note: >
+      Inspector is NOT a substitute for the TCK.
+      Inspector = interactive diagnostic.
+      TCK = machine conformance gate.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Certification target
+# ──────────────────────────────────────────────────────────────────────────────
+
+certification:
+  counts:
+    h0_h3_core: 72/72
+    h4_internal: N/N
+    tck_must: M/M
+    tck_should: report
+    inspector: manual evidence
+    adk_interop: 2/2
+    total: materialized only after execution
+
+  target: |
+    A2A defines the language.
+    ExternalPrincipal defines who is asking.
+    FIO-VIVO decides what may happen.
+    FIO-VIVO-AP2 controls the effect.
+    Evidence proves what happened.
+
+    A2A SPEAKS FOR THE NETWORK.
+    FIO-VIVO DECIDES FOR FIO-VIVO.

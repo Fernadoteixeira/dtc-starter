@@ -51,63 +51,107 @@ archetypes:
     may_self_review: false
     requires_write_set: false
 
+  a2a_external_reader:
+    description: External A2A agent projected identity (read-only, AUTH-0 ceiling)
+    mutation_capable: false
+    may_self_review: false
+    requires_write_set: false
+    a2a_scope: external
+    max_grant: AUTH-0
+
 agents:
   orchestrator:
     archetype: orchestrator
     description: Primary multi-agent task orchestrator
+    a2a_projection:
+      externally_visible: true
+      advertised_capabilities: [task_coordination, status_query]
+      external_description: Multi-agent task coordination and status reporting
 
   software-architect:
     archetype: architect
     description: Technical architecture and specification agent
+    a2a_projection:
+      externally_visible: false
 
   implementation-engineer:
     archetype: worker
     description: Storefront and backend implementation engineer
+    a2a_projection:
+      externally_visible: false
 
   canonical-worker:
     archetype: worker
     description: Canonical execution worker for bounded unit tasks
+    a2a_projection:
+      externally_visible: true
+      advertised_capabilities: [code_analysis, information_query]
+      external_description: Bounded task execution agent for code analysis and information queries
 
   bb03-css-implementer:
     archetype: worker
     description: BB03 CSS implementation specialist
+    a2a_projection:
+      externally_visible: false
 
   bb03-css-spec:
     archetype: architect
     description: BB03 CSS specification specialist
+    a2a_projection:
+      externally_visible: false
 
   code-reviewer:
     archetype: reviewer
     description: Independent code reviewer
+    a2a_projection:
+      externally_visible: false
 
   canonical-reviewer:
     archetype: reviewer
     description: Canonical independent execution reviewer
+    a2a_projection:
+      externally_visible: true
+      advertised_capabilities: [code_review, quality_audit]
+      external_description: Independent code and execution quality reviewer
 
   bb03-css-validator:
     archetype: validator
     description: BB03 CSS validation specialist
+    a2a_projection:
+      externally_visible: false
 
   repo-guardian:
     archetype: guardian
     description: Repository firewall and confinement governor
+    a2a_projection:
+      externally_visible: false
 
   security-governor:
     archetype: validator
     description: Security and dependency governor
+    a2a_projection:
+      externally_visible: false
 
   visual-catalog-curator:
     archetype: validator
     description: Visual catalog curator and UI auditor
+    a2a_projection:
+      externally_visible: false
 
   runtime-verifier:
     archetype: validator
     description: Runtime build and performance verifier
+    a2a_projection:
+      externally_visible: false
 
   qa-test-lead:
     archetype: validator
     description: QA test lead
+    a2a_projection:
+      externally_visible: false
 
   release-operator:
     archetype: guardian
     description: Release readiness operator
+    a2a_projection:
+      externally_visible: false
