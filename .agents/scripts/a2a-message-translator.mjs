@@ -109,19 +109,10 @@ export function createExternalPrincipal(authResult) {
   const principalId = authResult.principal_id || authResult.keyId || authResult.client_id || "unknown"
 
   return {
-    principal_id: principalId,
-    auth_method: method,
-    auth_timestamp: new Date().toISOString(),
-  }
-}
-
-  return {
     kind: "external-principal",
-    principal_id: authResult.principal_id || authResult.client_id || "unknown",
+    principal_id: principalId,
     authenticated_at: new Date().toISOString(),
     auth_method: method,
-    // Audit-only: external agent name from AgentCard, never used for
-    // local identity resolution
     a2a_agent_name: authResult.agent_name || null,
   }
 }
