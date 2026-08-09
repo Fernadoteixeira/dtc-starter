@@ -1,19 +1,23 @@
 {
-  "receipt_id": "REVIEW-E-H6-TELEMETRY-001",
+  "receipt_id": "REVIEW-E-H6-TELEMETRY-002",
   "issue_id": "#46",
-  "wave_id": "W5",
-  "timestamp": "2026-08-09T04:31:58Z",
+  "wave_id": "W5C.2",
+  "timestamp": "2026-08-09T04:43:35Z",
   "reviewer_id": "independent-telemetry-reviewer-01",
   "status": "PASS",
-  "verdict": "TELEMETRY CONTRACT VENDOR-NEUTRAL",
-  "validated_contracts": [
-    ".agents/canonical-telemetry-contract.yaml"
-  ],
+  "verdict": "TELEMETRY CONTRACT VENDOR-NEUTRAL & FAULT-ISOLATED",
+  "artifact_hashes": {
+    ".agents/canonical-telemetry-contract.yaml": "d90dca7431971604410edbe51580f6cad4017c69ce294b0f92b834cdd072b61a",
+    ".agents/scripts/validate-telemetry-contract.mjs": "52e9b3ac32ad025c8fc5f26c406af6643cc44330d7c116582e0871fa181910e8",
+    ".agents/scripts/__tests__/telemetry-resilience.test.mjs": "69d1c27dc682875a0f7123169d73df49a00f1e939fae45d162da97438a2936ce"
+  },
   "verification_details": {
-    "vendor_neutrality_verified": true,
-    "opentelemetry_v1_3_0_schema_validated": true,
-    "operation_taxonomy_five_categories_present": true,
+    "canonical_identifiers_coverage_23_of_23": true,
+    "measurement_hierarchy_6_layers_materialized": true,
+    "high_cardinality_metric_labels_forbidden": true,
+    "control_plane_ids_sha256_sanitized": true,
     "exporter_outage_fail_safe_proven": true,
+    "telemetry_loss_not_behavior_change_proven": true,
     "observability_not_evidence_not_auth_enforced": true
   }
 }
