@@ -46,6 +46,15 @@ const A2A_CONTENT_TYPE = "application/a2a+json"
 const EXTERNAL_AUTH_CEILING = "AUTH-0"
 const DEFAULT_REVIEWER = "canonical-reviewer"
 
+const DEFAULT_SERVICE_PROFILE = Object.freeze({
+  advertised_skills: [
+    { name: "architecture-query", handler: "repo-cartographer", reviewer: "code-reviewer" },
+    { name: "capability-query", handler: "repo-cartographer", reviewer: "code-reviewer" },
+    { name: "evidence-summary", handler: "repo-cartographer", reviewer: "code-reviewer" },
+    { name: "task-status", handler: "repo-cartographer", reviewer: "code-reviewer" }
+  ]
+})
+
 // Official A2A TaskState enum
 const TASK_STATE = Object.freeze({
   UNSPECIFIED:    "TASK_STATE_UNSPECIFIED",
@@ -96,7 +105,15 @@ export function createExternalPrincipal(authResult) {
     throw new Error("Missing authentication result")
   }
 
-  const method = authResult.method || "apiKey"
+  const method = authResult.method || (authResult.keyId ? "apiKey" : "unknown")
+  const principalId = authResult.principal_id || authResult.keyId || authResult.client_id || "unknown"
+
+  return {
+    principal_id: principalId,
+    auth_method: method,
+    auth_timestamp: new Date().toISOString(),
+  }
+}
 
   return {
     kind: "external-principal",

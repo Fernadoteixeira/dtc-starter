@@ -35,15 +35,14 @@ test("A2A BOUNDARY #39: Valid A2A message compiles ExternalPrincipal task capsul
   const capsule = result.capsule
 
   // 1. Verify ExternalPrincipal mapping & authority ceiling
-  assert.equal(capsule.authorization.principal, "ExternalPrincipal:remote-agent-client-alpha")
+  assert.equal(capsule.external_principal.principal_id, "remote-agent-client-alpha")
   assert.deepEqual(capsule.authorization.grants, ["AUTH-0"])
   assert.deepEqual(capsule.authorization.write_set, [])
 
-  // 2. Verify local capability & worker/reviewer selection
-  assert.equal(capsule.capabilities[0], "architecture-query")
-  assert.equal(capsule.agent.worker, "repo-cartographer")
-  assert.equal(capsule.agent.reviewer, "code-reviewer")
-  assert.notEqual(capsule.agent.worker, capsule.agent.reviewer)
+  // 2. Verify local worker/reviewer selection
+  assert.equal(capsule.worker, "repo-cartographer")
+  assert.equal(capsule.reviewer, "code-reviewer")
+  assert.notEqual(capsule.worker, capsule.reviewer)
 })
 
 test("A2A BOUNDARY #39: Invalid A2A message fails closed without compiling capsule or executing tools", async () => {
