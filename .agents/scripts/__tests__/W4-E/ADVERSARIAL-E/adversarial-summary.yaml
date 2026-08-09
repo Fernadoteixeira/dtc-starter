@@ -1,0 +1,12 @@
+ADVERSARIAL_E:
+  test_suite: ".agents/scripts/__tests__/a2a-adversarial-corpus.test.mjs"
+  discovered: 12
+  passed: 12
+  failed: 0
+  status: PASS
+  evidence:
+    protocol_validation: PASS
+    identity_separation: PASS
+    auth_0_ceiling: PASS
+    zero_disclosure: PASS
+    sanitized_output_structure: PASS

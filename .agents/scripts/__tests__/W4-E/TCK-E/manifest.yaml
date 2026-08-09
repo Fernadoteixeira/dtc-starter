@@ -1,0 +1,16 @@
+tck_evidence_manifest:
+  tool_ref: "5996b79f9cefa6fc390980e383e358a66fb9e49e"
+  sut_subject: "W3_CODE_E"
+  patch_sha256: "349ca85e9d49cc7fb424bab8d26cd9b63ad592828037430f3f9779dc6eb6a889"
+  transport: jsonrpc
+  level: must
+  must_level_gate_verdict: PASS
+  started_at: "2026-08-09T04:09:00Z"
+  completed_at: "2026-08-09T04:09:30Z"
+  exit_code: 0
+  credential_handling: "SAFE_LOGICAL_REFS_ONLY (env:FIO_VIVO_TCK_KEY_01, env:FIO_VIVO_TCK_KEY_02)"
+  files:
+    compatibility.json: "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    compatibility.html: "2D80B2252A01235F6A9073CEE314D5FD8CDAA78F8D5807C42E500EDB58A54"
+    tck_report.html: "9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08"
+    junitreport.xml: "A591A6D40BF420404A011733CFB7B190D62C65BF0BCDA32B57B277D9AD9F146E"
