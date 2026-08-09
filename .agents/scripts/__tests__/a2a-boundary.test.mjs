@@ -1,7 +1,7 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { handleGatewayRequest } from "../a2a-gateway.mjs"
-import { translateA2AMessageToTaskCapsule } from "../a2a-message-translator.mjs"
+import { translateMessage } from "../a2a-message-translator.mjs"
 
 const VALID_HEADERS = {
   "A2A-Version": "1.0",
@@ -9,7 +9,7 @@ const VALID_HEADERS = {
 }
 
 test("A2A BOUNDARY #39: Valid A2A message compiles ExternalPrincipal task capsule with AUTH-0 and write_set=[]", () => {
-  const message = {
+  const sendMessageRequest = {
     id: "msg-valid-101",
     role: "user",
     parts: [
@@ -20,9 +20,15 @@ test("A2A BOUNDARY #39: Valid A2A message compiles ExternalPrincipal task capsul
     ],
   }
 
-  const capsule = translateA2AMessageToTaskCapsule(message, {
-    remoteKey: "remote-agent-client-alpha",
+  const result = translateMessage({
+    a2aVersion: "1.0",
+    authResult: { authenticated: true, keyId: "remote-agent-client-alpha" },
+    sendMessageRequest,
+    requestedSkill: "architecture-query",
   })
+
+  assert.equal(result.success, true)
+  const capsule = result.capsule
 
   // 1. Verify ExternalPrincipal mapping & authority ceiling
   assert.equal(capsule.authorization.principal, "ExternalPrincipal:remote-agent-client-alpha")

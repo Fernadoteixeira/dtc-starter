@@ -240,16 +240,16 @@ export function compileNormalizedIntent(sanitizedParts, requestedSkill, external
  * @param {object} serviceProfile - advertised skills and config
  * @returns {{ resolved: boolean, agentId?: string, reviewerId?: string, reason?: string }}
  */
-export function resolveCapability(requestedSkill, serviceProfile) {
+export function resolveCapability(requestedSkill, serviceProfile = DEFAULT_SERVICE_PROFILE) {
   if (!requestedSkill || typeof requestedSkill !== "string") {
     return { resolved: false, reason: "Missing requested skill" }
   }
 
-  if (!serviceProfile || !serviceProfile.advertised_skills) {
+  const profile = serviceProfile || DEFAULT_SERVICE_PROFILE
+  const skills = profile.advertised_skills || profile.advertisedSkills
+  if (!skills || !Array.isArray(skills)) {
     return { resolved: false, reason: "No service profile configured" }
   }
-
-  const skills = serviceProfile.advertised_skills
   const skillEntry = skills.find(s =>
     (typeof s === "string" && s === requestedSkill) ||
     (typeof s === "object" && s.name === requestedSkill)
