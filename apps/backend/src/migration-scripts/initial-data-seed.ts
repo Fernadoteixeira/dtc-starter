@@ -383,47 +383,81 @@ export default async function initial_data_seed({
 
   logger.info("Seeding product data...");
 
-  const { result: categoryResult } = await createProductCategoriesWorkflow(
-    container
-  ).run({
-    input: {
-      product_categories: [
-        {
-          name: "Tapeçarias",
-          is_active: true,
+  let primaryCategory: any;
+  try {
+    const { data: existingCategories } = await query.graph({
+      entity: "product_category",
+      fields: ["id", "name"],
+    });
+    primaryCategory = existingCategories?.[0];
+    if (!primaryCategory) {
+      const { result: categoryResult } = await createProductCategoriesWorkflow(
+        container
+      ).run({
+        input: {
+          product_categories: [
+            {
+              name: "Tapeçarias",
+              is_active: true,
+            },
+            {
+              name: "Esculturas Têxteis",
+              is_active: true,
+            },
+            {
+              name: "Arte Botânica",
+              is_active: true,
+            },
+            {
+              name: "Edições Especiais",
+              is_active: true,
+            },
+          ],
         },
-        {
-          name: "Esculturas Têxteis",
-          is_active: true,
+      });
+      primaryCategory = categoryResult[0];
+    }
+  } catch (err) {
+    logger.warn(`Product category creation skipped: ${err}`);
+  }
+
+  let editionOption: any;
+  try {
+    const { data: existingOptions } = await query.graph({
+      entity: "product_option",
+      fields: ["id", "title"],
+    });
+    editionOption = existingOptions?.[0];
+    if (!editionOption) {
+      const { result: productOptionsResult } = await createProductOptionsWorkflow(
+        container
+      ).run({
+        input: {
+          product_options: [
+            {
+              title: "Edição",
+              values: ["Peça Única", "Tiragem Limitada"],
+            },
+          ],
         },
-        {
-          name: "Arte Botânica",
-          is_active: true,
-        },
-        {
-          name: "Edições Especiais",
-          is_active: true,
-        },
-      ],
-    },
+      });
+      editionOption = productOptionsResult[0];
+    }
+  } catch (err) {
+    logger.warn(`Product options creation skipped: ${err}`);
+  }
+
+  let createdProducts: any[] = [];
+  const { data: existingProducts } = await query.graph({
+    entity: "product",
+    fields: ["id", "handle"],
   });
 
-  const { result: productOptionsResult } = await createProductOptionsWorkflow(
-    container
-  ).run({
-    input: {
-      product_options: [
-        {
-          title: "Edição",
-          values: ["Peça Única", "Tiragem Limitada"],
-        },
-      ],
-    },
-  });
-  const editionOption = productOptionsResult[0];
-  const primaryCategory = categoryResult[0];
-
-  const { result: createdProducts } = await createProductsWorkflow(container).run({
+  if (existingProducts && existingProducts.length > 0) {
+    createdProducts = existingProducts;
+    logger.info(`Found ${existingProducts.length} existing products in database.`);
+  } else if (primaryCategory && editionOption) {
+    const { result: products } = await createProductsWorkflow(container).run({
     input: {
       products: [
         {
@@ -811,8 +845,11 @@ export default async function initial_data_seed({
           ],
         },
       ],
-    },
-  });
+      createdProducts = products;
+    } catch (err) {
+      logger.warn(`Product creation skipped: ${err}`);
+    }
+  }
   logger.info("Finished seeding product data.");
 
   logger.info("Seeding fio-vivo collection...");
