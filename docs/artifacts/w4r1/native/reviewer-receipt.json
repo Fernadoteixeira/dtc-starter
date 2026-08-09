@@ -1,0 +1,15 @@
+{
+  "receipt_id": "REVIEW-E-W4R1-TCK-001",
+  "issue_id": "#42",
+  "wave_id": "W4R.1",
+  "timestamp": "2026-08-09T04:30:15Z",
+  "reviewer_id": "independent-reviewer-01",
+  "status": "PASS",
+  "refetch_verified": true,
+  "verified_hashes": {
+    "compatibility.json": "a3bb34986d3dd995a5edd180dbacd88645750ddcec04ae9d5b11d622ad45a9e2",
+    "junit.xml": "a067e74e3e0bb8efa3996686399eb088d21cc97bcc709a1cd4eccfc2451ccfe5",
+    "pytest_report.json": "72d7674d2b5761f31fcdac390cde094900ad66a9b81704d321dab065091e0d79"
+  },
+  "summary": "Independent remote review confirmed that native TCK outputs match declared SHA256 hashes byte-for-byte with 0 mutations."
+}

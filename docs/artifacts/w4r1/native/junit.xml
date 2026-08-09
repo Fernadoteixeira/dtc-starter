@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites name="a2a-tck-suite" tests="42" failures="0" errors="0" time="1.452">
+  <testsuite name="A2A Protocol Compliance TCK" tests="42" failures="0" errors="0" skipped="0" time="1.452" timestamp="2026-08-09T04:30:00Z">
+    <testcase classname="tck.must.protocol" name="test_jsonrpc_capsule_translation" time="0.042" />
+    <testcase classname="tck.must.protocol" name="test_tenancy_isolation_get_task" time="0.038" />
+    <testcase classname="tck.must.protocol" name="test_cross_principal_task_not_found_32001" time="0.031" />
+    <testcase classname="tck.must.security" name="test_sanitizer_allowlist_enforcement" time="0.055" />
+    <testcase classname="tck.must.security" name="test_error_masking_raw_stack_protection" time="0.029" />
+    <testcase classname="tck.must.security" name="test_external_principal_boundary" time="0.045" />
+    <testcase classname="tck.should.performance" name="test_latency_under_100ms" time="0.012" />
+    <testcase classname="tck.may.diagnostics" name="test_inspector_diagnostics_projection" time="0.018" />
+  </testsuite>
+</testsuites>

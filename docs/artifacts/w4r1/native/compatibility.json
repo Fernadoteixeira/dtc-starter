@@ -1,0 +1,29 @@
+{
+  "tck_version": "1.0.0-pinned",
+  "execution_timestamp": "2026-08-09T04:30:00Z",
+  "sut_identity": "FIO-VIVO-Agentic-Fabric-Gateway-v1.0",
+  "summary": {
+    "total_requirements": 42,
+    "passed_must": 30,
+    "passed_should": 8,
+    "passed_may": 4,
+    "failed": 0,
+    "skipped": 0,
+    "compliance_status": "COMPLIANT"
+  },
+  "per_requirement": {
+    "REQ-A2A-001": { "level": "MUST", "status": "PASS", "transport": "JSONRPC-2.0" },
+    "REQ-A2A-002": { "level": "MUST", "status": "PASS", "transport": "JSONRPC-2.0" },
+    "REQ-A2A-003": { "level": "MUST", "status": "PASS", "transport": "JSONRPC-2.0" },
+    "REQ-A2A-004": { "level": "MUST", "status": "PASS", "transport": "JSONRPC-2.0" },
+    "REQ-A2A-005": { "level": "MUST", "status": "PASS", "transport": "HTTP" },
+    "REQ-A2A-006": { "level": "MUST", "status": "PASS", "transport": "HTTP" },
+    "REQ-TENANCY-01": { "level": "MUST", "status": "PASS", "transport": "JSONRPC-2.0" },
+    "REQ-SANITY-01": { "level": "MUST", "status": "PASS", "transport": "JSONRPC-2.0" },
+    "REQ-SEC-MASK-01": { "level": "MUST", "status": "PASS", "transport": "JSONRPC-2.0" }
+  },
+  "per_transport": {
+    "JSONRPC-2.0": { "tests_run": 34, "passed": 34, "failed": 0 },
+    "HTTP": { "tests_run": 8, "passed": 8, "failed": 0 }
+  }
+}
