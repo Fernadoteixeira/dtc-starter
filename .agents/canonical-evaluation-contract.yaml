@@ -1,0 +1,55 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# H6 Evaluation Envelope Contract — FIO-VIVO Canonical Evaluation Substrate Contract
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# LAWS & INVARIANTS:
+#   1. EVALUATION IS AUTOMATED, OBJECTIVE, AND CONTINUOUS
+#   2. DRIFT & HALLUCINATION THRESHOLDS ARE STRICTLY ENFORCED FAIL-CLOSED
+#   3. EVALUATION ENVELOPE GOVERNS ALL LLMOPS FEEDBACK LOOPS
+# ──────────────────────────────────────────────────────────────────────────────
+
+version: 1
+kind: canonical-evaluation-contract
+status: active
+fabric: FIO-VIVO Agentic Fabric
+specification: Issue #47 H6 Evaluation Envelope & LLMOps Feedback Contract
+
+evaluation_envelope:
+  continuous_eval:
+    enabled: true
+    sampling_rate: 1.0
+    evaluation_engine: "canonical-evaluation-lib"
+    mode: "FAIL_CLOSED"
+  
+  thresholds:
+    max_hallucination_score: 0.00
+    min_faithfulness_score: 1.00
+    min_relevance_score: 0.95
+    max_semantic_drift: 0.02
+    max_latency_p95_ms: 1500
+
+  metrics:
+    - metric_id: eval.faithfulness
+      description: "Verifies generation grounding strictly within authorized knowledge authority scope"
+      min_value: 1.0
+    - metric_id: eval.hallucination_rate
+      description: "Measures ungrounded or speculative claims outside source registry"
+      max_value: 0.0
+    - metric_id: eval.semantic_drift
+      description: "Detects deviation between task objective and execution output"
+      max_value: 0.02
+    - metric_id: eval.evidence_completeness
+      description: "Ensures 100% of required receipt types are present in execution graph"
+      min_value: 1.0
+
+  llmops_feedback_loop:
+    ingestion:
+      auto_quarantine_on_drift: true
+      quarantine_threshold: 0.05
+    telemetry_binding:
+      span_eval_linking: true
+      export_to_otlp: true
+
+  gate_enforcement:
+    issue_47_status: MATERIALIZED
+    evaluation_pass_required_for_release: true

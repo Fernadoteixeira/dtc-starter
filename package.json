@@ -18,7 +18,8 @@
     "storefront:dev": "turbo dev --filter=@dtc/storefront",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
-    "docker:logs": "docker compose logs -f"
+    "docker:logs": "docker compose logs -f",
+    "reconcile:ssot": "node scripts/reconcile-blueprint-ssot.mjs"
   },
   "pnpm": {
     "overrides": {

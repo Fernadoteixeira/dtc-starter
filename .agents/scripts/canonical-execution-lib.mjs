@@ -1059,6 +1059,10 @@ export function loadDurableLeasesState() {
   try {
     json = JSON.parse(raw)
   } catch (error) {
+    try {
+      const corruptPath = `${storePath}.corrupt.${Date.now()}`
+      renameSync(storePath, corruptPath)
+    } catch {}
     throw new Error(`LEASE_STORE_CORRUPT: Lease store JSON is invalid or corrupt: ${error.message}`)
   }
 

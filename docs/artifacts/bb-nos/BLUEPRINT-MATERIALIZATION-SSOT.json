@@ -5,13 +5,13 @@
   "program": "FIO-VIVO-360",
   "repo": "Fernadoteixeira/dtc-starter",
   "observed_head": {
-    "commit_sha": "61ecd2bea2f39341aadba851286d8439d49b45b3",
+    "commit_sha": "fcac365c6c4fe3c74d8639337e9019ae30b1609a",
     "branch": "main",
     "recorded_program_state_head": "f4c1139f1b4151e919e7bf346271bd2ff79b3015",
-    "head_drift_commit_count": 83,
+    "head_drift_commit_count": 84,
     "drift_status": "GOVERNANCE_DRIFT_OBSERVED"
   },
-  "audit_timestamp": "2026-08-10T00:04:00-03:00",
+  "audit_timestamp": "2026-08-10T03:07:40.255Z",
   "scoring_legend": {
     "0_pct": "Inexistente",
     "25_pct": "Contrato / Skeleton",
@@ -20,8 +20,8 @@
     "100_pct": "Implementado + evidência atual + Definition of Done reconciliada"
   },
   "summary_metrics": {
-    "physical_materialization_pct": 64.0,
-    "integrated_e2e_materialization_pct": 58.0,
+    "physical_materialization_pct": 65.3,
+    "integrated_e2e_materialization_pct": 58,
     "bb_nos_certified_gates": "0/20",
     "fabric_remote_certified_tasks": "37/99 (37.4%)",
     "release_authorization": "NO-GO (0%)"
@@ -62,7 +62,9 @@
         "apps/backend/src/migration-scripts/initial-data-seed.ts",
         "apps/backend/src/api/store"
       ],
-      "blockers": ["Collection filter fail-closed gap in storefront client fallback"],
+      "blockers": [
+        "Collection filter fail-closed gap in storefront client fallback"
+      ],
       "status": "REAL_STRUCTURE_FUNCTIONAL"
     },
     {
@@ -70,7 +72,7 @@
       "name": "Fio Vivo Product / Catalog",
       "owner_issue": "#3",
       "planned_pct": 100,
-      "physical_pct": 80,
+      "physical_pct": 50,
       "integrated_pct": 72,
       "evidence_pct": 60,
       "certified_pct": 50,
@@ -78,7 +80,9 @@
         "apps/backend/src/migration-scripts/initial-data-seed.ts",
         "apps/storefront/src/modules/home/components/hero-wrapper"
       ],
-      "blockers": ["Catalog truth governance pending"],
+      "blockers": [
+        "Catalog truth governance pending"
+      ],
       "status": "MATERIALIZED_TRUTH_GOVERNANCE_PENDING"
     },
     {
@@ -94,7 +98,12 @@
         "packages/gallery-experience",
         "apps/storefront/src/modules/home/gallery-hero"
       ],
-      "blockers": ["Hardcoded editorial fallbacks", "Global keyboard listener", "Parallax/Dwell gaps", "Visual parity FAIL"],
+      "blockers": [
+        "Hardcoded editorial fallbacks",
+        "Global keyboard listener",
+        "Parallax/Dwell gaps",
+        "Visual parity FAIL"
+      ],
       "status": "PARTIAL_FUNCTIONAL_PRODUCT"
     },
     {
@@ -112,7 +121,10 @@
         "apps/storefront/src/modules/cart",
         "apps/storefront/src/modules/checkout"
       ],
-      "blockers": ["Product/Variant/Availability truth fragile", "PDP experience ~45%"],
+      "blockers": [
+        "Product/Variant/Availability truth fragile",
+        "PDP experience ~45%"
+      ],
       "status": "PATH_EXISTS_TRUTH_FRAGILE"
     },
     {
@@ -120,7 +132,7 @@
       "name": "Artisan Pricing Engine",
       "owner_issue": "#18",
       "planned_pct": 100,
-      "physical_pct": 80,
+      "physical_pct": 0,
       "integrated_pct": 70,
       "evidence_pct": 50,
       "certified_pct": 0,
@@ -128,7 +140,9 @@
         "apps/backend/src/modules/artisan-pricing",
         "apps/backend/src/api/store/artisan-pricing/route.ts"
       ],
-      "blockers": ["Algorithm currently simplified floor * multiplier without full pricing intelligence"],
+      "blockers": [
+        "Algorithm currently simplified floor * multiplier without full pricing intelligence"
+      ],
       "status": "FUNCTIONAL_SKELETON"
     },
     {
@@ -144,7 +158,12 @@
         "apps/backend/src/modules/payment-pix",
         "apps/storefront/src/modules/checkout/components/payment-button"
       ],
-      "blockers": ["Not registered in medusa-config.ts", "No real PSP/Bacen integration", "Webhook not supported", "Local string / external QR mock"],
+      "blockers": [
+        "Not registered in medusa-config.ts",
+        "No real PSP/Bacen integration",
+        "Webhook not supported",
+        "Local string / external QR mock"
+      ],
       "status": "UI_PROVIDER_PROTOTYPE"
     },
     {
@@ -160,7 +179,9 @@
         ".agents/canonical-telemetry-contract.yaml",
         "apps/storefront/src/lib/telemetry"
       ],
-      "blockers": ["Runtime BB-NOS observability ~25%"],
+      "blockers": [
+        "Runtime BB-NOS observability ~25%"
+      ],
       "status": "CONTRACT_PASSED_RUNTIME_PARTIAL"
     },
     {
@@ -177,7 +198,11 @@
         ".agents/fio-vivo-antigravity-rug-pack",
         ".agents/a2a-boundary-contract.yaml"
       ],
-      "blockers": ["Lease store fails open on corruption (#50 open)", "Regression-count discrepancy 196 vs 212 (#51 open)", "Evaluation envelope not materialized (#47)"],
+      "blockers": [
+        "Lease store fails open on corruption (#50 open)",
+        "Regression-count discrepancy 196 vs 212 (#51 open)",
+        "Evaluation envelope not materialized (#47)"
+      ],
       "status": "STRONG_SPINE_REMOTE_PARTIAL"
     },
     {
@@ -193,7 +218,9 @@
         ".agents/knowledge-authority-model.yaml",
         ".agents/canonical-source-registry.yaml"
       ],
-      "blockers": ["Runtime retrieval engine incomplete"],
+      "blockers": [
+        "Runtime retrieval engine incomplete"
+      ],
       "status": "AUTHORITY_READY_RUNTIME_RETRIEVAL_INCOMPLETE"
     },
     {
@@ -209,7 +236,12 @@
         "docs/artifacts/bb-nos",
         "playwright.config.ts"
       ],
-      "blockers": ["Visual parity FAIL", "Commercial truth FAIL", "Accessibility/Performance/Resilience NOT RUN", "Current-HEAD canonical regression unresolved"],
+      "blockers": [
+        "Visual parity FAIL",
+        "Commercial truth FAIL",
+        "Accessibility/Performance/Resilience NOT RUN",
+        "Current-HEAD canonical regression unresolved"
+      ],
       "status": "PRIMARY_TECHNICAL_DEBT"
     },
     {
@@ -217,14 +249,19 @@
       "name": "Release Authorization",
       "owner_issue": "#12",
       "planned_pct": 100,
-      "physical_pct": 0,
+      "physical_pct": 100,
       "integrated_pct": 0,
       "evidence_pct": 0,
       "certified_pct": 0,
       "paths": [
         "docs/artifacts/bb-nos/program-state.json"
       ],
-      "blockers": ["BB-NOS Release NO-GO", "Human visual approval PENDING", "CI attestation absent", "Merge authorization NOT GRANTED"],
+      "blockers": [
+        "BB-NOS Release NO-GO",
+        "Human visual approval PENDING",
+        "CI attestation absent",
+        "Merge authorization NOT GRANTED"
+      ],
       "status": "RELEASE_FORBIDDEN"
     }
   ]
