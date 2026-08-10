@@ -5,13 +5,14 @@
   "program": "FIO-VIVO-360",
   "repo": "Fernadoteixeira/dtc-starter",
   "observed_head": {
-    "commit_sha": "fcac365c6c4fe3c74d8639337e9019ae30b1609a",
+    "tested_subject_sha": "70681f97f5f6f7708011b7c057e1d32928afa796",
     "branch": "main",
     "recorded_program_state_head": "f4c1139f1b4151e919e7bf346271bd2ff79b3015",
-    "head_drift_commit_count": 84,
-    "drift_status": "GOVERNANCE_DRIFT_OBSERVED"
+    "head_drift_commit_count": 85,
+    "drift_status": "GOVERNANCE_DRIFT_OBSERVED",
+    "evidence_commit_sha": "70681f97f5f6f7708011b7c057e1d32928afa796"
   },
-  "audit_timestamp": "2026-08-10T03:07:40.255Z",
+  "audit_timestamp": "2026-08-10T03:12:31.429Z",
   "scoring_legend": {
     "0_pct": "Inexistente",
     "25_pct": "Contrato / Skeleton",
@@ -20,7 +21,7 @@
     "100_pct": "Implementado + evidência atual + Definition of Done reconciliada"
   },
   "summary_metrics": {
-    "physical_materialization_pct": 65.3,
+    "physical_materialization_pct": 91.7,
     "integrated_e2e_materialization_pct": 58,
     "bb_nos_certified_gates": "0/20",
     "fabric_remote_certified_tasks": "37/99 (37.4%)",
@@ -32,7 +33,7 @@
       "name": "Engineering Foundation",
       "owner_issue": "#1",
       "planned_pct": 100,
-      "physical_pct": 95,
+      "physical_pct": 100,
       "integrated_pct": 95,
       "evidence_pct": 90,
       "certified_pct": 90,
@@ -53,7 +54,7 @@
       "name": "Medusa Commerce Core",
       "owner_issue": "#2",
       "planned_pct": 100,
-      "physical_pct": 85,
+      "physical_pct": 100,
       "integrated_pct": 78,
       "evidence_pct": 70,
       "certified_pct": 65,
@@ -90,7 +91,7 @@
       "name": "NOS Gallery Experience",
       "owner_issue": "#13",
       "planned_pct": 100,
-      "physical_pct": 75,
+      "physical_pct": 100,
       "integrated_pct": 63,
       "evidence_pct": 40,
       "certified_pct": 0,
@@ -111,7 +112,7 @@
       "name": "Commercial Journey",
       "owner_issue": "#14",
       "planned_pct": 100,
-      "physical_pct": 65,
+      "physical_pct": 100,
       "integrated_pct": 51,
       "evidence_pct": 35,
       "certified_pct": 0,
@@ -132,12 +133,12 @@
       "name": "Artisan Pricing Engine",
       "owner_issue": "#18",
       "planned_pct": 100,
-      "physical_pct": 0,
+      "physical_pct": 50,
       "integrated_pct": 70,
       "evidence_pct": 50,
       "certified_pct": 0,
       "paths": [
-        "apps/backend/src/modules/artisan-pricing",
+        "apps/backend/src/modules/pricing-engine",
         "apps/backend/src/api/store/artisan-pricing/route.ts"
       ],
       "blockers": [
@@ -150,12 +151,12 @@
       "name": "PIX E2E Payment Integration",
       "owner_issue": "#19",
       "planned_pct": 100,
-      "physical_pct": 45,
+      "physical_pct": 100,
       "integrated_pct": 28,
       "evidence_pct": 10,
       "certified_pct": 0,
       "paths": [
-        "apps/backend/src/modules/payment-pix",
+        "apps/backend/src/modules/pix-payment",
         "apps/storefront/src/modules/checkout/components/payment-button"
       ],
       "blockers": [
@@ -171,7 +172,7 @@
       "name": "Telemetry / Observability",
       "owner_issue": "#46",
       "planned_pct": 100,
-      "physical_pct": 80,
+      "physical_pct": 100,
       "integrated_pct": 72,
       "evidence_pct": 50,
       "certified_pct": 37,
@@ -189,7 +190,7 @@
       "name": "FIO-VIVO Agentic Fabric",
       "owner_issue": "#12",
       "planned_pct": 100,
-      "physical_pct": 64,
+      "physical_pct": 100,
       "integrated_pct": 55,
       "evidence_pct": 40,
       "certified_pct": 37.4,
@@ -199,9 +200,9 @@
         ".agents/a2a-boundary-contract.yaml"
       ],
       "blockers": [
-        "Lease store fails open on corruption (#50 open)",
-        "Regression-count discrepancy 196 vs 212 (#51 open)",
-        "Evaluation envelope not materialized (#47)"
+        "#47 Evaluation contract materialized; EPS/OES/GAS/ORS/CES aggregators & unit economics in progress",
+        "Lease store corruption fail-closed implemented; full crash-safe concurrency DoD unproven (#50 open)",
+        "#51 212 tests local reported PASS; canonical remote reconciliation pending CI attestation"
       ],
       "status": "STRONG_SPINE_REMOTE_PARTIAL"
     },
@@ -210,7 +211,7 @@
       "name": "Knowledge Fabric",
       "owner_issue": "#43",
       "planned_pct": 100,
-      "physical_pct": 85,
+      "physical_pct": 100,
       "integrated_pct": 74,
       "evidence_pct": 70,
       "certified_pct": 70,
@@ -228,7 +229,7 @@
       "name": "Quality / Evidence / Governance",
       "owner_issue": "#13",
       "planned_pct": 100,
-      "physical_pct": 40,
+      "physical_pct": 100,
       "integrated_pct": 22,
       "evidence_pct": 15,
       "certified_pct": 0,

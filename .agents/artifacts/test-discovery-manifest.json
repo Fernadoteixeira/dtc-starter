@@ -1,0 +1,37 @@
+{
+  "kind": "canonical-test-discovery-manifest",
+  "version": "1.0.0",
+  "generated_at": "2026-08-10T03:12:28.644Z",
+  "issue_reference": "#51",
+  "reconciliation_verdict": "LOCAL_REPORTED_PASS_REMOTE_UNPROVEN",
+  "summary": {
+    "test_files_count": 15,
+    "authored_test_cases": 214,
+    "discovered_test_cases": 212,
+    "executed_test_cases": 212,
+    "passed_test_cases": 212,
+    "remotely_reproducible": false
+  },
+  "remote_ci_attestation": {
+    "status": "ABSENT",
+    "reason": "No remote status checks or workflow runs associated with current commit on GitHub API",
+    "issue_51_closure_status": "NO-GO (CANNOT CLOSE WITHOUT REMOTE ATTESTATION)"
+  },
+  "discovered_files": [
+    ".agents\\scripts\\__tests__\\a2a-adversarial-corpus.test.mjs",
+    ".agents\\scripts\\__tests__\\a2a-boundary.test.mjs",
+    ".agents\\scripts\\__tests__\\a2a-discovery.test.mjs",
+    ".agents\\scripts\\__tests__\\a2a-gateway-integration.test.mjs",
+    ".agents\\scripts\\__tests__\\agent-attestation-adversarial.test.mjs",
+    ".agents\\scripts\\__tests__\\canonical-execution-fabric.test.mjs",
+    ".agents\\scripts\\__tests__\\canonical-source-governance.test.mjs",
+    ".agents\\scripts\\__tests__\\canonical-telemetry.test.mjs",
+    ".agents\\scripts\\__tests__\\derive-issue-13-dod.test.mjs",
+    ".agents\\scripts\\__tests__\\fio-vivo-agentic-fabric-certification.test.mjs",
+    ".agents\\scripts\\__tests__\\knowledge-adversarial-corpus.test.mjs",
+    ".agents\\scripts\\__tests__\\telemetry-resilience.test.mjs",
+    ".agents\\scripts\\__tests__\\validate-full-evidence-graph.test.mjs",
+    ".agents\\scripts\\__tests__\\validate-nos-gallery-manifest.test.mjs",
+    ".agents\\scripts\\__tests__\\w4r1-native-tck-provenance.test.mjs"
+  ]
+}

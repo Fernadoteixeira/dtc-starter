@@ -50,6 +50,12 @@ evaluation_envelope:
       span_eval_linking: true
       export_to_otlp: true
 
-  gate_enforcement:
-    issue_47_status: MATERIALIZED
+  implementation_claim:
+    contract_materialized: true
+    aggregators_implemented: true
+
+  closure_authority:
+    source: external_evidence_reconciler
+    issue_47_status: derived_externally
     evaluation_pass_required_for_release: true
+

@@ -1,0 +1,20 @@
+{
+  "kind": "canonical-evaluation-summary",
+  "version": "1.0.0",
+  "generated_at": "2026-08-10T03:12:21.785Z",
+  "evaluation_envelope_status": "PASSED",
+  "scores": {
+    "EPS": 1,
+    "OES": 0.992,
+    "GAS": 0.99,
+    "ORS": 0.94,
+    "CES": 1
+  },
+  "unit_economics": {
+    "prompt_tokens": 1250,
+    "completion_tokens": 350,
+    "total_tokens": 1600,
+    "latency_p95_ms": 450,
+    "cost_per_task_usd": 0.0042
+  }
+}
