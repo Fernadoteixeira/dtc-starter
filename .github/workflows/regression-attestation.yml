@@ -57,18 +57,23 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Execute Node suites
+        continue-on-error: true
         run: node .agents/scripts/collect-node-test-evidence.mjs
 
       - name: Execute backend unit suite
+        continue-on-error: true
         run: node .agents/scripts/collect-jest-test-evidence.mjs backend-unit
 
       - name: Execute backend HTTP integration suite
+        continue-on-error: true
         run: node .agents/scripts/collect-jest-test-evidence.mjs backend-integration-http
 
       - name: Execute storefront unit suite
+        continue-on-error: true
         run: node .agents/scripts/collect-jest-test-evidence.mjs storefront-unit
 
       - name: Execute Playwright E2E suite
+        continue-on-error: true
         run: node .agents/scripts/collect-playwright-test-evidence.mjs
 
       - name: Build frozen discovery manifest
@@ -82,6 +87,7 @@ jobs:
           node -e 'const m=require("./.agents/artifacts/test-discovery-manifest.json"); if(!m.summary.local_execution_complete || m.summary.executed_suite_count!==6 || m.summary.executed_test_cases!==m.summary.passed_test_cases) process.exit(1)'
 
       - name: Upload SHA-bound execution evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: canonical-regression-${{ github.sha }}
@@ -99,6 +105,7 @@ jobs:
   review-e:
     name: Independent REVIEW-E
     needs: execute
+    if: always() && needs.execute.result != 'cancelled'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -129,6 +136,7 @@ jobs:
           review-input/test-review-e.json
 
       - name: Upload REVIEW-E receipt
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: canonical-regression-review-e-${{ github.sha }}
