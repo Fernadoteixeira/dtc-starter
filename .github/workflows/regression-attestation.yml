@@ -1,0 +1,150 @@
+name: Canonical Regression Attestation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  ATTESTATION_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  execute:
+    name: Execute canonical regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ env.ATTESTATION_SHA }}
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10.11.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Freeze source identity
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$ATTESTATION_SHA"
+          test -z "$(git status --porcelain)"
+          printf '%s\n' "$ATTESTATION_SHA" > frozen-sha.txt
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Execute Node suites
+        continue-on-error: true
+        run: node .agents/scripts/collect-node-test-evidence.mjs
+
+      - name: Execute backend unit suite
+        continue-on-error: true
+        run: node .agents/scripts/collect-jest-test-evidence.mjs backend-unit
+
+      - name: Execute backend HTTP integration suite
+        continue-on-error: true
+        run: node .agents/scripts/collect-jest-test-evidence.mjs backend-integration-http
+
+      - name: Execute storefront unit suite
+        continue-on-error: true
+        run: node .agents/scripts/collect-jest-test-evidence.mjs storefront-unit
+
+      - name: Execute Playwright E2E suite
+        continue-on-error: true
+        run: node .agents/scripts/collect-playwright-test-evidence.mjs
+
+      - name: Build frozen discovery manifest
+        env:
+          ATTESTATION_CLEAN_CHECKOUT: "true"
+        run: node .agents/scripts/generate-test-manifest.mjs
+
+      - name: Assert complete local execution
+        shell: bash
+        run: |
+          node -e 'const m=require("./.agents/artifacts/test-discovery-manifest.json"); if(!m.summary.local_execution_complete || m.summary.executed_suite_count!==6 || m.summary.executed_test_cases!==m.summary.passed_test_cases) process.exit(1)'
+
+      - name: Upload SHA-bound execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-regression-${{ env.ATTESTATION_SHA }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            frozen-sha.txt
+            .agents/artifacts/test-discovery-manifest.json
+            .agents/artifacts/test-execution-node.json
+            .agents/artifacts/test-execution-backend-unit.json
+            .agents/artifacts/test-execution-backend-integration-http.json
+            .agents/artifacts/test-execution-storefront-unit.json
+            .agents/artifacts/test-execution-playwright-e2e.json
+
+  review-e:
+    name: Independent REVIEW-E
+    needs: execute
+    if: always() && needs.execute.result != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ env.ATTESTATION_SHA }}
+
+      - name: Verify reviewer checkout
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$ATTESTATION_SHA"
+          test -z "$(git status --porcelain)"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: canonical-regression-${{ env.ATTESTATION_SHA }}
+          path: review-input
+
+      - name: Verify frozen executor SHA
+        shell: bash
+        run: test "$(cat review-input/frozen-sha.txt)" = "$ATTESTATION_SHA"
+
+      - name: Independently verify execution evidence
+        run: >-
+          node .agents/scripts/verify-test-attestation.mjs
+          review-input/.agents/artifacts
+          ${{ env.ATTESTATION_SHA }}
+          review-input/test-review-e.json
+
+      - name: Upload REVIEW-E receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-regression-review-e-${{ env.ATTESTATION_SHA }}
+          retention-days: 30
+          if-no-files-found: error
+          path: review-input/test-review-e.json
