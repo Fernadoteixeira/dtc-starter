@@ -10,6 +10,9 @@ on:
 permissions:
   contents: read
 
+env:
+  ATTESTATION_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
 jobs:
   execute:
     name: Execute canonical regression
@@ -33,6 +36,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ env.ATTESTATION_SHA }}
 
       - uses: pnpm/action-setup@v3
         with:
@@ -46,9 +50,9 @@ jobs:
       - name: Freeze source identity
         shell: bash
         run: |
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$ATTESTATION_SHA"
           test -z "$(git status --porcelain)"
-          printf '%s\n' "$GITHUB_SHA" > frozen-sha.txt
+          printf '%s\n' "$ATTESTATION_SHA" > frozen-sha.txt
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -90,7 +94,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: canonical-regression-${{ github.sha }}
+          name: canonical-regression-${{ env.ATTESTATION_SHA }}
           retention-days: 30
           if-no-files-found: error
           path: |
@@ -112,34 +116,35 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ env.ATTESTATION_SHA }}
 
       - name: Verify reviewer checkout
         shell: bash
         run: |
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$ATTESTATION_SHA"
           test -z "$(git status --porcelain)"
 
       - uses: actions/download-artifact@v4
         with:
-          name: canonical-regression-${{ github.sha }}
+          name: canonical-regression-${{ env.ATTESTATION_SHA }}
           path: review-input
 
       - name: Verify frozen executor SHA
         shell: bash
-        run: test "$(cat review-input/frozen-sha.txt)" = "$GITHUB_SHA"
+        run: test "$(cat review-input/frozen-sha.txt)" = "$ATTESTATION_SHA"
 
       - name: Independently verify execution evidence
         run: >-
           node .agents/scripts/verify-test-attestation.mjs
           review-input/.agents/artifacts
-          ${{ github.sha }}
+          ${{ env.ATTESTATION_SHA }}
           review-input/test-review-e.json
 
       - name: Upload REVIEW-E receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: canonical-regression-review-e-${{ github.sha }}
+          name: canonical-regression-review-e-${{ env.ATTESTATION_SHA }}
           retention-days: 30
           if-no-files-found: error
           path: review-input/test-review-e.json

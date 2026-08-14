@@ -332,7 +332,7 @@ export function buildTestManifest({
             run_id: process.env.GITHUB_RUN_ID ?? null,
             run_attempt: process.env.GITHUB_RUN_ATTEMPT ?? null,
             ref: process.env.GITHUB_REF ?? null,
-            sha: process.env.GITHUB_SHA ?? null,
+            sha: process.env.ATTESTATION_SHA ?? process.env.GITHUB_SHA ?? null,
           }
         : null,
     },
