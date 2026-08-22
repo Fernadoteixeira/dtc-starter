@@ -29,7 +29,6 @@ test("the current Iteration 2 manifest is structurally self-consistent", () => {
   const manifest = loadManifest();
   const result = validateManifestStructure(manifest, {
     actualClosure: manifest.canonical_source.import_closure,
-    targetRepo: REPO_ROOT,
   });
 
   assert.equal(result.pass, true);
